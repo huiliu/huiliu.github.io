@@ -1,0 +1,187 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Speed Up Firefox &mdash; Learning 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Learning 0.1 documentation" href="index.html" />
+    <link rel="next" title="Learning Bash" href="bash.html" />
+    <link rel="prev" title="学习内核相关知识" href="kernel.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="bash.html" title="Learning Bash"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="kernel.html" title="学习内核相关知识"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Learning 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Speed Up Firefox</a><ul>
+<li><a class="reference internal" href="#id1">系统启动时将文件拷入内存</a></li>
+<li><a class="reference internal" href="#id2">系统关闭时从内存拷贝数据至硬盘</a></li>
+<li><a class="reference internal" href="#profile-sync-daemon">安装软件包&#8221;<strong>profile-sync-daemon</strong>&#8220;</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="kernel.html"
+                        title="previous chapter">学习内核相关知识</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="bash.html"
+                        title="next chapter">Learning Bash</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/firefox.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="speed-up-firefox">
+<h1>Speed Up Firefox<a class="headerlink" href="#speed-up-firefox" title="Permalink to this headline">¶</a></h1>
+<p>通过将Firefox的配置文件和临时文件目录存放至内存中，可以加快Firefox的启动迅速，减
+少上网时对硬盘的读写，可能在一定程度上加速网页渲染。</p>
+<p>在系统启动和关闭时执行一些命令就可以自动实行这个功能。如在Gentoo中，在目录&#8221;<em>/etc/local.d</em>&#8220;添加合适的脚本并且正确命名它们，就能定制开关机时的一些额外的工作。</p>
+<div class="line-block">
+<div class="line">script.start   系统启动时执行的脚本</div>
+<div class="line-block">
+<div class="line">script.stop    系统关机时执行的脚本</div>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>系统启动时将文件拷入内存<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>在目录 <em>/etc/local.d</em> 下添加一个文件，命名为&#8221;<strong>firefox.start</strong>&#8220;：</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c">#!/bin/bash</span>
+
+<span class="c"># move the temp file of firefox into the RAM(/tmp)</span>
+
+<span class="c">#set -x</span>
+
+<span class="nv">USERNAME</span><span class="o">=</span>liuhui
+<span class="nv">FIREFOX_DIR</span><span class="o">=</span><span class="s2">&quot;/home/${USERNAME}/.mozilla&quot;</span>
+<span class="nv">FIREFOX_BACKUP</span><span class="o">=</span>/home/<span class="nv">$USERNAME</span>/.mozilla-backup
+
+<span class="o">[</span> -f /usr/bin/mktemp <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nv">TEMP</span><span class="o">=</span><span class="sb">`</span>mktemp -d --tmpdir<span class="o">=</span>/tmp --suffix<span class="o">=</span>.firefox<span class="sb">`</span> <span class="o">||</span> <span class="se">\</span>
+    <span class="sb">`</span>logger -p user.error <span class="s1">&#39;Failed to find the command mktemp&#39;</span>; <span class="nb">exit </span>0<span class="sb">`</span>
+cp -r <span class="k">${</span><span class="nv">FIREFOX_BACKUP</span><span class="k">}</span>/* <span class="nv">$TEMP</span>
+chown -R <span class="s2">&quot;${USERNAME}.${USERNAME}&quot;</span> <span class="nv">$TEMP</span>
+
+<span class="o">[</span> -L <span class="nv">$FIREFOX_DIR</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> rm -f <span class="nv">$FIREFOX_DIR</span>
+ln -s <span class="nv">$TEMP</span> <span class="nv">$FIREFOX_DIR</span>
+
+<span class="c">#set +x</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>系统关闭时从内存拷贝数据至硬盘<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>在目录 <em>/etc/local.d</em> 下添加一个文件，命名为&#8221;firefox.<strong>stop</strong>&#8220;：</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c">#!/bin/bash</span>
+
+<span class="c"># COPY THE CONFIGURATION FILE FROM MEMORY TO $HOME</span>
+
+<span class="c">#set -x</span>
+
+<span class="nv">USERNAME</span><span class="o">=</span>liuhui
+<span class="nv">FIREFOX_DIR</span><span class="o">=</span><span class="s2">&quot;/home/${USERNAME}/.mozilla&quot;</span>
+<span class="nv">FIREFOX_BACKUP</span><span class="o">=</span>/home/<span class="nv">$USERNAME</span>/.mozilla-backup
+
+<span class="nv">TEMP</span><span class="o">=</span><span class="sb">`</span>ls -d /tmp/tmp.*.firefox<span class="sb">`</span>
+rm -rf <span class="nv">$FIREFOX_BACKUP</span>
+rm -rf <span class="nv">$TEMP</span>/firefox/8vhei1ze.default/Cache/*
+mv <span class="nv">$TEMP</span> <span class="nv">$FIREFOX_BACKUP</span>
+rm -f <span class="nv">$FIREFOX_DIR</span>
+
+<span class="c">#set +x</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="profile-sync-daemon">
+<h2>安装软件包&#8221;<strong>profile-sync-daemon</strong>&#8220;<a class="headerlink" href="#profile-sync-daemon" title="Permalink to this headline">¶</a></h2>
+<p>软件包&#8221;<strong>profile-sync-daemon</strong>&#8220;是用Perl写的一套脚本，功能与上面的脚本类似，不过更为强大。它支持多种不同的浏览器，而且设计为服务的形式，更加方便用户使用。在Gentoo下可以直接安装：</p>
+<div class="highlight-bash"><div class="highlight"><pre>emerge -qv www-misc/profile-sync-daemon
+</pre></div>
+</div>
+<p>其它系统类似，也可以直接<a class="reference external" href="https://wiki.archlinux.org/index.php/Profile-sync-daemon">下载</a>安装。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="bash.html" title="Learning Bash"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="kernel.html" title="学习内核相关知识"
+             >previous</a> |</li>
+        <li><a href="index.html">Learning 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Liu Hui.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

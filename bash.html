@@ -1,0 +1,176 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Learning Bash &mdash; Learning 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Learning 0.1 documentation" href="index.html" />
+    <link rel="next" title="tmux" href="tmux.html" />
+    <link rel="prev" title="Speed Up Firefox" href="firefox.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="tmux.html" title="tmux"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="firefox.html" title="Speed Up Firefox"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Learning 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Learning Bash</a><ul>
+<li><a class="reference internal" href="#tips-1">Tips 1 <strong>&amp;&amp;</strong>和<strong>||</strong></a></li>
+<li><a class="reference internal" href="#tips-2">Tips 2 关于删除文件时使用引号的疑问</a></li>
+<li><a class="reference internal" href="#tips-3">Tips 3 防御型代码</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="firefox.html"
+                        title="previous chapter">Speed Up Firefox</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tmux.html"
+                        title="next chapter">tmux</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/bash.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="learning-bash">
+<h1>Learning Bash<a class="headerlink" href="#learning-bash" title="Permalink to this headline">¶</a></h1>
+<p>学习Bash，记录一些新学到的知识和tips。</p>
+<div class="section" id="tips-1">
+<h2>Tips 1 <strong>&amp;&amp;</strong>和<strong>||</strong><a class="headerlink" href="#tips-1" title="Permalink to this headline">¶</a></h2>
+<p><strong>&amp;&amp;</strong>和<strong>||</strong>在条件判断时分别表示“逻辑与”和“逻辑或”，等同于在c中的功能。</p>
+<p>另外，它们还可以直接用于命令后面，如：</p>
+<div class="highlight-bash"><div class="highlight"><pre>command1 <span class="o">&amp;&amp;</span> command2 <span class="o">||</span>command3
+</pre></div>
+</div>
+<p>上面的意思为：如果命令<tt class="docutils literal"><span class="pre">command1</span></tt>正常完成（返回0），则执行<tt class="docutils literal"><span class="pre">command2</span></tt>
+如果<tt class="docutils literal"><span class="pre">command2</span></tt>执行时发生错误（返回非0），则执行<tt class="docutils literal"><span class="pre">command3</span></tt>。</p>
+<p>如果<tt class="docutils literal"><span class="pre">commandn</span></tt>执行多条语句，可以写为<tt class="docutils literal"><span class="pre">command1;</span> <span class="pre">command2;</span> <span class="pre">......</span></tt>，如果代码为下面的形式：</p>
+<div class="highlight-bash"><div class="highlight"><pre>command1; command2 <span class="o">&amp;&amp;</span> command3; command4 <span class="o">||</span> command5; command6
+</pre></div>
+</div>
+<p>如果期待<tt class="docutils literal"><span class="pre">command2</span></tt>正常完成后执行<tt class="docutils literal"><span class="pre">command3</span></tt>和<tt class="docutils literal"><span class="pre">command4</span></tt>，出错时执行命令<tt class="docutils literal"><span class="pre">command5</span></tt>和<tt class="docutils literal"><span class="pre">command6</span></tt>。那就错了。上面的写法中，命令
+<tt class="docutils literal"><span class="pre">command1</span></tt>, <tt class="docutils literal"><span class="pre">command2</span></tt>, <tt class="docutils literal"><span class="pre">command4</span></tt>, <tt class="docutils literal"><span class="pre">command6</span></tt>一定会被执行，
+<tt class="docutils literal"><span class="pre">command3</span></tt>，<tt class="docutils literal"><span class="pre">command5</span></tt>则依情况而定。如果期待如前所述，则必须将
+<tt class="docutils literal"><span class="pre">command3;</span> <span class="pre">command4</span></tt>和 <tt class="docutils literal"><span class="pre">command5;</span> <span class="pre">command6</span></tt>用&#8221;<strong>`</strong>&#8220;括起来，如：</p>
+<div class="highlight-bash"><div class="highlight"><pre>command1; command2 <span class="o">&amp;&amp;</span> <span class="sb">`</span>command3; command4<span class="sb">`</span> <span class="o">||</span> <span class="sb">`</span>command5; command6<span class="sb">`</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tips-2">
+<h2>Tips 2 关于删除文件时使用引号的疑问<a class="headerlink" href="#tips-2" title="Permalink to this headline">¶</a></h2>
+<p>假定目录结构如下：</p>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line">tree abc</div>
+<div class="line">.</div>
+<div class="line">├── a</div>
+<div class="line">└── b</div>
+<div class="line-block">
+<div class="line">└── c</div>
+<div class="line"><br /></div>
+</div>
+<div class="line">2 directories, 1 file</div>
+</div>
+<p>目标是将目录<em>abc</em>清空。看看下面两个命令，你认为它们的效果是一样么？</p>
+<div class="highlight-bash"><div class="highlight"><pre>rm -rf <span class="s2">&quot;abc/*&quot;</span>
+rm -rf abc/*
+</pre></div>
+</div>
+<p>动手试试上面两个命令，看看结果如何？第一个命令<tt class="docutils literal"><span class="pre">rm</span> <span class="pre">-rf</span> <span class="pre">&quot;abc/\*&quot;</span></tt>不能删除目录<em>abc</em>下的内容，而第二个命令可以。原因是什么？</p>
+</div>
+<div class="section" id="tips-3">
+<h2>Tips 3 防御型代码<a class="headerlink" href="#tips-3" title="Permalink to this headline">¶</a></h2>
+<p>今天看《Shell脚本学习指南》p307页时，发现一段代码：</p>
+<div class="highlight-bash"><div class="highlight"><pre>grep POSTX_OPEN_MAX /dev/null <span class="k">$(</span>find /usr/include -type f | sort<span class="k">)</span>
+</pre></div>
+</div>
+<p>就觉得奇怪，为什么要加一个<cite>/dev/null</cite>在<cite>grep</cite>后面。</p>
+<p>因为如果<cite>$(find /usr/include -type f | sort)</cite>返回为空，<cite>grep</cite>命令就会一直等待终端输入，导致程序“卡死”。
+添加一个<cite>/dev/null</cite>的作用就是<strong>防止</strong><cite>find</cite><strong>返回为空是程序卡死发生</strong>。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="tmux.html" title="tmux"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="firefox.html" title="Speed Up Firefox"
+             >previous</a> |</li>
+        <li><a href="index.html">Learning 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Liu Hui.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

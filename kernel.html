@@ -1,0 +1,233 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>学习内核相关知识 &mdash; Learning 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Learning 0.1 documentation" href="index.html" />
+    <link rel="next" title="Speed Up Firefox" href="firefox.html" />
+    <link rel="prev" title="学习方法与态度" href="learning.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="firefox.html" title="Speed Up Firefox"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="learning.html" title="学习方法与态度"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Learning 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">学习内核相关知识</a><ul>
+<li><a class="reference internal" href="#tcp-socketunix-socket">使用TCP Socket还是Unix Socket</a><ul>
+<li><a class="reference internal" href="#id2">引</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id3">网上的一些讨论</a></li>
+<li><a class="reference internal" href="#i-o">调试I/O - 查看是哪个进程在读写硬盘</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="learning.html"
+                        title="previous chapter">学习方法与态度</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="firefox.html"
+                        title="next chapter">Speed Up Firefox</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/kernel.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>学习内核相关知识<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tcp-socketunix-socket">
+<h2>使用TCP Socket还是Unix Socket<a class="headerlink" href="#tcp-socketunix-socket" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>引<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>我在想，负载均衡器，前端要与用户连接，后端要与Web Server连接，如果用户超多，系统的端口会够用么？</p>
+<p>So，今天重新配置Nginx反向代理时，想将主机上的php-fpm设置为uninx socket形式，结果还给整错了，整了好一会才搞定的：</p>
+<ul class="simple">
+<li>php-fpm配置：</li>
+</ul>
+<div class="highlight-ini"><div class="highlight"><pre><span class="c">; /etc/php/fpm-php5.4/php-fpm.conf</span>
+
+<span class="c"># listen = 127.0.0.1:9000</span>
+<span class="na">listen</span> <span class="o">=</span> <span class="s">/var/run/php-fpm.socket</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Nginx的配置</li>
+</ul>
+<div class="highlight-nginx"><div class="highlight"><pre><span class="k">fastcgi_pass</span>    <span class="s">unix:/var/run/php-fpm.socket</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>完成上面的设置就可以让Nginx通过Uninx Socket与PHP-FPM通信。</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>网上的一些讨论<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>然而在网上看到了一些这方面的讨论：</p>
+<ul class="simple">
+<li>淘宝运维发生过，流量升高<strong>TIME_WAIT</strong>增加，最后在error.log中出现N多(3W+) 的连接MySQL失败。经他们分析认为是因为流量增大，服务器端口不够用引起的。</li>
+</ul>
+<p><a class="reference external" href="http://www.searchtb.com/2012/05/mysql_time_wait.html">http://www.searchtb.com/2012/05/mysql_time_wait.html</a></p>
+<ul class="simple">
+<li>另外有人说，用<strong>Unix Socket</strong>并没有太大作用</li>
+</ul>
+<p><a class="reference external" href="http://www.cnxct.com/default-configuration-and-performance-of-nginx-phpfpm-and-tcp-socket-or-unix-domain-socket/">http://www.cnxct.com/default-configuration-and-performance-of-nginx-phpfpm-and-tcp-socket-or-unix-domain-socket/</a></p>
+<ul class="simple">
+<li>介绍针对**TIME_WAIT**情况，内核的优化：</li>
+</ul>
+<table border="1" class="docutils">
+<colgroup>
+<col width="61%" />
+<col width="39%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>内核参数</strong></th>
+<th class="head">功能说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>net.ipv4.tcp_syncookies</strong> = 1</td>
+<td>表示开启SYN Cookies。当出现SYN等待队列溢出时,启用cookies
+来处理，可防范少量SYN攻击，默
+认为0，表示关闭；</td>
+</tr>
+<tr class="row-odd"><td><strong>net.ipv4.tcp_tw_reuse</strong> = 1</td>
+<td>表示开启重用。允许将TIME-WAIT
+sockets重新用于新的TCP连接，
+默认为0，表示关闭；</td>
+</tr>
+<tr class="row-even"><td><strong>net.ipv4.tcp_tw_recycle</strong> = 1</td>
+<td>表示开启TCP连接中TIME-WAIT sockets的快速回收，默认为0，
+表示关闭。</td>
+</tr>
+<tr class="row-odd"><td><strong>net.ipv4.tcp_fin_timeout</strong> = 30</td>
+<td>表示如果套接字由本端要求关闭
+，这个参数决定了它保持在FIN-WAIT-2状态的时间。</td>
+</tr>
+<tr class="row-even"><td><strong>net.ipv4.tcp_keepalive_time</strong> = 1200</td>
+<td>表示当keepalive起用的时候，TCP发送keepalive消息的频度。
+缺省是2小时，改为20分钟。</td>
+</tr>
+<tr class="row-odd"><td><strong>net.ipv4.ip_local_port_range</strong> = 1024 65000</td>
+<td>表示用于向外连接的端口范围。
+缺省情况下很小：32768到61000
+，改为1024到65000。</td>
+</tr>
+<tr class="row-even"><td><strong>net.ipv4.tcp_max_syn_backlog</strong> = 8192</td>
+<td>表示SYN队列的长度，默认为1024
+，加大队列长度为8192，可以容
+纳更多等待连接的网络连接数。</td>
+</tr>
+<tr class="row-odd"><td><strong>net.ipv4.tcp_max_tw_buckets</strong> = 5000</td>
+<td><p class="first">表示系统同时保持TIME_WAIT套接
+字的最大数量，如果超过这个数
+字，TIME_WAIT套接字将立刻被清
+除并打印警告信息。</p>
+<p class="last">默认为180000，改为5000。对于
+Apache、Nginx等服务器，上几行
+的参数可以很好地减少TIME_WAIT
+套接字数量，但是对于Squid，效
+果却不大。此项参数可以控制TIME_WAIT套接字的最大数量，避
+免Squid服务器被大量的TIME_WAIT套接字拖死。</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt><strong>注:</strong></dt>
+<dd><strong>net.ipv4.tcp_tw_reuse</strong> = 1
+<strong>net.ipv4.tcp_tw_recycle</strong> = 1</dd>
+</dl>
+<p>设置这两个参数： <strong>reuse</strong>是表示是否允许重新应用处于TIME-WAIT状态的socket用于新的TCP连接；<strong>recyse</strong>是加速TIME-WAIT sockets回收。</p>
+</div>
+<div class="section" id="i-o">
+<h2>调试I/O - 查看是哪个进程在读写硬盘<a class="headerlink" href="#i-o" title="Permalink to this headline">¶</a></h2>
+<p>将&#8221;<strong>/proc/sys/vm/block_dump</strong>&#8220;的值修改为非零值，将进入I/O调试模式，系统中所有的I/O操作都将在内核日志中输出，使用<cite>dmesg | tail</cite>就可以看到。</p>
+<p>内核文档&#8221;<em>Dowcument/sysctl/vm.txt</em>&#8220;和&#8221;<em>Document/laptop/laptop-mode.txt</em>&#8220;中对文件<em>block_dump</em>的功能有介绍。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="firefox.html" title="Speed Up Firefox"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="learning.html" title="学习方法与态度"
+             >previous</a> |</li>
+        <li><a href="index.html">Learning 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Liu Hui.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
