@@ -1,0 +1,242 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>配置Zabbix &mdash; Learning 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Learning 0.1 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="index.html">Learning 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">配置Zabbix</a><ul>
+<li><a class="reference internal" href="#log-file-monitoringzbx-notsupport">Log File Monitoring时ZBX_NOTSUPPORT错误</a></li>
+<li><a class="reference internal" href="#id4">参考资料</a></li>
+<li><a class="reference internal" href="#todo-list">TODO List</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/zabbix.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="zabbix">
+<h1>配置Zabbix<a class="headerlink" href="#zabbix" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="log-file-monitoringzbx-notsupport">
+<h2>Log File Monitoring时ZBX_NOTSUPPORT错误<a class="headerlink" href="#log-file-monitoringzbx-notsupport" title="Permalink to this headline">¶</a></h2>
+<p>配置日志文件监控时一直出错，经过在Zabbix Forums上的提醒<a class="footnote-reference" href="#r1" id="id1">[1]</a>，仔细查看了agent的调试日志，在其中发现：</p>
+<div class="highlight-text"><div class="highlight"><pre># ACTIVE CHECK 主机上没有查询时，返回的data为空。
+
+
+2526:20130418:020747.866 refresh_active_checks(&#39;lab.liuhui.xmu&#39;,10051)
+2525:20130418:020747.867 agent #1 started [listener]
+2526:20130418:020747.867 Sending [{
+  &quot;host&quot;:&quot;node01.liuhui.xmu&quot;,
+  &quot;ip&quot;:&quot;192.168.122.11&quot;}]
+2526:20130418:020747.868 Before read
+2524:20130418:020747.868 agent #0 started [collector]
+2524:20130418:020747.868 In init_cpu_collector()
+2524:20130418:020747.868 End of init_cpu_collector():SUCCEED
+2524:20130418:020747.868 In update_cpustats()
+2524:20130418:020747.868 End of update_cpustats()
+2526:20130418:020747.869 Got [{
+  &quot;response&quot;:&quot;success&quot;,
+  &quot;data&quot;:[]}]
+2526:20130418:020747.869 In parse_list_of_checks()
+2526:20130418:020747.869 In disable_all_metrics()
+2526:20130418:020747.869 In process_active_checks(&#39;lab.liuhui.xmu&#39;,10051)
+2526:20130418:020747.869 End of process_active_checks()
+
+# 这是另外一个ACTIVE CHECK日志，此时我定义了一个日志监视的item
+# 可以发现agent已经开始处理日志文件，但是没有相应的权限，最终出错，返回
+# ZBX_NOTSUPPORT
+
+4320:20130418:165640.307 refresh_active_checks(&#39;lab.liuhui.xmu&#39;,10051)
+4320:20130418:165640.308 Sending [{
+    &quot;request&quot;:&quot;active checks&quot;,
+    &quot;host&quot;:&quot;node01.liuhui.xmu&quot;,
+    &quot;ip&quot;:&quot;192.168.122.11&quot;}]
+4320:20130418:165640.309 Before read
+4320:20130418:165640.310 Got [{
+    &quot;response&quot;:&quot;success&quot;,
+    &quot;data&quot;:[
+            {
+                &quot;key&quot;:&quot;log[\/var\/log\/messages,,,,]&quot;,
+                &quot;delay&quot;:30,
+                &quot;lastlogsize&quot;:0,
+                &quot;mtime&quot;:0}]}]
+4320:20130418:165640.310 In parse_list_of_checks()
+4320:20130418:165640.310 In disable_all_metrics()
+4320:20130418:165640.310 In add_check() key:&#39;log[/var/log/messages,,,,]&#39; refresh:30 lastlogsize:0 mtime:0
+4320:20130418:165640.310 End of add_check()
+4320:20130418:165640.310 In process_active_checks(&#39;lab.liuhui.xmu&#39;,10051)
+4320:20130418:165640.310 In process_log() filename:&#39;/var/log/messages&#39; lastlogsize:0
+4320:20130418:165640.310 cannot open &#39;/var/log/messages&#39;: [13] Permission denied
+4320:20130418:165640.310 Active check [log[/var/log/messages,,,,]] is not supported. Disabled.
+4320:20130418:165640.310 In process_value() key:&#39;node01.liuhui.xmu:log[/var/log/messages,,,,]&#39; value:&#39;ZBX_NOTSUPPORTED&#39;
+
+# 再看看下面的日志，这是agent输出的一个成功的日志监控的调试日志
+# 与上面的主要差别在于，agent进程有权限访问server要求监控的日志文件
+
+3904:20130419:020817.682 refresh_active_checks(&#39;lab.liuhui.xmu&#39;,10051)
+3904:20130419:020817.683 Sending [{
+  &quot;request&quot;:&quot;active checks&quot;,
+  &quot;host&quot;:&quot;node01.liuhui.xmu&quot;,
+  &quot;ip&quot;:&quot;192.168.122.11&quot;}]
+3904:20130419:020817.683 Before read
+3904:20130419:020817.684 Got [{
+  &quot;response&quot;:&quot;success&quot;,
+  &quot;data&quot;:[
+    {&quot;key&quot;:&quot;log[\/var\/log\/zabbix\/zabbix_agentd.log]&quot;,
+     &quot;delay&quot;:30,
+     &quot;lastlogsize&quot;:0,
+     &quot;mtime&quot;:0}]}]
+3904:20130419:020817.684 In parse_list_of_checks()
+3904:20130419:020817.684 In disable_all_metrics()
+3904:20130419:020817.684 In add_check() key:&#39;log[/var/log/zabbix/zabbix_agentd.log]&#39; refresh:30 lastlogsize:0 mtime:0
+3904:20130419:020817.684 End of add_check()
+
+3904:20130419:020817.685 In process_active_checks(&#39;lab.liuhui.xmu&#39;,10051)
+3904:20130419:020817.685 In process_log() filename:&#39;/var/log/zabbix/zabbix_agentd.log&#39; last
+gsize:0
+3904:20130419:020817.685 In process_value() key:&#39;node01.liuhui.xmu:log[/var/log/zabbix/zabb_agentd.log]&#39; value:&#39;  2058:20130417:235114.399 Starting Zabbix Agent [node01.liuhui.xmu].
+bbix 2.0.5 (revision 33558).&#39;
+3904:20130419:020817.685 In send_buffer() host:&#39;lab.liuhui.xmu&#39; port:10051 values:0/100
+3904:20130419:020817.685 End of send_buffer():SUCCEED
+3904:20130419:020817.685 buffer: new element 0
+3904:20130419:020817.685 End of process_value():SUCCEED
+3904:20130419:020817.685 In process_log() filename:&#39;/var/log/zabbix/zabbix_agentd.log&#39; lastlogsize:101
+3904:20130419:020817.685 In process_value() key:&#39;node01.liuhui.xmu:log[/var/log/zabbix/zabb_agentd.log]&#39; value:&#39;  2062:20130417:235114.420 agent #3 started [listener]&#39;
+3904:20130419:020817.685 In send_buffer() host:&#39;lab.liuhui.xmu&#39; port:10051 values:1/100
+3904:20130419:020817.685 JSON before sending [{
+  &quot;request&quot;:&quot;agent data&quot;,
+  &quot;data&quot;:[
+      {
+          &quot;host&quot;:&quot;node01.liuhui.xmu&quot;,
+          &quot;key&quot;:&quot;log[\/var\/log\/zabbix\/zabbix_agentd.log]&quot;,
+          &quot;value&quot;:&quot;  2058:20130417:235114.399 Starting Zabbix Agent [node01.liuhui.xmu]. Zabbix 2.0.5 (revision 33558).&quot;,
+            &quot;lastlogsize&quot;:101,
+            &quot;clock&quot;:1366308497,
+            &quot;ns&quot;:685378025}],
+    &quot;clock&quot;:1366308497,
+    &quot;ns&quot;:685485907}]
+3904:20130419:020817.686 JSON back [{
+  &quot;response&quot;:&quot;success&quot;,
+  &quot;info&quot;:&quot;Processed 1 Failed 0 Total 1 Seconds spent 0.000075&quot;}]
+3904:20130419:020817.686 In check_response() response:&#39;{
+……
+</pre></div>
+</div>
+<p>通过上面的日志分析，可以发现，server监视agent上的日志文件，需要agent进程可以读取相应的文件，否则会出错。关于监控日志的详细文档见Zabbix Manual <a class="footnote-reference" href="#r2" id="id2">[2]</a><a class="footnote-reference" href="#r3" id="id3">[3]</a></p>
+</div>
+<div class="section" id="id4">
+<h2>参考资料<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<table class="docutils footnote" frame="void" id="r1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="https://www.zabbix.com/forum/showthread.php?t=23033">https://www.zabbix.com/forum/showthread.php?t=23033</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="r2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><a class="reference external" href="https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/log_items">https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/log_items</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="r3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td><a class="reference external" href="https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/zabbix_agent#supported_item_keys">https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/zabbix_agent#supported_item_keys</a></td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="todo-list">
+<h2>TODO List<a class="headerlink" href="#todo-list" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>如何在agent上可以查询自身数据, 命令<tt class="docutils literal"><span class="pre">zabbix_agentd</span></tt>可以打印zabbix agent的数据</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre>zabbix_agentd -p
+</pre></div>
+</div>
+<ul class="simple">
+<li>使用IP/域名配置Server，agent</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="index.html">Learning 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Liu Hui.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
