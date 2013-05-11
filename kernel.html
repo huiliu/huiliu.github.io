@@ -10,8 +10,8 @@
     
     <title>学习内核相关知识 &mdash; Learning 0.1 documentation</title>
     
-    <link rel="stylesheet" href="http://sphinx-doc.org/_static/sphinxdoc.css" type="text/css" />
-    <link rel="stylesheet" href="http://sphinx-doc.org/_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -22,9 +22,9 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="http://sphinx-doc.org/_static/jquery.js"></script>
-    <script type="text/javascript" src="http://sphinx-doc.org/_static/underscore.js"></script>
-    <script type="text/javascript" src="http://sphinx-doc.org/_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="Learning 0.1 documentation" href="index.html" />
     <link rel="next" title="Speed Up Firefox" href="firefox.html" />
     <link rel="prev" title="学习方法与态度" href="learning.html" /> 
@@ -52,9 +52,9 @@
 <li><a class="reference internal" href="#">学习内核相关知识</a><ul>
 <li><a class="reference internal" href="#tcp-socketunix-socket">使用TCP Socket还是Unix Socket</a><ul>
 <li><a class="reference internal" href="#id2">引</a></li>
+<li><a class="reference internal" href="#id3">网上的一些讨论</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id3">网上的一些讨论</a></li>
 <li><a class="reference internal" href="#i-o">调试I/O - 查看是哪个进程在读写硬盘</a></li>
 </ul>
 </li>
@@ -117,9 +117,8 @@
 </div>
 <p>完成上面的设置就可以让Nginx通过Uninx Socket与PHP-FPM通信。</p>
 </div>
-</div>
 <div class="section" id="id3">
-<h2>网上的一些讨论<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<h3>网上的一些讨论<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>然而在网上看到了一些这方面的讨论：</p>
 <ul class="simple">
 <li>淘宝运维发生过，流量升高<strong>TIME_WAIT</strong>增加，最后在error.log中出现N多(3W+) 的连接MySQL失败。经他们分析认为是因为流量增大，服务器端口不够用引起的。</li>
@@ -196,6 +195,7 @@ Apache、Nginx等服务器，上几行
 <strong>net.ipv4.tcp_tw_recycle</strong> = 1</dd>
 </dl>
 <p>设置这两个参数： <strong>reuse</strong>是表示是否允许重新应用处于TIME-WAIT状态的socket用于新的TCP连接；<strong>recyse</strong>是加速TIME-WAIT sockets回收。</p>
+</div>
 </div>
 <div class="section" id="i-o">
 <h2>调试I/O - 查看是哪个进程在读写硬盘<a class="headerlink" href="#i-o" title="Permalink to this headline">¶</a></h2>
