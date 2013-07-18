@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>tmux &mdash; Learning 0.1 documentation</title>
+    <title>抓取环境保护部的空气质量数据 &mdash; Learning 0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -26,9 +26,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Learning 0.1 documentation" href="index.html" />
-    <link rel="next" title="Learning Matplot Library" href="matplot.html" />
-    <link rel="prev" title="Learning Bash" href="bash.html" /> 
+    <link rel="top" title="Learning 0.1 documentation" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -37,12 +35,6 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="matplot.html" title="Learning Matplot Library"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="bash.html" title="Learning Bash"
-             accesskey="P">previous</a> |</li>
         <li><a href="index.html">Learning 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
@@ -50,21 +42,16 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">tmux</a><ul>
-<li><a class="reference internal" href="#id2">从源码编译安装</a></li>
+<li><a class="reference internal" href="#">抓取环境保护部的空气质量数据</a><ul>
+<li><a class="reference internal" href="#id2">计划</a></li>
+<li><a class="reference internal" href="#id3">操作</a></li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="bash.html"
-                        title="previous chapter">Learning Bash</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="matplot.html"
-                        title="next chapter">Learning Matplot Library</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/tmux.txt"
+    <li><a href="_sources/spider.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -88,25 +75,21 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="tmux">
-<h1>tmux<a class="headerlink" href="#tmux" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="http://tmux.sourceforge.net/">tmux</a>是<strong>screen</strong>的替代工具，功能比screen更为强大。</p>
+  <div class="section" id="id1">
+<h1>抓取环境保护部的空气质量数据<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id2">
-<h2>从源码编译安装<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p><strong>tmux</strong>依赖<a class="reference external" href="http://libevent.org/">libevent</a>和<a class="reference external" href="http://invisible-island.net/ncurses/">ncurses</a>这两个库，所以从源码安装时，也得确认这两个库文件已经安装。</p>
-<p>假定所有软件的安装目录为：&#8221;<strong>~/local</strong>&#8220;</p>
-<ul>
-<li><p class="first">安装<strong>libevent</strong>和<strong>ncurses</strong>时只需要设定好安装目录即可：</p>
-<div class="highlight-python"><pre>./configure --prefix=~/local</pre>
-</div>
-</li>
-<li><p class="first">安装<strong>tmux</strong>时需要设定好<em>libevent</em>库的链接，如果系统上安装了&#8221;<strong>pkgconfig</strong>&#8220;，那么只需设定一个环境变量：</p>
-<div class="highlight-python"><pre>export PKG_CONFIG_PATH=~/local/lib/pkgconfig</pre>
-</div>
-</li>
+<h2>计划<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>利用<a class="reference external" href="http://scrapy.org">scrapy</a>框架来建立一个爬虫抓取数据</li>
+<li>将数据存入到MySQL中</li>
+<li>对空气质量进行分析，统计</li>
 </ul>
-<p>就可以；如果没有安装此软件，将环境变量<em>LIBEVENT_CFLAGS</em>设定为：&#8221;<strong>-L~/local/lib -levent</strong>&#8220;，另外一个环境变量是&#8221;<em>LIBEVENT_LIBS</em>&#8220;。然后运行<em>configure</em>即可。:</p>
-<div class="highlight-python"><pre>./configure --prefix=~/local</pre>
+</div>
+<div class="section" id="id3">
+<h2>操作<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>按照网页中表格格式在MySQL中建立数据表：</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">airq</span> <span class="p">(</span><span class="n">id</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span> <span class="n">cityname</span> <span class="nb">CHAR</span><span class="p">(</span><span class="mi">25</span><span class="p">),</span> <span class="nb">date</span> <span class="nb">DATE</span><span class="p">,</span> <span class="n">api</span> <span class="nb">INTEGER</span><span class="p">,</span> <span class="n">pp</span> <span class="nb">CHAR</span><span class="p">(</span><span class="mi">25</span><span class="p">),</span> <span class="n">aql</span> <span class="nb">CHAR</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">aqs</span> <span class="nb">CHAR</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 </div>
@@ -123,12 +106,6 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
-        <li class="right" >
-          <a href="matplot.html" title="Learning Matplot Library"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="bash.html" title="Learning Bash"
-             >previous</a> |</li>
         <li><a href="index.html">Learning 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>

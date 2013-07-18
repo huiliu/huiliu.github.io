@@ -25,7 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Learning 0.1 documentation" href="index.html" /> 
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Learning 0.1 documentation" href="index.html" />
+    <link rel="next" title="使用GitHub" href="github.html" />
+    <link rel="prev" title="Nginx指令介绍" href="nginx_directive.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,6 +37,12 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="github.html" title="使用GitHub"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="nginx_directive.html" title="Nginx指令介绍"
+             accesskey="P">previous</a> |</li>
         <li><a href="index.html">Learning 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
@@ -42,13 +51,33 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">配置Zabbix</a><ul>
+<li><a class="reference internal" href="#id1">安装</a><ul>
+<li><a class="reference internal" href="#id2">建立数据库</a></li>
+<li><a class="reference internal" href="#php">配置PHP</a></li>
+<li><a class="reference internal" href="#zabbix-server">配置Zabbix Server</a></li>
+<li><a class="reference internal" href="#zabbix-agent">配置Zabbix Agent</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#snmp-discovery">SNMP Discovery</a><ul>
+<li><a class="reference internal" href="#discovery">新建<strong>discovery</strong>条目</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">安装中可能的问题</a><ul>
 <li><a class="reference internal" href="#log-file-monitoringzbx-notsupport">Log File Monitoring时ZBX_NOTSUPPORT错误</a></li>
-<li><a class="reference internal" href="#id4">参考资料</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id8">参考资料</a></li>
 <li><a class="reference internal" href="#todo-list">TODO List</a></li>
 </ul>
 </li>
 </ul>
 
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="nginx_directive.html"
+                        title="previous chapter">Nginx指令介绍</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="github.html"
+                        title="next chapter">使用GitHub</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/zabbix.txt"
@@ -77,9 +106,120 @@
             
   <div class="section" id="zabbix">
 <h1>配置Zabbix<a class="headerlink" href="#zabbix" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>安装<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>建立数据库<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="php">
+<h3>配置PHP<a class="headerlink" href="#php" title="Permalink to this headline">¶</a></h3>
+<p>需要修改PHP的默认参数</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="na">max_execution_time</span> <span class="o">=</span> <span class="s">300</span>
+<span class="na">memory_limit</span> <span class="o">=</span> <span class="s">128M</span>
+<span class="na">post_max_size</span> <span class="o">=</span> <span class="s">16M</span>
+<span class="na">upload_max_filesize</span> <span class="o">=</span> <span class="s">2M</span>
+<span class="na">max_input_time</span> <span class="o">=</span> <span class="s">300</span>
+<span class="c"># date.timezone = Europe/Riga</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="zabbix-server">
+<h3>配置Zabbix Server<a class="headerlink" href="#zabbix-server" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="zabbix-agent">
+<h3>配置Zabbix Agent<a class="headerlink" href="#zabbix-agent" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="snmp-discovery">
+<h2>SNMP Discovery<a class="headerlink" href="#snmp-discovery" title="Permalink to this headline">¶</a></h2>
+<p><strong>Zabbix</strong>自身带有不少请求SNMP数据的模板可以使用，不过通过自定义的可以获取更多的数据。例如：磁盘的IO，CPU的负载，TCP的连接情况等等。</p>
+<p>在<strong>Zabbix</strong>的<a class="reference external" href="https://www.zabbix.com/documentation/2.0/manual/discovery/low_level_discovery">手册</a>中对如何自定义SNMP discovery 策略有介绍，在此，结合自己的的经历详细说明如何添加自定义 <em>discovery, item prototypes</em>等。</p>
+<p>首先需要对Net-SNMP的MIB有一点点了解，在此以添加对Disk IO的监控为例，相关OID其OID为：”<strong>.1.3.6.1.4.1.2021.13.15.1.1.</strong>“。树形结构为：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="58%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">OID</th>
+<th class="head">Mean</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>.1.3.6.1.4.1.2021.13.15.1.1</td>
+<td>UCD-DISKIO-MIB::</td>
+</tr>
+<tr class="row-odd"><td>.1.3.6.1.4.1.2021.13.15.1.1.1</td>
+<td>diskIOIndex</td>
+</tr>
+<tr class="row-even"><td>.1.3.6.1.4.1.2021.13.15.1.1.2</td>
+<td>diskIODevice（设备名）</td>
+</tr>
+<tr class="row-odd"><td>.1.3.6.1.4.1.2021.13.15.1.1.3</td>
+<td>diskIONRead</td>
+</tr>
+<tr class="row-even"><td>.1.3.6.1.4.1.2021.13.15.1.1.4</td>
+<td>diskIONWritten</td>
+</tr>
+<tr class="row-odd"><td>.1.3.6.1.4.1.2021.13.15.1.1.5</td>
+<td>diskIOReads</td>
+</tr>
+<tr class="row-even"><td>.1.3.6.1.4.1.2021.13.15.1.1.6</td>
+<td>diskIOWrites</td>
+</tr>
+<tr class="row-odd"><td>.1.3.6.1.4.1.2021.13.15.1.1.9</td>
+<td>diskIOLA1</td>
+</tr>
+<tr class="row-even"><td>.1.3.6.1.4.1.2021.13.15.1.1.10</td>
+<td>diskIOLA5</td>
+</tr>
+<tr class="row-odd"><td>.1.3.6.1.4.1.2021.13.15.1.1.11</td>
+<td>diskIOLA15</td>
+</tr>
+<tr class="row-even"><td>.1.3.6.1.4.1.2021.13.15.1.1.12</td>
+<td>diskIONReadX</td>
+</tr>
+<tr class="row-odd"><td>.1.3.6.1.4.1.2021.13.15.1.1.13</td>
+<td>diskIONWrittenX</td>
+</tr>
+</tbody>
+</table>
+<p>MIB的信息可以通过<a class="reference external" href="http://oid-info.com/index.htm">oid-info</a>查看。接下假定你有一个正常运行的<strong>snmpd</strong>服务。命令：<tt class="docutils literal"><span class="pre">snmpwalk</span> <span class="pre">-v</span> <span class="pre">2c</span> <span class="pre">-c</span> <span class="pre">public</span> <span class="pre">localhost</span> <span class="pre">.1.3.6.1.4.1.2021.13.15.1.1.3</span></tt>
+可查询到本机各磁盘从开机到当前读取了多少字节。</p>
+<div class="section" id="discovery">
+<h3>新建<strong>discovery</strong>条目<a class="headerlink" href="#discovery" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>打开Zabbix监控页面后，进入&#8221;<strong>configuration</strong>&#8221; &#8211;&gt; &#8220;<strong>Templates</strong>&#8220;，在此将磁盘IO监控项放入到模板&#8221;<strong>Template SNMP Disks</strong>&#8220;（仅为方便归类，可任意）。</li>
+<li>进入&#8221;<strong>Template SNMP Disks</strong>&#8220;的&#8221;<strong>discovery</strong>&#8220;，点击右上方的&#8221;<strong>Create discovery
+rule</strong>&#8220;新建一条发现策略。内容填写如下图所示。</li>
+</ul>
+<img alt="_images/discovery.png" src="_images/discovery.png" />
+<p>其中需要注意的是：</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>Type</strong>一定要选择&#8221;<strong>SNMP *</strong>&#8220;，版本根据&#8221;<strong>snmpd</strong>&#8220;提供来选择</li>
+<li><strong>key</strong>和<strong>SNMP OID</strong>一定要设定为&#8221;<strong>UCD-DISKIO-MIB::diskIODevice</strong>和<strong>diskIODevice</strong>这与后面&#8221;<strong>item prototypes</strong>&#8220;的名称有莫大的关联。如果自定义其它SNMP信息，应该将其设定为对应的item name。</li>
+<li><strong>Name</strong>是自定义的，其它参数都是默认。</li>
+<li>建立好<strong>discovery rule</strong>后，再新建<strong>item prototypes</strong>。点击新建的策略&#8221;<strong>Disk io</strong> 进入其<strong>item prototypes</strong>新建发现的项目，内容填写如下图所示：</li>
+</ul>
+</div></blockquote>
+<img alt="_images/item.png" src="_images/item.png" />
+<p>其中需要注意的是：</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>SNMP OID</strong>填为你希望获取数据的OID，注意一般会加上一个Zabbix宏&#8221;<strong>#SNMPINDEX</strong>&#8220;，这主要是因为snmpd返回的数据一般为很多项，它会自动建立一个索引来对应不同项。此项我们读取磁盘的读操作数据。</li>
+<li><strong>key</strong></li>
+<li>另外还有<strong>Store value</strong>和<strong>show value</strong>等其它选项，根据数据特点设定。
+由于此处snmpd返回的是从开机到当前的总读取数据量，所以存储值选择&#8221;<strong>Delta</strong>&#8220;</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>安装中可能的问题<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="log-file-monitoringzbx-notsupport">
-<h2>Log File Monitoring时ZBX_NOTSUPPORT错误<a class="headerlink" href="#log-file-monitoringzbx-notsupport" title="Permalink to this headline">¶</a></h2>
-<p>配置日志文件监控时一直出错，经过在Zabbix Forums上的提醒<a class="footnote-reference" href="#r1" id="id1">[1]</a>，仔细查看了agent的调试日志，在其中发现：</p>
+<h3>Log File Monitoring时ZBX_NOTSUPPORT错误<a class="headerlink" href="#log-file-monitoringzbx-notsupport" title="Permalink to this headline">¶</a></h3>
+<p>配置日志文件监控时一直出错，经过在Zabbix Forums上的提醒<a class="footnote-reference" href="#r1" id="id5">[1]</a>，仔细查看了agent的调试日志，在其中发现：</p>
 <div class="highlight-text"><div class="highlight"><pre># ACTIVE CHECK 主机上没有查询时，返回的data为空。
 
 
@@ -182,26 +322,27 @@ bbix 2.0.5 (revision 33558).&#39;
 ……
 </pre></div>
 </div>
-<p>通过上面的日志分析，可以发现，server监视agent上的日志文件，需要agent进程可以读取相应的文件，否则会出错。关于监控日志的详细文档见Zabbix Manual <a class="footnote-reference" href="#r2" id="id2">[2]</a><a class="footnote-reference" href="#r3" id="id3">[3]</a></p>
+<p>通过上面的日志分析，可以发现，server监视agent上的日志文件，需要agent进程可以读取相应的文件，否则会出错。关于监控日志的详细文档见Zabbix Manual <a class="footnote-reference" href="#r2" id="id6">[2]</a><a class="footnote-reference" href="#r3" id="id7">[3]</a></p>
 </div>
-<div class="section" id="id4">
-<h2>参考资料<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id8">
+<h2>参考资料<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <table class="docutils footnote" frame="void" id="r1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="https://www.zabbix.com/forum/showthread.php?t=23033">https://www.zabbix.com/forum/showthread.php?t=23033</a></td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id5">[1]</a></td><td><a class="reference external" href="https://www.zabbix.com/forum/showthread.php?t=23033">https://www.zabbix.com/forum/showthread.php?t=23033</a></td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="r2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><a class="reference external" href="https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/log_items">https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/log_items</a></td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id6">[2]</a></td><td><a class="reference external" href="https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/log_items">https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/log_items</a></td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="r3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td><a class="reference external" href="https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/zabbix_agent#supported_item_keys">https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/zabbix_agent#supported_item_keys</a></td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id7">[3]</a></td><td><a class="reference external" href="https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/zabbix_agent#supported_item_keys">https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/zabbix_agent#supported_item_keys</a></td></tr>
 </tbody>
 </table>
 </div>
@@ -231,6 +372,12 @@ bbix 2.0.5 (revision 33558).&#39;
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="github.html" title="使用GitHub"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="nginx_directive.html" title="Nginx指令介绍"
+             >previous</a> |</li>
         <li><a href="index.html">Learning 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>

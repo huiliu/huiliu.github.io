@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>tmux &mdash; Learning 0.1 documentation</title>
+    <title>Learning Python &mdash; Learning 0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -26,9 +26,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Learning 0.1 documentation" href="index.html" />
-    <link rel="next" title="Learning Matplot Library" href="matplot.html" />
-    <link rel="prev" title="Learning Bash" href="bash.html" /> 
+    <link rel="top" title="Learning 0.1 documentation" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -37,12 +35,6 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="matplot.html" title="Learning Matplot Library"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="bash.html" title="Learning Bash"
-             accesskey="P">previous</a> |</li>
         <li><a href="index.html">Learning 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
@@ -50,21 +42,17 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">tmux</a><ul>
-<li><a class="reference internal" href="#id2">从源码编译安装</a></li>
+<li><a class="reference internal" href="#">Learning Python</a><ul>
+<li><a class="reference internal" href="#calling-an-external-command-in-python">Calling an external command in Python</a></li>
+<li><a class="reference internal" href="#the-python-yield-keyword-explained">The Python yield keyword explained</a></li>
+<li><a class="reference internal" href="#id3">参考资料</a></li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="bash.html"
-                        title="previous chapter">Learning Bash</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="matplot.html"
-                        title="next chapter">Learning Matplot Library</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/tmux.txt"
+    <li><a href="_sources/python.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -88,26 +76,22 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="tmux">
-<h1>tmux<a class="headerlink" href="#tmux" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="http://tmux.sourceforge.net/">tmux</a>是<strong>screen</strong>的替代工具，功能比screen更为强大。</p>
-<div class="section" id="id2">
-<h2>从源码编译安装<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p><strong>tmux</strong>依赖<a class="reference external" href="http://libevent.org/">libevent</a>和<a class="reference external" href="http://invisible-island.net/ncurses/">ncurses</a>这两个库，所以从源码安装时，也得确认这两个库文件已经安装。</p>
-<p>假定所有软件的安装目录为：&#8221;<strong>~/local</strong>&#8220;</p>
-<ul>
-<li><p class="first">安装<strong>libevent</strong>和<strong>ncurses</strong>时只需要设定好安装目录即可：</p>
-<div class="highlight-python"><pre>./configure --prefix=~/local</pre>
+  <div class="section" id="learning-python">
+<h1>Learning Python<a class="headerlink" href="#learning-python" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="calling-an-external-command-in-python">
+<h2>Calling an external command in Python<a class="headerlink" href="#calling-an-external-command-in-python" title="Permalink to this headline">¶</a></h2>
+<p>在<a class="reference external" href="http://stackoverflow.com/questions/89228/calling-an-external-command-in-python">stackoverflow</a>看到一个话题讨论在Python中如何调用外部程序的。学习了一下，原来新的改进方法在模块<tt class="docutils literal"><span class="pre">subprocess</span></tt>中，在<a class="reference external" href="http://www.python.org/dev/peps/pep-0324/">PEP 324</a>中有详细介绍。</p>
+<p>调用外部程序的常用方法有：
+* 函数&#8221;<tt class="docutils literal"><span class="pre">os.popen</span></tt>&#8221; 被&#8221;<tt class="docutils literal"><span class="pre">subprocess.Popen</span></tt>&#8220;取代
+* 函数&#8221;<tt class="docutils literal"><span class="pre">os.system</span></tt>&#8221; 被&#8221;<tt class="docutils literal"><span class="pre">subprocess.call</span></tt>&#8220;取代</p>
+<p>另外Python<a class="reference external" href="http://docs.python.org/2/library/subprocess.html#replacing-older-functions-with-the-subprocess-module">文档</a>中亦有详细介绍。</p>
 </div>
-</li>
-<li><p class="first">安装<strong>tmux</strong>时需要设定好<em>libevent</em>库的链接，如果系统上安装了&#8221;<strong>pkgconfig</strong>&#8220;，那么只需设定一个环境变量：</p>
-<div class="highlight-python"><pre>export PKG_CONFIG_PATH=~/local/lib/pkgconfig</pre>
+<div class="section" id="the-python-yield-keyword-explained">
+<h2>The Python yield keyword explained<a class="headerlink" href="#the-python-yield-keyword-explained" title="Permalink to this headline">¶</a></h2>
+<p>参考stackoverflow上的<a class="reference external" href="http://stackoverflow.com/questions/231767/the-python-yield-keyword-explained">The Python yield keyword explained</a>。</p>
 </div>
-</li>
-</ul>
-<p>就可以；如果没有安装此软件，将环境变量<em>LIBEVENT_CFLAGS</em>设定为：&#8221;<strong>-L~/local/lib -levent</strong>&#8220;，另外一个环境变量是&#8221;<em>LIBEVENT_LIBS</em>&#8220;。然后运行<em>configure</em>即可。:</p>
-<div class="highlight-python"><pre>./configure --prefix=~/local</pre>
-</div>
+<div class="section" id="id3">
+<h2>参考资料<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -123,12 +107,6 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
-        <li class="right" >
-          <a href="matplot.html" title="Learning Matplot Library"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="bash.html" title="Learning Bash"
-             >previous</a> |</li>
         <li><a href="index.html">Learning 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>

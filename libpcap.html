@@ -1,0 +1,279 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>抓包-libpcap &mdash; Learning 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Learning 0.1 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="index.html">Learning 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">抓包-libpcap</a><ul>
+<li><a class="reference internal" href="#id1">简单实例</a></li>
+<li><a class="reference internal" href="#id2">基本步骤</a></li>
+<li><a class="reference internal" href="#id3">包处理</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/libpcap.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="libpcap">
+<h1>抓包-libpcap<a class="headerlink" href="#libpcap" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>简单实例<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="cp">#include &lt;stdlib.h&gt;</span>
+<span class="cp">#include &lt;pcap.h&gt;</span>
+
+<span class="kt">void</span>
+<span class="nf">handle_packets</span><span class="p">(</span><span class="n">u_char</span> <span class="o">*</span><span class="n">user</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">pcap_pkthdr</span> <span class="o">*</span><span class="n">h</span><span class="p">,</span> <span class="k">const</span> <span class="n">u_char</span> <span class="o">*</span><span class="n">packet</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">fprint</span><span class="p">(</span><span class="s">&quot;capture a packet.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span>
+<span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">errbuff</span><span class="p">[</span><span class="n">PCAP_ERRBUF_SIZE</span><span class="p">];</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">dev</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">((</span><span class="n">dev</span> <span class="o">=</span> <span class="n">pcap_lookupdev</span><span class="p">(</span><span class="n">errbuff</span><span class="p">))</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;Failed to find active network interface!&quot;</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">pcap_t</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">((</span><span class="n">p</span> <span class="o">=</span> <span class="n">pcap_open_live</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="mi">1518</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">errbuff</span><span class="p">))</span> <span class="o">==</span><span class="nb">NULL</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;Failed to open the interface: %s!&quot;</span><span class="p">,</span> <span class="n">dev</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">struct</span> <span class="n">bpf_program</span> <span class="n">bfp</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">fp</span> <span class="o">=</span> <span class="s">&quot;ip&quot;</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">pcap_compile</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">bfp</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">PCAP_NETMASK_UNKNOWN</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;Failed to compile the bpf expression: %s!&quot;</span><span class="p">,</span> <span class="n">pcap_geterr</span><span class="p">(</span><span class="n">p</span><span class="p">));</span>
+        <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">pcap_setfilter</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">bfp</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;Failed to set the bpf expression: %s!&quot;</span><span class="p">,</span> <span class="n">pcap_geterr</span><span class="p">(</span><span class="n">p</span><span class="p">));</span>
+        <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">pcap_loop</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">handle_packets</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+
+    <span class="n">pcap_freecode</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fp</span><span class="p">);</span>
+    <span class="n">pcap_close</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>基本步骤<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>利用<strong>libpcap</strong>抓包包含下列基本步骤：</p>
+<ul class="simple">
+<li>设置或查找网络接口设备，调用函数<tt class="docutils literal"><span class="pre">pcap_lookupdev</span></tt>查找当然活动的网络接口</li>
+</ul>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;pcap/pcap.h&gt;</span>
+
+<span class="kt">char</span> <span class="n">errbuf</span><span class="p">[</span><span class="n">PCAP_ERRBUF_SIZE</span><span class="p">];</span>
+
+<span class="c1">// errbuf   存储出错信息</span>
+<span class="c1">// 函数返回网络接口名，如eth0, em0等; 如果出错返回NULL</span>
+<span class="kt">char</span> <span class="o">*</span><span class="nf">pcap_lookupdev</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">errbuf</span><span class="p">);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>调用函数<tt class="docutils literal"><span class="pre">pcap_open_live</span></tt>打开网络接口，进行侦听</li>
+</ul>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;pcap/pcap.h&gt;</span>
+
+<span class="kt">char</span> <span class="n">errbuf</span><span class="p">[</span><span class="n">PCAP_ERRBUF_SIZE</span><span class="p">];</span>
+
+<span class="c1">// 打开网络接口准备侦听</span>
+<span class="c1">// device       设备名，可以自己设定；也可以从第一步返回。如果设定为&quot;any&quot;或</span>
+<span class="c1">//              &quot;NULL&quot;，则会侦听所有接口</span>
+<span class="c1">// snaplen      捕捉包的最大长度</span>
+<span class="c1">// promisc      是否将网络设备设置为“混杂”模式。</span>
+<span class="c1">// to_ms        超时时间</span>
+<span class="c1">// errbuf       存储出错信息</span>
+<span class="kt">pcap_t</span> <span class="o">*</span><span class="nf">pcap_open_live</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">device</span><span class="p">,</span> <span class="kt">int</span> <span class="n">snaplen</span><span class="p">,</span> <span class="kt">int</span> <span class="n">promisc</span><span class="p">,</span>
+                                                <span class="kt">int</span> <span class="n">to_ms</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">errbuf</span><span class="p">);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>设定过滤器。调用函数<tt class="docutils literal"><span class="pre">pcap_compile</span></tt>和<tt class="docutils literal"><span class="pre">pcap_setfilter</span></tt>来设定BFP过滤器</li>
+</ul>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;pcap/pcap.h&gt;</span>
+
+<span class="c1">// p            是由函数pcap_open_live返回的指针</span>
+<span class="c1">// fp           用于存放编译后的BPF</span>
+<span class="c1">// str          bpf表达式</span>
+<span class="c1">// optimize     是否对bpf进行优化</span>
+<span class="c1">// netmask      一个IPV4的网络掩码，仅当bpf表达式中要过滤IP广播时有用，如果</span>
+<span class="c1">//              设定为PCAP_NETMASK_UNKNOWN，将忽略广播</span>
+<span class="c1">//</span>
+<span class="c1">//  成功将返回0,失败返回-1, 失败时可以通调用函数pcap_geterr(p),</span>
+<span class="c1">//  pcap_perror(p)获取详细的出错信息</span>
+<span class="kt">int</span> <span class="nf">pcap_compile</span><span class="p">(</span><span class="kt">pcap_t</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="k">struct</span> <span class="n">bpf_program</span> <span class="o">*</span><span class="n">fp</span><span class="p">,</span>
+                      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">,</span> <span class="kt">int</span> <span class="n">optimize</span><span class="p">,</span> <span class="n">bpf_u_int32</span> <span class="n">netmask</span><span class="p">);</span>
+
+<span class="c1">// 设定过滤器</span>
+<span class="c1">// 成功返回0, 失败返回-1, 同样可以用函数pcap_geterr, pcap_perror获取出错信息</span>
+<span class="kt">int</span> <span class="nf">pcap_setfilter</span><span class="p">(</span><span class="kt">pcap_t</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="k">struct</span> <span class="n">bpf_program</span> <span class="o">*</span><span class="n">fp</span><span class="p">);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>开始抓包。调用函数<tt class="docutils literal"><span class="pre">pcap_loop</span></tt>，根据自己的需求编写处理数据包的回调函数。</li>
+</ul>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;pcap/pcap.h&gt;</span>
+
+<span class="cm">/* pcap_loop 启动对数据的处理，可以是来自一个已经将打开的网络接口，也可以是</span>
+<span class="cm"> * 保存在磁盘上的数据文件，当抓取cnt个数据包，或者到外文件的结尾(从文件中读</span>
+<span class="cm"> * 取数据时），或者调用了pcap_breakloop()，或者发生错误，pcap_loop会退出。当</span>
+<span class="cm"> * 读取数据时超时，pcap_loop并不会返回；</span>
+<span class="cm"> *</span>
+<span class="cm"> * cnt          处理数据包的个数。设定为0或-1表示无限；注意对于一些低版本</span>
+<span class="cm"> *              libpcap，或者在不同平台上，&quot;0&quot;可能是未定义的，只有&quot;-1&quot;才表</span>
+<span class="cm"> *              示无穷多</span>
+<span class="cm"> * callback     回调函数，当pcap收到数据后就会调用此函数对数据进行处理</span>
+<span class="cm"> * user         将传递给回调函数的第一参数</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">pcap_loop</span><span class="p">(</span><span class="kt">pcap_t</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">cnt</span><span class="p">,</span> <span class="n">pcap_handler</span> <span class="n">callback</span><span class="p">,</span> <span class="n">u_char</span> <span class="o">*</span><span class="n">user</span><span class="p">);</span>
+
+<span class="cm">/* pcap_dispatch 与pcap_loop作用类似,不过不太明白。测试时发现pcap_loop貌似应</span>
+<span class="cm"> * 该是阻塞形式，直到处理了cnt个数据包才会返回，而相同程序pcap_dispatch可能一</span>
+<span class="cm"> * 个包也没处理就返回了，正如文档中描述的最多处理cnt个数据包。</span>
+<span class="cm"> *</span>
+<span class="cm"> * pcap_dispatch() processes packets from a live capture or ``savefile&#39;&#39;</span>
+<span class="cm"> * until cnt packets are processed, the end  of  the current  bufferful of</span>
+<span class="cm"> * packets is reached when doing a live capture, the end of the ``savefile&#39;&#39;</span>
+<span class="cm"> * is reached when reading from a ``savefile&#39;&#39;, pcap_breakloop() is called,</span>
+<span class="cm"> * or an error occurs.  Thus, when doing a live capture, cnt is the maximum</span>
+<span class="cm"> * number  of packets to process before returning, but is not a minimum</span>
+<span class="cm"> * number; when reading a live capture, only one bufferful of packets is</span>
+<span class="cm"> * read at a time, so fewer than cnt packets may be processed. A value of -1</span>
+<span class="cm"> * or 0 for  cnt  causes all  the  packets received in one buffer to be</span>
+<span class="cm"> * processed when reading a live capture, and causes all the packets in the</span>
+<span class="cm"> * file to be processed when reading a ``savefile&#39;&#39;.</span>
+<span class="cm"> *</span>
+<span class="cm"> * 返回值为“0”说明正常返回，“-1”说明发生了错误，”-2“说明是调用pcap_breakloop</span>
+<span class="cm"> * 中止的sniff,建议详细确认返回值。</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">pcap_dispatch</span><span class="p">(</span><span class="kt">pcap_t</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">cnt</span><span class="p">,</span> <span class="n">pcap_handler</span> <span class="n">callback</span><span class="p">,</span> <span class="n">u_char</span> <span class="o">*</span><span class="n">user</span><span class="p">);</span>
+
+<span class="cm">/* 定义一个回调函数来处理每个被捕捉到的数据包</span>
+<span class="cm"> * 第一个参数user由pcap_loop或pcap_dispatch第三个参数传递而来</span>
+<span class="cm"> * 第二个参数h指向一个pcap_pkthdr结构体，其中包含了捕捉到的数据包的相关信息，</span>
+<span class="cm"> *      如时间戳，大小等。此结构体不能被主动释放，也不保证回调函数返回后仍然</span>
+<span class="cm"> *      可用，如果希望可以，请在返回之前拷贝一份。</span>
+<span class="cm"> * 第三个参数用于指定捕捉一个数据包的最大bytes数</span>
+<span class="cm"> */</span>
+<span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">*</span><span class="n">pcap_handler</span><span class="p">)(</span><span class="n">u_char</span> <span class="o">*</span><span class="n">user</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">pcap_pkthdr</span> <span class="o">*</span><span class="n">h</span><span class="p">,</span>
+                                                    <span class="k">const</span> <span class="n">u_char</span> <span class="o">*</span><span class="n">bytes</span><span class="p">);</span>
+
+<span class="k">struct</span> <span class="n">pcap_pkthdr</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="n">timeval</span> <span class="n">ts</span><span class="p">;</span>      <span class="cm">/* time stamp */</span>
+    <span class="n">bpf_u_int32</span> <span class="n">caplen</span><span class="p">;</span>     <span class="cm">/* length of portion present */</span>
+    <span class="n">bpf_u_int32</span> <span class="n">len</span><span class="p">;</span>        <span class="cm">/* length this packet (off wire) */</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>包处理<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>关于数据包的处理，需要详细的了解TCP/IP协议簇，清楚的知道每层协议的头部结构，还需
+要知道<strong>网络字节序</strong>和<strong>主机字节序</strong>等基本知识。至于数据如何处理，根据应
+用需求，涉及的知识可能更多。</p>
+<p>TCP, UDP等协议在IP头部中的标示定义在<cite>/usr/include/netinet/in.h</cite>中</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="index.html">Learning 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Liu Hui.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

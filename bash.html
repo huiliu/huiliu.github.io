@@ -25,6 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="Learning 0.1 documentation" href="index.html" />
     <link rel="next" title="tmux" href="tmux.html" />
     <link rel="prev" title="Speed Up Firefox" href="firefox.html" /> 
@@ -53,6 +54,9 @@
 <li><a class="reference internal" href="#tips-1">Tips 1 <strong>&amp;&amp;</strong>和<strong>||</strong></a></li>
 <li><a class="reference internal" href="#tips-2">Tips 2 关于删除文件时使用引号的疑问</a></li>
 <li><a class="reference internal" href="#tips-3">Tips 3 防御型代码</a></li>
+<li><a class="reference internal" href="#tips-4">Tips 4 终端打印彩色文字</a></li>
+<li><a class="reference internal" href="#tips-5-n">Tips 5 求N天前的日期字符串</a></li>
+<li><a class="reference internal" href="#id2">参考资料</a></li>
 </ul>
 </li>
 </ul>
@@ -144,6 +148,58 @@ rm -rf abc/*
 <p>就觉得奇怪，为什么要加一个<cite>/dev/null</cite>在<cite>grep</cite>后面。</p>
 <p>因为如果<cite>$(find /usr/include -type f | sort)</cite>返回为空，<cite>grep</cite>命令就会一直等待终端输入，导致程序“卡死”。
 添加一个<cite>/dev/null</cite>的作用就是<strong>防止</strong><cite>find</cite><strong>返回为空是程序卡死发生</strong>。</p>
+</div>
+<div class="section" id="tips-4">
+<h2>Tips 4 终端打印彩色文字<a class="headerlink" href="#tips-4" title="Permalink to this headline">¶</a></h2>
+<p>使用Shell在终端打印彩色文字：</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">echo</span> -e <span class="s2">&quot;\e[32mHello World!\e[0m&quot;</span>
+</pre></div>
+</div>
+<p>Python的<tt class="docutils literal"><span class="pre">print</span></tt>语句也可以利用相似的语法在终端打开彩色文字：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\x1B</span><span class="s">[32mHello World</span><span class="se">\x1B</span><span class="s">[0m&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tips-5-n">
+<h2>Tips 5 求N天前的日期字符串<a class="headerlink" href="#tips-5-n" title="Permalink to this headline">¶</a></h2>
+<p>个人觉得这个问题要完全正确是要花一点力气的，首先必须考虑以下情况：</p>
+<ul class="simple">
+<li>每个月天数不一样，有28, 30, 31</li>
+<li>存在闫年情况，二月份有29天</li>
+</ul>
+<p>所以用Shell内置的功能偷了一下懒<a class="footnote-reference" href="#ref1" id="id1">[1]</a>：</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c">#!/bin/bash</span>
+
+<span class="c"># Author: Liu Hui</span>
+<span class="c"># </span>
+<span class="c"># Date: Thu Jul  4 23:42:53 CST 2013</span>
+
+
+<span class="nv">SECOND_TODAY</span><span class="o">=</span><span class="sb">`</span>date +%s<span class="sb">`</span>
+<span class="nv">SECOND_PER_DAY</span><span class="o">=</span>86400
+
+<span class="nv">INTERVAL</span><span class="o">=</span>7
+
+<span class="nv">SEQ</span><span class="o">=</span><span class="sb">`</span>seq <span class="nv">$INTERVAL</span><span class="sb">`</span>
+
+<span class="c">#set -x</span>
+<span class="k">for </span>i in <span class="nv">$SEQ</span>
+<span class="k">do</span>
+<span class="k">    </span><span class="nv">DATE</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s2">&quot;$SECOND_TODAY - $SECOND_PER_DAY * ${i}&quot;</span> | bc<span class="sb">`</span>
+    <span class="nb">echo</span> <span class="sb">`</span>date --date<span class="o">=</span><span class="s2">&quot;@$DATE&quot;</span> +%Y%m%d<span class="sb">`</span>
+<span class="k">done</span>
+<span class="c">#set +x</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>参考资料<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<table class="docutils footnote" frame="void" id="ref1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://witmax.cn/linux-date.html">date命令用法详解</a></td></tr>
+</tbody>
+</table>
 </div>
 </div>
 
