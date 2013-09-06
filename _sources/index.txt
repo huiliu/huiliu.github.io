@@ -24,6 +24,10 @@ Welcome to Robin's Blog
     github
     python
     spider
+    gentoo-i18n
+    datamining
+    svn
+
 
 系统安全
 ^^^^^^^^^^
@@ -44,8 +48,9 @@ Welcome to Robin's Blog
     nginx_directive
     zabbix
     net-snmp
-    libpcap
-    libevent
+    puppet
+    foreman
+
 
 
 Indices and tables

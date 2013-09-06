@@ -166,25 +166,25 @@
 <div class="section" id="json">
 <h2>使用json作配置文件<a class="headerlink" href="#json" title="Permalink to this headline">¶</a></h2>
 <p>这里我将绘图的一些配置信息以配置文件的方式存放，绘制图形时从配置文件中读取数据。最初愿望是<strong>实现数据，程序，配置三者分离</strong>，便于通用的处理大量数据。配置文件为json格式，如下：</p>
-<div class="highlight-json"><pre>{
-    "inputfile": {
-                    "name":"summary", 
-                    "delimiter":","
-                 },
-    "outputfile": {
-                    "name":"test2.png",
-                    "dpi":120
-                  },
-    "title": "The Interaction Energy Between $NH_4$...$OH_2$",
-    "xlabel": "d/A",
-    "ylabel": "E/$kcal.mol^{-1}$",
-    "xrange": [1, 10.5],
-    "yrange": [-9, 0.2],
-    "legend": {
-                "location": "lower right"
-              }
-}
-</pre>
+<div class="highlight-json"><div class="highlight"><pre><span class="p">{</span>
+    <span class="nt">&quot;inputfile&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;summary&quot;</span><span class="p">,</span> 
+                    <span class="nt">&quot;delimiter&quot;</span><span class="p">:</span><span class="s2">&quot;,&quot;</span>
+                 <span class="p">},</span>
+    <span class="nt">&quot;outputfile&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;test2.png&quot;</span><span class="p">,</span>
+                    <span class="nt">&quot;dpi&quot;</span><span class="p">:</span><span class="mi">120</span>
+                  <span class="p">},</span>
+    <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;The Interaction Energy Between $NH_4$...$OH_2$&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;d/A&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;E/$kcal.mol^{-1}$&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;xrange&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">10.5</span><span class="p">],</span>
+    <span class="nt">&quot;yrange&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">-9</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span>
+    <span class="nt">&quot;legend&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;lower right&quot;</span>
+              <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
 </div>
 <p>绘图代码略有修改，如下:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c">#!/bin/env python2</span>
