@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>epoll(7) &mdash; Learning 0.9 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.9',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Learning 0.9 documentation" href="index.html" />
+    <link rel="next" title="Learning SQL" href="sql.html" />
+    <link rel="prev" title="Linux系统编程（一） IO基础" href="lsp01.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Learning</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.9</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="learning.html">学习方法与态度</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firefox.html">Speed Up Firefox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bash.html">Learning Bash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tmux.html">tmux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matplot.html">Learning Matplot Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gnuplot.html">Introduce to the GNUPlot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">使用GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gentoo.html">Gentoo点滴</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freebsd.html">FreeBSD点滴</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datamining.html">学习数据挖掘</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rpm.html">RPM软件包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vim.html">VIM Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="php.html">PHP点滴</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nginx_directive.html">Nginx指令介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mediawiki.html">MediaWiki点滴</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker.html">docker使用小记</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mail.html">邮件系统-Postfix, Dovecot, MySQL和Postfixadmin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lvm.html">LVM基础知识</a></li>
+<li class="toctree-l1"><a class="reference internal" href="samba_ads.html">samba集成Active Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="samba_basic.html">Samba</a></li>
+<li class="toctree-l1"><a class="reference internal" href="disk_quota.html">磁盘配额管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yslow.html">Best Practices for Speeding Up Your Web Site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="http_header.html">HTTP Header</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">epoll(7)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_io_benchmark.html">测试MySQL服务器性能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_master_slave.html">MySQL配置Master-Slave</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_high_availability.html">MySQL的高可用方案（一）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_privileges.html">MySQL权限管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_backup.html">MySQL数据库的备份</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mongodb.html">MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_logs.html">MySQL日志相关服务器变量</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_optimize.html">MySQL优化-《高性能MySQL》笔记</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_tuning.html">MySQL通用调优原则</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_key.html">MySQL中的索引-读书笔记</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_status.html">MySQL服务器状态</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_replication.html">MySQL复制</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="secure_task.html">运维常用工具</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tcp-wrappers.html">简易防火墙TCP-Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selinux.html">探索SELinux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intrusion.html">入侵检测与响应</a></li>
+<li class="toctree-l1"><a class="reference internal" href="penetration-testing.html">渗透测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snort.html">入侵检测工具－Snort</a></li>
+<li class="toctree-l1"><a class="reference internal" href="openvas.html">学习弱点扫描工具-openVAS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jail.html">如何让特定用户通过SSH登陆后自动chroot？</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logfilter.html">Apache日志过滤－是否可以用来预防DDOS</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="zabbix.html">配置Zabbix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="net-snmp.html">Net-SNMP使用心得</a></li>
+<li class="toctree-l1"><a class="reference internal" href="puppet.html">配置管理工具-Puppet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="foreman.html">Nginx+Foreman+Passenger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nagios.html">监控工具-Nagios</a></li>
+<li class="toctree-l1"><a class="reference internal" href="proc.html">文件系统/proc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="jenkins.html">赤兔项目持续集成系统－Jenkins CI部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="svn.html">SVN Q/A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="svn_mirror.html">SVN仓库安全之镜像备份</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="sscanf.html">一个字符引发的问题 - sscanf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unicode.html">折磨人的字符编码问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spider.html">爬虫框架 - scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pymysql.html">Python-MySQL使用心得</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_network.html">Python网络库的使用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_evolution.html">Code Evolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
+<li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
+<li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
+<li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">epoll(7)</a><ul>
+<li><a class="reference internal" href="#questions-and-answers">Questions and answers</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="lsp01.html" title="Previous Chapter: Linux系统编程（一） IO基础"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; Linux系统编程（一） IO基...</span>
+    </a>
+  </li>
+  <li>
+    <a href="sql.html" title="Next Chapter: Learning SQL"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Learning SQL &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li><a class="reference internal" href="#">epoll(7)</a><ul>
+<li><a class="reference internal" href="#questions-and-answers">Questions and answers</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="sourcelink">
+  <a href="_sources/epoll_man.txt"
+     rel="nofollow">Source</a>
+</div>
+<form action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-9">
+      
+  <div class="section" id="epoll-7">
+<h1>epoll(7)<a class="headerlink" href="#epoll-7" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="questions-and-answers">
+<h2>Questions and answers<a class="headerlink" href="#questions-and-answers" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><dl class="docutils">
+<dt>Q0  What  is  the  key used to distinguish the file descriptors registered in an epoll</dt>
+<dd>set?</dd>
+<dt>A0  The key is the combination of  the  file  descriptor  number  and  the  open  file</dt>
+<dd>description  (also known as an &#8220;open file handle&#8221;, the kernel&#8217;s internal represen‐
+tation of an open file).</dd>
+</dl>
+</div></blockquote>
+<p>Q: 如何判断注册在epoll中的文件描述符？（区分注册在epoll中的文件描述符的关键是什么？）</p>
+<p>A: 关键是结合文件描述符和打开文件描述符（进行对比）。</p>
+<blockquote>
+<div><p>Q1  What happens if you register the same file descriptor on an epoll instance twice?</p>
+<dl class="docutils">
+<dt>A1  You will probably get EEXIST.  However, it is possible to add a duplicate (dup(2),</dt>
+<dd>dup2(2),  fcntl(2)  F_DUPFD) descriptor to the same epoll instance.  This can be a
+useful technique for filtering events, if the duplicate file descriptors are  reg‐
+istered with different events masks.</dd>
+</dl>
+</div></blockquote>
+<p>Q: 如果你在一个epoll实例中将同一个文件描述符注册再次会发生什么？</p>
+<p>A: 你可能会得到EEXIST。然后可以在同一个epoll实例中添加一个文件描述符的副本（通过调用dup, dup2, fcntl等获得的），
+对文件描述符的副本注册不同的事件，是进行事件过滤的一种有效方法。</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Q2  Can  two  epoll  instances  wait  for the same file descriptor?  If so, are events</dt>
+<dd>reported to both epoll file descriptors?</dd>
+<dt>A2  Yes, and events would be reported to both.  However, careful  programming  may  be</dt>
+<dd>needed to do this correctly.</dd>
+</dl>
+</div></blockquote>
+<p>Q:一个文件描述符可以同时注册到两个epoll实例中吗？如果可以，所有的事件都会被两个epoll实例报告吗？</p>
+<p>A: 是的，所有的事件都会被不同epoll报告。然后，程序中可能需要小心，正确的处理这种情况。</p>
+<blockquote>
+<div><p>Q3  Is the epoll file descriptor itself poll/epoll/selectable?</p>
+<dl class="docutils">
+<dt>A3  Yes.   If  an  epoll  file  descriptor has events waiting then it will indicate as</dt>
+<dd>being readable.</dd>
+</dl>
+</div></blockquote>
+<p>Q: epoll实例的文件描述符可以用于poll/epoll/select吗？</p>
+<p>A: 是的。如果一个epoll文件描述符有事件等待（处理），它将会被标示为可读。</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Q4  What happens if one attempts to put an epoll file descriptor  into  its  own  file</dt>
+<dd>descriptor set?</dd>
+<dt>A4  The  epoll_ctl(2)  call  will  fail  (EINVAL).  However, you can add an epoll file</dt>
+<dd>descriptor inside another epoll file descriptor set.</dd>
+</dl>
+</div></blockquote>
+<p>Q: 如果将一个epoll实例的描述符加入到自身侦听队列中会发生什么？</p>
+<p>A: epoll_ctl将会返回错误（EINVAL）。但是你可以将一个epoll的描述述加入到另一个epoll侦听队列中。</p>
+<blockquote>
+<div><p>Q5  Can I send an epoll file descriptor over a UNIX domain socket to another process?</p>
+<dl class="docutils">
+<dt>A5  Yes, but it does not make sense to do this, since the receiving process would  not</dt>
+<dd>have copies of the file descriptors in the epoll set.</dd>
+</dl>
+</div></blockquote>
+<p>Q: 能否通过Unix域socket将一个epoll描述符传递给另外的进程？</p>
+<p>A: 当然可以，但是这样做没有什么意义，因为接收它的进程没有一份epoll侦听文件描述符的列表。</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Q6  Will closing a file descriptor cause it to be removed from all epoll sets automat‐</dt>
+<dd>ically?</dd>
+<dt>A6  Yes, but be aware of the following point.  A file descriptor is a reference to  an</dt>
+<dd>open  file  description  (see  open(2)).   Whenever a descriptor is duplicated via
+dup(2), dup2(2), fcntl(2) F_DUPFD, or fork(2), a new file descriptor referring  to
+the  same open file description is created.  An open file description continues to
+exist until all file descriptors  referring  to  it  have  been  closed.   A  file
+descriptor is removed from an epoll set only after all the file descriptors refer‐
+ring to the underlying open file description have been closed (or  before  if  the
+descriptor  is  explicitly  removed using epoll_ctl(2) EPOLL_CTL_DEL).  This means
+that even after a file descriptor that is part of an epoll set  has  been  closed,
+events  may  be reported for that file descriptor if other file descriptors refer‐
+ring to the same underlying file description remain open.</dd>
+</dl>
+</div></blockquote>
+<p>Q: 关闭一个文件描述符是否会自动将其从所有epoll中移除？</p>
+<p>A: 是的，但是应该注意以下情况。文件描述符是对一个打开文件的引用，无论什么时候，通过dup, dup2, fcntl, F_DUPFD, fork等复制得到的文件描述符，仍然是对原文件的引用，文件描述将一直可用（存在）直到所有指向该文件文件描述符均关闭。只有当所有指向某个文件的文件描述符全部关闭，位于epoll中该文件的文件描述符才会（自动）移除（或者显式的调用epoll_ctl EPOLL_CTL_DEL移除文件描述符）。这意味着即使一个epoll中的文件描述符关闭了，如果其它引用相同文件的描述符一直打开着，那么该文件的事件仍然会被epoll报告。</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Q7  If more than one event occurs between epoll_wait(2) calls, are  they  combined  or</dt>
+<dd>reported separately?</dd>
+</dl>
+<p>A7  They will be combined.</p>
+</div></blockquote>
+<p>Q:  如果在调用epoll_wait时发生了多个事件，它们是联合报告还是分开独立报告？</p>
+<p>A:  联合在一起报告。</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Q8  Does  an  operation  on a file descriptor affect the already collected but not yet</dt>
+<dd>reported events?</dd>
+<dt>A8  You can do two operations on an existing file descriptor.  Remove would  be  mean‐</dt>
+<dd>ingless for this case.  Modify will reread available I/O.</dd>
+</dl>
+</div></blockquote>
+<p>Q:  对一个文件描述符的操作是否会影响到已经收集但是尚未报告的事件？
+A:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Q9  Do I need to continuously read/write a file descriptor until EAGAIN when using the</dt>
+<dd>EPOLLET flag (edge-triggered behavior) ?</dd>
+<dt>A9  Receiving an event from  epoll_wait(2)  should  suggest  to  you  that  such  file</dt>
+<dd><p class="first">descriptor  is  ready for the requested I/O operation.  You must consider it ready
+until the next (nonblocking) read/write yields EAGAIN.  When and how you will  use
+the file descriptor is entirely up to you.</p>
+<p>For  packet/token-oriented  files  (e.g.,  datagram  socket, terminal in canonical
+mode), the only way to detect the end of the read/write I/O space is  to  continue
+to read/write until EAGAIN.</p>
+<p class="last">For  stream-oriented  files  (e.g., pipe, FIFO, stream socket), the condition that
+the read/write I/O space is exhausted can also be detected by checking the  amount
+of  data  read  from / written to the target file descriptor.  For example, if you
+call read(2) by asking to read a certain amount of  data  and  read(2)  returns  a
+lower  number of bytes, you can be sure of having exhausted the read I/O space for
+the file descriptor.  The same is true when writing using write(2).   (Avoid  this
+latter technique if you cannot guarantee that the monitored file descriptor always
+refers to a stream-oriented file.)</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Q:  在边际触发模式下，是否必须不断的读/写一个文件描述符直到EAGAIN？</p>
+<p>A:  当从epoll_wait收到事件，epoll仅仅是通知你某个文件描述符已经准备好I/O操作，You must consider it ready until the next (nonblocking) read/write yields EAGAIN. 什么时候、怎样使用这个文件描述符完全取决于你。
+对于面向数据包/令牌的文件（如UDP socket，终端），检测读/写I/O空间结尾的唯一办法是不断读/写直到EAGAIN。</p>
+<p>对于面向流的文件（如管理，FIFO，TCP socket），通过计算读写目标文件描述符的数据量可以检测到相应I/O空间耗尽的状况。例如可以调用read读取一定量的数据，read返回一个较小的值，就可以确定当前文件描述符的读IO空间已经空了。写时调用write，前面的例子同样适用。（如果不能保证监控的文件描述符不是一直指向一个面向流的文件，应该避免后面一种技术。）</p>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/epoll_man.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2013, Liu Hui.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

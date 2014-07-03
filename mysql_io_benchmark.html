@@ -1,22 +1,22 @@
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>测试MySQL服务器性能 &mdash; Learning 0.1 documentation</title>
+    <title>测试MySQL服务器性能 &mdash; Learning 0.9 documentation</title>
     
-    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
-        VERSION:     '0.1',
+        URL_ROOT:    './',
+        VERSION:     '0.9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,30 +26,210 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Learning 0.1 documentation" href="index.html" />
-    <link rel="next" title="使用GitHub" href="github.html" />
-    <link rel="prev" title="Learning SQL" href="sql.html" /> 
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Learning 0.9 documentation" href="index.html" />
+    <link rel="next" title="MySQL配置Master-Slave" href="mysql_master_slave.html" />
+    <link rel="prev" title="Learning SQL" href="sql.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
   </head>
   <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="github.html" title="使用GitHub"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="sql.html" title="Learning SQL"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Learning 0.1 documentation</a> &raquo;</li> 
-      </ul>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Learning</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.9</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="learning.html">学习方法与态度</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firefox.html">Speed Up Firefox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bash.html">Learning Bash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tmux.html">tmux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matplot.html">Learning Matplot Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gnuplot.html">Introduce to the GNUPlot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">使用GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gentoo.html">Gentoo点滴</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freebsd.html">FreeBSD点滴</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datamining.html">学习数据挖掘</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rpm.html">RPM软件包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vim.html">VIM Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="php.html">PHP点滴</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nginx_directive.html">Nginx指令介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mediawiki.html">MediaWiki点滴</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker.html">docker使用小记</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mail.html">邮件系统-Postfix, Dovecot, MySQL和Postfixadmin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lvm.html">LVM基础知识</a></li>
+<li class="toctree-l1"><a class="reference internal" href="samba_ads.html">samba集成Active Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="samba_basic.html">Samba</a></li>
+<li class="toctree-l1"><a class="reference internal" href="disk_quota.html">磁盘配额管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yslow.html">Best Practices for Speeding Up Your Web Site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="http_header.html">HTTP Header</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">测试MySQL服务器性能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_master_slave.html">MySQL配置Master-Slave</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_high_availability.html">MySQL的高可用方案（一）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_privileges.html">MySQL权限管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_backup.html">MySQL数据库的备份</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mongodb.html">MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_logs.html">MySQL日志相关服务器变量</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_optimize.html">MySQL优化-《高性能MySQL》笔记</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_tuning.html">MySQL通用调优原则</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_key.html">MySQL中的索引-读书笔记</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_status.html">MySQL服务器状态</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_replication.html">MySQL复制</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="secure_task.html">运维常用工具</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tcp-wrappers.html">简易防火墙TCP-Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selinux.html">探索SELinux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intrusion.html">入侵检测与响应</a></li>
+<li class="toctree-l1"><a class="reference internal" href="penetration-testing.html">渗透测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snort.html">入侵检测工具－Snort</a></li>
+<li class="toctree-l1"><a class="reference internal" href="openvas.html">学习弱点扫描工具-openVAS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jail.html">如何让特定用户通过SSH登陆后自动chroot？</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logfilter.html">Apache日志过滤－是否可以用来预防DDOS</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="zabbix.html">配置Zabbix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="net-snmp.html">Net-SNMP使用心得</a></li>
+<li class="toctree-l1"><a class="reference internal" href="puppet.html">配置管理工具-Puppet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="foreman.html">Nginx+Foreman+Passenger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nagios.html">监控工具-Nagios</a></li>
+<li class="toctree-l1"><a class="reference internal" href="proc.html">文件系统/proc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="jenkins.html">赤兔项目持续集成系统－Jenkins CI部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="svn.html">SVN Q/A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="svn_mirror.html">SVN仓库安全之镜像备份</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="sscanf.html">一个字符引发的问题 - sscanf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unicode.html">折磨人的字符编码问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spider.html">爬虫框架 - scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pymysql.html">Python-MySQL使用心得</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_network.html">Python网络库的使用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_evolution.html">Code Evolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
+<li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
+<li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
+<li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">测试MySQL服务器性能</a><ul>
+<li><a class="reference internal" href="#id1">测试的目的</a></li>
+<li><a class="reference internal" href="#id2">工具</a><ul>
+<li><a class="reference internal" href="#iostat">命令<tt class="docutils literal"><span class="pre">iostat</span></tt>说明</a><ul>
+<li><a class="reference internal" href="#id4">参数说明</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mysqlslap">命令mysqlslap说明</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id6">低并发时的性能</a></li>
+<li><a class="reference internal" href="#id7">高并发时的性能</a></li>
+<li><a class="reference internal" href="#id8">附录</a><ul>
+<li><a class="reference internal" href="#id9">衡量性能的指标</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id10">参考资料</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="sql.html" title="Previous Chapter: Learning SQL"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; Learning SQL</span>
+    </a>
+  </li>
+  <li>
+    <a href="mysql_master_slave.html" title="Next Chapter: MySQL配置Master-Slave"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">MySQL配置Master-Sl... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
     </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
 <li><a class="reference internal" href="#">测试MySQL服务器性能</a><ul>
 <li><a class="reference internal" href="#id1">测试的目的</a></li>
 <li><a class="reference internal" href="#id2">工具</a><ul>
@@ -71,38 +251,21 @@
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="sql.html"
-                        title="previous chapter">Learning SQL</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="github.html"
-                        title="next chapter">使用GitHub</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/mysql_io_benchmark.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
+<div id="sourcelink">
+  <a href="_sources/mysql_io_benchmark.txt"
+     rel="nofollow">Source</a>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<form action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
         </div>
       </div>
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
-            
+    <div class="col-md-9">
+      
   <div class="section" id="mysql">
 <h1>测试MySQL服务器性能<a class="headerlink" href="#mysql" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
@@ -248,29 +411,28 @@ Server不会启用多个进程并行的执行请求。在其它不同并发级�
 </div>
 
 
-          </div>
-        </div>
-      </div>
-      <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="github.html" title="使用GitHub"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="sql.html" title="Learning SQL"
-             >previous</a> |</li>
-        <li><a href="index.html">Learning 0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
-        &copy; Copyright 2013, Liu Hui.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
-    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/mysql_io_benchmark.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2013, Liu Hui.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+    </p>
+  </div>
+</footer>
   </body>
 </html>

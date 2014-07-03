@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Python网络库的使用 &mdash; Learning 0.9 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.9',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Learning 0.9 documentation" href="index.html" />
+    <link rel="next" title="Code Evolution" href="code_evolution.html" />
+    <link rel="prev" title="Python-MySQL使用心得" href="pymysql.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Learning</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.9</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="learning.html">学习方法与态度</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firefox.html">Speed Up Firefox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bash.html">Learning Bash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tmux.html">tmux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matplot.html">Learning Matplot Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gnuplot.html">Introduce to the GNUPlot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">使用GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gentoo.html">Gentoo点滴</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freebsd.html">FreeBSD点滴</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datamining.html">学习数据挖掘</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rpm.html">RPM软件包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vim.html">VIM Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="php.html">PHP点滴</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nginx_directive.html">Nginx指令介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mediawiki.html">MediaWiki点滴</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker.html">docker使用小记</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mail.html">邮件系统-Postfix, Dovecot, MySQL和Postfixadmin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lvm.html">LVM基础知识</a></li>
+<li class="toctree-l1"><a class="reference internal" href="samba_ads.html">samba集成Active Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="samba_basic.html">Samba</a></li>
+<li class="toctree-l1"><a class="reference internal" href="disk_quota.html">磁盘配额管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yslow.html">Best Practices for Speeding Up Your Web Site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="http_header.html">HTTP Header</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_io_benchmark.html">测试MySQL服务器性能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_master_slave.html">MySQL配置Master-Slave</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_high_availability.html">MySQL的高可用方案（一）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_privileges.html">MySQL权限管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_backup.html">MySQL数据库的备份</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mongodb.html">MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_logs.html">MySQL日志相关服务器变量</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_optimize.html">MySQL优化-《高性能MySQL》笔记</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_tuning.html">MySQL通用调优原则</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_key.html">MySQL中的索引-读书笔记</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_status.html">MySQL服务器状态</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_replication.html">MySQL复制</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="secure_task.html">运维常用工具</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tcp-wrappers.html">简易防火墙TCP-Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selinux.html">探索SELinux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intrusion.html">入侵检测与响应</a></li>
+<li class="toctree-l1"><a class="reference internal" href="penetration-testing.html">渗透测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snort.html">入侵检测工具－Snort</a></li>
+<li class="toctree-l1"><a class="reference internal" href="openvas.html">学习弱点扫描工具-openVAS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jail.html">如何让特定用户通过SSH登陆后自动chroot？</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logfilter.html">Apache日志过滤－是否可以用来预防DDOS</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="zabbix.html">配置Zabbix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="net-snmp.html">Net-SNMP使用心得</a></li>
+<li class="toctree-l1"><a class="reference internal" href="puppet.html">配置管理工具-Puppet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="foreman.html">Nginx+Foreman+Passenger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nagios.html">监控工具-Nagios</a></li>
+<li class="toctree-l1"><a class="reference internal" href="proc.html">文件系统/proc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="jenkins.html">赤兔项目持续集成系统－Jenkins CI部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="svn.html">SVN Q/A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="svn_mirror.html">SVN仓库安全之镜像备份</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="sscanf.html">一个字符引发的问题 - sscanf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unicode.html">折磨人的字符编码问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spider.html">爬虫框架 - scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pymysql.html">Python-MySQL使用心得</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Python网络库的使用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_evolution.html">Code Evolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
+<li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
+<li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
+<li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Python网络库的使用</a><ul>
+<li><a class="reference internal" href="#httppost-get">HTTP的POST, GET方法</a></li>
+<li><a class="reference internal" href="#id1">参考说明</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="pymysql.html" title="Previous Chapter: Python-MySQL使用心得"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; Python-MySQL使用心得</span>
+    </a>
+  </li>
+  <li>
+    <a href="code_evolution.html" title="Next Chapter: Code Evolution"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Code Evolution &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li><a class="reference internal" href="#">Python网络库的使用</a><ul>
+<li><a class="reference internal" href="#httppost-get">HTTP的POST, GET方法</a></li>
+<li><a class="reference internal" href="#id1">参考说明</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="sourcelink">
+  <a href="_sources/python_network.txt"
+     rel="nofollow">Source</a>
+</div>
+<form action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-9">
+      
+  <div class="section" id="python">
+<h1>Python网络库的使用<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="httppost-get">
+<h2>HTTP的POST, GET方法<a class="headerlink" href="#httppost-get" title="Permalink to this headline">¶</a></h2>
+<p>HTTP常用于向服务端发送数据的方法是：<tt class="docutils literal"><span class="pre">POST</span></tt>和<tt class="docutils literal"><span class="pre">GET</span></tt>模拟表单提交数据，Python库<tt class="docutils literal"><span class="pre">urllib</span></tt>中已经有现成的函数可以直接调用。</p>
+<ul>
+<li><p class="first">利用<tt class="docutils literal"><span class="pre">GET</span></tt>方法发送数据：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">urllib</span>
+<span class="n">params</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">({</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;hello&#39;</span><span class="p">,</span> <span class="s">&#39;passwd&#39;</span><span class="p">:</span><span class="s">&#39;world&#39;</span><span class="p">})</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;http://www.example.com/login?</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">read</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">使用<tt class="docutils literal"><span class="pre">POST</span></tt>方法发送数据：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">urllib</span>
+<span class="n">params</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">({</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;hello&#39;</span><span class="p">,</span> <span class="s">&#39;passwd&#39;</span><span class="p">:</span><span class="s">&#39;world&#39;</span><span class="p">})</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;http://www.example.com/login?</span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">read</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>上面几乎完成一样，只是调用<tt class="docutils literal"><span class="pre">urllib.urlopen</span></tt>时使用的参数不一样而已。</p>
+<p>下面是一个QQ帐号的钓鱼网站，使用循环POST不断向其发送伪造的数据：</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="mf">23.80</span><span class="o">.</span><span class="mf">192.20</span><span class="o">/</span><span class="mi">37</span><span class="o">/</span><span class="n">qq</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="mi">4</span><span class="o">/</span>
+
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">urllib</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">strSample</span> <span class="o">=</span> <span class="s">&#39;abcdefghijklmnopqrstuvwxyz1234567890_@#$-&#39;</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">99999999</span><span class="p">):</span>
+    <span class="n">ip</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%d</span><span class="s">.</span><span class="si">%d</span><span class="s">.</span><span class="si">%d</span><span class="s">.</span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">254</span><span class="p">),</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">254</span><span class="p">),</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">254</span><span class="p">),</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">254</span><span class="p">))</span>
+    <span class="n">qq</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1234567</span><span class="p">,</span> <span class="mi">12345678900</span><span class="p">)</span> <span class="n">passLen</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">16</span><span class="p">)</span>
+
+    <span class="n">passwd</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">strSample</span><span class="p">,</span> <span class="n">passLen</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&quot;ip&quot;</span><span class="p">:</span> <span class="n">ip</span><span class="p">,</span>
+                <span class="s">&quot;qq&quot;</span><span class="p">:</span> <span class="n">qq</span><span class="p">,</span>
+                <span class="s">&quot;mima&quot;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">passwd</span><span class="p">)</span>
+            <span class="p">}</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://23.80.192.20/37/%23add7.asp&#39;</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">html</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="id1">
+<h2>参考说明<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://docs.python.org">http://docs.python.org</a></p>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/python_network.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2013, Liu Hui.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

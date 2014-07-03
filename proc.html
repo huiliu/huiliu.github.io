@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>文件系统/proc &mdash; Learning 0.9 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.9',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Learning 0.9 documentation" href="index.html" />
+    <link rel="next" title="赤兔项目持续集成系统－Jenkins CI部署" href="jenkins.html" />
+    <link rel="prev" title="监控工具-Nagios" href="nagios.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Learning</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.9</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="learning.html">学习方法与态度</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firefox.html">Speed Up Firefox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bash.html">Learning Bash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tmux.html">tmux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matplot.html">Learning Matplot Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gnuplot.html">Introduce to the GNUPlot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">使用GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gentoo.html">Gentoo点滴</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freebsd.html">FreeBSD点滴</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datamining.html">学习数据挖掘</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rpm.html">RPM软件包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vim.html">VIM Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="php.html">PHP点滴</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nginx_directive.html">Nginx指令介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mediawiki.html">MediaWiki点滴</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker.html">docker使用小记</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mail.html">邮件系统-Postfix, Dovecot, MySQL和Postfixadmin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lvm.html">LVM基础知识</a></li>
+<li class="toctree-l1"><a class="reference internal" href="samba_ads.html">samba集成Active Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="samba_basic.html">Samba</a></li>
+<li class="toctree-l1"><a class="reference internal" href="disk_quota.html">磁盘配额管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yslow.html">Best Practices for Speeding Up Your Web Site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="http_header.html">HTTP Header</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_io_benchmark.html">测试MySQL服务器性能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_master_slave.html">MySQL配置Master-Slave</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_high_availability.html">MySQL的高可用方案（一）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_privileges.html">MySQL权限管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_backup.html">MySQL数据库的备份</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mongodb.html">MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_logs.html">MySQL日志相关服务器变量</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_optimize.html">MySQL优化-《高性能MySQL》笔记</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_tuning.html">MySQL通用调优原则</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_key.html">MySQL中的索引-读书笔记</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_status.html">MySQL服务器状态</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_replication.html">MySQL复制</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="secure_task.html">运维常用工具</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tcp-wrappers.html">简易防火墙TCP-Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selinux.html">探索SELinux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intrusion.html">入侵检测与响应</a></li>
+<li class="toctree-l1"><a class="reference internal" href="penetration-testing.html">渗透测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snort.html">入侵检测工具－Snort</a></li>
+<li class="toctree-l1"><a class="reference internal" href="openvas.html">学习弱点扫描工具-openVAS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jail.html">如何让特定用户通过SSH登陆后自动chroot？</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logfilter.html">Apache日志过滤－是否可以用来预防DDOS</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="zabbix.html">配置Zabbix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="net-snmp.html">Net-SNMP使用心得</a></li>
+<li class="toctree-l1"><a class="reference internal" href="puppet.html">配置管理工具-Puppet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="foreman.html">Nginx+Foreman+Passenger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nagios.html">监控工具-Nagios</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">文件系统/proc</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="jenkins.html">赤兔项目持续集成系统－Jenkins CI部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="svn.html">SVN Q/A</a></li>
+<li class="toctree-l1"><a class="reference internal" href="svn_mirror.html">SVN仓库安全之镜像备份</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="sscanf.html">一个字符引发的问题 - sscanf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unicode.html">折磨人的字符编码问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spider.html">爬虫框架 - scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pymysql.html">Python-MySQL使用心得</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_network.html">Python网络库的使用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_evolution.html">Code Evolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
+<li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
+<li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
+<li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">文件系统/proc</a><ul>
+<li><a class="reference internal" href="#proc-stat"><tt class="docutils literal"><span class="pre">/proc/stat</span></tt></a></li>
+<li><a class="reference internal" href="#proc-uptime"><tt class="docutils literal"><span class="pre">/proc/uptime</span></tt></a></li>
+<li><a class="reference internal" href="#proc-loadavg"><tt class="docutils literal"><span class="pre">/proc/loadavg</span></tt></a></li>
+<li><a class="reference internal" href="#proc-diskstats"><tt class="docutils literal"><span class="pre">/proc/diskstats</span></tt></a></li>
+<li><a class="reference internal" href="#proc-meminfo"><tt class="docutils literal"><span class="pre">/proc/meminfo</span></tt></a></li>
+<li><a class="reference internal" href="#proc-partitions"><tt class="docutils literal"><span class="pre">/proc/partitions</span></tt></a></li>
+<li><a class="reference internal" href="#proc-cpuinfo"><tt class="docutils literal"><span class="pre">/proc/cpuinfo</span></tt></a></li>
+<li><a class="reference internal" href="#proc-pid"><tt class="docutils literal"><span class="pre">/proc/[pid]</span></tt></a><ul>
+<li><a class="reference internal" href="#cmdline"><tt class="docutils literal"><span class="pre">cmdline</span></tt></a></li>
+<li><a class="reference internal" href="#cwd"><tt class="docutils literal"><span class="pre">cwd</span></tt></a></li>
+<li><a class="reference internal" href="#environ"><tt class="docutils literal"><span class="pre">environ</span></tt></a></li>
+<li><a class="reference internal" href="#exe"><tt class="docutils literal"><span class="pre">exe</span></tt></a></li>
+<li><a class="reference internal" href="#io"><tt class="docutils literal"><span class="pre">io</span></tt></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id1">参考资源</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="nagios.html" title="Previous Chapter: 监控工具-Nagios"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; 监控工具-Nagios</span>
+    </a>
+  </li>
+  <li>
+    <a href="jenkins.html" title="Next Chapter: 赤兔项目持续集成系统－Jenkins CI部署"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">赤兔项目持续集成系统－Jenki... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li><a class="reference internal" href="#">文件系统/proc</a><ul>
+<li><a class="reference internal" href="#proc-stat"><tt class="docutils literal"><span class="pre">/proc/stat</span></tt></a></li>
+<li><a class="reference internal" href="#proc-uptime"><tt class="docutils literal"><span class="pre">/proc/uptime</span></tt></a></li>
+<li><a class="reference internal" href="#proc-loadavg"><tt class="docutils literal"><span class="pre">/proc/loadavg</span></tt></a></li>
+<li><a class="reference internal" href="#proc-diskstats"><tt class="docutils literal"><span class="pre">/proc/diskstats</span></tt></a></li>
+<li><a class="reference internal" href="#proc-meminfo"><tt class="docutils literal"><span class="pre">/proc/meminfo</span></tt></a></li>
+<li><a class="reference internal" href="#proc-partitions"><tt class="docutils literal"><span class="pre">/proc/partitions</span></tt></a></li>
+<li><a class="reference internal" href="#proc-cpuinfo"><tt class="docutils literal"><span class="pre">/proc/cpuinfo</span></tt></a></li>
+<li><a class="reference internal" href="#proc-pid"><tt class="docutils literal"><span class="pre">/proc/[pid]</span></tt></a><ul>
+<li><a class="reference internal" href="#cmdline"><tt class="docutils literal"><span class="pre">cmdline</span></tt></a></li>
+<li><a class="reference internal" href="#cwd"><tt class="docutils literal"><span class="pre">cwd</span></tt></a></li>
+<li><a class="reference internal" href="#environ"><tt class="docutils literal"><span class="pre">environ</span></tt></a></li>
+<li><a class="reference internal" href="#exe"><tt class="docutils literal"><span class="pre">exe</span></tt></a></li>
+<li><a class="reference internal" href="#io"><tt class="docutils literal"><span class="pre">io</span></tt></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id1">参考资源</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="sourcelink">
+  <a href="_sources/proc.txt"
+     rel="nofollow">Source</a>
+</div>
+<form action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-9">
+      
+  <div class="section" id="proc">
+<h1>文件系统/proc<a class="headerlink" href="#proc" title="Permalink to this headline">¶</a></h1>
+<p><tt class="docutils literal"><span class="pre">man</span> <span class="pre">proc</span></tt>可以查看<tt class="docutils literal"><span class="pre">/proc</span></tt>下文件的介绍。部分详细的信息在<tt class="docutils literal"><span class="pre">Document/</span></tt>
+下的文档。</p>
+<div class="section" id="proc-stat">
+<h2><tt class="docutils literal"><span class="pre">/proc/stat</span></tt><a class="headerlink" href="#proc-stat" title="Permalink to this headline">¶</a></h2>
+<p>内容如下：</p>
+<div class="highlight-text"><div class="highlight"><pre>cpu  2303587 581 429836 17770999 23613 6 3208 0 0 0
+cpu0 295930 14 54832 2211637 3243 0 460 0 0 0
+cpu1 290937 7 53366 2219764 2343 0 339 0 0 0
+cpu2 286404 398 54243 2222236 3039 0 400 0 0 0
+cpu3 289395 56 53009 2221468 2625 0 355 0 0 0
+cpu4 287492 65 54035 2221863 2796 0 389 0 0 0
+cpu5 283755 12 53378 2226847 2756 0 352 0 0 0
+cpu6 284510 12 54328 2223049 3263 0 390 0 0 0
+cpu7 285162 13 52642 2224133 3546 1 521 0 0 0
+intr 90553713 131 3 0 0 0 0 0 1 1 0 0 0 3 0 0 0 2263 3 172382 258726 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 69 2048202 1465341 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ctxt 114753645
+btime 1395311332
+processes 527044
+procs_running 2
+procs_blocked 0
+softirq 53396993 13 36920330 4298 2049696 258348 0 182581 1762075 72888 12146764
+</pre></div>
+</div>
+</div>
+<div class="section" id="proc-uptime">
+<h2><tt class="docutils literal"><span class="pre">/proc/uptime</span></tt><a class="headerlink" href="#proc-uptime" title="Permalink to this headline">¶</a></h2>
+<p>内容如下：</p>
+<div class="highlight-text"><div class="highlight"><pre>25864.56 179317.80
+</pre></div>
+</div>
+<ul class="simple">
+<li>第一个字段：系统启动时间</li>
+<li>第二个字段：CPU空闲时间，所有CPU的空闲时间之和</li>
+</ul>
+</div>
+<div class="section" id="proc-loadavg">
+<h2><tt class="docutils literal"><span class="pre">/proc/loadavg</span></tt><a class="headerlink" href="#proc-loadavg" title="Permalink to this headline">¶</a></h2>
+<p>内容如下：</p>
+<div class="highlight-text"><div class="highlight"><pre>0.17 0.45 1.85 3/431 13306
+</pre></div>
+</div>
+<p>前三个字段分别表示系统在1, 5, 15分钟内的负载，负载是根据进程队列和磁盘IO等待计算得到。其值与<tt class="docutils literal"><span class="pre">uptime</span></tt>输出的平均负载值。</p>
+<p>第四个字段，“<tt class="docutils literal"><span class="pre">/</span></tt>”前面的数字表示当前正在运行的进程，线程数；后面的数字表示当前内核调度队列中的进程数。</p>
+<p>最后一个字段为最近创建进程的PID。</p>
+</div>
+<div class="section" id="proc-diskstats">
+<h2><tt class="docutils literal"><span class="pre">/proc/diskstats</span></tt><a class="headerlink" href="#proc-diskstats" title="Permalink to this headline">¶</a></h2>
+<p>内容如下：</p>
+<div class="highlight-text"><div class="highlight"><pre>  1       0 ram0 0 0 0 0 0 0 0 0 0 0 0
+  1       1 ram1 0 0 0 0 0 0 0 0 0 0 0
+  1       2 ram2 0 0 0 0 0 0 0 0 0 0 0
+  1       3 ram3 0 0 0 0 0 0 0 0 0 0 0
+  1       4 ram4 0 0 0 0 0 0 0 0 0 0 0
+  1       5 ram5 0 0 0 0 0 0 0 0 0 0 0
+  1       6 ram6 0 0 0 0 0 0 0 0 0 0 0
+  1       7 ram7 0 0 0 0 0 0 0 0 0 0 0
+  1       8 ram8 0 0 0 0 0 0 0 0 0 0 0
+  1       9 ram9 0 0 0 0 0 0 0 0 0 0 0
+  1      10 ram10 0 0 0 0 0 0 0 0 0 0 0
+  1      11 ram11 0 0 0 0 0 0 0 0 0 0 0
+  1      12 ram12 0 0 0 0 0 0 0 0 0 0 0
+  1      13 ram13 0 0 0 0 0 0 0 0 0 0 0
+  1      14 ram14 0 0 0 0 0 0 0 0 0 0 0
+  1      15 ram15 0 0 0 0 0 0 0 0 0 0 0
+  7       0 loop0 0 0 0 0 0 0 0 0 0 0 0
+  7       1 loop1 0 0 0 0 0 0 0 0 0 0 0
+  7       2 loop2 0 0 0 0 0 0 0 0 0 0 0
+  7       3 loop3 0 0 0 0 0 0 0 0 0 0 0
+  7       4 loop4 0 0 0 0 0 0 0 0 0 0 0
+  7       5 loop5 0 0 0 0 0 0 0 0 0 0 0
+  7       6 loop6 0 0 0 0 0 0 0 0 0 0 0
+  7       7 loop7 0 0 0 0 0 0 0 0 0 0 0
+  8       0 sda 164471 79897 3068268 487297 97761 384460 18959662 6259738 0 300411 6760070
+  8       1 sda1 126 110 1888 746 0 0 0 0 0 719 743
+  8       2 sda2 119 110 1840 836 0 0 0 0 0 729 835
+  8       3 sda3 231 6955 9560 2234 0 0 0 0 0 1692 2234
+  8       4 sda4 2 0 20 199 0 0 0 0 0 199 199
+  8       5 sda5 232 6969 9560 1532 0 0 0 0 0 1386 1531
+  8       6 sda6 240 6984 9632 1228 0 0 0 0 0 1143 1228
+  8       7 sda7 224 505 2942 1614 23 42 142 171 0 1586 1784
+  8       8 sda8 81930 54409 1278120 121542 78503 380665 18713064 4852751 0 135538 4987423
+  8       9 sda9 81100 3425 1750898 355434 17764 3753 246456 1378816 0 159504 1734162
+  8      10 sda10 152 320 2008 919 0 0 0 0 0 881 918
+  8      16 sdb 380 336 5728 494 0 0 0 0 0 433 493
+  8      17 sdb1 198 216 3312 168 0 0 0 0 0 163 168
+  8      18 sdb2 136 110 1968 199 0 0 0 0 0 195 199
+253       0 dm-0 130 0 1040 588 0 0 0 0 0 530 588
+253       1 dm-1 130 0 1040 849 0 0 0 0 0 720 849
+253       2 dm-2 163 0 1304 1532 0 0 0 0 0 469 1532
+253       3 dm-3 442 0 3888 1336 10 0 64 907 0 1999 2243
+253       4 dm-4 135282 0 1269104 227359 474569 0 18713000 63707752 0 157087 63945996
+253       5 dm-5 130 0 1040 1613 0 0 0 0 0 308 1613
+</pre></div>
+</div>
+</div>
+<div class="section" id="proc-meminfo">
+<h2><tt class="docutils literal"><span class="pre">/proc/meminfo</span></tt><a class="headerlink" href="#proc-meminfo" title="Permalink to this headline">¶</a></h2>
+<p>内容如下：</p>
+<div class="highlight-text"><div class="highlight"><pre>MemTotal:       12265380 kB
+MemFree:          991860 kB
+Buffers:          630796 kB
+Cached:          8175496 kB
+SwapCached:            0 kB
+Active:          6199424 kB
+Inactive:        3680280 kB
+Active(anon):    1245952 kB
+Inactive(anon):   127296 kB
+Active(file):    4953472 kB
+Inactive(file):  3552984 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:       2047996 kB
+SwapFree:        2047996 kB
+Dirty:               240 kB
+Writeback:             0 kB
+AnonPages:       1073496 kB
+Mapped:           330912 kB
+Shmem:            299848 kB
+Slab:            1114644 kB
+SReclaimable:    1016448 kB
+SUnreclaim:        98196 kB
+KernelStack:        3504 kB
+PageTables:        20868 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     8180684 kB
+Committed_AS:    3424504 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:      312904 kB
+VmallocChunk:   34359418620 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+DirectMap4k:      154760 kB
+DirectMap2M:     3995648 kB
+DirectMap1G:     8388608 kB
+</pre></div>
+</div>
+</div>
+<div class="section" id="proc-partitions">
+<h2><tt class="docutils literal"><span class="pre">/proc/partitions</span></tt><a class="headerlink" href="#proc-partitions" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-text"><div class="highlight"><pre>major minor  #blocks  name
+
+   8        0 1953514584 sda
+   8        1     102400 sda1
+   8        2   20377600 sda2
+   8        3  102400000 sda3
+   8        4          1 sda4
+   8        5  102400000 sda5
+   8        6  102400000 sda6
+   8        7     102400 sda7
+   8        8  307200000 sda8
+   8        9   29294496 sda9
+   8       10  200001186 sda10
+   8       16  312571224 sdb
+   8       17     131072 sdb1
+   8       18  312438784 sdb2
+ 253        0    5120000 dm-0
+ 253        1   10240000 dm-1
+ 253        2    2048000 dm-2
+ 253        3   52428800 dm-3
+ 253        4   52428800 dm-4
+ 253        5   10485760 dm-5
+</pre></div>
+</div>
+</div>
+<div class="section" id="proc-cpuinfo">
+<h2><tt class="docutils literal"><span class="pre">/proc/cpuinfo</span></tt><a class="headerlink" href="#proc-cpuinfo" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-text"><div class="highlight"><pre>processor   : 0
+vendor_id   : AuthenticAMD
+cpu family  : 21
+model               : 2
+model name  : AMD FX(tm)-8320 Eight-Core Processor
+stepping    : 0
+microcode   : 0x6000817
+cpu MHz             : 1400.000
+cache size  : 2048 KB
+physical id : 0
+siblings    : 8
+core id             : 0
+cpu cores   : 4
+apicid              : 16
+initial apicid      : 0
+fpu         : yes
+fpu_exception       : yes
+cpuid level : 13
+wp          : yes
+flags               : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc extd_apicid aperfmperf pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 popcnt aes xsave avx f16c lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs xop skinit wdt lwp fma4 tce nodeid_msr tbm topoext perfctr_core perfctr_nb arat cpb hw_pstate npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold bmi1
+bogomips    : 6984.54
+TLB size    : 1536 4K pages
+clflush size        : 64
+cache_alignment     : 64
+address sizes       : 48 bits physical, 48 bits virtual
+power management: ts ttp tm 100mhzsteps hwpstate cpb eff_freq_ro
+
+processor   : 1
+vendor_id   : AuthenticAMD
+cpu family  : 21
+model               : 2
+model name  : AMD FX(tm)-8320 Eight-Core Processor
+stepping    : 0
+microcode   : 0x6000817
+cpu MHz             : 1400.000
+cache size  : 2048 KB
+physical id : 0
+siblings    : 8
+core id             : 1
+cpu cores   : 4
+apicid              : 17
+initial apicid      : 1
+fpu         : yes
+fpu_exception       : yes
+cpuid level : 13
+wp          : yes
+flags               : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc extd_apicid aperfmperf pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 popcnt aes xsave avx f16c lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs xop skinit wdt lwp fma4 tce nodeid_msr tbm topoext perfctr_core perfctr_nb arat cpb hw_pstate npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold bmi1
+bogomips    : 6984.54
+TLB size    : 1536 4K pages
+clflush size        : 64
+cache_alignment     : 64
+address sizes       : 48 bits physical, 48 bits virtual
+power management: ts ttp tm 100mhzsteps hwpstate cpb eff_freq_ro
+</pre></div>
+</div>
+</div>
+<div class="section" id="proc-pid">
+<h2><tt class="docutils literal"><span class="pre">/proc/[pid]</span></tt><a class="headerlink" href="#proc-pid" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cmdline">
+<h3><tt class="docutils literal"><span class="pre">cmdline</span></tt><a class="headerlink" href="#cmdline" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="cwd">
+<h3><tt class="docutils literal"><span class="pre">cwd</span></tt><a class="headerlink" href="#cwd" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="environ">
+<h3><tt class="docutils literal"><span class="pre">environ</span></tt><a class="headerlink" href="#environ" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="exe">
+<h3><tt class="docutils literal"><span class="pre">exe</span></tt><a class="headerlink" href="#exe" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="io">
+<h3><tt class="docutils literal"><span class="pre">io</span></tt><a class="headerlink" href="#io" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>参考资源<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/proc.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2013, Liu Hui.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
