@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="MongoDB" href="mongodb.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -206,9 +213,9 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#myisam">MyISAM表的维护与恢复</a><ul>
-<li><a class="reference internal" href="#myisamchk"><tt class="docutils literal"><span class="pre">myisamchk</span></tt>命令</a><ul>
+<li><a class="reference internal" href="#myisamchk"><code class="docutils literal"><span class="pre">myisamchk</span></code>命令</a><ul>
 <li><a class="reference internal" href="#id23">检查错误</a></li>
-<li><a class="reference internal" href="#id24">修复<tt class="docutils literal"><span class="pre">MyISAM</span></tt>表</a></li>
+<li><a class="reference internal" href="#id24">修复<code class="docutils literal"><span class="pre">MyISAM</span></code>表</a></li>
 <li><a class="reference internal" href="#id25">MyISAM表的优化</a></li>
 </ul>
 </li>
@@ -232,11 +239,11 @@
               
                 
   <li>
-    <a href="mysql_privileges.html" title="Previous Chapter: MySQL权限管理"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; MySQL权限管理</span>
+    <a href="mysql_privileges.html" title="Previous Chapter: MySQL权限管理"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; MySQL权限管理</span>
     </a>
   </li>
   <li>
-    <a href="mongodb.html" title="Next Chapter: MongoDB"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">MongoDB &raquo;</span>
+    <a href="mongodb.html" title="Next Chapter: MongoDB"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">MongoDB &raquo;</span>
     </a>
   </li>
               
@@ -300,9 +307,9 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#myisam">MyISAM表的维护与恢复</a><ul>
-<li><a class="reference internal" href="#myisamchk"><tt class="docutils literal"><span class="pre">myisamchk</span></tt>命令</a><ul>
+<li><a class="reference internal" href="#myisamchk"><code class="docutils literal"><span class="pre">myisamchk</span></code>命令</a><ul>
 <li><a class="reference internal" href="#id23">检查错误</a></li>
-<li><a class="reference internal" href="#id24">修复<tt class="docutils literal"><span class="pre">MyISAM</span></tt>表</a></li>
+<li><a class="reference internal" href="#id24">修复<code class="docutils literal"><span class="pre">MyISAM</span></code>表</a></li>
 <li><a class="reference internal" href="#id25">MyISAM表的优化</a></li>
 </ul>
 </li>
@@ -361,7 +368,7 @@
 </div>
 <div class="section" id="id5">
 <h3>本地备份和远程备份<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
-<p>执行SQL语句<tt class="docutils literal"><span class="pre">SELECT</span> <span class="pre">...</span> <span class="pre">INTO</span> <span class="pre">OUTFILE</span></tt>可以将数据输出到MySQL Server上的某个文件中（无论在本地还是远程执行此语句）。</p>
+<p>执行SQL语句<code class="docutils literal"><span class="pre">SELECT</span> <span class="pre">...</span> <span class="pre">INTO</span> <span class="pre">OUTFILE</span></code>可以将数据输出到MySQL Server上的某个文件中（无论在本地还是远程执行此语句）。</p>
 </div>
 <div class="section" id="id6">
 <h3>快照备份<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
@@ -378,38 +385,38 @@
 <h2>备份方法<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id9">
 <h3>直接备份数据库文件<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
-<p>对于使用<tt class="docutils literal"><span class="pre">MyISAM</span></tt>引擎的数据表，可能通过直接复制其数据文件（<tt class="docutils literal"><span class="pre">*.frm,</span>
-<span class="pre">*.MYD,</span> <span class="pre">*.MYI</span></tt>）来进行备份。为了保证备份时数据不会发生改变，应该停止服务器运行或对相关的数据表进行锁表操作：<a class="footnote-reference" href="#id30" id="id10">[2]</a></p>
+<p>对于使用<code class="docutils literal"><span class="pre">MyISAM</span></code>引擎的数据表，可能通过直接复制其数据文件（<code class="docutils literal"><span class="pre">*.frm,</span>
+<span class="pre">*.MYD,</span> <span class="pre">*.MYI</span></code>）来进行备份。为了保证备份时数据不会发生改变，应该停止服务器运行或对相关的数据表进行锁表操作：<a class="footnote-reference" href="#id30" id="id10">[2]</a></p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="n">FLUSH</span> <span class="n">TABLES</span> <span class="n">tbl_list</span> <span class="k">WITH</span> <span class="k">READ</span> <span class="k">LOCK</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>另外也可以使用工具<tt class="docutils literal"><span class="pre">mysqlhotcopy</span></tt>完成相同的任务。由于存储引擎<tt class="docutils literal"><span class="pre">InnoDB</span></tt>的特性（并不一定并数据存放在相应的数据库目录下，另外即使服务器没有更新硬盘数据，也可能在修改缓存于内存中的数据而没有将其回写到硬盘）,<tt class="docutils literal"><span class="pre">mysqlhotcopy</span></tt>并不适用于使用<tt class="docutils literal"><span class="pre">InnoDB</span></tt>引擎的表进行备份。</p>
+<p>另外也可以使用工具<code class="docutils literal"><span class="pre">mysqlhotcopy</span></code>完成相同的任务。由于存储引擎<code class="docutils literal"><span class="pre">InnoDB</span></code>的特性（并不一定并数据存放在相应的数据库目录下，另外即使服务器没有更新硬盘数据，也可能在修改缓存于内存中的数据而没有将其回写到硬盘）,<code class="docutils literal"><span class="pre">mysqlhotcopy</span></code>并不适用于使用<code class="docutils literal"><span class="pre">InnoDB</span></code>引擎的表进行备份。</p>
 </div>
 <div class="section" id="id11">
 <h3>将数据备份到分隔符文件<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
-<p><tt class="docutils literal"><span class="pre">SELECT</span> <span class="pre">*</span> <span class="pre">INTO</span> <span class="pre">OUTFILE</span> <span class="pre">'file_name'</span> <span class="pre">FROM</span> <span class="pre">tbl_name</span></tt>可以将数据导出到MySQL
-Server上，注意保存文件<tt class="docutils literal"><span class="pre">file_name</span></tt>不能存在（安全方面的考量），另外此方法只能保存数据，不会导出表结构。</p>
-<p>使用命令<tt class="docutils literal"><span class="pre">mysqldump</span></tt>和<tt class="docutils literal"><span class="pre">--tab</span></tt>选项可以完成相同的操作，同时可以导出表结构（包含CREATE TABLE语句）。</p>
-<p>使用<tt class="docutils literal"><span class="pre">LOAD</span> <span class="pre">DATA</span> <span class="pre">INFILE</span></tt>或命令<tt class="docutils literal"><span class="pre">mysqlimport</span></tt>可以将导出的数据恢复至数据库。</p>
+<p><code class="docutils literal"><span class="pre">SELECT</span> <span class="pre">*</span> <span class="pre">INTO</span> <span class="pre">OUTFILE</span> <span class="pre">'file_name'</span> <span class="pre">FROM</span> <span class="pre">tbl_name</span></code>可以将数据导出到MySQL
+Server上，注意保存文件<code class="docutils literal"><span class="pre">file_name</span></code>不能存在（安全方面的考量），另外此方法只能保存数据，不会导出表结构。</p>
+<p>使用命令<code class="docutils literal"><span class="pre">mysqldump</span></code>和<code class="docutils literal"><span class="pre">--tab</span></code>选项可以完成相同的操作，同时可以导出表结构（包含CREATE TABLE语句）。</p>
+<p>使用<code class="docutils literal"><span class="pre">LOAD</span> <span class="pre">DATA</span> <span class="pre">INFILE</span></code>或命令<code class="docutils literal"><span class="pre">mysqlimport</span></code>可以将导出的数据恢复至数据库。</p>
 </div>
 <div class="section" id="id12">
 <h3>增量备份<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
-<p>开启<tt class="docutils literal"><span class="pre">binlog</span></tt>功能后可以对数据库进行增量备份。进行增量备份时，必须首先刷新<tt class="docutils literal"><span class="pre">binlog</span></tt>：<tt class="docutils literal"><span class="pre">FLUSH</span> <span class="pre">LOGS</span></tt>。另外也可以使用命令：<tt class="docutils literal"><span class="pre">mysqldump</span> <span class="pre">--flush-logs</span> <span class="pre">``\</span> <span class="pre">或\</span> <span class="pre">``mysqlimport</span> <span class="pre">--flush-logs</span></tt>。</p>
+<p>开启<code class="docutils literal"><span class="pre">binlog</span></code>功能后可以对数据库进行增量备份。进行增量备份时，必须首先刷新<code class="docutils literal"><span class="pre">binlog</span></code>：<code class="docutils literal"><span class="pre">FLUSH</span> <span class="pre">LOGS</span></code>。另外也可以使用命令：<code class="docutils literal"><span class="pre">mysqldump</span> <span class="pre">--flush-logs</span> <span class="pre">``\</span> <span class="pre">或\</span> <span class="pre">``mysqlimport</span> <span class="pre">--flush-logs</span></code>。</p>
 </div>
 <div class="section" id="id13">
 <h3>使用从库<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="id14">
 <h3>恢复受损表<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
-<p>对于使用<tt class="docutils literal"><span class="pre">MyISAM</span></tt>引擎的表，如果发生损坏，可以使用<tt class="docutils literal"><span class="pre">REPAIR</span> <span class="pre">TABLE</span></tt>或者<tt class="docutils literal"><span class="pre">myisamchk</span> <span class="pre">-r</span></tt>来进行恢复，有99.9%的几率修复数据。</p>
+<p>对于使用<code class="docutils literal"><span class="pre">MyISAM</span></code>引擎的表，如果发生损坏，可以使用<code class="docutils literal"><span class="pre">REPAIR</span> <span class="pre">TABLE</span></code>或者<code class="docutils literal"><span class="pre">myisamchk</span> <span class="pre">-r</span></code>来进行恢复，有99.9%的几率修复数据。</p>
 </div>
 <div class="section" id="id15">
 <h3>使用文件系统快照<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <p>一般可以执行下面步骤：</p>
 <ol class="arabic simple">
-<li>从客户端登陆并执行：<tt class="docutils literal"><span class="pre">FLUSH</span> <span class="pre">TABLES</span> <span class="pre">WITH</span> <span class="pre">READ</span> <span class="pre">LOCK</span></tt></li>
+<li>从客户端登陆并执行：<code class="docutils literal"><span class="pre">FLUSH</span> <span class="pre">TABLES</span> <span class="pre">WITH</span> <span class="pre">READ</span> <span class="pre">LOCK</span></code></li>
 <li>从另外一个Shell执行文件系统快照操作</li>
-<li>从客户端执行解锁：<tt class="docutils literal"><span class="pre">UNLOCK</span> <span class="pre">TABLES</span></tt></li>
+<li>从客户端执行解锁：<code class="docutils literal"><span class="pre">UNLOCK</span> <span class="pre">TABLES</span></code></li>
 <li>将快照文件拷贝备份</li>
 </ol>
 </div>
@@ -417,29 +424,29 @@ Server上，注意保存文件<tt class="docutils literal"><span class="pre">fil
 <div class="section" id="id16">
 <h2>备份策略<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
 <p>一般备份策略是，建立一个完整备份，然后定期进行增量备份。<a class="footnote-reference" href="#id31" id="id17">[3]</a></p>
-<p>对于使用<tt class="docutils literal"><span class="pre">InnoDB</span></tt>引擎的数据表，使用<tt class="docutils literal"><span class="pre">mysqldump</span></tt>进行备份时加上选项<tt class="docutils literal"><span class="pre">--single-transaction</span></tt>可以保证备份时数不会发生变化。对于全部使用<tt class="docutils literal"><span class="pre">INFILE</span></tt>
+<p>对于使用<code class="docutils literal"><span class="pre">InnoDB</span></code>引擎的数据表，使用<code class="docutils literal"><span class="pre">mysqldump</span></code>进行备份时加上选项<code class="docutils literal"><span class="pre">--single-transaction</span></code>可以保证备份时数不会发生变化。对于全部使用<code class="docutils literal"><span class="pre">INFILE</span></code>
 的数据库，可以使用下面命令进行全备份：</p>
 <div class="highlight-bash"><div class="highlight"><pre>mysqldump --single-transaction --all-databases &gt; backup_20140308.sql
 </pre></div>
 </div>
-<p>对非事务型引擎，如<tt class="docutils literal"><span class="pre">MyISAM</span></tt>备份时必须加上读锁以保证备份时数据不会发生变更：</p>
+<p>对非事务型引擎，如<code class="docutils literal"><span class="pre">MyISAM</span></code>备份时必须加上读锁以保证备份时数据不会发生变更：</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="n">FLUSH</span> <span class="n">TABLES</span> <span class="k">WITH</span> <span class="k">READ</span> <span class="k">LOCK</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>注：<em>执行``FLUSH``语句时，如果系统正在执行一个耗时的操作，会短暂阻塞直到完成相关操作</em></p>
-<p>执行增量备份需要MySQL Server开启二进制日志(binlog)功能。开启binlog后，服务器每次重启都会新建一个binlog，并将所有的数据变更写入到binlog中。也可能手动执行<tt class="docutils literal"><span class="pre">FLUSH</span> <span class="pre">LOGS</span></tt>语句刷新binlog，或者执行命令<tt class="docutils literal"><span class="pre">mysqladmin</span> <span class="pre">flush-logs</span></tt>刷新binlog。数据目录下的<tt class="docutils literal"><span class="pre">*.index</span></tt>中包含了当前目录下的所有binlog列表。</p>
-<p><tt class="docutils literal"><span class="pre">mysqldump</span></tt>也有刷新binlog的选项，所有可以使用下面方法来建立一个完整备份：</p>
-<div class="highlight-bash"><div class="highlight"><pre>mysqldump --single-transaction --flush-logs --master-data<span class="o">=</span>2 --all-databases
+<p>执行增量备份需要MySQL Server开启二进制日志(binlog)功能。开启binlog后，服务器每次重启都会新建一个binlog，并将所有的数据变更写入到binlog中。也可能手动执行<code class="docutils literal"><span class="pre">FLUSH</span> <span class="pre">LOGS</span></code>语句刷新binlog，或者执行命令<code class="docutils literal"><span class="pre">mysqladmin</span> <span class="pre">flush-logs</span></code>刷新binlog。数据目录下的<code class="docutils literal"><span class="pre">*.index</span></code>中包含了当前目录下的所有binlog列表。</p>
+<p><code class="docutils literal"><span class="pre">mysqldump</span></code>也有刷新binlog的选项，所有可以使用下面方法来建立一个完整备份：</p>
+<div class="highlight-bash"><div class="highlight"><pre>mysqldump --single-transaction --flush-logs --master-data<span class="o">=</span><span class="m">2</span> --all-databases
 &gt; backup_20140308
 </pre></div>
 </div>
 <p>全备份+增量备份的一个实践是：</p>
 <ol class="arabic simple">
-<li>利用上面的<tt class="docutils literal"><span class="pre">mysqldump</span></tt>命令（带<tt class="docutils literal"><span class="pre">--flush-logs</span></tt>选项）建立一个完整备份;</li>
-<li>定期运行命令<tt class="docutils literal"><span class="pre">mysqladmin</span> <span class="pre">flush-logs</span></tt>以刷新binlog，然后备份相应的binlog即可</li>
+<li>利用上面的<code class="docutils literal"><span class="pre">mysqldump</span></code>命令（带<code class="docutils literal"><span class="pre">--flush-logs</span></code>选项）建立一个完整备份;</li>
+<li>定期运行命令<code class="docutils literal"><span class="pre">mysqladmin</span> <span class="pre">flush-logs</span></code>以刷新binlog，然后备份相应的binlog即可</li>
 </ol>
-<p>对于数据量较大的网站，binlog将占相当大的空间，所以需要定期进行清理。运行SQL语句<tt class="docutils literal"><span class="pre">PURGE</span> <span class="pre">BINARY</span> <span class="pre">LOG</span></tt>或者运行命令<tt class="docutils literal"><span class="pre">mysqldump</span></tt>时加上选项<tt class="docutils literal"><span class="pre">--delete-master-logs</span></tt>也可以删除二进制日志。如果建立了主从同步，在删除主库上的binlog时需要小心，因为binlog的内容可能还没有同步至从库。<tt class="docutils literal"><span class="pre">PURGE</span> <span class="pre">BINARY</span>
-<span class="pre">LOG</span></tt>删除binlog前会执行相关检查。</p>
+<p>对于数据量较大的网站，binlog将占相当大的空间，所以需要定期进行清理。运行SQL语句<code class="docutils literal"><span class="pre">PURGE</span> <span class="pre">BINARY</span> <span class="pre">LOG</span></code>或者运行命令<code class="docutils literal"><span class="pre">mysqldump</span></code>时加上选项<code class="docutils literal"><span class="pre">--delete-master-logs</span></code>也可以删除二进制日志。如果建立了主从同步，在删除主库上的binlog时需要小心，因为binlog的内容可能还没有同步至从库。<code class="docutils literal"><span class="pre">PURGE</span> <span class="pre">BINARY</span>
+<span class="pre">LOG</span></code>删除binlog前会执行相关检查。</p>
 <div class="section" id="id18">
 <h3>从备份恢复数据<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <p>从上面通过全备份+增量备份的备份数据恢复：</p>
@@ -465,50 +472,50 @@ Server上，注意保存文件<tt class="docutils literal"><span class="pre">fil
 <h3>Dumping Data in SQL Format<a class="headerlink" href="#dumping-data-in-sql-format" title="Permalink to this headline">¶</a></h3>
 <p>默认情况下导出数据存储为SQL语句</p>
 <ul>
-<li><p class="first"><tt class="docutils literal"><span class="pre">--all-databases</span> <span class="pre">|</span> <span class="pre">-A</span></tt>    <strong>导出所有数据库</strong></p>
+<li><p class="first"><code class="docutils literal"><span class="pre">--all-databases</span> <span class="pre">|</span> <span class="pre">-A</span></code>    <strong>导出所有数据库</strong></p>
 <div class="highlight-bash"><div class="highlight"><pre>mysqldump --all-databases &gt; dump.sql
 </pre></div>
 </div>
 </li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">--databases</span> <span class="pre">|</span> <span class="pre">-B</span> <span class="pre">db1</span> <span class="pre">db2</span></tt>    <strong>导出指定的数据库</strong></p>
+<li><p class="first"><code class="docutils literal"><span class="pre">--databases</span> <span class="pre">|</span> <span class="pre">-B</span> <span class="pre">db1</span> <span class="pre">db2</span></code>    <strong>导出指定的数据库</strong></p>
 <div class="highlight-bash"><div class="highlight"><pre>mysqldump --databases db1 db2 db3 &gt; dump.sql
 </pre></div>
 </div>
 </li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">--add-drop-database</span></tt> <strong>添加</strong><tt class="docutils literal"><span class="pre">DROP</span> <span class="pre">DATABASE</span></tt><strong>语句</strong></p>
+<li><p class="first"><code class="docutils literal"><span class="pre">--add-drop-database</span></code> <strong>添加</strong><code class="docutils literal"><span class="pre">DROP</span> <span class="pre">DATABASE</span></code><strong>语句</strong></p>
 <div class="highlight-bash"><div class="highlight"><pre>mysqldump --add-drop-database --all-databases &gt; dump.sql
 </pre></div>
 </div>
 </li>
 </ul>
-<p><tt class="docutils literal"><span class="pre">mysqldump</span></tt>使用选项<tt class="docutils literal"><span class="pre">--all-databases,</span> <span class="pre">--databases</span></tt>时，在导出数据时会主动添加<tt class="docutils literal"><span class="pre">CREATE</span> <span class="pre">DATABASE</span></tt>和<tt class="docutils literal"><span class="pre">USE</span></tt>语句，即主动创建相应的数据库。如果需要清除数据库中的原数据，可以增加选项<tt class="docutils literal"><span class="pre">--add-drop-database</span></tt>。</p>
+<p><code class="docutils literal"><span class="pre">mysqldump</span></code>使用选项<code class="docutils literal"><span class="pre">--all-databases,</span> <span class="pre">--databases</span></code>时，在导出数据时会主动添加<code class="docutils literal"><span class="pre">CREATE</span> <span class="pre">DATABASE</span></code>和<code class="docutils literal"><span class="pre">USE</span></code>语句，即主动创建相应的数据库。如果需要清除数据库中的原数据，可以增加选项<code class="docutils literal"><span class="pre">--add-drop-database</span></code>。</p>
 <p>注意导出单个数据库时下面的差异：</p>
 <ol class="arabic simple">
-<li><tt class="docutils literal"><span class="pre">mysqldump</span> <span class="pre">--databases</span> <span class="pre">db1</span> <span class="pre">&gt;</span> <span class="pre">dump_db1.sql</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">mysqldump</span> <span class="pre">db1</span> <span class="pre">&gt;</span> <span class="pre">dump_db1.sql</span></tt></li>
+<li><code class="docutils literal"><span class="pre">mysqldump</span> <span class="pre">--databases</span> <span class="pre">db1</span> <span class="pre">&gt;</span> <span class="pre">dump_db1.sql</span></code></li>
+<li><code class="docutils literal"><span class="pre">mysqldump</span> <span class="pre">db1</span> <span class="pre">&gt;</span> <span class="pre">dump_db1.sql</span></code></li>
 </ol>
-<p>方法一会在导出数据中添加<tt class="docutils literal"><span class="pre">CREATE</span> <span class="pre">DATABASE</span></tt>语句；而方法二则不会。方法二导出的数据可以方便的导入到与原数据库不同名的数据库。</p>
-<p>恢复由<tt class="docutils literal"><span class="pre">mysqldump</span></tt>导出的数据可以直接运行<tt class="docutils literal"><span class="pre">mysql</span> <span class="pre">&lt;</span> <span class="pre">dump.sql</span></tt>或者<tt class="docutils literal"><span class="pre">mysql&gt;</span> <span class="pre">source</span> <span class="pre">dump.sql</span></tt>来导入数据。导入数据时需要注意的是是否包含<tt class="docutils literal"><span class="pre">CREATE</span>
-<span class="pre">DATABASE</span></tt>语句，需要根据需要进行一些额外的操作。</p>
+<p>方法一会在导出数据中添加<code class="docutils literal"><span class="pre">CREATE</span> <span class="pre">DATABASE</span></code>语句；而方法二则不会。方法二导出的数据可以方便的导入到与原数据库不同名的数据库。</p>
+<p>恢复由<code class="docutils literal"><span class="pre">mysqldump</span></code>导出的数据可以直接运行<code class="docutils literal"><span class="pre">mysql</span> <span class="pre">&lt;</span> <span class="pre">dump.sql</span></code>或者<code class="docutils literal"><span class="pre">mysql&gt;</span> <span class="pre">source</span> <span class="pre">dump.sql</span></code>来导入数据。导入数据时需要注意的是是否包含<code class="docutils literal"><span class="pre">CREATE</span>
+<span class="pre">DATABASE</span></code>语句，需要根据需要进行一些额外的操作。</p>
 </div>
 <div class="section" id="dumping-data-in-delimited-text-format">
 <h3>Dumping Data in Delimited-Text Format<a class="headerlink" href="#dumping-data-in-delimited-text-format" title="Permalink to this headline">¶</a></h3>
-<p>命令<tt class="docutils literal"><span class="pre">mysqldump</span></tt>使用选项<tt class="docutils literal"><span class="pre">--tab=dir_name</span></tt>可以将指定的数据库导出为分隔符格式的数据文件，存放于目录<tt class="docutils literal"><span class="pre">dir_name</span></tt>中的两个文件：<strong>tbl_name.txt,
-tbl_name.sql</strong>。txt文件中存放的是表中的数据；sql文件中表结构信息（<tt class="docutils literal"><span class="pre">CREATE</span>
-<span class="pre">TABLE</span></tt>语句等）。如：</p>
+<p>命令<code class="docutils literal"><span class="pre">mysqldump</span></code>使用选项<code class="docutils literal"><span class="pre">--tab=dir_name</span></code>可以将指定的数据库导出为分隔符格式的数据文件，存放于目录<code class="docutils literal"><span class="pre">dir_name</span></code>中的两个文件：<strong>tbl_name.txt,
+tbl_name.sql</strong>。txt文件中存放的是表中的数据；sql文件中表结构信息（<code class="docutils literal"><span class="pre">CREATE</span>
+<span class="pre">TABLE</span></code>语句等）。如：</p>
 <div class="highlight-bash"><div class="highlight"><pre>shell&gt; mysqldump --tab<span class="o">=</span>/tmp db1
 </pre></div>
 </div>
-<p>上面的命令将数据库<strong>db1</strong>中的所有表导出到<em>/tmp</em>目录下，每一张表对应两个文件（tbl_name.txt, tbl_name.sql）。<tt class="docutils literal"><span class="pre">txt</span></tt>文件实际上是由MySQL Server执行<tt class="docutils literal"><span class="pre">SELECT</span> <span class="pre">...</span> <span class="pre">INTO</span> <span class="pre">OUTFILE</span></tt>所生成，用户必须有<tt class="docutils literal"><span class="pre">FILE</span></tt>权限，另外，如果存在相应的txt文件，会提示出错。MySQL Server将<tt class="docutils literal"><span class="pre">CREATE</span></tt>等定义发送给<tt class="docutils literal"><span class="pre">mysqldump</span></tt>并写入到sql文件，所以sql文件的所有者（及其它权限）属于执行<tt class="docutils literal"><span class="pre">mysqldump</span></tt>命令的用户。</p>
-<p>最好在本地执行<tt class="docutils literal"><span class="pre">mysqldump</span> <span class="pre">--tab=dir_name</span></tt>命令，目录<strong>dir_name</strong>必须同时存在于本地和远程服务器（MySQL Server）。txt文件将被Server写在服务器上，而sql文件将被保存在本地（执行mysqldump命令的主机）。</p>
+<p>上面的命令将数据库<strong>db1</strong>中的所有表导出到<em>/tmp</em>目录下，每一张表对应两个文件（tbl_name.txt, tbl_name.sql）。<code class="docutils literal"><span class="pre">txt</span></code>文件实际上是由MySQL Server执行<code class="docutils literal"><span class="pre">SELECT</span> <span class="pre">...</span> <span class="pre">INTO</span> <span class="pre">OUTFILE</span></code>所生成，用户必须有<code class="docutils literal"><span class="pre">FILE</span></code>权限，另外，如果存在相应的txt文件，会提示出错。MySQL Server将<code class="docutils literal"><span class="pre">CREATE</span></code>等定义发送给<code class="docutils literal"><span class="pre">mysqldump</span></code>并写入到sql文件，所以sql文件的所有者（及其它权限）属于执行<code class="docutils literal"><span class="pre">mysqldump</span></code>命令的用户。</p>
+<p>最好在本地执行<code class="docutils literal"><span class="pre">mysqldump</span> <span class="pre">--tab=dir_name</span></code>命令，目录<strong>dir_name</strong>必须同时存在于本地和远程服务器（MySQL Server）。txt文件将被Server写在服务器上，而sql文件将被保存在本地（执行mysqldump命令的主机）。</p>
 <p>如果需要定制分隔符文件的格式还有一些其它选项用于配置。<a class="footnote-reference" href="#id32" id="id19">[4]</a></p>
-<p>由于<tt class="docutils literal"><span class="pre">mysqldump</span> <span class="pre">--tab</span></tt>备份的数据是由两个文件组成，所以恢复时与SQL格式备份略有不同：<a class="footnote-reference" href="#id33" id="id20">[5]</a></p>
+<p>由于<code class="docutils literal"><span class="pre">mysqldump</span> <span class="pre">--tab</span></code>备份的数据是由两个文件组成，所以恢复时与SQL格式备份略有不同：<a class="footnote-reference" href="#id33" id="id20">[5]</a></p>
 <ol class="arabic">
-<li><p class="first">导入<em>tbl_name.sql</em>文件，建立相应的数据表<tt class="docutils literal"><span class="pre">mysql</span> <span class="pre">db1</span> <span class="pre">&lt;</span> <span class="pre">tbl_name.sql</span></tt></p>
+<li><p class="first">导入<em>tbl_name.sql</em>文件，建立相应的数据表<code class="docutils literal"><span class="pre">mysql</span> <span class="pre">db1</span> <span class="pre">&lt;</span> <span class="pre">tbl_name.sql</span></code></p>
 </li>
 <li><p class="first">导入<em>tbl_name.txt</em>中的数据，可以有以下不同的方法：</p>
 <ul>
-<li><p class="first">直接使用命令：<tt class="docutils literal"><span class="pre">mysqlimport</span> <span class="pre">[options]</span> <span class="pre">db1</span> <span class="pre">tbl_name.txt</span></tt>。如果在导出数据时，使用了自定义格式，在import时也需要加上相应选项。</p>
+<li><p class="first">直接使用命令：<code class="docutils literal"><span class="pre">mysqlimport</span> <span class="pre">[options]</span> <span class="pre">db1</span> <span class="pre">tbl_name.txt</span></code>。如果在导出数据时，使用了自定义格式，在import时也需要加上相应选项。</p>
 </li>
 <li><p class="first">在mysql shell下：</p>
 <div class="highlight-bash"><div class="highlight"><pre>mysql&gt; USE db1<span class="p">;</span>
@@ -522,25 +529,25 @@ mysql&gt; LOAD DATA INFILE <span class="s1">&#39;tbl_name.txt&#39;</span> INOT T
 </div>
 <div class="section" id="dumping-stored-programs">
 <h3>Dumping Stored Programs<a class="headerlink" href="#dumping-stored-programs" title="Permalink to this headline">¶</a></h3>
-<p>对于数据库中的<tt class="docutils literal"><span class="pre">stored</span> <span class="pre">procedures,</span> <span class="pre">functions,</span> <span class="pre">triggers,</span> <span class="pre">events</span></tt>的备份，有一些额外的选项：</p>
+<p>对于数据库中的<code class="docutils literal"><span class="pre">stored</span> <span class="pre">procedures,</span> <span class="pre">functions,</span> <span class="pre">triggers,</span> <span class="pre">events</span></code>的备份，有一些额外的选项：</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">--events</span></tt>：导出events</li>
-<li><tt class="docutils literal"><span class="pre">--routines</span></tt>：导出stored procedures, functions</li>
-<li><tt class="docutils literal"><span class="pre">--triggers</span></tt>：导入triggers（默认）</li>
+<li><code class="docutils literal"><span class="pre">--events</span></code>：导出events</li>
+<li><code class="docutils literal"><span class="pre">--routines</span></code>：导出stored procedures, functions</li>
+<li><code class="docutils literal"><span class="pre">--triggers</span></code>：导入triggers（默认）</li>
 </ul>
 <p>如果想显式的禁止导出，相应的选项有：</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">--skip-events</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">--skip-routines</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">--skip-triggers</span></tt></li>
+<li><code class="docutils literal"><span class="pre">--skip-events</span></code></li>
+<li><code class="docutils literal"><span class="pre">--skip-routines</span></code></li>
+<li><code class="docutils literal"><span class="pre">--skip-triggers</span></code></li>
 </ul>
 </div>
 <div class="section" id="dumping-table-definitions-and-content-separately">
 <h3>Dumping Table Definitions and Content Separately<a class="headerlink" href="#dumping-table-definitions-and-content-separately" title="Permalink to this headline">¶</a></h3>
-<p>有时候可能只想导出表结构或者表数据，<tt class="docutils literal"><span class="pre">mysqldump</span></tt>同样提供了相应的功能选项：</p>
+<p>有时候可能只想导出表结构或者表数据，<code class="docutils literal"><span class="pre">mysqldump</span></code>同样提供了相应的功能选项：</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">--no-data</span></tt>：仅导出表结构，即<tt class="docutils literal"><span class="pre">CREATE</span></tt>语句</li>
-<li><tt class="docutils literal"><span class="pre">--no-create-info</span></tt>：仅导出表数据，即<tt class="docutils literal"><span class="pre">INSERT</span> <span class="pre">INTO</span></tt>语句</li>
+<li><code class="docutils literal"><span class="pre">--no-data</span></code>：仅导出表结构，即<code class="docutils literal"><span class="pre">CREATE</span></code>语句</li>
+<li><code class="docutils literal"><span class="pre">--no-create-info</span></code>：仅导出表数据，即<code class="docutils literal"><span class="pre">INSERT</span> <span class="pre">INTO</span></code>语句</li>
 </ul>
 <p>例如：</p>
 <div class="highlight-bash"><div class="highlight"><pre>shell&gt; mysqldump --no-data <span class="nb">test</span> &gt; dump-defs.sql
@@ -552,9 +559,9 @@ shell&gt; mysqldump --no-create-info <span class="nb">test</span> &gt; dump-data
 </div>
 <div class="section" id="point-in-time-recovery-mysqlbinlog">
 <h2>Point-in-Time Recovery - mysqlbinlog<a class="headerlink" href="#point-in-time-recovery-mysqlbinlog" title="Permalink to this headline">¶</a></h2>
-<p>通过全备份/增量备份，我们可以通过工具<tt class="docutils literal"><span class="pre">mysqlbinlog</span></tt>从二进制日志中逐步恢复数据。执行SQL语句<tt class="docutils literal"><span class="pre">SHOW</span> <span class="pre">BINARY</span> <span class="pre">LOGS</span></tt>可以查看二进制日志列表；<tt class="docutils literal"><span class="pre">SHOW</span> <span class="pre">MASTER</span>
-<span class="pre">STATUS</span></tt>可以查看当前正在使用日志文件。</p>
-<p>可以通过命令<tt class="code docutils literal"><span class="pre">mysqlbinlog</span> <span class="pre">binlog_file</span> <span class="pre">|</span> <span class="pre">mysq</span> <span class="pre">-u</span> <span class="pre">root</span> <span class="pre">-p</span></tt>来恢复数据，也可以通过命令<tt class="code docutils literal"><span class="pre">mysqlbinlog</span> <span class="pre">binlog_file</span> <span class="pre">|</span> <span class="pre">less</span></tt>来查看binlog中的内容。</p>
+<p>通过全备份/增量备份，我们可以通过工具<code class="docutils literal"><span class="pre">mysqlbinlog</span></code>从二进制日志中逐步恢复数据。执行SQL语句<code class="docutils literal"><span class="pre">SHOW</span> <span class="pre">BINARY</span> <span class="pre">LOGS</span></code>可以查看二进制日志列表；<code class="docutils literal"><span class="pre">SHOW</span> <span class="pre">MASTER</span>
+<span class="pre">STATUS</span></code>可以查看当前正在使用日志文件。</p>
+<p>可以通过命令<code class="code docutils literal"><span class="pre">mysqlbinlog</span> <span class="pre">binlog_file</span> <span class="pre">|</span> <span class="pre">mysq</span> <span class="pre">-u</span> <span class="pre">root</span> <span class="pre">-p</span></code>来恢复数据，也可以通过命令<code class="code docutils literal"><span class="pre">mysqlbinlog</span> <span class="pre">binlog_file</span> <span class="pre">|</span> <span class="pre">less</span></code>来查看binlog中的内容。</p>
 <p>另外需要注意的是，从binlog恢复数据时，如果是恢复多个文件，应该在单个连接中完成多个文件的恢复，即：</p>
 <div class="highlight-bash"><div class="highlight"><pre>mysqlbinlog binlog.00001 binlog.00002 binlog.00003 <span class="p">|</span> mysql -u root -p
 <span class="c"># 或者</span>
@@ -566,7 +573,7 @@ mysql -u root -p -e <span class="s1">&#39;source log.sql&#39;</span>
 </div>
 <div class="section" id="id21">
 <h3>依据时间恢复<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
-<p><tt class="docutils literal"><span class="pre">mysqlbinlog</span></tt>有两个选项<tt class="docutils literal"><span class="pre">--start-datetime</span></tt>和<tt class="docutils literal"><span class="pre">--stop-datetime</span></tt>可以设定从某个时间点开始恢复，或者恢复至某个时间点。如：</p>
+<p><code class="docutils literal"><span class="pre">mysqlbinlog</span></code>有两个选项<code class="docutils literal"><span class="pre">--start-datetime</span></code>和<code class="docutils literal"><span class="pre">--stop-datetime</span></code>可以设定从某个时间点开始恢复，或者恢复至某个时间点。如：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="c"># 恢复至2005年4月20号上午10点</span>
 shell&gt; mysqlbinlog --stop-datetime<span class="o">=</span><span class="s2">&quot;2005-04-20 9:59:59&quot;</span> /var/lib/mysql/binlog.123456 <span class="p">|</span> mysql -u root -p
 <span class="c"># 从2005年4月20号上午10点开始恢复</span>
@@ -580,7 +587,7 @@ shell&gt; mysqlbinlog --start-datetime<span class="o">=</span><span class="s2">&
 <div class="highlight-bash"><div class="highlight"><pre><span class="c"># 释放出binlog中的内容</span>
 shell&gt; mysqlbinlog /var/lib/mysql/binlog.00001 &gt; log.sql
 查看log.sql中查看<span class="se">\ </span><span class="sb">`</span>log_pos<span class="sb">`</span><span class="se">\ </span>然后找到合适位置
-shell&gt; mysqlbinlog --start-position<span class="o">=</span>368315 /var/log/mysql/bin.123456 <span class="p">|</span> mysql -u root -p
+shell&gt; mysqlbinlog --start-position<span class="o">=</span><span class="m">368315</span> /var/log/mysql/bin.123456 <span class="p">|</span> mysql -u root -p
 </pre></div>
 </div>
 <p>需要注意的是恢复后的数据，相关的时间均为日志中的时间。</p>
@@ -588,8 +595,8 @@ shell&gt; mysqlbinlog --start-position<span class="o">=</span>368315 /var/log/my
 </div>
 <div class="section" id="myisam">
 <h2>MyISAM表的维护与恢复<a class="headerlink" href="#myisam" title="Permalink to this headline">¶</a></h2>
-<p>由<tt class="docutils literal"><span class="pre">MyISAM</span></tt>引擎的特点决定对表数据进行更新整理可以减少使用空间，提高访问性能，而且可以减少表数据出现故障的几率。所以使用<tt class="docutils literal"><span class="pre">MyISAM</span></tt>引擎的表需要制定周期性计划对表进行优化整理。</p>
-<p>使用<tt class="docutils literal"><span class="pre">MyISAM</span></tt>引擎的表在对应的数据库目录下存在三个文件：</p>
+<p>由<code class="docutils literal"><span class="pre">MyISAM</span></code>引擎的特点决定对表数据进行更新整理可以减少使用空间，提高访问性能，而且可以减少表数据出现故障的几率。所以使用<code class="docutils literal"><span class="pre">MyISAM</span></code>引擎的表需要制定周期性计划对表进行优化整理。</p>
+<p>使用<code class="docutils literal"><span class="pre">MyISAM</span></code>引擎的表在对应的数据库目录下存在三个文件：</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="35%" />
@@ -611,25 +618,25 @@ shell&gt; mysqlbinlog --start-position<span class="o">=</span>368315 /var/log/my
 </tbody>
 </table>
 <div class="section" id="myisamchk">
-<h3><tt class="docutils literal"><span class="pre">myisamchk</span></tt>命令<a class="headerlink" href="#myisamchk" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal"><span class="pre">myisamchk</span></code>命令<a class="headerlink" href="#myisamchk" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">外部锁</span></tt>：如果MySQL Server禁用了外部锁（默认设定），使用<tt class="docutils literal"><span class="pre">myisamchk</span></tt>命令是不安全的。如果mysqld与myisamchk在同一张表上工作，会引起此表的数据损坏。此时最安全的做法是停止MySQL Server服务再执行<tt class="docutils literal"><span class="pre">myisamchk</span></tt>命令；如果可以确定mysqld没有在某张表上工作，可以先运行命令<tt class="docutils literal"><span class="pre">mysqladmin</span> <span class="pre">flush-tables</span></tt>，再运行<tt class="docutils literal"><span class="pre">myisamchk</span></tt>命令。</li>
-<li>如果外部锁（external lock）被mysqld开启，可以在任何时候运行<tt class="docutils literal"><span class="pre">myisamchk</span></tt>以检查数据表。（为什么？锁）</li>
-<li>通常情况下<tt class="docutils literal"><span class="pre">myisamchk</span></tt>命令通过逐行复制数据文件<tt class="docutils literal"><span class="pre">.MYD</span></tt>来进行检查和修复工作，当修复结束时，会删除原来的MYD文件，将新的文件命名为原文件。</li>
+<li><code class="docutils literal"><span class="pre">外部锁</span></code>：如果MySQL Server禁用了外部锁（默认设定），使用<code class="docutils literal"><span class="pre">myisamchk</span></code>命令是不安全的。如果mysqld与myisamchk在同一张表上工作，会引起此表的数据损坏。此时最安全的做法是停止MySQL Server服务再执行<code class="docutils literal"><span class="pre">myisamchk</span></code>命令；如果可以确定mysqld没有在某张表上工作，可以先运行命令<code class="docutils literal"><span class="pre">mysqladmin</span> <span class="pre">flush-tables</span></code>，再运行<code class="docutils literal"><span class="pre">myisamchk</span></code>命令。</li>
+<li>如果外部锁（external lock）被mysqld开启，可以在任何时候运行<code class="docutils literal"><span class="pre">myisamchk</span></code>以检查数据表。（为什么？锁）</li>
+<li>通常情况下<code class="docutils literal"><span class="pre">myisamchk</span></code>命令通过逐行复制数据文件<code class="docutils literal"><span class="pre">.MYD</span></code>来进行检查和修复工作，当修复结束时，会删除原来的MYD文件，将新的文件命名为原文件。</li>
 </ul>
 <div class="section" id="id23">
 <h4>检查错误<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h4>
-<p>下列选项可用于检查<tt class="docutils literal"><span class="pre">MyISAM</span></tt>表的错误</p>
+<p>下列选项可用于检查<code class="docutils literal"><span class="pre">MyISAM</span></code>表的错误</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">myisamchk</span> <span class="pre">tbl_name</span></tt>  可以发现99.99%的问题，如果仅仅是数据文件的错误则无法发现。<tt class="docutils literal"><span class="pre">-s</span> <span class="pre">(slient)</span></tt>不输入正常信息</li>
-<li><tt class="docutils literal"><span class="pre">myisamchk</span> <span class="pre">-m</span>&nbsp; <span class="pre">tbl_name</span></tt>  首先会检查<em>索引条目</em>；然后会计算并核对每行中
+<li><code class="docutils literal"><span class="pre">myisamchk</span> <span class="pre">tbl_name</span></code>  可以发现99.99%的问题，如果仅仅是数据文件的错误则无法发现。<code class="docutils literal"><span class="pre">-s</span> <span class="pre">(slient)</span></code>不输入正常信息</li>
+<li><code class="docutils literal"><span class="pre">myisamchk</span> <span class="pre">-m</span>&nbsp; <span class="pre">tbl_name</span></code>  首先会检查<em>索引条目</em>；然后会计算并核对每行中
 的KEY的<em>校验和</em></li>
-<li><tt class="docutils literal"><span class="pre">myisamchk</span> <span class="pre">-e</span> <span class="pre">tbl_name</span></tt>   (-e &#8220;extened check&#8221;)会彻底的检查所有数据。对于数据比较多的表会消耗较长时间。当发现第一错误后将会终止。选项<tt class="docutils literal"><span class="pre">-v</span></tt>将会显示更加详细的信息，且会显示最多20个错误才终止检查。</li>
-<li><tt class="docutils literal"><span class="pre">myisamchk</span> <span class="pre">-e</span> <span class="pre">-i</span> <span class="pre">tbl_name</span></tt>    与上面的命令类似，选项<tt class="docutils literal"><span class="pre">-i</span></tt>会显示一些额外的统计信息。</li>
+<li><code class="docutils literal"><span class="pre">myisamchk</span> <span class="pre">-e</span> <span class="pre">tbl_name</span></code>   (-e &#8220;extened check&#8221;)会彻底的检查所有数据。对于数据比较多的表会消耗较长时间。当发现第一错误后将会终止。选项<code class="docutils literal"><span class="pre">-v</span></code>将会显示更加详细的信息，且会显示最多20个错误才终止检查。</li>
+<li><code class="docutils literal"><span class="pre">myisamchk</span> <span class="pre">-e</span> <span class="pre">-i</span> <span class="pre">tbl_name</span></code>    与上面的命令类似，选项<code class="docutils literal"><span class="pre">-i</span></code>会显示一些额外的统计信息。</li>
 </ul>
 </div>
 <div class="section" id="id24">
-<h4>修复<tt class="docutils literal"><span class="pre">MyISAM</span></tt>表<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h4>
+<h4>修复<code class="docutils literal"><span class="pre">MyISAM</span></code>表<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h4>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last"><strong>进行任何修复操作前必须进行备份! 如果使用了主从复制，请先停止！</strong></p>
@@ -640,8 +647,8 @@ shell&gt; mysqlbinlog --start-position<span class="o">=</span>368315 /var/log/my
 *   无法预期的文件结尾
 *   记录文件损坏
 *   处理表时发生错误<em>nnn</em></p>
-<p>通过命令<tt class="docutils literal"><span class="pre">perror</span> <span class="pre">nnn</span></tt>可以获取详细的错误描述：</p>
-<div class="highlight-bash"><div class="highlight"><pre>perror 132 134 135 136
+<p>通过命令<code class="docutils literal"><span class="pre">perror</span> <span class="pre">nnn</span></code>可以获取详细的错误描述：</p>
+<div class="highlight-bash"><div class="highlight"><pre>perror <span class="m">132</span> <span class="m">134</span> <span class="m">135</span> 136
 <span class="c"># OS error code 132:  Operation not possible due to RF-kill</span>
 <span class="c"># MySQL error code 132: Old database file</span>
 <span class="c"># MySQL error code 134: Record was already deleted (or record file crashed)</span>
@@ -649,23 +656,23 @@ shell&gt; mysqlbinlog --start-position<span class="o">=</span>368315 /var/log/my
 <span class="c"># MySQL error code 136: No more room in index file</span>
 </pre></div>
 </div>
-<p>错误135(<em>No more room in record file</em>)和(<em>No more room in index file</em>)可以使用<tt class="docutils literal"><span class="pre">ALTER</span> <span class="pre">TABLE</span></tt>来增大表选项中的<tt class="docutils literal"><span class="pre">MAX_ROWS</span></tt>和<tt class="docutils literal"><span class="pre">AVG_ROW_LENGTH</span></tt>的值来修复：</p>
+<p>错误135(<em>No more room in record file</em>)和(<em>No more room in index file</em>)可以使用<code class="docutils literal"><span class="pre">ALTER</span> <span class="pre">TABLE</span></code>来增大表选项中的<code class="docutils literal"><span class="pre">MAX_ROWS</span></code>和<code class="docutils literal"><span class="pre">AVG_ROW_LENGTH</span></code>的值来修复：</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">tbl_name</span> <span class="n">MAX_ROWS</span><span class="o">=</span><span class="mi">100000</span> <span class="n">AVG_ROW_LENGTH</span><span class="o">=</span><span class="mi">10000</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>通过<tt class="docutils literal"><span class="pre">SHOW</span> <span class="pre">CREATE</span> <span class="pre">TABLE</span></tt>可以查看表的相关选项值。</p>
-<p>对于其它一些错误（非135/136）需要使用<tt class="docutils literal"><span class="pre">myisamchk</span></tt>进一步修复。修复一般分为四步：（<strong>在进行修复前必须先将MySQL Server关闭。</strong>）</p>
+<p>通过<code class="docutils literal"><span class="pre">SHOW</span> <span class="pre">CREATE</span> <span class="pre">TABLE</span></code>可以查看表的相关选项值。</p>
+<p>对于其它一些错误（非135/136）需要使用<code class="docutils literal"><span class="pre">myisamchk</span></code>进一步修复。修复一般分为四步：（<strong>在进行修复前必须先将MySQL Server关闭。</strong>）</p>
 <ol class="arabic">
 <li><p class="first"><strong>检查表</strong></p>
-<p>运行命令<tt class="docutils literal"><span class="pre">myisamchk</span> <span class="pre">[-e</span> <span class="pre">|</span> <span class="pre">others</span> <span class="pre">options]</span> <span class="pre">*.MYI</span></tt>选项<em>-s</em>可以减少不必要的输出。使用 <em>&#8211;update-state</em>选项，<tt class="docutils literal"><span class="pre">myisamchk</span></tt>会对检查过的表进行标记。</p>
+<p>运行命令<code class="docutils literal"><span class="pre">myisamchk</span> <span class="pre">[-e</span> <span class="pre">|</span> <span class="pre">others</span> <span class="pre">options]</span> <span class="pre">*.MYI</span></code>选项<em>-s</em>可以减少不必要的输出。使用 <em>&#8211;update-state</em>选项，<code class="docutils literal"><span class="pre">myisamchk</span></code>会对检查过的表进行标记。</p>
 <p>对于一般错误进入第二步进行修复；对于无法预知的错误（如<em>内存溢出</em>，<em>myisamchk崩溃</em>）跳至第三步进行修复。</p>
 </li>
 <li><p class="first"><strong>简单安全的修复</strong></p>
 <ul class="simple">
-<li>首先通过命令<tt class="docutils literal"><span class="pre">myisamchk</span> <span class="pre">-r</span> <span class="pre">-q</span> <span class="pre">tbl_name</span></tt>尝试快速修复。这种方法将尝试修复索引文件而不处理数据文件。如果修复失败，则进行下一步；</li>
+<li>首先通过命令<code class="docutils literal"><span class="pre">myisamchk</span> <span class="pre">-r</span> <span class="pre">-q</span> <span class="pre">tbl_name</span></code>尝试快速修复。这种方法将尝试修复索引文件而不处理数据文件。如果修复失败，则进行下一步；</li>
 <li>备份数据文件</li>
-<li>使用<tt class="docutils literal"><span class="pre">myisamchk</span> <span class="pre">-r</span> <span class="pre">tbl_name</span></tt>进行修复，此操作将从数据文件中删除不正的数据，并重建索引文件。</li>
-<li>如果上一步失败，使用<tt class="docutils literal"><span class="pre">myisamchk</span> <span class="pre">--safe-recover</span> <span class="pre">tbl_name</span></tt>进行修复。安全修复模式会使用一种比较老的方法来修复。</li>
+<li>使用<code class="docutils literal"><span class="pre">myisamchk</span> <span class="pre">-r</span> <span class="pre">tbl_name</span></code>进行修复，此操作将从数据文件中删除不正的数据，并重建索引文件。</li>
+<li>如果上一步失败，使用<code class="docutils literal"><span class="pre">myisamchk</span> <span class="pre">--safe-recover</span> <span class="pre">tbl_name</span></code>进行修复。安全修复模式会使用一种比较老的方法来修复。</li>
 </ul>
 <p>如果操作过程中出现<em>内存溢出，myisamchk崩溃</em>请执行第三步进行恢复。</p>
 </li>
@@ -689,8 +696,8 @@ shell&gt; mysqlbinlog --start-position<span class="o">=</span>368315 /var/log/my
 <li>将数据文件复制回来一份，覆盖新的数据文件</li>
 </ul>
 </li>
-<li><p class="first">回到第二步执行<tt class="docutils literal"><span class="pre">myisamchk</span> <span class="pre">-r</span> <span class="pre">-q</span></tt>。另外也可用<tt class="docutils literal"><span class="pre">REPAIR</span> <span class="pre">TABLE</span>
-<span class="pre">tbl_name</span> <span class="pre">USE_FRM</span></tt>来进行修复。</p>
+<li><p class="first">回到第二步执行<code class="docutils literal"><span class="pre">myisamchk</span> <span class="pre">-r</span> <span class="pre">-q</span></code>。另外也可用<code class="docutils literal"><span class="pre">REPAIR</span> <span class="pre">TABLE</span>
+<span class="pre">tbl_name</span> <span class="pre">USE_FRM</span></code>来进行修复。</p>
 </li>
 </ul>
 </li>
@@ -702,31 +709,31 @@ shell&gt; mysqlbinlog --start-position<span class="o">=</span>368315 /var/log/my
 </ul>
 </li>
 </ol>
-<p><tt class="docutils literal"><span class="pre">myisamchk</span></tt>还有一些选项可以加速修复操作：<tt class="docutils literal"><span class="pre">sort-buffer-size,</span>
-<span class="pre">key-buffer-size</span></tt>。</p>
+<p><code class="docutils literal"><span class="pre">myisamchk</span></code>还有一些选项可以加速修复操作：<code class="docutils literal"><span class="pre">sort-buffer-size,</span>
+<span class="pre">key-buffer-size</span></code>。</p>
 </div>
 <div class="section" id="id25">
 <h4>MyISAM表的优化<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h4>
-<p>使用<tt class="docutils literal"><span class="pre">OPTIMIZE</span> <span class="pre">TABLE</span></tt>也可以进行<tt class="docutils literal"><span class="pre">MyISAM</span></tt>的优化操作，通常包含<em>表修复,
+<p>使用<code class="docutils literal"><span class="pre">OPTIMIZE</span> <span class="pre">TABLE</span></code>也可以进行<code class="docutils literal"><span class="pre">MyISAM</span></code>的优化操作，通常包含<em>表修复,
 KEY分析，索引树排序</em>等操作，经过优化可以提高KEY的查找速度。</p>
-<p><tt class="docutils literal"><span class="pre">myisamchk</span></tt>命令用于优化的常用选项有：</p>
+<p><code class="docutils literal"><span class="pre">myisamchk</span></code>命令用于优化的常用选项有：</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">-r</span> <span class="pre">|</span> <span class="pre">--recover</span></tt>  修复<tt class="docutils literal"><span class="pre">MyISAM</span></tt>表中几乎所有的问题（除KEY不唯一外），回收被浪费的空间；</li>
-<li><tt class="docutils literal"><span class="pre">-a</span> <span class="pre">|</span> <span class="pre">--analyze</span></tt>  通过分布分析改善<tt class="docutils literal"><span class="pre">JOIN</span></tt>性能。使用join优化器选择最佳的表连接和索引顺序</li>
-<li><tt class="docutils literal"><span class="pre">-S</span> <span class="pre">|</span> <span class="pre">--sort-index</span></tt>   对索引块排序，优化查找性能，提高用索引搜索表的速度</li>
-<li><tt class="docutils literal"><span class="pre">-R</span> <span class="pre">|</span> <span class="pre">--sort-records=index_num</span></tt>   应用指定的索引对数据行进行排序，使得数据聚集的更好，提高基于范围（range-based）的<tt class="docutils literal"><span class="pre">SELECT</span></tt>和<tt class="docutils literal"><span class="pre">ORDER</span> <span class="pre">BY</span></tt>操作的速度</li>
+<li><code class="docutils literal"><span class="pre">-r</span> <span class="pre">|</span> <span class="pre">--recover</span></code>  修复<code class="docutils literal"><span class="pre">MyISAM</span></code>表中几乎所有的问题（除KEY不唯一外），回收被浪费的空间；</li>
+<li><code class="docutils literal"><span class="pre">-a</span> <span class="pre">|</span> <span class="pre">--analyze</span></code>  通过分布分析改善<code class="docutils literal"><span class="pre">JOIN</span></code>性能。使用join优化器选择最佳的表连接和索引顺序</li>
+<li><code class="docutils literal"><span class="pre">-S</span> <span class="pre">|</span> <span class="pre">--sort-index</span></code>   对索引块排序，优化查找性能，提高用索引搜索表的速度</li>
+<li><code class="docutils literal"><span class="pre">-R</span> <span class="pre">|</span> <span class="pre">--sort-records=index_num</span></code>   应用指定的索引对数据行进行排序，使得数据聚集的更好，提高基于范围（range-based）的<code class="docutils literal"><span class="pre">SELECT</span></code>和<code class="docutils literal"><span class="pre">ORDER</span> <span class="pre">BY</span></code>操作的速度</li>
 </ul>
 </div>
 </div>
 <div class="section" id="id26">
 <h3>MyISAM的周期维护<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
-<p>优化<cite>MyISAM</cite>既可以使用SQL语句<tt class="docutils literal"><span class="pre">CHECK</span> <span class="pre">TABLE,</span> <span class="pre">REPAIR</span> <span class="pre">TABLE,</span> <span class="pre">OPTIMIZE</span> <span class="pre">TABLE,</span>
-<span class="pre">ANALYZE</span> <span class="pre">TABLE</span></tt>也可以通过<tt class="docutils literal"><span class="pre">myisamchk</span></tt>命令。</p>
-<p>需要注意：执行<tt class="docutils literal"><span class="pre">myisamchk</span></tt>命令时，相应的数据表不可以操作。</p>
-<p>正常情况下，MySQL的表只需进行很少维护，如果<tt class="docutils literal"><span class="pre">MyISAM</span></tt>表更新的大量可变大量的内容（<tt class="docutils literal"><span class="pre">VARCHAR,</span> <span class="pre">BLOB,</span> <span class="pre">TEXT</span></tt>类型的字段），或者删除的大量的数据，这时可以通过<tt class="docutils literal"><span class="pre">OPTIMIZE</span> <span class="pre">TABLE</span></tt>进行优化。</p>
+<p>优化<cite>MyISAM</cite>既可以使用SQL语句<code class="docutils literal"><span class="pre">CHECK</span> <span class="pre">TABLE,</span> <span class="pre">REPAIR</span> <span class="pre">TABLE,</span> <span class="pre">OPTIMIZE</span> <span class="pre">TABLE,</span>
+<span class="pre">ANALYZE</span> <span class="pre">TABLE</span></code>也可以通过<code class="docutils literal"><span class="pre">myisamchk</span></code>命令。</p>
+<p>需要注意：执行<code class="docutils literal"><span class="pre">myisamchk</span></code>命令时，相应的数据表不可以操作。</p>
+<p>正常情况下，MySQL的表只需进行很少维护，如果<code class="docutils literal"><span class="pre">MyISAM</span></code>表更新的大量可变大量的内容（<code class="docutils literal"><span class="pre">VARCHAR,</span> <span class="pre">BLOB,</span> <span class="pre">TEXT</span></code>类型的字段），或者删除的大量的数据，这时可以通过<code class="docutils literal"><span class="pre">OPTIMIZE</span> <span class="pre">TABLE</span></code>进行优化。</p>
 <div class="section" id="mysql-server">
 <h4>MySQL Server自动维护<a class="headerlink" href="#mysql-server" title="Permalink to this headline">¶</a></h4>
-<p>如果MySQL Server的配置文件中开启了选项<tt class="docutils literal"><span class="pre">--myisam-recover-options=[options,...]</span></tt>，此选项有五个值可选（并可以组合使用）：<tt class="docutils literal"><span class="pre">OFF,</span> <span class="pre">DEFAULT,</span> <span class="pre">BACKUP,</span> <span class="pre">FORCE,</span> <span class="pre">QUICK</span></tt>。选项值为空等同于<tt class="docutils literal"><span class="pre">DEFAULT</span></tt>，而选项值为：&#8221;&#8220;等同于<tt class="docutils literal"><span class="pre">OFF</span></tt>。开启此功能后，mysqld每次打开<cite>MyISAM</cite>表时，都会检查表<em>是否被标记为损坏或者非正常关闭</em>，如果是，mysqld将会检查并修复表。从文档表述来看，开启此功能对MySQL Server的性能有一定影响。</p>
+<p>如果MySQL Server的配置文件中开启了选项<code class="docutils literal"><span class="pre">--myisam-recover-options=[options,...]</span></code>，此选项有五个值可选（并可以组合使用）：<code class="docutils literal"><span class="pre">OFF,</span> <span class="pre">DEFAULT,</span> <span class="pre">BACKUP,</span> <span class="pre">FORCE,</span> <span class="pre">QUICK</span></code>。选项值为空等同于<code class="docutils literal"><span class="pre">DEFAULT</span></code>，而选项值为：&#8221;&#8220;等同于<code class="docutils literal"><span class="pre">OFF</span></code>。开启此功能后，mysqld每次打开<cite>MyISAM</cite>表时，都会检查表<em>是否被标记为损坏或者非正常关闭</em>，如果是，mysqld将会检查并修复表。从文档表述来看，开启此功能对MySQL Server的性能有一定影响。</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="12%" />
@@ -737,7 +744,7 @@ KEY分析，索引树排序</em>等操作，经过优化可以提高KEY的查找
 <td>Descripton</td>
 </tr>
 <tr class="row-even"><td>OFF</td>
-<td>关闭mysqld的自动维护<tt class="docutils literal"><span class="pre">MyISAM</span></tt>表的功能</td>
+<td>关闭mysqld的自动维护<code class="docutils literal"><span class="pre">MyISAM</span></code>表的功能</td>
 </tr>
 <tr class="row-odd"><td>DEFAULT</td>
 <td>Recovery without backup, forcing or quick checking</td>
@@ -760,15 +767,15 @@ KEY分析，索引树排序</em>等操作，经过优化可以提高KEY的查找
 <div class="highlight-vim"><div class="highlight"><pre><span class="m">35</span> <span class="m">0</span> * * <span class="m">0</span> <span class="sr">/path/</span><span class="k">to</span><span class="sr">/myisamchk --fast --silent /</span><span class="nb">path</span><span class="sr">/to/</span>datadir<span class="sr">/*/</span>*.MYI
 </pre></div>
 </div>
-<p>也可以通过执行SQL语句<tt class="docutils literal"><span class="pre">OPTIMIZE</span> <span class="pre">TABLE</span></tt>来优化。</p>
+<p>也可以通过执行SQL语句<code class="docutils literal"><span class="pre">OPTIMIZE</span> <span class="pre">TABLE</span></code>来优化。</p>
 </div>
 </div>
 <div class="section" id="id27">
 <h3>小结<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>对<tt class="docutils literal"><span class="pre">MyISAM</span></tt>进行定期维护以降低故障发生的可能性。</li>
+<li>对<code class="docutils literal"><span class="pre">MyISAM</span></code>进行定期维护以降低故障发生的可能性。</li>
 <li>修复前关停MySQL Server，备份数据。</li>
-<li>可以使用SQL语句<tt class="docutils literal"><span class="pre">OPTIMIZE,</span> <span class="pre">CHECK,</span> <span class="pre">REPAIR,</span> <span class="pre">ANALYZE</span> <span class="pre">TABLE</span></tt>或者<tt class="docutils literal"><span class="pre">myisamchk</span></tt>进行维护和故障修复。</li>
+<li>可以使用SQL语句<code class="docutils literal"><span class="pre">OPTIMIZE,</span> <span class="pre">CHECK,</span> <span class="pre">REPAIR,</span> <span class="pre">ANALYZE</span> <span class="pre">TABLE</span></code>或者<code class="docutils literal"><span class="pre">myisamchk</span></code>进行维护和故障修复。</li>
 </ul>
 </div>
 </div>
@@ -827,7 +834,7 @@ KEY分析，索引树排序</em>等操作，经过优化可以提高KEY的查找
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

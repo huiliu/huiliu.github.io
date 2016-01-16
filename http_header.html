@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="学习内核相关知识" href="kernel.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -186,11 +193,11 @@
               
                 
   <li>
-    <a href="yslow.html" title="Previous Chapter: Best Practices for Speeding Up Your Web Site"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; Best Practices f...</span>
+    <a href="yslow.html" title="Previous Chapter: Best Practices for Speeding Up Your Web Site"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Best Practice...</span>
     </a>
   </li>
   <li>
-    <a href="kernel.html" title="Next Chapter: 学习内核相关知识"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">学习内核相关知识 &raquo;</span>
+    <a href="kernel.html" title="Next Chapter: 学习内核相关知识"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">学习内核相关知识 &raquo;</span>
     </a>
   </li>
               
@@ -246,20 +253,20 @@
 <h1>HTTP Header<a class="headerlink" href="#http-header" title="Permalink to this headline">¶</a></h1>
 <p>这里关注的HTTP包括：<a class="footnote-reference" href="#rfc" id="id1">[1]</a><a class="footnote-reference" href="#book" id="id2">[2]</a></p>
 <ol class="arabic simple">
-<li><a class="reference internal" href="#title-last"><em>Last-Modified</em></a>和<tt class="docutils literal"><span class="pre">If-Modified-Since</span></tt></li>
-<li><a class="reference internal" href="#title-etag"><em>ETag</em></a>和<tt class="docutils literal"><span class="pre">If-None-Match</span></tt>, <tt class="docutils literal"><span class="pre">If-Match</span></tt>, <tt class="docutils literal"><span class="pre">If-Range</span></tt></li>
-<li><a class="reference internal" href="#title-expires"><em>Expires</em></a>和<tt class="docutils literal"><span class="pre">Cache-Control</span></tt></li>
+<li><a class="reference internal" href="#title-last"><span>Last-Modified</span></a>和<code class="docutils literal"><span class="pre">If-Modified-Since</span></code></li>
+<li><a class="reference internal" href="#title-etag"><span>ETag</span></a>和<code class="docutils literal"><span class="pre">If-None-Match</span></code>, <code class="docutils literal"><span class="pre">If-Match</span></code>, <code class="docutils literal"><span class="pre">If-Range</span></code></li>
+<li><a class="reference internal" href="#title-expires"><span>Expires</span></a>和<code class="docutils literal"><span class="pre">Cache-Control</span></code></li>
 </ol>
 <div class="section" id="last-modifiedif-modified-since">
 <span id="title-last"></span><h2>Last-Modified和If-Modified-Since<a class="headerlink" href="#last-modifiedif-modified-since" title="Permalink to this headline">¶</a></h2>
-<p><tt class="docutils literal"><span class="pre">Last-Modified</span></tt>是由Web<strong>服务器响应请求</strong>时生成，用来验证客户端缓存有效性的一个标识。<a class="footnote-reference" href="#last" id="id3">[3]</a>Web服务器通常会在静态文件的HTTP响应头中自动加上此部分。
-并被浏览器保存，当浏览器再次请求此内容时，会在HTTP请求中加上<tt class="docutils literal"><span class="pre">If-Modified-Since</span></tt>头，WEB服务器收到这样一个请求后会与被请求资源的最新修改时间进行对比，如果一致就会返回响应码<tt class="docutils literal"><span class="pre">304</span></tt> (Not Modified)，反之会正常返回请求内容。对于动态内容，WEB服务器不会主动添加<tt class="docutils literal"><span class="pre">Last-Modified</span></tt>头。</p>
+<p><code class="docutils literal"><span class="pre">Last-Modified</span></code>是由Web<strong>服务器响应请求</strong>时生成，用来验证客户端缓存有效性的一个标识。<a class="footnote-reference" href="#last" id="id3">[3]</a>Web服务器通常会在静态文件的HTTP响应头中自动加上此部分。
+并被浏览器保存，当浏览器再次请求此内容时，会在HTTP请求中加上<code class="docutils literal"><span class="pre">If-Modified-Since</span></code>头，WEB服务器收到这样一个请求后会与被请求资源的最新修改时间进行对比，如果一致就会返回响应码<code class="docutils literal"><span class="pre">304</span></code> (Not Modified)，反之会正常返回请求内容。对于动态内容，WEB服务器不会主动添加<code class="docutils literal"><span class="pre">Last-Modified</span></code>头。</p>
 </div>
 <div class="section" id="etagif-none-match">
 <span id="title-etag"></span><h2>ETag和If-None-Match<a class="headerlink" href="#etagif-none-match" title="Permalink to this headline">¶</a></h2>
-<p><tt class="docutils literal"><span class="pre">ETag</span></tt>同样是由WEB服务器生成的一个字符串，用于验证客户端缓存有效性的标识。<a class="footnote-reference" href="#etag" id="id4">[4]</a><tt class="docutils literal"><span class="pre">ETag</span></tt>内容的格式与生成算法RFC并没有规定，由WEB服务器自行实现。对于表述内容WEB服务器通常也会主动生成<tt class="docutils literal"><span class="pre">ETag</span></tt>头。对于包含<tt class="docutils literal"><span class="pre">ETag</span></tt>头的内容，
-浏览器在下次请求时会加上请求头<tt class="docutils literal"><span class="pre">If-None-Match</span></tt>，内容为响应头中的<tt class="docutils literal"><span class="pre">ETag</span></tt>内容，当WEB服务器收到这样一个包含<tt class="docutils literal"><span class="pre">If-None-Match</span></tt>的请求时，会验证其值与请求内容的 <tt class="docutils literal"><span class="pre">ETag</span></tt>值是否一致，如果一致直接返回状态码<tt class="docutils literal"><span class="pre">304</span> <span class="pre">(Not</span> <span class="pre">Modified)</span></tt>，反之正常返回。</p>
-<p>通过时间来判断缓存是否有效存在着巨大的不确定性，如服务器时间不正确，与客户端时间不一致；文件经常经常更新但是内容没有变化；对于负载均衡架构，后端服务器上文件时间很难保证完全一致，而用户请求被随机（或其它策略）分配到不同服务器，会导致用户每次都必须获取新的内容。如果使用<tt class="docutils literal"><span class="pre">ETag</span></tt>来作为缓存有效性判断标识则可以避免这些问题。</p>
+<p><code class="docutils literal"><span class="pre">ETag</span></code>同样是由WEB服务器生成的一个字符串，用于验证客户端缓存有效性的标识。<a class="footnote-reference" href="#etag" id="id4">[4]</a><code class="docutils literal"><span class="pre">ETag</span></code>内容的格式与生成算法RFC并没有规定，由WEB服务器自行实现。对于表述内容WEB服务器通常也会主动生成<code class="docutils literal"><span class="pre">ETag</span></code>头。对于包含<code class="docutils literal"><span class="pre">ETag</span></code>头的内容，
+浏览器在下次请求时会加上请求头<code class="docutils literal"><span class="pre">If-None-Match</span></code>，内容为响应头中的<code class="docutils literal"><span class="pre">ETag</span></code>内容，当WEB服务器收到这样一个包含<code class="docutils literal"><span class="pre">If-None-Match</span></code>的请求时，会验证其值与请求内容的 <code class="docutils literal"><span class="pre">ETag</span></code>值是否一致，如果一致直接返回状态码<code class="docutils literal"><span class="pre">304</span> <span class="pre">(Not</span> <span class="pre">Modified)</span></code>，反之正常返回。</p>
+<p>通过时间来判断缓存是否有效存在着巨大的不确定性，如服务器时间不正确，与客户端时间不一致；文件经常经常更新但是内容没有变化；对于负载均衡架构，后端服务器上文件时间很难保证完全一致，而用户请求被随机（或其它策略）分配到不同服务器，会导致用户每次都必须获取新的内容。如果使用<code class="docutils literal"><span class="pre">ETag</span></code>来作为缓存有效性判断标识则可以避免这些问题。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">对于不同的判断依据，其判断顺序如何？与浏览器的实现是否有关？-&gt; RFC中是否有规
@@ -268,7 +275,7 @@
 </div>
 <div class="section" id="expirescache-control">
 <span id="title-expires"></span><h2>Expires和Cache-Control<a class="headerlink" href="#expirescache-control" title="Permalink to this headline">¶</a></h2>
-<p>RFC中<tt class="docutils literal"><span class="pre">Expires</span></tt>头的格式定义为<a class="footnote-reference" href="#expires" id="id5">[5]</a>:</p>
+<p>RFC中<code class="docutils literal"><span class="pre">Expires</span></code>头的格式定义为<a class="footnote-reference" href="#expires" id="id5">[5]</a>:</p>
 <div class="highlight-python"><div class="highlight"><pre>Expires = &quot;Expires&quot; &quot;:&quot; HTTP-date
 </pre></div>
 </div>
@@ -276,17 +283,17 @@
 <div class="highlight-python"><div class="highlight"><pre>Expires: Thu, 01 Dec 1994 16:00:00 GMT
 </pre></div>
 </div>
-<p><tt class="docutils literal"><span class="pre">Expires</span></tt>头中的日期告诉浏览器该内容什么时候过期，暗示浏览器在内容过期之前不
+<p><code class="docutils literal"><span class="pre">Expires</span></code>头中的日期告诉浏览器该内容什么时候过期，暗示浏览器在内容过期之前不
 需要再询问服务器，直接使用本地缓存即可。</p>
-<p><tt class="docutils literal"><span class="pre">Expires</span></tt>指示的时间为绝对时间。由于时间是由服务器设定，即与服务器时间相关，
-所以存在着与<tt class="docutils literal"><span class="pre">Last-Modified</span></tt>头类似的问题——当服务端时间与客户端不一致时，就
-会引起问题。而另外一个指令（HTTP请求头）<tt class="docutils literal"><span class="pre">Cache-Control</span></tt>可以解决此问题。</p>
-<p><tt class="docutils literal"><span class="pre">Cache-Control</span></tt>指令包含有大量的参数，详情请查看RFC2626<a class="footnote-reference" href="#rfc" id="id6">[1]</a><a class="footnote-reference" href="#cache" id="id7">[6]</a>:</p>
+<p><code class="docutils literal"><span class="pre">Expires</span></code>指示的时间为绝对时间。由于时间是由服务器设定，即与服务器时间相关，
+所以存在着与<code class="docutils literal"><span class="pre">Last-Modified</span></code>头类似的问题——当服务端时间与客户端不一致时，就
+会引起问题。而另外一个指令（HTTP请求头）<code class="docutils literal"><span class="pre">Cache-Control</span></code>可以解决此问题。</p>
+<p><code class="docutils literal"><span class="pre">Cache-Control</span></code>指令包含有大量的参数，详情请查看RFC2626<a class="footnote-reference" href="#rfc" id="id6">[1]</a><a class="footnote-reference" href="#cache" id="id7">[6]</a>:</p>
 <div class="highlight-python"><div class="highlight"><pre>Cache-Control: max-age=&lt;second&gt;
 </pre></div>
 </div>
-<p><tt class="docutils literal"><span class="pre">Cache-Control:</span> <span class="pre">max-age=3600</span></tt>可以给缓存内容设定一个相对可欺时间，这个时间是相对于客户端的，单位为秒。</p>
-<p>事实上，对于Apache服务器，当服务器开启Expires时，会自动添加<tt class="docutils literal"><span class="pre">Cache-Control</span></tt>响应头。</p>
+<p><code class="docutils literal"><span class="pre">Cache-Control:</span> <span class="pre">max-age=3600</span></code>可以给缓存内容设定一个相对可欺时间，这个时间是相对于客户端的，单位为秒。</p>
+<p>事实上，对于Apache服务器，当服务器开启Expires时，会自动添加<code class="docutils literal"><span class="pre">Cache-Control</span></code>响应头。</p>
 <p>在默认情况下，Apache服务器没有开启Expires功能，需要进行下面的配置开启Expires功能：</p>
 <div class="highlight-apache"><div class="highlight"><pre><span class="nt">&lt;IfModule</span> <span class="s">mod_expires.c</span><span class="nt">&gt;</span>
     <span class="nb">ExpiresActive</span> <span class="k">On</span>
@@ -301,7 +308,7 @@
 <table class="docutils footnote" frame="void" id="rfc" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id6">2</a>)</em> <span class="target" id="index-0"></span><a class="rfc reference external" href="http://tools.ietf.org/html/rfc2616.html"><strong>RFC 2616</strong></a></td></tr>
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id6">2</a>)</em> <span class="target" id="index-0"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc2616.html"><strong>RFC 2616</strong></a></td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="book" rules="none">
@@ -357,7 +364,7 @@
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="Code Evolution" href="code_evolution.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -184,11 +191,11 @@
               
                 
   <li>
-    <a href="pymysql.html" title="Previous Chapter: Python-MySQL使用心得"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; Python-MySQL使用心得</span>
+    <a href="pymysql.html" title="Previous Chapter: Python-MySQL使用心得"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Python-MySQL使用心得</span>
     </a>
   </li>
   <li>
-    <a href="code_evolution.html" title="Next Chapter: Code Evolution"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Code Evolution &raquo;</span>
+    <a href="code_evolution.html" title="Next Chapter: Code Evolution"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Code Evolution &raquo;</span>
     </a>
   </li>
               
@@ -242,16 +249,16 @@
 <h1>Python网络库的使用<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="httppost-get">
 <h2>HTTP的POST, GET方法<a class="headerlink" href="#httppost-get" title="Permalink to this headline">¶</a></h2>
-<p>HTTP常用于向服务端发送数据的方法是：<tt class="docutils literal"><span class="pre">POST</span></tt>和<tt class="docutils literal"><span class="pre">GET</span></tt>模拟表单提交数据，Python库<tt class="docutils literal"><span class="pre">urllib</span></tt>中已经有现成的函数可以直接调用。</p>
+<p>HTTP常用于向服务端发送数据的方法是：<code class="docutils literal"><span class="pre">POST</span></code>和<code class="docutils literal"><span class="pre">GET</span></code>模拟表单提交数据，Python库<code class="docutils literal"><span class="pre">urllib</span></code>中已经有现成的函数可以直接调用。</p>
 <ul>
-<li><p class="first">利用<tt class="docutils literal"><span class="pre">GET</span></tt>方法发送数据：</p>
+<li><p class="first">利用<code class="docutils literal"><span class="pre">GET</span></code>方法发送数据：</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">urllib</span>
 <span class="n">params</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">({</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;hello&#39;</span><span class="p">,</span> <span class="s">&#39;passwd&#39;</span><span class="p">:</span><span class="s">&#39;world&#39;</span><span class="p">})</span>
 <span class="n">html</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;http://www.example.com/login?</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">read</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">使用<tt class="docutils literal"><span class="pre">POST</span></tt>方法发送数据：</p>
+<li><p class="first">使用<code class="docutils literal"><span class="pre">POST</span></code>方法发送数据：</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">urllib</span>
 <span class="n">params</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">({</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;hello&#39;</span><span class="p">,</span> <span class="s">&#39;passwd&#39;</span><span class="p">:</span><span class="s">&#39;world&#39;</span><span class="p">})</span>
 <span class="n">html</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;http://www.example.com/login?</span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">read</span>
@@ -259,7 +266,7 @@
 </div>
 </li>
 </ul>
-<p>上面几乎完成一样，只是调用<tt class="docutils literal"><span class="pre">urllib.urlopen</span></tt>时使用的参数不一样而已。</p>
+<p>上面几乎完成一样，只是调用<code class="docutils literal"><span class="pre">urllib.urlopen</span></code>时使用的参数不一样而已。</p>
 <p>下面是一个QQ帐号的钓鱼网站，使用循环POST不断向其发送伪造的数据：</p>
 <blockquote>
 <div><div class="highlight-python"><div class="highlight"><pre><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="mf">23.80</span><span class="o">.</span><span class="mf">192.20</span><span class="o">/</span><span class="mi">37</span><span class="o">/</span><span class="n">qq</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="mi">4</span><span class="o">/</span>
@@ -315,7 +322,7 @@
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

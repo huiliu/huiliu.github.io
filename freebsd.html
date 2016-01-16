@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="学习数据挖掘" href="datamining.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -194,11 +201,11 @@
               
                 
   <li>
-    <a href="gentoo.html" title="Previous Chapter: Gentoo点滴"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; Gentoo点滴</span>
+    <a href="gentoo.html" title="Previous Chapter: Gentoo点滴"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Gentoo点滴</span>
     </a>
   </li>
   <li>
-    <a href="datamining.html" title="Next Chapter: 学习数据挖掘"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">学习数据挖掘 &raquo;</span>
+    <a href="datamining.html" title="Next Chapter: 学习数据挖掘"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">学习数据挖掘 &raquo;</span>
     </a>
   </li>
               
@@ -260,30 +267,30 @@
       
   <div class="section" id="freebsd">
 <h1>FreeBSD点滴<a class="headerlink" href="#freebsd" title="Permalink to this headline">¶</a></h1>
-<p>FreeBSD默认使用的是<tt class="docutils literal"><span class="pre">csh</span></tt>刚从Linux切换过去感觉相当的不爽，可以通过命令<tt class="docutils literal"><span class="pre">chsh</span></tt>来改变帐户shell，比较生猛的方法：直接修改&#8221;<em>/etc/passwd</em>&#8220;文件。</p>
+<p>FreeBSD默认使用的是<code class="docutils literal"><span class="pre">csh</span></code>刚从Linux切换过去感觉相当的不爽，可以通过命令<code class="docutils literal"><span class="pre">chsh</span></code>来改变帐户shell，比较生猛的方法：直接修改&#8221;<em>/etc/passwd</em>&#8220;文件。</p>
 <div class="section" id="localization">
 <h2>本地化问题 - Localization<a class="headerlink" href="#localization" title="Permalink to this headline">¶</a></h2>
-<p>默认情况下显示中文会是乱码，从Linux切换过去，所以知道需要修改环境变量<tt class="docutils literal"><span class="pre">LC_*</span></tt>和<tt class="docutils literal"><span class="pre">LANG</span></tt>的值。FreeBSD在这方面与Linux不太一样。</p>
-<p>FreeBSD中可以在用户配置文件<tt class="docutils literal"><span class="pre">~/.login_conf,</span> <span class="pre">~/.profile,</span> <span class="pre">~/.bashrc,</span> <span class="pre">~/.cshrc</span></tt>中设定环境变量<tt class="docutils literal"><span class="pre">LANG</span></tt>和<tt class="docutils literal"><span class="pre">MM_CHARSET</span></tt>来进行调整。</p>
+<p>默认情况下显示中文会是乱码，从Linux切换过去，所以知道需要修改环境变量<code class="docutils literal"><span class="pre">LC_*</span></code>和<code class="docutils literal"><span class="pre">LANG</span></code>的值。FreeBSD在这方面与Linux不太一样。</p>
+<p>FreeBSD中可以在用户配置文件<code class="docutils literal"><span class="pre">~/.login_conf,</span> <span class="pre">~/.profile,</span> <span class="pre">~/.bashrc,</span> <span class="pre">~/.cshrc</span></code>中设定环境变量<code class="docutils literal"><span class="pre">LANG</span></code>和<code class="docutils literal"><span class="pre">MM_CHARSET</span></code>来进行调整。</p>
 <div class="section" id="locale">
 <h3>调整Locale设定的两种方法<a class="headerlink" href="#locale" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="id1">
 <h4>登陆级别的设定<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic">
-<li><p class="first">系统级设定<tt class="docutils literal"><span class="pre">/etc/login.conf</span></tt>
-修改<tt class="docutils literal"><span class="pre">/etc/login.conf</span></tt>中的设定，将对所有用户生效。如：</p>
+<li><p class="first">系统级设定<code class="docutils literal"><span class="pre">/etc/login.conf</span></code>
+修改<code class="docutils literal"><span class="pre">/etc/login.conf</span></code>中的设定，将对所有用户生效。如：</p>
 <div class="highlight-text"><div class="highlight"><pre>language_name|account_type_description:\
     :charset=MIME_charset:\
     :lang=locale_name:\
     :tc=default:
 </pre></div>
 </div>
-<p>修改<tt class="docutils literal"><span class="pre">/etc/login.conf</span></tt>后，需要运行<tt class="docutils literal"><span class="pre">cap_mkdb</span></tt>来更新数据库：</p>
+<p>修改<code class="docutils literal"><span class="pre">/etc/login.conf</span></code>后，需要运行<code class="docutils literal"><span class="pre">cap_mkdb</span></code>来更新数据库：</p>
 <div class="highlight-bash"><div class="highlight"><pre>cap_mkdb /etc/login.conf
 </pre></div>
 </div>
 </li>
-<li><p class="first">用户级设定<tt class="docutils literal"><span class="pre">~/.login.conf</span></tt></p>
+<li><p class="first">用户级设定<code class="docutils literal"><span class="pre">~/.login.conf</span></code></p>
 <p>与系统级设定语法相同，每个用户可以自定义相应的环境参数。</p>
 <div class="highlight-text"><div class="highlight"><pre>me:\
     :charset=utf-8:\
@@ -292,11 +299,11 @@
 </div>
 </li>
 </ol>
-<p>从上面可以看出BSD的设定要求与Linux还是颇为相似的，只是BSD的格式与Linux下的<tt class="docutils literal"><span class="pre">\</span>
-<span class="pre">/etc/login.conf</span></tt>不一样，而且Linux下的很多设置都写在<tt class="docutils literal"><span class="pre">/etc/profile</span></tt>中。关于<tt class="docutils literal"><span class="pre">login.conf</span></tt>的详细设定可以查看man手册。</p>
+<p>从上面可以看出BSD的设定要求与Linux还是颇为相似的，只是BSD的格式与Linux下的<code class="docutils literal"><span class="pre">\</span>
+<span class="pre">/etc/login.conf</span></code>不一样，而且Linux下的很多设置都写在<code class="docutils literal"><span class="pre">/etc/profile</span></code>中。关于<code class="docutils literal"><span class="pre">login.conf</span></code>的详细设定可以查看man手册。</p>
 <p>另外还有一些常用命令可以用来调整Locale设定：</p>
 <ul>
-<li><p class="first"><tt class="docutils literal"><span class="pre">vipw</span></tt>(root)将会打开一个类似<tt class="docutils literal"><span class="pre">/etc/passwd</span></tt>的文件，对于普通用户，<tt class="docutils literal"><span class="pre">vipw</span></tt>打开的文件比<tt class="docutils literal"><span class="pre">/etc/passwd</span></tt>多三个分隔符“:”，其中有一个位置是用来设定Language。如下：</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">vipw</span></code>(root)将会打开一个类似<code class="docutils literal"><span class="pre">/etc/passwd</span></code>的文件，对于普通用户，<code class="docutils literal"><span class="pre">vipw</span></code>打开的文件比<code class="docutils literal"><span class="pre">/etc/passwd</span></code>多三个分隔符“:”，其中有一个位置是用来设定Language。如下：</p>
 <div class="highlight-text"><div class="highlight"><pre># /etc/passwd
 xxxxxx:\*:1002:1002:xxxxxx:/home/xxxxxx:/usr/local/bin/bash
 
@@ -305,9 +312,9 @@ xxxxxx:passwd:1002:1002:language:0:0:xxxxxx:/home/xxxxxx:/usr/local/bin/bash
 </pre></div>
 </div>
 </li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">adduser</span></tt>添加用户时进行设定。</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">adduser</span></code>添加用户时进行设定。</p>
 <ul>
-<li><p class="first">修改添加用户时的配置文件<tt class="docutils literal"><span class="pre">/etc/adduser.conf</span></tt>，再其中设定添加用户时使用的Language－<tt class="docutils literal"><span class="pre">defaultclass</span> <span class="pre">=</span> <span class="pre">language</span></tt>，<tt class="docutils literal"><span class="pre">/etc/adduser.conf</span></tt>
+<li><p class="first">修改添加用户时的配置文件<code class="docutils literal"><span class="pre">/etc/adduser.conf</span></code>，再其中设定添加用户时使用的Language－<code class="docutils literal"><span class="pre">defaultclass</span> <span class="pre">=</span> <span class="pre">language</span></code>，<code class="docutils literal"><span class="pre">/etc/adduser.conf</span></code>
 的详细配置查看Man手册。</p>
 <div class="highlight-ini"><div class="highlight"><pre><span class="na">defaultclass</span> <span class="o">=</span> <span class="s">zh_CN.UTF-8</span>
 </pre></div>
@@ -320,11 +327,11 @@ Enter login class: default<span class="o">[]</span>:
 </pre></div>
 </div>
 </li>
-<li><p class="first">由命令行参数指定：<tt class="docutils literal"><span class="pre">adduser</span> <span class="pre">-class</span> <span class="pre">language</span></tt></p>
+<li><p class="first">由命令行参数指定：<code class="docutils literal"><span class="pre">adduser</span> <span class="pre">-class</span> <span class="pre">language</span></code></p>
 </li>
 </ul>
 </li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">pw</span></tt> 当<tt class="docutils literal"><span class="pre">pw</span></tt>用于创建新用户时，可以通过命令行参数来指定Language。如：</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">pw</span></code> 当<code class="docutils literal"><span class="pre">pw</span></code>用于创建新用户时，可以通过命令行参数来指定Language。如：</p>
 <div class="highlight-bash"><div class="highlight"><pre>pw useradd userName -L language
 </pre></div>
 </div>
@@ -334,13 +341,13 @@ Enter login class: default<span class="o">[]</span>:
 <div class="section" id="shell">
 <h4>设定Shell启动文件<a class="headerlink" href="#shell" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic">
-<li><p class="first">文件<tt class="docutils literal"><span class="pre">/etc/profile</span></tt></p>
+<li><p class="first">文件<code class="docutils literal"><span class="pre">/etc/profile</span></code></p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nb">export  </span><span class="nv">LANG</span><span class="o">=</span>en_US.UTF-8
 <span class="nb">export  </span><span class="nv">MM_CHARSET</span><span class="o">=</span>UTF-8
 </pre></div>
 </div>
 </li>
-<li><p class="first">文件<tt class="docutils literal"><span class="pre">/etc/csh.login</span></tt></p>
+<li><p class="first">文件<code class="docutils literal"><span class="pre">/etc/csh.login</span></code></p>
 <div class="highlight-csh"><div class="highlight"><pre><span class="nb">setenv  </span>LANG        en_US.UTF-8
 <span class="nb">setenv  </span>MM_CHARSET  UTF-8
 </pre></div>
@@ -356,15 +363,15 @@ Enter login class: default<span class="o">[]</span>:
 <h2>Shell命令与Linux的不同<a class="headerlink" href="#shelllinux" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="sed">
 <h3>sed<a class="headerlink" href="#sed" title="Permalink to this headline">¶</a></h3>
-<p>在Linux下，命令<cite>sed -i &#8216;s/a/b/g&#8217; file</cite>可以直接替换文件中的内容，不过在FreeBSD上却需要在选项<tt class="docutils literal"><span class="pre">-i</span></tt>后面加上一个空字符&#8221;&#8220;才可以完成同样的任务。看看<tt class="docutils literal"><span class="pre">man</span></tt>手册中是怎么说明的。</p>
+<p>在Linux下，命令<cite>sed -i &#8216;s/a/b/g&#8217; file</cite>可以直接替换文件中的内容，不过在FreeBSD上却需要在选项<code class="docutils literal"><span class="pre">-i</span></code>后面加上一个空字符&#8221;&#8220;才可以完成同样的任务。看看<code class="docutils literal"><span class="pre">man</span></code>手册中是怎么说明的。</p>
 <ul>
-<li><p class="first">Linux中关于选项<tt class="docutils literal"><span class="pre">-i</span></tt>的说明：</p>
+<li><p class="first">Linux中关于选项<code class="docutils literal"><span class="pre">-i</span></code>的说明：</p>
 <p>-i[SUFFIX], &#8211;in-place[=SUFFIX]</p>
 <blockquote>
 <div><p>edit files in place (makes backup if extension supplied)</p>
 </div></blockquote>
 </li>
-<li><p class="first">FreeBSD中关于选项<tt class="docutils literal"><span class="pre">-i</span></tt>的说明：</p>
+<li><p class="first">FreeBSD中关于选项<code class="docutils literal"><span class="pre">-i</span></code>的说明：</p>
 <table class="docutils option-list" frame="void" rules="none">
 <col class="option" />
 <col class="description" />
@@ -406,7 +413,7 @@ edited by a separate sed instance.</p>
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

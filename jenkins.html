@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="SVN Q/A" href="svn.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -211,11 +218,11 @@
               
                 
   <li>
-    <a href="proc.html" title="Previous Chapter: 文件系统/proc"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; 文件系统/proc</span>
+    <a href="proc.html" title="Previous Chapter: 文件系统/proc"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; 文件系统/proc</span>
     </a>
   </li>
   <li>
-    <a href="svn.html" title="Next Chapter: SVN Q/A"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">SVN Q/A &raquo;</span>
+    <a href="svn.html" title="Next Chapter: SVN Q/A"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">SVN Q/A &raquo;</span>
     </a>
   </li>
               
@@ -317,27 +324,27 @@
 </div>
 <p>其中：</p>
 <ul class="simple">
-<li>“<tt class="docutils literal"><span class="pre">Assets</span></tt>”目录存放着所有源代码和原始资源</li>
-<li>“<tt class="docutils literal"><span class="pre">Assets/Editor</span></tt>”目录存放着命令命令编译脚本“<tt class="docutils literal"><span class="pre">CommandCompiler.cs</span></tt>”</li>
-<li>“<tt class="docutils literal"><span class="pre">Bundles</span></tt>”用于存放Web版客户端编译后资源 （可以在编译代码中调整）</li>
-<li>“<tt class="docutils literal"><span class="pre">StreamingAssets</span></tt>”用于存放Android版客户端编译后资源（可以编译代码中修改调整）</li>
-<li>“<tt class="docutils literal"><span class="pre">StreamingIOS</span></tt>”用于存放iOS客户端编译后资源（可以在编译代码中修改调整）</li>
-<li>&#8220;<tt class="docutils literal"><span class="pre">Tools</span></tt>存放命令行编译工具</li>
-<li>“<tt class="docutils literal"><span class="pre">WebPlayer</span></tt>”基本废弃</li>
+<li>“<code class="docutils literal"><span class="pre">Assets</span></code>”目录存放着所有源代码和原始资源</li>
+<li>“<code class="docutils literal"><span class="pre">Assets/Editor</span></code>”目录存放着命令命令编译脚本“<code class="docutils literal"><span class="pre">CommandCompiler.cs</span></code>”</li>
+<li>“<code class="docutils literal"><span class="pre">Bundles</span></code>”用于存放Web版客户端编译后资源 （可以在编译代码中调整）</li>
+<li>“<code class="docutils literal"><span class="pre">StreamingAssets</span></code>”用于存放Android版客户端编译后资源（可以编译代码中修改调整）</li>
+<li>“<code class="docutils literal"><span class="pre">StreamingIOS</span></code>”用于存放iOS客户端编译后资源（可以在编译代码中修改调整）</li>
+<li>&#8220;<code class="docutils literal"><span class="pre">Tools</span></code>存放命令行编译工具</li>
+<li>“<code class="docutils literal"><span class="pre">WebPlayer</span></code>”基本废弃</li>
 </ul>
 <div class="section" id="id2">
 <h3>资源的链接<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<p>当前项目的设定中，将编译后的资源根据不同的平台分别存放在<tt class="docutils literal"><span class="pre">Bundles,</span> <span class="pre">StreamingAssets,</span> <span class="pre">StreamingIOS</span></tt>这三个目录。
-而根据<tt class="docutils literal"><span class="pre">Unity3D</span></tt>的特殊目录要求，资源应该保存在<tt class="docutils literal"><span class="pre">Assets/StreamingAssets</span></tt>中，所以在编译输出二进制包和<cite>xcode</cite>项目文件时，需要将对应编译后的资源文件连接至此。如：当编译iOS的xcode项目文件时，需要将<tt class="docutils literal"><span class="pre">Assets/StreamingIOS</span></tt>目录链接到<tt class="docutils literal"><span class="pre">Assets/StreamingAssets</span></tt>；编译Android客户端时，需要将<tt class="docutils literal"><span class="pre">StreamingAssets</span></tt>链接到<tt class="docutils literal"><span class="pre">Assets/StreamingAssets</span></tt>等。</p>
-<p>部分贴图资源仅在目录<tt class="docutils literal"><span class="pre">StreamingAssets/Tex</span></tt>下维护，所以当编译Web客户端和iOS客户端时需要将此两个目录拷贝到<tt class="docutils literal"><span class="pre">Bundles</span></tt>或<tt class="docutils literal"><span class="pre">StreamingIOS</span></tt></p>
-<p>由于<tt class="docutils literal"><span class="pre">Bundles</span></tt>，<tt class="docutils literal"><span class="pre">StreamingAssets</span></tt>和<tt class="docutils literal"><span class="pre">StreamingIOS</span></tt>每次SVN更新可能有新的资源加入，也可能有资源被移除，所以在每次编译前需要将子目录都清空，进行SVN更新时将这些目录排除。</p>
+<p>当前项目的设定中，将编译后的资源根据不同的平台分别存放在<code class="docutils literal"><span class="pre">Bundles,</span> <span class="pre">StreamingAssets,</span> <span class="pre">StreamingIOS</span></code>这三个目录。
+而根据<code class="docutils literal"><span class="pre">Unity3D</span></code>的特殊目录要求，资源应该保存在<code class="docutils literal"><span class="pre">Assets/StreamingAssets</span></code>中，所以在编译输出二进制包和<cite>xcode</cite>项目文件时，需要将对应编译后的资源文件连接至此。如：当编译iOS的xcode项目文件时，需要将<code class="docutils literal"><span class="pre">Assets/StreamingIOS</span></code>目录链接到<code class="docutils literal"><span class="pre">Assets/StreamingAssets</span></code>；编译Android客户端时，需要将<code class="docutils literal"><span class="pre">StreamingAssets</span></code>链接到<code class="docutils literal"><span class="pre">Assets/StreamingAssets</span></code>等。</p>
+<p>部分贴图资源仅在目录<code class="docutils literal"><span class="pre">StreamingAssets/Tex</span></code>下维护，所以当编译Web客户端和iOS客户端时需要将此两个目录拷贝到<code class="docutils literal"><span class="pre">Bundles</span></code>或<code class="docutils literal"><span class="pre">StreamingIOS</span></code></p>
+<p>由于<code class="docutils literal"><span class="pre">Bundles</span></code>，<code class="docutils literal"><span class="pre">StreamingAssets</span></code>和<code class="docutils literal"><span class="pre">StreamingIOS</span></code>每次SVN更新可能有新的资源加入，也可能有资源被移除，所以在每次编译前需要将子目录都清空，进行SVN更新时将这些目录排除。</p>
 </div>
 </div>
 <div class="section" id="id3">
 <h2>软件需求<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>开发及编译工具:</p>
 <ol class="arabic simple">
-<li>服务端使用<tt class="docutils literal"><span class="pre">gcc</span></tt>和<tt class="docutils literal"><span class="pre">automake</span></tt>进行编译</li>
+<li>服务端使用<code class="docutils literal"><span class="pre">gcc</span></code>和<code class="docutils literal"><span class="pre">automake</span></code>进行编译</li>
 <li>Unity3D (&gt;=4.1.2f)</li>
 <li>Android SDK (API Level &gt;= 10)</li>
 <li>Xcode (&gt;=4.6)</li>
@@ -350,18 +357,18 @@
 <li>jenkins插件：<em>Jenkins Unity3d plugin</em>, <em>Jenkins SSH Slaves plugin</em>,<em>Log Parser Plugin</em>, <em>SSH Credentials Plugin</em>, <em>Token Macro Plugin</em>,<em>Xcode integration</em>, <em>IPMessager plugin</em>等。</li>
 <li>jre(Java Runtime Enviroment. &gt;=1.7)</li>
 </ol>
-<p>上述开发工具和软件在内网服务器上均有保存。（<tt class="docutils literal"><span class="pre">\\server\SOFTHOME\开发相关\CI</span></tt>）所有运行<strong>jenkins</strong>的系统（包括slave）都必需安装java运行时环境(jre)，其它软件根据不同平台角色需要安装即可。注意<cite>jenkins</cite>和相应插件必要时应进行升级更新（出现莫名其妙的问题，请检查<cite>jenkins</cite>官方网站的更新升级日志）</p>
+<p>上述开发工具和软件在内网服务器上均有保存。（<code class="docutils literal"><span class="pre">\\server\SOFTHOME\开发相关\CI</span></code>）所有运行<strong>jenkins</strong>的系统（包括slave）都必需安装java运行时环境(jre)，其它软件根据不同平台角色需要安装即可。注意<cite>jenkins</cite>和相应插件必要时应进行升级更新（出现莫名其妙的问题，请检查<cite>jenkins</cite>官方网站的更新升级日志）</p>
 </div>
 <div class="section" id="master-slave">
 <h2>配置Master-Slave<a class="headerlink" href="#master-slave" title="Permalink to this headline">¶</a></h2>
-<p>由于不同的版本需要在不同平台上编译，所以<strong>jenkins</strong>需要采用<strong>Master-Slave</strong>形式将编译工作分配到不同的平台执行。当前使用Windows平台作为Master，Mac OS和Linux作为Slave。（当前使用过程中发现，使用<tt class="docutils literal"><span class="pre">JNLP</span></tt>方法连接slave时，随着时间的推进，java会战胜大量内存，而且经常断开。可能原因是编译是产生了大量日志&gt;100M）</p>
+<p>由于不同的版本需要在不同平台上编译，所以<strong>jenkins</strong>需要采用<strong>Master-Slave</strong>形式将编译工作分配到不同的平台执行。当前使用Windows平台作为Master，Mac OS和Linux作为Slave。（当前使用过程中发现，使用<code class="docutils literal"><span class="pre">JNLP</span></code>方法连接slave时，随着时间的推进，java会战胜大量内存，而且经常断开。可能原因是编译是产生了大量日志&gt;100M）</p>
 <p>Master和Slave都需要有足够的磁盘空间存放赤兔客户端源代码，编译中间文件和输出文件。<a class="footnote-reference" href="#id20" id="id4">[1]</a></p>
 <div class="section" id="master">
 <h3>安装及配置Master<a class="headerlink" href="#master" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="jenkins-master">
 <h4>安装jenkins Master<a class="headerlink" href="#jenkins-master" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic">
-<li><p class="first">在作为Master的主机上安装<tt class="docutils literal"><span class="pre">jre</span></tt></p>
+<li><p class="first">在作为Master的主机上安装<code class="docutils literal"><span class="pre">jre</span></code></p>
 </li>
 <li><p class="first">设置环境变量<cite>JENKINS_HOME</cite>，<cite>JENKINS_HOME</cite>所指向的目录应该有足够的空间（每个job &gt;= 1GB）</p>
 </li>
@@ -376,7 +383,7 @@ java -jar Your_Path/jenkins.war --daemon --httpPort<span class="o">=</span>80
 <li><p class="first">从浏览器打开<a class="reference external" href="http://ip">http://ip</a>就可以看到jenkins的界面<a class="footnote-reference" href="#id22" id="id6">[3]</a></p>
 </li>
 </ol>
-<p>当<tt class="docutils literal"><span class="pre">jenkins</span></tt> 界面后可以对系统进行第一步配置：</p>
+<p>当<code class="docutils literal"><span class="pre">jenkins</span></code> 界面后可以对系统进行第一步配置：</p>
 <ol class="arabic simple">
 <li>从浏览器打开jenksin后，进入插件管理（<em>系统管理 -&gt; 管理插件 -&gt; 高级 -&gt; 上传插件</em>）。安装必备的一些插件：<em>Jenins Unity3d plugin</em>, <em>Jenkins SSH Slaves plugin</em>,<em>Log Parser Plugin</em>, <em>SSH Credentials Plugin</em>, <em>Token Macro Plugin</em>,<em>Xcode integration</em>, <em>IPMessager plugin</em>等。</li>
 <li>指定Unity3D安装位置（<em>系统管理 -&gt; 系统设置 -&gt; Unity3D -&gt; Unity3D安装</em>）。即使不在master执行编译任务，也需要设定一个名字，因为向其它节点添加工具路径时需要此值。</li>
@@ -417,7 +424,7 @@ java -jar Your_Path/jenkins.war --daemon --httpPort<span class="o">=</span>80
 <li>可同时执行文件数“<strong># of excutors</strong>”</li>
 <li>Slave上的工作目录“<strong>Remote FS root</strong>”。此目录所在分区必须有足够磁盘空间<a class="footnote-reference" href="#id23" id="id8">[4]</a></li>
 <li>设定一个标签，便于工作分类。“<strong>Labels</strong>”</li>
-<li>连接Slave的方法“<tt class="docutils literal"><span class="pre">Launch</span> <span class="pre">method</span></tt>”。对于MacOS（类Unix系统）使用SSH连接是最为便利的；对于Windows则使用<em>Java Web Start</em>比较方便，当然也可以使用cygwin或其它ssh工具连接Windows。接着指定slave的IP，选择已经保存的凭证（Credentials）</li>
+<li>连接Slave的方法“<code class="docutils literal"><span class="pre">Launch</span> <span class="pre">method</span></code>”。对于MacOS（类Unix系统）使用SSH连接是最为便利的；对于Windows则使用<em>Java Web Start</em>比较方便，当然也可以使用cygwin或其它ssh工具连接Windows。接着指定slave的IP，选择已经保存的凭证（Credentials）</li>
 <li>设定要使用的工具路径（Unity3D）</li>
 <li>设定slave上的工作目录，并确认此目录存在且ssh用户具有读写权限。</li>
 </ul>
@@ -426,7 +433,7 @@ java -jar Your_Path/jenkins.war --daemon --httpPort<span class="o">=</span>80
 </li>
 <li><p class="first">回到<em>系统管理 -&gt; 管理节点</em>就可以看到节点连接状态。如果连接失败，点击相应的节点名，查看日志，修正问题</p>
 </li>
-<li><p class="first">用于编译<tt class="docutils literal"><span class="pre">android</span></tt>客户端的主机，还需要安装<cite>Android SDK</cite>，并且需要打开Unity3D指定路径
+<li><p class="first">用于编译<code class="docutils literal"><span class="pre">android</span></code>客户端的主机，还需要安装<cite>Android SDK</cite>，并且需要打开Unity3D指定路径
 1.  用Unity3D打开客户端项目，指定Android SDK位置。（Editor -&gt; Preference -&gt; External Tools -&gt; Android SDK Location）
 2.  如果有配置CacheServer，同样在Unity3D中指定CacheServer（Editor -&gt; Preference -&gt; Cache Server）</p>
 </li>
@@ -436,21 +443,21 @@ java -jar Your_Path/jenkins.war --daemon --httpPort<span class="o">=</span>80
 3.  导入<strong>mobileprovision</strong>文件，并确认有效<a class="footnote-reference" href="#id24" id="id9">[5]</a></p>
 </li>
 </ol>
-<p>在使用master/slave进行构建前，最好手动Checkout一份代码；然后用Unity3D打开，手动完成一次完整的编译，并确保成功。对于iPhone/iPad客户端，需要先由<tt class="docutils literal"><span class="pre">Unity3D</span></tt>输出一个Xcode项目代码；用Xcode打开，并编译一个APP，确认整个流程正常。</p>
+<p>在使用master/slave进行构建前，最好手动Checkout一份代码；然后用Unity3D打开，手动完成一次完整的编译，并确保成功。对于iPhone/iPad客户端，需要先由<code class="docutils literal"><span class="pre">Unity3D</span></code>输出一个Xcode项目代码；用Xcode打开，并编译一个APP，确认整个流程正常。</p>
 <p>slave节点连接正常后就可以创建任务并向其分发。</p>
 </div>
 </div>
 <div class="section" id="id10">
 <h2>创建工作任务<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <p>当Master配置好后，如果满足编译环境要求即可进行编译；当连接上Slave后，即可将的工作分发给slave执行，对于不同的任务，可以通过标签来加以限定。
-手动确认<cite>slave</cite>上的编译工作可以正常完成后，可以打开<tt class="docutils literal"><span class="pre">jenkins</span></tt>的界面创建新的工作。
+手动确认<cite>slave</cite>上的编译工作可以正常完成后，可以打开<code class="docutils literal"><span class="pre">jenkins</span></code>的界面创建新的工作。
 为了便于进行持续集成，所以通常使用Unity3D的命令行编译来完成编译。<a class="footnote-reference" href="#id25" id="id11">[6]</a></p>
 <div class="section" id="android">
 <h3>Android<a class="headerlink" href="#android" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic">
 <li><p class="first">确认作为slave的主机是否已经连上master。</p>
 </li>
-<li><p class="first">确认<tt class="docutils literal"><span class="pre">jenkins</span></tt>已经安装了插件<tt class="docutils literal"><span class="pre">Jenkins</span> <span class="pre">Unity3d</span> <span class="pre">plugin,</span> <span class="pre">Xcode</span> <span class="pre">integration</span></tt></p>
+<li><p class="first">确认<code class="docutils literal"><span class="pre">jenkins</span></code>已经安装了插件<code class="docutils literal"><span class="pre">Jenkins</span> <span class="pre">Unity3d</span> <span class="pre">plugin,</span> <span class="pre">Xcode</span> <span class="pre">integration</span></code></p>
 </li>
 <li><p class="first">“<em>新Job -&gt; 设定任务名称 -&gt; 类型选择自由风格或拷贝已存在任务</em>”，进入任务详细设定</p>
 </li>
@@ -505,7 +512,7 @@ move <span class="nv">%iFILE%</span> <span class="nv">%oFILE%</span>
 <div class="section" id="ios-iphone-ipad">
 <h3>iOS/iPhone/iPad<a class="headerlink" href="#ios-iphone-ipad" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic">
-<li><p class="first">确认MacOS Slave已经连接上Master，确认<tt class="docutils literal"><span class="pre">jenkins</span></tt>已经安装了插件<tt class="docutils literal"><span class="pre">Jenkins</span> <span class="pre">Unity3d</span> <span class="pre">plugin,</span> <span class="pre">Xcode</span> <span class="pre">integration</span></tt></p>
+<li><p class="first">确认MacOS Slave已经连接上Master，确认<code class="docutils literal"><span class="pre">jenkins</span></code>已经安装了插件<code class="docutils literal"><span class="pre">Jenkins</span> <span class="pre">Unity3d</span> <span class="pre">plugin,</span> <span class="pre">Xcode</span> <span class="pre">integration</span></code></p>
 </li>
 <li><p class="first">类似Android任务创建一个新的任务</p>
 </li>
@@ -516,7 +523,7 @@ move <span class="nv">%iFILE%</span> <span class="nv">%oFILE%</span>
 <li><p class="first">添加构建步骤：</p>
 <ul>
 <li><p class="first">更新源码</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> <span class="k">${</span><span class="nv">WORKSPACE</span><span class="k">}</span>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> <span class="si">${</span><span class="nv">WORKSPACE</span><span class="si">}</span>
 svn up --force --accept theirs-full Assets ProjectSettings StreamingAssets<span class="se">\T</span>ex Tools StreamingAssets<span class="se">\h</span>ud.cfg StreamingAssets<span class="se">\g</span>ameconfig.cfg
 </pre></div>
 </div>
@@ -570,14 +577,14 @@ svn up --force --accept theirs-full Assets ProjectSettings Tools StreamingAssets
 </li>
 <li><p class="first">利用插件<strong>Environment Injector Plugin</strong>对环境（变量）进行统一管理</p>
 </li>
-<li><p class="first">针对每个平台建立一个由<cite>jenkins</cite>内置版本控制工具（SVN）管理源码的工作，实现<tt class="docutils literal"><span class="pre">每日构建</span></tt>确保每天提交的代码可以正常工作。</p>
+<li><p class="first">针对每个平台建立一个由<cite>jenkins</cite>内置版本控制工具（SVN）管理源码的工作，实现<code class="docutils literal"><span class="pre">每日构建</span></code>确保每天提交的代码可以正常工作。</p>
 </li>
 </ol>
 </div>
 </div>
 <div class="section" id="id13">
 <h2>构建步骤<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
-<p><tt class="docutils literal"><span class="pre">Unity3D</span></tt>的编译过程可以通过代码自定制，相当比较灵活。当前编译程序位于<tt class="docutils literal"><span class="pre">Assets/Editor</span></tt>目录下，<tt class="docutils literal"><span class="pre">BuildBundle.cs</span></tt>是用于GUI界面编译的菜单选项；<tt class="docutils literal"><span class="pre">CommandCompiler.cs</span></tt>是命令编译代码。资源和程序的编译功能由程序维护。<tt class="docutils literal"><span class="pre">CommandCompiler.cs</span></tt>中需要根据不同平台，不同渠道分别进行一些设定。对于<tt class="docutils literal"><span class="pre">iPhone/iPad</span></tt>可能来需要向生成的xcode项目添加一些额外的SDK文件，此时需要利用Unity3D提供的<cite>Post Process BuildPlayer</cite>功能。<a class="footnote-reference" href="#id26" id="id14">[7]</a></p>
+<p><code class="docutils literal"><span class="pre">Unity3D</span></code>的编译过程可以通过代码自定制，相当比较灵活。当前编译程序位于<code class="docutils literal"><span class="pre">Assets/Editor</span></code>目录下，<code class="docutils literal"><span class="pre">BuildBundle.cs</span></code>是用于GUI界面编译的菜单选项；<code class="docutils literal"><span class="pre">CommandCompiler.cs</span></code>是命令编译代码。资源和程序的编译功能由程序维护。<code class="docutils literal"><span class="pre">CommandCompiler.cs</span></code>中需要根据不同平台，不同渠道分别进行一些设定。对于<code class="docutils literal"><span class="pre">iPhone/iPad</span></code>可能来需要向生成的xcode项目添加一些额外的SDK文件，此时需要利用Unity3D提供的<cite>Post Process BuildPlayer</cite>功能。<a class="footnote-reference" href="#id26" id="id14">[7]</a></p>
 <div class="section" id="unity3d">
 <h3>Unity3D的命令行编译<a class="headerlink" href="#unity3d" title="Permalink to this headline">¶</a></h3>
 <p>Unity3D支持命令行编译，常用命令行参数选项有：<a class="footnote-reference" href="#cmd-param" id="id15">[9]</a></p>
@@ -595,16 +602,106 @@ svn up --force --accept theirs-full Assets ProjectSettings Tools StreamingAssets
 </div>
 <div class="section" id="postprocessbuildplayer">
 <h3>PostprocessBuildPlayer<a class="headerlink" href="#postprocessbuildplayer" title="Permalink to this headline">¶</a></h3>
-<p><cite>Unity3D</cite>程序编译Player完成后会执行<cite>Editor</cite>目录下<tt class="docutils literal"><span class="pre">PostprocessBuildPlayer</span></tt>程序（任意可执行代码）进行相关操作。<a class="footnote-reference" href="#id27" id="id16">[8]</a>在当前项目中由于不同渠道提供的SDK千奇百怪，有时需要使用此功能向xcode项目中添加文件。当前项目中的<tt class="docutils literal"><span class="pre">PostprocessBuildPlayer</span></tt>是使用python所写，用于向xcode项目添加91的SDK。</p>
+<p><cite>Unity3D</cite>程序编译Player完成后会执行<cite>Editor</cite>目录下<code class="docutils literal"><span class="pre">PostprocessBuildPlayer</span></code>程序（任意可执行代码）进行相关操作。<a class="footnote-reference" href="#id27" id="id16">[8]</a>在当前项目中由于不同渠道提供的SDK千奇百怪，有时需要使用此功能向xcode项目中添加文件。当前项目中的<code class="docutils literal"><span class="pre">PostprocessBuildPlayer</span></code>是使用python所写，用于向xcode项目添加91的SDK。</p>
+<p><code class="docutils literal"><span class="pre">Unity</span></code>调用<code class="docutils literal"><span class="pre">PostprocessBuildPlayer</span></code>时会向其传递7个参数：</p>
+<div class="highlight-perl"><div class="highlight"><pre><span class="c1">#!/usr/bin/perl</span>
+
+<span class="k">my</span> <span class="nv">$installPath</span> <span class="o">=</span> <span class="nv">$ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+<span class="c1"># The type of player built:</span>
+<span class="c1"># &quot;dashboard&quot;, &quot;standaloneWin32&quot;, &quot;standaloneOSXIntel&quot;, &quot;standaloneOSXPPC&quot;, &quot;standaloneOSXUniversal&quot;, &quot;webplayer&quot;</span>
+<span class="k">my</span> <span class="nv">$target</span> <span class="o">=</span> <span class="nv">$ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+
+<span class="c1"># What optimizations are applied. At the moment either &quot;&quot; or &quot;strip&quot; when Strip debug symbols is selected.</span>
+<span class="k">my</span> <span class="nv">$optimization</span> <span class="o">=</span> <span class="nv">$ARGV</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+
+<span class="c1"># The name of the company set in the project settings</span>
+<span class="k">my</span> <span class="nv">$companyName</span> <span class="o">=</span> <span class="nv">$ARGV</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+
+<span class="c1"># The name of the product set in the project settings</span>
+<span class="k">my</span> <span class="nv">$productName</span> <span class="o">=</span> <span class="nv">$ARGV</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+
+<span class="c1"># The default screen width of the player.</span>
+<span class="k">my</span> <span class="nv">$width</span> <span class="o">=</span> <span class="nv">$ARGV</span><span class="p">[</span><span class="mi">5</span><span class="p">];</span>
+
+<span class="c1"># The default screen height of the player</span>
+<span class="k">my</span> <span class="nv">$height</span> <span class="o">=</span> <span class="nv">$ARGV</span><span class="p">[</span><span class="mi">6</span><span class="p">];</span>
+
+<span class="k">print</span> <span class="p">(</span><span class="s">&quot;\n*** Building at &#39;$installPath&#39; with target: $target \n&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>在三国中我们使用python来实现<code class="docutils literal"><span class="pre">PostprocessBuildPlayer</span></code>向Xcode项目中添加文件：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#!/usr/bin/env python</span>
+<span class="c"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;Unity3D PostprocessBuildPlayer</span>
+<span class="sd">用于向Unity3D导出的xcode项目中添加额外的文件。</span>
+
+<span class="sd">由于unity3D会输出各种不同的客户端，并接入不同的平台（使用不同的SDK），由此知道\</span>
+<span class="sd">会添加各种不同的文件，而Unity3D再编译完成后均会调用\ ``PostprocessBuildPlayer``\</span>
+<span class="sd">。为了可以正确的添加相应的SDK信息，需要在\ ``PostprocessBuildPlayer``\ 中根据\</span>
+<span class="sd">Unity3D传递的参数来进行判断。Unity3D会向\ ``PostprocessBuildPlayer``\ 传递一些\</span>
+<span class="sd">参数，其中\ ``sys.argv[1]``\ 为安装路径（即导入xcode的路径）；\ ``sys.argv[2]``\</span>
+<span class="sd">为BuildTarget（即：Andriod, iPhone ...）。</span>
+
+<span class="sd">**在编译时将不同版本，不同运营商的客户端输出到不同的路径，上面两个参数就可以用\</span>
+<span class="sd">于确定相应添加什么文件。**</span>
+
+<span class="sd">Author: Liu Hui</span>
+<span class="sd">Date: Sat Feb  8 14:07:41 CST 2014</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">mod_pbxproj</span> <span class="kn">import</span> <span class="n">XcodeProject</span>
+
+<span class="c"># 请根据实际情况修改\ ``xcode_path, agent``\ 的值</span>
+<span class="c"># ``agent``\ 的值与命令行编译脚本\ ``CommandCompiler.cs``\ 中的output相对应</span>
+<span class="n">xcode_path</span> <span class="o">=</span> <span class="s">&#39;/Users/xcode/xcode_project&#39;</span>
+<span class="n">agent</span> <span class="o">=</span> <span class="s">&#39;dj91&#39;</span>
+<span class="n">xcode_project_path</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">xcode_path</span><span class="p">,</span> <span class="n">agent</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="s">&#39;iphone&#39;</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;iphone&#39;</span> <span class="ow">and</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">xcode_project_path</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="c"># 请根据实际情况修改或增加SDK路径：\ ``DJ_PATH``\ 的值</span>
+<span class="n">DJ_PATH</span> <span class="o">=</span> <span class="s">&#39;/Users/xcode/GameSDK/DJGameSDK1&#39;</span>
+<span class="n">system_framework_path</span> <span class="o">=</span> <span class="s">&#39;/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks&#39;</span>
+<span class="n">pbxproj</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">/Unity-iPhone.xcodeproj/project.pbxproj&#39;</span> <span class="o">%</span> <span class="n">xcode_project_path</span>
+
+<span class="c"># 添加第三方SDK信息</span>
+<span class="n">dj_resource</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">/Resources&#39;</span> <span class="o">%</span> <span class="n">DJ_PATH</span>
+<span class="n">dj_frm</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">/DJGame.framework&#39;</span> <span class="o">%</span> <span class="n">DJ_PATH</span>
+<span class="n">dj_unity3d_frm</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">/DJGameForUnity3D.framework&#39;</span> <span class="o">%</span> <span class="n">DJ_PATH</span>
+
+<span class="c"># 添加依赖系统框架</span>
+<span class="n">messageui</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">/MessageUI.framework&#39;</span> <span class="o">%</span> <span class="n">system_framework_path</span>
+<span class="n">coretext</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">/CoreText.framework&#39;</span> <span class="o">%</span> <span class="n">system_framework_path</span>
+
+<span class="n">project</span> <span class="o">=</span> <span class="n">XcodeProject</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">pbxproj</span><span class="p">)</span>
+
+<span class="n">project</span><span class="o">.</span><span class="n">add_folder</span><span class="p">(</span><span class="n">dj_resource</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">add_folder</span><span class="p">(</span><span class="n">dj_frm</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">add_folder</span><span class="p">(</span><span class="n">dj_unity3d_frm</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">add_folder</span><span class="p">(</span><span class="n">messageui</span><span class="p">)</span>
+<span class="n">project</span><span class="o">.</span><span class="n">add_folder</span><span class="p">(</span><span class="n">coretext</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">project</span><span class="o">.</span><span class="n">modified</span><span class="p">:</span>
+    <span class="n">project</span><span class="o">.</span><span class="n">backup</span><span class="p">()</span>
+    <span class="n">project</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="id17">
 <h3>基本构建步骤<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <p>当前由于需要在资源编译完成后生成<cite>gameconfig.cfg</cite>和资源的版本信息文件<cite>version.cfg</cite>，所以当前将整个编译过程分为四部分</p>
 <ol class="arabic simple">
 <li>从SVN上更新完代码后，清理上次编译生成的资源</li>
-<li>调用<tt class="docutils literal"><span class="pre">Tools/bin/datamaker.py</span></tt>生成数据文件，并检查当前工程的资源读取方式是否正确</li>
+<li>调用<code class="docutils literal"><span class="pre">Tools/bin/datamaker.py</span></code>生成数据文件，并检查当前工程的资源读取方式是否正确</li>
 <li>编译资源</li>
-<li>调用<tt class="docutils literal"><span class="pre">Tools/bin/fileversion.py</span></tt>生成<cite>gameconfig.cfg</cite>和<cite>version.cfg</cite></li>
+<li>调用<code class="docutils literal"><span class="pre">Tools/bin/fileversion.py</span></code>生成<cite>gameconfig.cfg</cite>和<cite>version.cfg</cite></li>
 <li>编译二进制文件（<cite>Android</cite>系统为apk包，<cite>iPhone/iPad</cite>为xcode项目文件）</li>
 <li>进一步编译使用<cite>xcodebuild</cite>和<cite>xcrun</cite>编译xcode项目，生成ipa文件</li>
 </ol>
@@ -708,7 +805,7 @@ svn up --force --accept theirs-full Assets ProjectSettings Tools StreamingAssets
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

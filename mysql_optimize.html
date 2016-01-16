@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="MySQL通用调优原则" href="mysql_tuning.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -175,11 +182,11 @@
 <li><a class="reference internal" href="#id2">整型</a></li>
 <li><a class="reference internal" href="#id3">实型</a></li>
 <li><a class="reference internal" href="#id4">字符串类型</a><ul>
-<li><a class="reference internal" href="#varcharchar"><tt class="docutils literal"><span class="pre">VARCHAR</span></tt>和<tt class="docutils literal"><span class="pre">CHAR</span></tt></a></li>
+<li><a class="reference internal" href="#varcharchar"><code class="docutils literal"><span class="pre">VARCHAR</span></code>和<code class="docutils literal"><span class="pre">CHAR</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#blobtext">BLOB和TEXT</a></li>
-<li><a class="reference internal" href="#enum"><tt class="docutils literal"><span class="pre">ENUM</span></tt></a></li>
+<li><a class="reference internal" href="#enum"><code class="docutils literal"><span class="pre">ENUM</span></code></a></li>
 <li><a class="reference internal" href="#id5">日期、时间类型</a></li>
 <li><a class="reference internal" href="#id6">特殊类型</a></li>
 </ul>
@@ -206,11 +213,11 @@
               
                 
   <li>
-    <a href="mysql_logs.html" title="Previous Chapter: MySQL日志相关服务器变量"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; MySQL日志相关服务器变量</span>
+    <a href="mysql_logs.html" title="Previous Chapter: MySQL日志相关服务器变量"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; MySQL日志相关服务器变量</span>
     </a>
   </li>
   <li>
-    <a href="mysql_tuning.html" title="Next Chapter: MySQL通用调优原则"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">MySQL通用调优原则 &raquo;</span>
+    <a href="mysql_tuning.html" title="Next Chapter: MySQL通用调优原则"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">MySQL通用调优原则 &raquo;</span>
     </a>
   </li>
               
@@ -243,11 +250,11 @@
 <li><a class="reference internal" href="#id2">整型</a></li>
 <li><a class="reference internal" href="#id3">实型</a></li>
 <li><a class="reference internal" href="#id4">字符串类型</a><ul>
-<li><a class="reference internal" href="#varcharchar"><tt class="docutils literal"><span class="pre">VARCHAR</span></tt>和<tt class="docutils literal"><span class="pre">CHAR</span></tt></a></li>
+<li><a class="reference internal" href="#varcharchar"><code class="docutils literal"><span class="pre">VARCHAR</span></code>和<code class="docutils literal"><span class="pre">CHAR</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#blobtext">BLOB和TEXT</a></li>
-<li><a class="reference internal" href="#enum"><tt class="docutils literal"><span class="pre">ENUM</span></tt></a></li>
+<li><a class="reference internal" href="#enum"><code class="docutils literal"><span class="pre">ENUM</span></code></a></li>
 <li><a class="reference internal" href="#id5">日期、时间类型</a></li>
 <li><a class="reference internal" href="#id6">特殊类型</a></li>
 </ul>
@@ -286,38 +293,38 @@
 <h1>MySQL优化-《高性能MySQL》笔记<a class="headerlink" href="#mysql-mysql" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
 <h2>数据类型<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>数据库就是用来存放数据的，对数据的存储，操作是要消耗各种资源的（磁盘，内存，CPU），所以在选择存储数据类型是应该遵循<tt class="docutils literal"><span class="pre">在满足需要的条件下更小，更简单的数据类</span>
-<span class="pre">型，尽可能不要使用NULL</span></tt>。</p>
+<p>数据库就是用来存放数据的，对数据的存储，操作是要消耗各种资源的（磁盘，内存，CPU），所以在选择存储数据类型是应该遵循<code class="docutils literal"><span class="pre">在满足需要的条件下更小，更简单的数据类</span>
+<span class="pre">型，尽可能不要使用NULL</span></code>。</p>
 <p>对于数值通常要考虑取值范围、精度问题，对于字符通常需要了解要存储字符的长度，还有时间，二进制数据等</p>
 <div class="section" id="id2">
 <h3>整型<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<p>整数类型通常有：<tt class="docutils literal"><span class="pre">TINYINT,</span> <span class="pre">SMALLINT,</span> <span class="pre">MEDIUMINT,</span> <span class="pre">INT,</span> <span class="pre">BIGINT</span></tt>，分别需要1, 23, 4, 8个字节的空间存储。还可以使用有符号和无符号，它们占用的存储空间大小一样，性能也是一样的。MySQL内部计算整型时通常使用8字节大小的<tt class="docutils literal"><span class="pre">BIGINT</span></tt>。</p>
+<p>整数类型通常有：<code class="docutils literal"><span class="pre">TINYINT,</span> <span class="pre">SMALLINT,</span> <span class="pre">MEDIUMINT,</span> <span class="pre">INT,</span> <span class="pre">BIGINT</span></code>，分别需要1, 23, 4, 8个字节的空间存储。还可以使用有符号和无符号，它们占用的存储空间大小一样，性能也是一样的。MySQL内部计算整型时通常使用8字节大小的<code class="docutils literal"><span class="pre">BIGINT</span></code>。</p>
 </div>
 <div class="section" id="id3">
 <h3>实型<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<p><tt class="docutils literal"><span class="pre">FLOAT,</span> <span class="pre">DOUBLE</span></tt>支持标准的浮点运算进行<tt class="docutils literal"><span class="pre">近似</span></tt>计算，它们分别占用4个和8个字节。MySQL内部对浮点类型使用<tt class="docutils literal"><span class="pre">DOUBLE</span></tt>进行计算。</p>
-<p><tt class="docutils literal"><span class="pre">DECIMAL</span></tt>类型可以保存精确的小数，支持精确的数据运算。<tt class="docutils literal"><span class="pre">DECIMAL</span></tt>类型可以定义小数点前、后的最大位数，最多65个数字（不同版本可能有差异）。<tt class="docutils literal"><span class="pre">DECIMAL</span></tt>被存储为一个二进制字符串（第4个字节保存9个数字）。如：<tt class="docutils literal"><span class="pre">DECIMAL(18,</span> <span class="pre">9)</span></tt>小数点前后均保存9位数字，总共需要使用9个字节（WHY?）。在计算时，<tt class="docutils literal"><span class="pre">DECIMAL</span></tt>类型被转换为<tt class="docutils literal"><span class="pre">DOUBLE</span></tt>。</p>
+<p><code class="docutils literal"><span class="pre">FLOAT,</span> <span class="pre">DOUBLE</span></code>支持标准的浮点运算进行<code class="docutils literal"><span class="pre">近似</span></code>计算，它们分别占用4个和8个字节。MySQL内部对浮点类型使用<code class="docutils literal"><span class="pre">DOUBLE</span></code>进行计算。</p>
+<p><code class="docutils literal"><span class="pre">DECIMAL</span></code>类型可以保存精确的小数，支持精确的数据运算。<code class="docutils literal"><span class="pre">DECIMAL</span></code>类型可以定义小数点前、后的最大位数，最多65个数字（不同版本可能有差异）。<code class="docutils literal"><span class="pre">DECIMAL</span></code>被存储为一个二进制字符串（第4个字节保存9个数字）。如：<code class="docutils literal"><span class="pre">DECIMAL(18,</span> <span class="pre">9)</span></code>小数点前后均保存9位数字，总共需要使用9个字节（WHY?）。在计算时，<code class="docutils literal"><span class="pre">DECIMAL</span></code>类型被转换为<code class="docutils literal"><span class="pre">DOUBLE</span></code>。</p>
 </div>
 <div class="section" id="id4">
 <h3>字符串类型<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>字符串类型涉及到<em>字符集</em>和<em>排序规则</em>方面的的问题。</p>
 <p>字符串的存储方式与存储引擎有极大的关系。</p>
 <div class="section" id="varcharchar">
-<h4><tt class="docutils literal"><span class="pre">VARCHAR</span></tt>和<tt class="docutils literal"><span class="pre">CHAR</span></tt><a class="headerlink" href="#varcharchar" title="Permalink to this headline">¶</a></h4>
-<p><tt class="docutils literal"><span class="pre">VARCHAR</span></tt>类型存储时只占用字符串实际大小空间，比固定大小的类型占用更少的存储空间。<tt class="docutils literal"><span class="pre">VARCHAR</span></tt>类型需要1到2个额外的字节来存储字符串的长度。<tt class="docutils literal"><span class="pre">VARCHAR</span></tt>类型适合存储很少进行更新的字符串，因为如果更新时字符串长度发生变化，会引起数据碎片（不同存储引擎行为不同），进而影响性能。</p>
-<p>另外，对于<tt class="docutils literal"><span class="pre">VARCHAR</span></tt>类型，如果使用属性<tt class="docutils literal"><span class="pre">ROW_FORMAT=FIXED</span></tt>创建的<tt class="docutils literal"><span class="pre">MyISAM</span></tt>表，每行将会使用固定长度空间，造成空间浪费。</p>
-<p>对于<tt class="docutils literal"><span class="pre">VARCHAR</span></tt>类型的列，被存储的字符串末尾如果有空格，可能会被存储引擎删除。</p>
-<p><tt class="docutils literal"><span class="pre">CHAR</span></tt>字符类型的长度是固定的，适用于哪些长度相近的字符串存储，对于需要经常变化的值也不会产生碎片。如果字符串长度小于设定长度，空格将会填充至末尾。</p>
+<h4><code class="docutils literal"><span class="pre">VARCHAR</span></code>和<code class="docutils literal"><span class="pre">CHAR</span></code><a class="headerlink" href="#varcharchar" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">VARCHAR</span></code>类型存储时只占用字符串实际大小空间，比固定大小的类型占用更少的存储空间。<code class="docutils literal"><span class="pre">VARCHAR</span></code>类型需要1到2个额外的字节来存储字符串的长度。<code class="docutils literal"><span class="pre">VARCHAR</span></code>类型适合存储很少进行更新的字符串，因为如果更新时字符串长度发生变化，会引起数据碎片（不同存储引擎行为不同），进而影响性能。</p>
+<p>另外，对于<code class="docutils literal"><span class="pre">VARCHAR</span></code>类型，如果使用属性<code class="docutils literal"><span class="pre">ROW_FORMAT=FIXED</span></code>创建的<code class="docutils literal"><span class="pre">MyISAM</span></code>表，每行将会使用固定长度空间，造成空间浪费。</p>
+<p>对于<code class="docutils literal"><span class="pre">VARCHAR</span></code>类型的列，被存储的字符串末尾如果有空格，可能会被存储引擎删除。</p>
+<p><code class="docutils literal"><span class="pre">CHAR</span></code>字符类型的长度是固定的，适用于哪些长度相近的字符串存储，对于需要经常变化的值也不会产生碎片。如果字符串长度小于设定长度，空格将会填充至末尾。</p>
 </div>
 </div>
 <div class="section" id="blobtext">
 <h3>BLOB和TEXT<a class="headerlink" href="#blobtext" title="Permalink to this headline">¶</a></h3>
-<p><tt class="docutils literal"><span class="pre">BLOB</span></tt>是以二进制形式保存大量数据的；<tt class="docutils literal"><span class="pre">TEXT</span></tt>是以文本形式来保存大量数据的。对于二进制数据<tt class="docutils literal"><span class="pre">BLOB</span></tt>没有字符集和排序规则的问题。对于长文本<tt class="docutils literal"><span class="pre">TEXT</span></tt>只会按照<tt class="docutils literal"><span class="pre">max_sort_length=N</span></tt>规定的前N个字符进行排序；也可以使用<tt class="docutils literal"><span class="pre">ORDER</span> <span class="pre">BY</span> <span class="pre">SUBSTRING(col,</span> <span class="pre">len)</span></tt>来排序。</p>
-<p>由于<tt class="docutils literal"><span class="pre">Memory</span></tt>存储引擎不支持这两种数据类型，所以使用了<tt class="docutils literal"><span class="pre">BLOB,</span> <span class="pre">TEXT</span></tt>列的临时表查询将不得在磁盘上建立临时表，会导致非常高的性能开销。非必要时应避免使用这两种数据类型。另外临时表的大小受到<tt class="docutils literal"><span class="pre">max_heap_size=N</span></tt>和<tt class="docutils literal"><span class="pre">tmp_table_size=N</span></tt>的限制，如果超过将会在磁盘上建立临时表。</p>
+<p><code class="docutils literal"><span class="pre">BLOB</span></code>是以二进制形式保存大量数据的；<code class="docutils literal"><span class="pre">TEXT</span></code>是以文本形式来保存大量数据的。对于二进制数据<code class="docutils literal"><span class="pre">BLOB</span></code>没有字符集和排序规则的问题。对于长文本<code class="docutils literal"><span class="pre">TEXT</span></code>只会按照<code class="docutils literal"><span class="pre">max_sort_length=N</span></code>规定的前N个字符进行排序；也可以使用<code class="docutils literal"><span class="pre">ORDER</span> <span class="pre">BY</span> <span class="pre">SUBSTRING(col,</span> <span class="pre">len)</span></code>来排序。</p>
+<p>由于<code class="docutils literal"><span class="pre">Memory</span></code>存储引擎不支持这两种数据类型，所以使用了<code class="docutils literal"><span class="pre">BLOB,</span> <span class="pre">TEXT</span></code>列的临时表查询将不得在磁盘上建立临时表，会导致非常高的性能开销。非必要时应避免使用这两种数据类型。另外临时表的大小受到<code class="docutils literal"><span class="pre">max_heap_size=N</span></code>和<code class="docutils literal"><span class="pre">tmp_table_size=N</span></code>的限制，如果超过将会在磁盘上建立临时表。</p>
 </div>
 <div class="section" id="enum">
-<h3><tt class="docutils literal"><span class="pre">ENUM</span></tt><a class="headerlink" href="#enum" title="Permalink to this headline">¶</a></h3>
-<p>以<tt class="docutils literal"><span class="pre">ENUM</span></tt>类型来代替字符串类型，可以大大节省存储空间。<tt class="docutils literal"><span class="pre">ENUM</span></tt>类型以整型存储，以表示值在列表中的位置，并且还保留了一份“查找表”来表示整数和字符串的对映关系。可以把它们按数值形式取出；</p>
+<h3><code class="docutils literal"><span class="pre">ENUM</span></code><a class="headerlink" href="#enum" title="Permalink to this headline">¶</a></h3>
+<p>以<code class="docutils literal"><span class="pre">ENUM</span></code>类型来代替字符串类型，可以大大节省存储空间。<code class="docutils literal"><span class="pre">ENUM</span></code>类型以整型存储，以表示值在列表中的位置，并且还保留了一份“查找表”来表示整数和字符串的对映关系。可以把它们按数值形式取出；</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="n">use</span> <span class="n">test</span>
 
 <span class="k">start</span> <span class="n">transaction</span><span class="p">;</span>
@@ -357,28 +364,28 @@
 </div>
 <p>需要注意的有：</p>
 <ol class="arabic simple">
-<li><tt class="docutils literal"><span class="pre">ENUM</span></tt>字段内部是按数字进行排序的，而不是字符串，这一点极可能引起混乱。（如上面的<tt class="docutils literal"><span class="pre">ORDER</span> <span class="pre">BY</span></tt>查询）</li>
-<li><tt class="docutils literal"><span class="pre">ENUM</span></tt>的字符串列表是固定的，添加或删除字符串时必须使用<tt class="docutils literal"><span class="pre">ALTER</span> <span class="pre">TABLE</span></tt>来完成。所以，对于可能会改变的字符串，使用<tt class="docutils literal"><span class="pre">ENUM</span></tt>类型可能不太方便。在
-MySQL内部权限表中使用<tt class="docutils literal"><span class="pre">ENUM</span></tt>来保存``Y | N``值的。</li>
-<li><tt class="docutils literal"><span class="pre">ENUM</span></tt>类型与其它字段联结时会相对较慢（原因：内部是整型保存的，连接时要用字符串，需要额外的查找）</li>
+<li><code class="docutils literal"><span class="pre">ENUM</span></code>字段内部是按数字进行排序的，而不是字符串，这一点极可能引起混乱。（如上面的<code class="docutils literal"><span class="pre">ORDER</span> <span class="pre">BY</span></code>查询）</li>
+<li><code class="docutils literal"><span class="pre">ENUM</span></code>的字符串列表是固定的，添加或删除字符串时必须使用<code class="docutils literal"><span class="pre">ALTER</span> <span class="pre">TABLE</span></code>来完成。所以，对于可能会改变的字符串，使用<code class="docutils literal"><span class="pre">ENUM</span></code>类型可能不太方便。在
+MySQL内部权限表中使用<code class="docutils literal"><span class="pre">ENUM</span></code>来保存``Y | N``值的。</li>
+<li><code class="docutils literal"><span class="pre">ENUM</span></code>类型与其它字段联结时会相对较慢（原因：内部是整型保存的，连接时要用字符串，需要额外的查找）</li>
 </ol>
 </div>
 <div class="section" id="id5">
 <h3>日期、时间类型<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>MySQL可保存的最细时间粒度是秒。</p>
-<p><tt class="docutils literal"><span class="pre">DATETIME</span></tt> 时间范围从1001年到9999年，与时区无关，占用8个字节。</p>
-<p><tt class="docutils literal"><span class="pre">TIMESTAMP</span></tt>保存了从Unix元年（1970年1月1日）以来的秒数，与Unix时间戳相同，占用4个存储空间。时间范围从1970年至2038年。<tt class="docutils literal"><span class="pre">TIMESTAMP</span></tt>的显示依赖于时区。
+<p><code class="docutils literal"><span class="pre">DATETIME</span></code> 时间范围从1001年到9999年，与时区无关，占用8个字节。</p>
+<p><code class="docutils literal"><span class="pre">TIMESTAMP</span></code>保存了从Unix元年（1970年1月1日）以来的秒数，与Unix时间戳相同，占用4个存储空间。时间范围从1970年至2038年。<code class="docutils literal"><span class="pre">TIMESTAMP</span></code>的显示依赖于时区。
 MySQL服务器，操作系统，客户端都有时区的设置。</p>
-<p>在默认情况下，插入行没有<tt class="docutils literal"><span class="pre">TIMESTAMP</span></tt>列的值时，MySQL会将其设定为当前时间。在更新时，没有显式定义<tt class="docutils literal"><span class="pre">TIMESTAMP</span></tt>列值时，MySQL也会自动更新它。<tt class="docutils literal"><span class="pre">TIMESTAMP</span></tt>列默认为<tt class="docutils literal"><span class="pre">NOT</span> <span class="pre">NULL</span></tt>。</p>
+<p>在默认情况下，插入行没有<code class="docutils literal"><span class="pre">TIMESTAMP</span></code>列的值时，MySQL会将其设定为当前时间。在更新时，没有显式定义<code class="docutils literal"><span class="pre">TIMESTAMP</span></code>列值时，MySQL也会自动更新它。<code class="docutils literal"><span class="pre">TIMESTAMP</span></code>列默认为<code class="docutils literal"><span class="pre">NOT</span> <span class="pre">NULL</span></code>。</p>
 <p>MySQL另外提供了两个函数来操作Unix时间：</p>
 <ol class="arabic simple">
-<li><tt class="docutils literal"><span class="pre">FROM_UNIXTIME()</span></tt>将Unix时间戳转换为日期；</li>
-<li><tt class="docutils literal"><span class="pre">UNIX_TIMESTAMP()</span></tt>将日期转换为Unix时间戳。</li>
+<li><code class="docutils literal"><span class="pre">FROM_UNIXTIME()</span></code>将Unix时间戳转换为日期；</li>
+<li><code class="docutils literal"><span class="pre">UNIX_TIMESTAMP()</span></code>将日期转换为Unix时间戳。</li>
 </ol>
 </div>
 <div class="section" id="id6">
 <h3>特殊类型<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
-<p>如IP地址，实际上是一个无符号32位的整数，所以最小使用无符号整数来保存IP地址，MySQL提供了<tt class="docutils literal"><span class="pre">INET_ATON()</span></tt>和<tt class="docutils literal"><span class="pre">INET_NTOA()</span></tt>两个函数来完成IP地址与整数之前的转换。</p>
+<p>如IP地址，实际上是一个无符号32位的整数，所以最小使用无符号整数来保存IP地址，MySQL提供了<code class="docutils literal"><span class="pre">INET_ATON()</span></code>和<code class="docutils literal"><span class="pre">INET_NTOA()</span></code>两个函数来完成IP地址与整数之前的转换。</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">INET_ATON</span><span class="p">(</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">);</span>
 <span class="c1">-- +------------------------+</span>
 <span class="c1">-- | inet_aton(&#39;127.0.0.1&#39;) |</span>
@@ -414,7 +421,7 @@ MySQL服务器，操作系统，客户端都有时区的设置。</p>
 <ol class="arabic simple">
 <li>表级锁</li>
 <li>不支持动态行（即长度可变行）</li>
-<li>默认索引为<tt class="docutils literal"><span class="pre">哈希索引</span></tt></li>
+<li>默认索引为<code class="docutils literal"><span class="pre">哈希索引</span></code></li>
 <li>没有索引统计</li>
 <li>内存中，重启数据当然没有了</li>
 </ol>
@@ -431,8 +438,8 @@ MySQL服务器，操作系统，客户端都有时区的设置。</p>
 <li>优化缓存，自动构建哈希索引加速</li>
 <li>索引未压缩，所以索引比较大</li>
 <li>数据加载慢</li>
-<li>阻塞<tt class="docutils literal"><span class="pre">AUTO_INCREMENT</span></tt></li>
-<li>没有缓存<tt class="docutils literal"><span class="pre">COUNT(*)</span></tt>的值。即没有保存表的行数。</li>
+<li>阻塞<code class="docutils literal"><span class="pre">AUTO_INCREMENT</span></code></li>
+<li>没有缓存<code class="docutils literal"><span class="pre">COUNT(*)</span></code>的值。即没有保存表的行数。</li>
 </ol>
 </div>
 </div>
@@ -464,7 +471,7 @@ MySQL服务器，操作系统，客户端都有时区的设置。</p>
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="PHP点滴" href="php.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -186,11 +193,11 @@
               
                 
   <li>
-    <a href="rpm.html" title="Previous Chapter: RPM软件包"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; RPM软件包</span>
+    <a href="rpm.html" title="Previous Chapter: RPM软件包"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; RPM软件包</span>
     </a>
   </li>
   <li>
-    <a href="php.html" title="Next Chapter: PHP点滴"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">PHP点滴 &raquo;</span>
+    <a href="php.html" title="Next Chapter: PHP点滴"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">PHP点滴 &raquo;</span>
     </a>
   </li>
               
@@ -252,17 +259,17 @@
 <span class="k">set</span> <span class="nb">tabstop</span><span class="p">=</span><span class="m">4</span>
 <span class="k">set</span> <span class="nb">shiftwidth</span><span class="p">=</span><span class="m">4</span>
 
-<span class="k">autocmd</span> <span class="nb">FileType</span> <span class="k">make</span> <span class="k">setlocal</span> <span class="nb">noexpandtab</span>
+autocmd <span class="nb">FileType</span> <span class="k">make</span> <span class="k">setlocal</span> <span class="nb">noexpandtab</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="id3">
 <h2>以十六进制形式查看文件<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p>对于一些二进制文件，可能希望以十六进制的形式来查看文件。用<tt class="docutils literal"><span class="pre">vim</span></tt>打开文件后在命令模式下输入：<strong>:%!xxd</strong>就可以看到文件的十六进制码了。</p>
+<p>对于一些二进制文件，可能希望以十六进制的形式来查看文件。用<code class="docutils literal"><span class="pre">vim</span></code>打开文件后在命令模式下输入：<strong>:%!xxd</strong>就可以看到文件的十六进制码了。</p>
 </div>
 <div class="section" id="id4">
 <h2>排版<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<p>可以在VIM的配置文件中添加<tt class="docutils literal"><span class="pre">set</span> <span class="pre">textwidth=70</span></tt>设置vim每行的长度为70，遇到空
+<p>可以在VIM的配置文件中添加<code class="docutils literal"><span class="pre">set</span> <span class="pre">textwidth=70</span></code>设置vim每行的长度为70，遇到空
 格时会自动折行，对于中文，需要添加额外的两个选项：<a class="footnote-reference" href="#id9" id="id5">[3]</a></p>
 <div class="highlight-vim"><div class="highlight"><pre><span class="c">&quot; 如遇Unicode值大于255的文本，不必等到空格再折行</span>
 <span class="k">set</span> <span class="nb">formatoptions</span><span class="p">+=</span><span class="k">m</span>
@@ -314,7 +321,7 @@
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

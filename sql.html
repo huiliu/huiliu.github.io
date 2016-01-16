@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,21 +25,21 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="测试MySQL服务器性能" href="mysql_io_benchmark.html" />
-    <link rel="prev" title="epoll(7)" href="epoll_man.html" />
+    <link rel="prev" title="通过PXE安装Linux" href="pxe.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -184,8 +191,8 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#id4">分组与聚集</a><ul>
-<li><a class="reference internal" href="#group-by"><tt class="docutils literal"><span class="pre">GROUP</span> <span class="pre">BY</span></tt></a></li>
-<li><a class="reference internal" href="#having"><tt class="docutils literal"><span class="pre">HAVING</span></tt></a></li>
+<li><a class="reference internal" href="#group-by"><code class="docutils literal"><span class="pre">GROUP</span> <span class="pre">BY</span></code></a></li>
+<li><a class="reference internal" href="#having"><code class="docutils literal"><span class="pre">HAVING</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#id5">子查询</a><ul>
@@ -195,9 +202,9 @@
 </li>
 <li><a class="reference internal" href="#id8">多表查询与连接</a></li>
 <li><a class="reference internal" href="#id9">集合</a><ul>
-<li><a class="reference internal" href="#union-union-all">并集操作<tt class="docutils literal"><span class="pre">UNION</span></tt>，<tt class="docutils literal"><span class="pre">UNION</span> <span class="pre">ALL</span></tt></a></li>
-<li><a class="reference internal" href="#intersectintersect-all">交集操作<tt class="docutils literal"><span class="pre">INTERSECT</span></tt>和<tt class="docutils literal"><span class="pre">INTERSECT</span> <span class="pre">ALL</span></tt></a></li>
-<li><a class="reference internal" href="#exceptexcept-all">差集操作<tt class="docutils literal"><span class="pre">EXCEPT</span></tt>和<tt class="docutils literal"><span class="pre">EXCEPT</span> <span class="pre">ALL</span></tt></a></li>
+<li><a class="reference internal" href="#union-union-all">并集操作<code class="docutils literal"><span class="pre">UNION</span></code>，<code class="docutils literal"><span class="pre">UNION</span> <span class="pre">ALL</span></code></a></li>
+<li><a class="reference internal" href="#intersectintersect-all">交集操作<code class="docutils literal"><span class="pre">INTERSECT</span></code>和<code class="docutils literal"><span class="pre">INTERSECT</span> <span class="pre">ALL</span></code></a></li>
+<li><a class="reference internal" href="#exceptexcept-all">差集操作<code class="docutils literal"><span class="pre">EXCEPT</span></code>和<code class="docutils literal"><span class="pre">EXCEPT</span> <span class="pre">ALL</span></code></a></li>
 <li><a class="reference internal" href="#id11">集合操作的一些规则</a><ul>
 <li><a class="reference internal" href="#id12">指定排序</a></li>
 <li><a class="reference internal" href="#id13">操作优先级</a></li>
@@ -225,11 +232,11 @@
               
                 
   <li>
-    <a href="epoll_man.html" title="Previous Chapter: epoll(7)"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; epoll(7)</span>
+    <a href="pxe.html" title="Previous Chapter: 通过PXE安装Linux"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; 通过PXE安装Linux</span>
     </a>
   </li>
   <li>
-    <a href="mysql_io_benchmark.html" title="Next Chapter: 测试MySQL服务器性能"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">测试MySQL服务器性能 &raquo;</span>
+    <a href="mysql_io_benchmark.html" title="Next Chapter: 测试MySQL服务器性能"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">测试MySQL服务器性能 &raquo;</span>
     </a>
   </li>
               
@@ -271,8 +278,8 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#id4">分组与聚集</a><ul>
-<li><a class="reference internal" href="#group-by"><tt class="docutils literal"><span class="pre">GROUP</span> <span class="pre">BY</span></tt></a></li>
-<li><a class="reference internal" href="#having"><tt class="docutils literal"><span class="pre">HAVING</span></tt></a></li>
+<li><a class="reference internal" href="#group-by"><code class="docutils literal"><span class="pre">GROUP</span> <span class="pre">BY</span></code></a></li>
+<li><a class="reference internal" href="#having"><code class="docutils literal"><span class="pre">HAVING</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#id5">子查询</a><ul>
@@ -282,9 +289,9 @@
 </li>
 <li><a class="reference internal" href="#id8">多表查询与连接</a></li>
 <li><a class="reference internal" href="#id9">集合</a><ul>
-<li><a class="reference internal" href="#union-union-all">并集操作<tt class="docutils literal"><span class="pre">UNION</span></tt>，<tt class="docutils literal"><span class="pre">UNION</span> <span class="pre">ALL</span></tt></a></li>
-<li><a class="reference internal" href="#intersectintersect-all">交集操作<tt class="docutils literal"><span class="pre">INTERSECT</span></tt>和<tt class="docutils literal"><span class="pre">INTERSECT</span> <span class="pre">ALL</span></tt></a></li>
-<li><a class="reference internal" href="#exceptexcept-all">差集操作<tt class="docutils literal"><span class="pre">EXCEPT</span></tt>和<tt class="docutils literal"><span class="pre">EXCEPT</span> <span class="pre">ALL</span></tt></a></li>
+<li><a class="reference internal" href="#union-union-all">并集操作<code class="docutils literal"><span class="pre">UNION</span></code>，<code class="docutils literal"><span class="pre">UNION</span> <span class="pre">ALL</span></code></a></li>
+<li><a class="reference internal" href="#intersectintersect-all">交集操作<code class="docutils literal"><span class="pre">INTERSECT</span></code>和<code class="docutils literal"><span class="pre">INTERSECT</span> <span class="pre">ALL</span></code></a></li>
+<li><a class="reference internal" href="#exceptexcept-all">差集操作<code class="docutils literal"><span class="pre">EXCEPT</span></code>和<code class="docutils literal"><span class="pre">EXCEPT</span> <span class="pre">ALL</span></code></a></li>
 <li><a class="reference internal" href="#id11">集合操作的一些规则</a><ul>
 <li><a class="reference internal" href="#id12">指定排序</a></li>
 <li><a class="reference internal" href="#id13">操作优先级</a></li>
@@ -328,23 +335,23 @@
 <p>SQL语言可以分为几个模块：</p>
 <ol class="arabic simple">
 <li><strong>SQL定义语句(Data Definition Language)</strong>，用于定义存储于数据库中的数据结构；<ul>
-<li><tt class="docutils literal"><span class="pre">CREATE</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">DROP</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">ALTER</span></tt></li>
+<li><code class="docutils literal"><span class="pre">CREATE</span></code></li>
+<li><code class="docutils literal"><span class="pre">DROP</span></code></li>
+<li><code class="docutils literal"><span class="pre">ALTER</span></code></li>
 </ul>
 </li>
 <li><strong>SQL操作数据语句(Data Manipulation Language)</strong>，用于操作数据库中的数据；<ul>
-<li><tt class="docutils literal"><span class="pre">SELECT</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">INSERT</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">UPDATE</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">DELETE</span></tt></li>
+<li><code class="docutils literal"><span class="pre">SELECT</span></code></li>
+<li><code class="docutils literal"><span class="pre">INSERT</span></code></li>
+<li><code class="docutils literal"><span class="pre">UPDATE</span></code></li>
+<li><code class="docutils literal"><span class="pre">DELETE</span></code></li>
 </ul>
 </li>
 <li><strong>SQL事务语句(Data Control Language)</strong>，用于开始、结束或回滚事务。<ul>
-<li><tt class="docutils literal"><span class="pre">COMMIT</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">ROLLBACK</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">GRANT</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">REVOKE</span></tt></li>
+<li><code class="docutils literal"><span class="pre">COMMIT</span></code></li>
+<li><code class="docutils literal"><span class="pre">ROLLBACK</span></code></li>
+<li><code class="docutils literal"><span class="pre">GRANT</span></code></li>
+<li><code class="docutils literal"><span class="pre">REVOKE</span></code></li>
 </ul>
 </li>
 </ol>
@@ -361,7 +368,7 @@
 </pre></div>
 </div>
 <ul>
-<li><p class="first">使用<tt class="docutils literal"><span class="pre">IF</span> <span class="pre">NOT</span> <span class="pre">EXISTS</span></tt>判断表是否存在：</p>
+<li><p class="first">使用<code class="docutils literal"><span class="pre">IF</span> <span class="pre">NOT</span> <span class="pre">EXISTS</span></code>判断表是否存在：</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">tbl_name</span> <span class="p">......</span>
 </pre></div>
 </div>
@@ -397,12 +404,12 @@
 <div class="section" id="where">
 <h2>条件过滤-WHERE子句<a class="headerlink" href="#where" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>比较操作符有：<tt class="docutils literal"><span class="pre">=,</span> <span class="pre">!=,</span> <span class="pre">&lt;&gt;,</span> <span class="pre">&lt;,</span> <span class="pre">&gt;,</span> <span class="pre">LIKE,</span> <span class="pre">IN,</span> <span class="pre">BETWEEN,</span> <span class="pre">IS</span></tt>。</li>
-<li>逻辑操作符有：<tt class="docutils literal"><span class="pre">AND,</span> <span class="pre">NOT,</span> <span class="pre">OR</span></tt>。</li>
+<li>比较操作符有：<code class="docutils literal"><span class="pre">=,</span> <span class="pre">!=,</span> <span class="pre">&lt;&gt;,</span> <span class="pre">&lt;,</span> <span class="pre">&gt;,</span> <span class="pre">LIKE,</span> <span class="pre">IN,</span> <span class="pre">BETWEEN,</span> <span class="pre">IS</span></code>。</li>
+<li>逻辑操作符有：<code class="docutils literal"><span class="pre">AND,</span> <span class="pre">NOT,</span> <span class="pre">OR</span></code>。</li>
 </ul>
 <div class="section" id="between">
 <h3>范围条件-<strong>BETWEEN</strong><a class="headerlink" href="#between" title="Permalink to this headline">¶</a></h3>
-<p>即：<tt class="docutils literal"><span class="pre">a</span> <span class="pre">&gt;</span> <span class="pre">0</span> <span class="pre">and</span> <span class="pre">a</span> <span class="pre">&lt;</span> <span class="pre">10</span></tt>等同于<tt class="docutils literal"><span class="pre">a</span> <span class="pre">BETWEEN</span> <span class="pre">0</span> <span class="pre">10</span></tt>。例如下列两条SQL语句等同。</p>
+<p>即：<code class="docutils literal"><span class="pre">a</span> <span class="pre">&gt;</span> <span class="pre">0</span> <span class="pre">and</span> <span class="pre">a</span> <span class="pre">&lt;</span> <span class="pre">10</span></code>等同于<code class="docutils literal"><span class="pre">a</span> <span class="pre">BETWEEN</span> <span class="pre">0</span> <span class="pre">10</span></code>。例如下列两条SQL语句等同。</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">start_time</span> <span class="o">&lt;</span> <span class="s1">&#39;2007-01-01&#39;</span> <span class="k">AND</span> <span class="n">start_time</span> <span class="o">&lt;</span> <span class="s1">&#39;2005-01-01&#39;</span>
 
 <span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">start_time</span> <span class="k">BETWEEN</span> <span class="s1">&#39;2005-01-01&#39;</span> <span class="s1">&#39;2007-01-01&#39;</span>
@@ -434,9 +441,9 @@
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="k">LEFT</span><span class="p">(</span><span class="n">lname</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;T&#39;</span>
 </pre></div>
 </div>
-<p>上面使用内置函数<tt class="docutils literal"><span class="pre">LEFT</span></tt>提取<em>lname</em>的首字母，然后与字母“T”进行比较。</p>
+<p>上面使用内置函数<code class="docutils literal"><span class="pre">LEFT</span></code>提取<em>lname</em>的首字母，然后与字母“T”进行比较。</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">LIKE</span></tt>可以使用通配符和一些简单的正则表达式。如下表：</li>
+<li><code class="docutils literal"><span class="pre">LIKE</span></code>可以使用通配符和一些简单的正则表达式。如下表：</li>
 </ul>
 <table border="1" class="docutils">
 <colgroup>
@@ -464,20 +471,20 @@
 </tbody>
 </table>
 <ul class="simple">
-<li>另外可以使用函数<tt class="docutils literal"><span class="pre">REGEXP</span></tt>来使用正则表达式来进行匹配。如：</li>
+<li>另外可以使用函数<code class="docutils literal"><span class="pre">REGEXP</span></code>来使用正则表达式来进行匹配。如：</li>
 </ul>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">lname</span> <span class="n">REGEXP</span> <span class="s1">&#39;^[FG]&#39;</span>
 </pre></div>
 </div>
-<p>在Oracle中使用函数<tt class="docutils literal"><span class="pre">regexp_like</span></tt>代替<tt class="docutils literal"><span class="pre">REGEXP</span></tt>，而在MS SQL SERVER中可以直接在<tt class="docutils literal"><span class="pre">LIKE</span></tt>中使用正则表达式。</p>
+<p>在Oracle中使用函数<code class="docutils literal"><span class="pre">regexp_like</span></code>代替<code class="docutils literal"><span class="pre">REGEXP</span></code>，而在MS SQL SERVER中可以直接在<code class="docutils literal"><span class="pre">LIKE</span></code>中使用正则表达式。</p>
 </div>
 <div class="section" id="null">
 <h3>关于<strong>NULL</strong>值的操作<a class="headerlink" href="#null" title="Permalink to this headline">¶</a></h3>
-<p>当使用<tt class="docutils literal"><span class="pre">NULL</span></tt>需要注意：</p>
+<p>当使用<code class="docutils literal"><span class="pre">NULL</span></code>需要注意：</p>
 <ul class="simple">
-<li>表达式的值可以为“<tt class="docutils literal"><span class="pre">NULL</span></tt>”，但为不能等于“<tt class="docutils literal"><span class="pre">NULL</span></tt>”。</li>
-<li>两个“<tt class="docutils literal"><span class="pre">NULL</span></tt>”不能判断为相等。如果利用“<tt class="docutils literal"><span class="pre">=</span></tt>”来判断两个“<tt class="docutils literal"><span class="pre">NULL</span></tt>”值，将不会得到正确的结果，而且服务器也不会发出出错提示，这是相当危险的。</li>
-<li>判断两个“<tt class="docutils literal"><span class="pre">NULL</span></tt> ”相等，需要用到操作符“<tt class="docutils literal"><span class="pre">IS</span></tt>”。如下：</li>
+<li>表达式的值可以为“<code class="docutils literal"><span class="pre">NULL</span></code>”，但为不能等于“<code class="docutils literal"><span class="pre">NULL</span></code>”。</li>
+<li>两个“<code class="docutils literal"><span class="pre">NULL</span></code>”不能判断为相等。如果利用“<code class="docutils literal"><span class="pre">=</span></code>”来判断两个“<code class="docutils literal"><span class="pre">NULL</span></code>”值，将不会得到正确的结果，而且服务器也不会发出出错提示，这是相当危险的。</li>
+<li>判断两个“<code class="docutils literal"><span class="pre">NULL</span></code> ”相等，需要用到操作符“<code class="docutils literal"><span class="pre">IS</span></code>”。如下：</li>
 </ul>
 <div class="highlight-sql"><div class="highlight"><pre><span class="cm">/* 假定superior_emp_id存在NULL值 */</span>
 <span class="cm">/* 错误的做法 */</span>
@@ -486,7 +493,7 @@
 <span class="k">SELECT</span> <span class="n">emp_id</span><span class="p">,</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">superior_emp_id</span> <span class="k">IS</span> <span class="k">NULL</span>
 </pre></div>
 </div>
-<p>另外进行条件筛选时也要考虑全面，注意<tt class="docutils literal"><span class="pre">NULL</span></tt>值的存在</p>
+<p>另外进行条件筛选时也要考虑全面，注意<code class="docutils literal"><span class="pre">NULL</span></code>值的存在</p>
 </div>
 </div>
 <div class="section" id="id4">
@@ -499,16 +506,16 @@
 函数。如<a class="reference internal" href="#max">MAX</a>，<a class="reference internal" href="#min">MIN</a> ，<a class="reference internal" href="#sum">SUM</a> ，<a class="reference internal" href="#count">COUNT</a>，<a class="reference internal" href="#avg">AVG</a>等。</li>
 </ul>
 <div class="section" id="group-by">
-<span id="avg"></span><span id="count"></span><span id="sum"></span><span id="min"></span><span id="max"></span><h3><tt class="docutils literal"><span class="pre">GROUP</span> <span class="pre">BY</span></tt><a class="headerlink" href="#group-by" title="Permalink to this headline">¶</a></h3>
+<span id="avg"></span><span id="count"></span><span id="sum"></span><span id="min"></span><span id="max"></span><h3><code class="docutils literal"><span class="pre">GROUP</span> <span class="pre">BY</span></code><a class="headerlink" href="#group-by" title="Permalink to this headline">¶</a></h3>
 <p>SQL：</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">tbl_name</span> <span class="k">WHERE</span> <span class="n">conditions</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">col_names</span><span class="p">;</span>
 </pre></div>
 </div>
 <p><strong>SQL的执行顺序：</strong>（不同软件实现可能不同）</p>
 <div class="line-block">
-<div class="line"><tt class="docutils literal"><span class="pre">FROM</span></tt> -&gt; <tt class="docutils literal"><span class="pre">WHERE</span></tt> -&gt; <tt class="docutils literal"><span class="pre">GROUP</span> <span class="pre">BY</span></tt> -&gt; <tt class="docutils literal"><span class="pre">SELECT</span></tt></div>
+<div class="line"><code class="docutils literal"><span class="pre">FROM</span></code> -&gt; <code class="docutils literal"><span class="pre">WHERE</span></code> -&gt; <code class="docutils literal"><span class="pre">GROUP</span> <span class="pre">BY</span></code> -&gt; <code class="docutils literal"><span class="pre">SELECT</span></code></div>
 </div>
-<p>关于<tt class="docutils literal"><span class="pre">GROUP</span> <span class="pre">BY</span></tt>需要注意的：<em>``SELECT``字句中只能包含常数、聚合函数、``GROUP BY``子句中的列（聚合键）</em></p>
+<p>关于<code class="docutils literal"><span class="pre">GROUP</span> <span class="pre">BY</span></code>需要注意的：<em>``SELECT``字句中只能包含常数、聚合函数、``GROUP BY``子句中的列（聚合键）</em></p>
 <p>思考：</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="c1">-- 执行一下下面的语句，看看结果如何？分析一下？</span>
 <span class="k">SELECT</span> <span class="n">col_name</span> <span class="k">AS</span> <span class="n">COL_NAME</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">tbl_name</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">COL_NAME</span><span class="p">;</span>
@@ -516,15 +523,15 @@
 </div>
 </div>
 <div class="section" id="having">
-<h3><tt class="docutils literal"><span class="pre">HAVING</span></tt><a class="headerlink" href="#having" title="Permalink to this headline">¶</a></h3>
-<p><tt class="docutils literal"><span class="pre">HAVING</span></tt>子句类似于<tt class="docutils literal"><span class="pre">WHERE</span></tt>，为指定条件的语句。但是<tt class="docutils literal"><span class="pre">HAVING</span></tt>的条件主要是针对聚合结果进行判断。所以，<tt class="docutils literal"><span class="pre">HAVING</span></tt>子句的条件可以是什么？不能是什么？</p>
+<h3><code class="docutils literal"><span class="pre">HAVING</span></code><a class="headerlink" href="#having" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">HAVING</span></code>子句类似于<code class="docutils literal"><span class="pre">WHERE</span></code>，为指定条件的语句。但是<code class="docutils literal"><span class="pre">HAVING</span></code>的条件主要是针对聚合结果进行判断。所以，<code class="docutils literal"><span class="pre">HAVING</span></code>子句的条件可以是什么？不能是什么？</p>
 <p>SQL格式：</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">tbl_name</span> <span class="k">WHERE</span> <span class="n">conditions</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">col_names</span> <span class="k">HAVING</span> <span class="n">conditions</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>思考：</p>
 <ul class="simple">
-<li>包含<tt class="docutils literal"><span class="pre">HAVING</span></tt>子句的SQL执行顺序是什么样的？</li>
+<li>包含<code class="docutils literal"><span class="pre">HAVING</span></code>子句的SQL执行顺序是什么样的？</li>
 <li><strong>什么时候用``WHERE``？什么时候用``HAVING``呢？</strong></li>
 </ul>
 </div>
@@ -540,7 +547,7 @@
 <h3>非关联子查询<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>如果子查询返回值为单行单列（即，仅为一个值），可以直接用于运算操作。如：</li>
-<li>如果子查询返回值为多行单列（即，为一个集合），不能用于相等操作，不过可以使用其它用于集合的操作符。如：<tt class="docutils literal"><span class="pre">IN,</span> <span class="pre">NOT</span> <span class="pre">IN,</span> <span class="pre">ALL,</span> <span class="pre">ANY</span></tt>。也可以使用聚集函数进行统计。</li>
+<li>如果子查询返回值为多行单列（即，为一个集合），不能用于相等操作，不过可以使用其它用于集合的操作符。如：<code class="docutils literal"><span class="pre">IN,</span> <span class="pre">NOT</span> <span class="pre">IN,</span> <span class="pre">ALL,</span> <span class="pre">ANY</span></code>。也可以使用聚集函数进行统计。</li>
 </ul>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">FROM</span> <span class="p">(</span>
                         <span class="k">SELECT</span> <span class="mi">1</span> <span class="k">FROM</span> <span class="n">City</span>
@@ -564,10 +571,10 @@
 <p>等同于数学中关于<a class="reference external" href="http://zh.wikipedia.org/wiki/%E9%9B%86%E5%90%88_(%E6%95%B0%E5%AD%A6)">集合</a>的一些操作，如并集，交集，差集。
 并集操作</p>
 <div class="section" id="union-union-all">
-<h3>并集操作<tt class="docutils literal"><span class="pre">UNION</span></tt>，<tt class="docutils literal"><span class="pre">UNION</span> <span class="pre">ALL</span></tt><a class="headerlink" href="#union-union-all" title="Permalink to this headline">¶</a></h3>
+<h3>并集操作<code class="docutils literal"><span class="pre">UNION</span></code>，<code class="docutils literal"><span class="pre">UNION</span> <span class="pre">ALL</span></code><a class="headerlink" href="#union-union-all" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">UNION</span></tt>连接多个数据后会进行除重、排序。（所以速度后相对慢一点）</li>
-<li><tt class="docutils literal"><span class="pre">UNION</span> <span class="pre">ALL</span></tt>仅仅将两个数据集并在一起，无其它操作，相对于<tt class="docutils literal"><span class="pre">UNION</span></tt>快一些</li>
+<li><code class="docutils literal"><span class="pre">UNION</span></code>连接多个数据后会进行除重、排序。（所以速度后相对慢一点）</li>
+<li><code class="docutils literal"><span class="pre">UNION</span> <span class="pre">ALL</span></code>仅仅将两个数据集并在一起，无其它操作，相对于<code class="docutils literal"><span class="pre">UNION</span></code>快一些</li>
 </ul>
 <p>一个简单的例子：</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="mi">1</span> <span class="n">NUM</span><span class="p">,</span> <span class="s1">&#39;abc&#39;</span> <span class="n">STR</span>
@@ -577,11 +584,11 @@
 </div>
 </div>
 <div class="section" id="intersectintersect-all">
-<h3>交集操作<tt class="docutils literal"><span class="pre">INTERSECT</span></tt>和<tt class="docutils literal"><span class="pre">INTERSECT</span> <span class="pre">ALL</span></tt><a class="headerlink" href="#intersectintersect-all" title="Permalink to this headline">¶</a></h3>
-<p>语法与<tt class="docutils literal"><span class="pre">UNION</span></tt>一样。在MySQL中没有实现，SQL Server、Oracle和IBM DB2中有实现。</p>
+<h3>交集操作<code class="docutils literal"><span class="pre">INTERSECT</span></code>和<code class="docutils literal"><span class="pre">INTERSECT</span> <span class="pre">ALL</span></code><a class="headerlink" href="#intersectintersect-all" title="Permalink to this headline">¶</a></h3>
+<p>语法与<code class="docutils literal"><span class="pre">UNION</span></code>一样。在MySQL中没有实现，SQL Server、Oracle和IBM DB2中有实现。</p>
 </div>
 <div class="section" id="exceptexcept-all">
-<h3>差集操作<tt class="docutils literal"><span class="pre">EXCEPT</span></tt>和<tt class="docutils literal"><span class="pre">EXCEPT</span> <span class="pre">ALL</span></tt><a class="headerlink" href="#exceptexcept-all" title="Permalink to this headline">¶</a></h3>
+<h3>差集操作<code class="docutils literal"><span class="pre">EXCEPT</span></code>和<code class="docutils literal"><span class="pre">EXCEPT</span> <span class="pre">ALL</span></code><a class="headerlink" href="#exceptexcept-all" title="Permalink to this headline">¶</a></h3>
 <p>MySQL中没有实现。</p>
 </div>
 <div class="section" id="id11">
@@ -589,7 +596,7 @@
 <p>想想数学中的集合操作规则。</p>
 <div class="section" id="id12">
 <h4>指定排序<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
-<p>如果使用<tt class="docutils literal"><span class="pre">ORDER</span> <span class="pre">BY</span></tt>指定按某一列进行排序，此列名只能是第一个查询的列名。</p>
+<p>如果使用<code class="docutils literal"><span class="pre">ORDER</span> <span class="pre">BY</span></code>指定按某一列进行排序，此列名只能是第一个查询的列名。</p>
 <p>如：</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">num</span><span class="p">,</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span>
 <span class="k">UNION</span>
@@ -601,7 +608,7 @@
 <div class="section" id="id13">
 <h4>操作优先级<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">INTERSECT</span></tt>优先于其它两个操作</li>
+<li><code class="docutils literal"><span class="pre">INTERSECT</span></code>优先于其它两个操作</li>
 <li>按从左到右的先后顺序进行操作</li>
 </ul>
 </div>
@@ -674,7 +681,7 @@
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

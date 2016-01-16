@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="Learning Bash" href="bash.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -186,11 +193,11 @@
               
                 
   <li>
-    <a href="learning.html" title="Previous Chapter: 学习方法与态度"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; 学习方法与态度</span>
+    <a href="learning.html" title="Previous Chapter: 学习方法与态度"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; 学习方法与态度</span>
     </a>
   </li>
   <li>
-    <a href="bash.html" title="Next Chapter: Learning Bash"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Learning Bash &raquo;</span>
+    <a href="bash.html" title="Next Chapter: Learning Bash"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Learning Bash &raquo;</span>
     </a>
   </li>
               
@@ -261,13 +268,13 @@
 <span class="c">#set -x</span>
 
 <span class="nv">USERNAME</span><span class="o">=</span>liuhui
-<span class="nv">FIREFOX_DIR</span><span class="o">=</span><span class="s2">&quot;/home/${USERNAME}/.mozilla&quot;</span>
+<span class="nv">FIREFOX_DIR</span><span class="o">=</span><span class="s2">&quot;/home/</span><span class="si">${</span><span class="nv">USERNAME</span><span class="si">}</span><span class="s2">/.mozilla&quot;</span>
 <span class="nv">FIREFOX_BACKUP</span><span class="o">=</span>/home/<span class="nv">$USERNAME</span>/.mozilla-backup
 
 <span class="o">[</span> -f /usr/bin/mktemp <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nv">TEMP</span><span class="o">=</span><span class="sb">`</span>mktemp -d --tmpdir<span class="o">=</span>/tmp --suffix<span class="o">=</span>.firefox<span class="sb">`</span> <span class="o">||</span> <span class="se">\</span>
     <span class="sb">`</span>logger -p user.error <span class="s1">&#39;Failed to find the command mktemp&#39;</span><span class="p">;</span> <span class="nb">exit </span>0<span class="sb">`</span>
-cp -r <span class="k">${</span><span class="nv">FIREFOX_BACKUP</span><span class="k">}</span>/* <span class="nv">$TEMP</span>
-chown -R <span class="s2">&quot;${USERNAME}.${USERNAME}&quot;</span> <span class="nv">$TEMP</span>
+cp -r <span class="si">${</span><span class="nv">FIREFOX_BACKUP</span><span class="si">}</span>/* <span class="nv">$TEMP</span>
+chown -R <span class="s2">&quot;</span><span class="si">${</span><span class="nv">USERNAME</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">USERNAME</span><span class="si">}</span><span class="s2">&quot;</span> <span class="nv">$TEMP</span>
 
 <span class="o">[</span> -L <span class="nv">$FIREFOX_DIR</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> rm -f <span class="nv">$FIREFOX_DIR</span>
 ln -s <span class="nv">$TEMP</span> <span class="nv">$FIREFOX_DIR</span>
@@ -286,7 +293,7 @@ ln -s <span class="nv">$TEMP</span> <span class="nv">$FIREFOX_DIR</span>
 <span class="c">#set -x</span>
 
 <span class="nv">USERNAME</span><span class="o">=</span>liuhui
-<span class="nv">FIREFOX_DIR</span><span class="o">=</span><span class="s2">&quot;/home/${USERNAME}/.mozilla&quot;</span>
+<span class="nv">FIREFOX_DIR</span><span class="o">=</span><span class="s2">&quot;/home/</span><span class="si">${</span><span class="nv">USERNAME</span><span class="si">}</span><span class="s2">/.mozilla&quot;</span>
 <span class="nv">FIREFOX_BACKUP</span><span class="o">=</span>/home/<span class="nv">$USERNAME</span>/.mozilla-backup
 
 <span class="nv">TEMP</span><span class="o">=</span><span class="sb">`</span>ls -d /tmp/tmp.*.firefox<span class="sb">`</span>
@@ -340,7 +347,7 @@ rm -f <span class="nv">$FIREFOX_DIR</span>
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

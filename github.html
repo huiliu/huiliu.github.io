@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="Gentoo点滴" href="gentoo.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -185,11 +192,11 @@
               
                 
   <li>
-    <a href="gnuplot.html" title="Previous Chapter: Introduce to the GNUPlot"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; Introduce to the...</span>
+    <a href="gnuplot.html" title="Previous Chapter: Introduce to the GNUPlot"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Introduce to ...</span>
     </a>
   </li>
   <li>
-    <a href="gentoo.html" title="Next Chapter: Gentoo点滴"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Gentoo点滴 &raquo;</span>
+    <a href="gentoo.html" title="Next Chapter: Gentoo点滴"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Gentoo点滴 &raquo;</span>
     </a>
   </li>
               
@@ -247,7 +254,7 @@
 <h2>GitHub Pages<a class="headerlink" href="#github-pages" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="http://pages.github.com/">github pages</a>可以方便的用来建立一个BLOG，默认，也是最常用的是<a class="reference external" href="http://jekyllbootstrap.com/">jekyll</a>引擎，<strong>jekyll</strong>的文件使用<a class="reference external" href="http://daringfireball.net/projects/markdown/syntax">Markdown</a>方法，<strong>Markdown</strong>是一种非常简方便的文本撰写格式，不过Python文档使用<a class="reference external" href="http://sphinx-doc.org">sphinx</a>工具对我更有吸引力，因此转用<strong>sphinx</strong>来写文档，生成HTML文件然后上传至GitHub Pages就可以了。</p>
 <p>由于<em>github pages</em>默认使用<em>jekyll</em>引擎，使用<em>sphinx</em>生成的HTML文件会显示不正常，主要是因为无法找到CSS和javascript文件，此时需要告诉<em>github
-pages</em>：“<em>我不使用jekyll</em>”，只需要在repo中加入一个文件<tt class="docutils literal"><span class="pre">.nojekyll</span></tt>就可以了<a class="footnote-reference" href="#ref1" id="id1">[1]</a>。</p>
+pages</em>：“<em>我不使用jekyll</em>”，只需要在repo中加入一个文件<code class="docutils literal"><span class="pre">.nojekyll</span></code>就可以了<a class="footnote-reference" href="#ref1" id="id1">[1]</a>。</p>
 </div>
 <div class="section" id="gitignore">
 <h2>.gitignore<a class="headerlink" href="#gitignore" title="Permalink to this headline">¶</a></h2>
@@ -296,7 +303,7 @@ Thumbs.db
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

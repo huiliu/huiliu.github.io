@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="Nginx+Foreman+Passenger" href="foreman.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -181,7 +188,7 @@
 </li>
 <li><a class="reference internal" href="#id1">问题解答</a></li>
 <li><a class="reference internal" href="#id5">问题</a><ul>
-<li><a class="reference internal" href="#id6">如何将<tt class="docutils literal"><span class="pre">puppet</span></tt>中的变量值传递给命令行</a></li>
+<li><a class="reference internal" href="#id6">如何将<code class="docutils literal"><span class="pre">puppet</span></code>中的变量值传递给命令行</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#id7">参考资料</a></li>
@@ -196,11 +203,11 @@
               
                 
   <li>
-    <a href="net-snmp.html" title="Previous Chapter: Net-SNMP使用心得"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; Net-SNMP使用心得</span>
+    <a href="net-snmp.html" title="Previous Chapter: Net-SNMP使用心得"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Net-SNMP使用心得</span>
     </a>
   </li>
   <li>
-    <a href="foreman.html" title="Next Chapter: Nginx+Foreman+Passenger"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Nginx+Foreman+Pa... &raquo;</span>
+    <a href="foreman.html" title="Next Chapter: Nginx+Foreman+Passenger"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Nginx+Foreman... &raquo;</span>
     </a>
   </li>
               
@@ -239,7 +246,7 @@
 </li>
 <li><a class="reference internal" href="#id1">问题解答</a></li>
 <li><a class="reference internal" href="#id5">问题</a><ul>
-<li><a class="reference internal" href="#id6">如何将<tt class="docutils literal"><span class="pre">puppet</span></tt>中的变量值传递给命令行</a></li>
+<li><a class="reference internal" href="#id6">如何将<code class="docutils literal"><span class="pre">puppet</span></code>中的变量值传递给命令行</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#id7">参考资料</a></li>
@@ -268,11 +275,11 @@
 <h2>Resource Ordering<a class="headerlink" href="#resource-ordering" title="Permalink to this headline">¶</a></h2>
 <p>回想一下手动配置一个Apache服务器要经过那些步骤：</p>
 <ol class="arabic simple">
-<li>安装软件包<tt class="docutils literal"><span class="pre">httpd</span></tt></li>
+<li>安装软件包<code class="docutils literal"><span class="pre">httpd</span></code></li>
 <li>根据需要修改配置文件</li>
-<li>启动<tt class="docutils literal"><span class="pre">httpd</span></tt>服务</li>
+<li>启动<code class="docutils literal"><span class="pre">httpd</span></code>服务</li>
 </ol>
-<p>那么使用<tt class="docutils literal"><span class="pre">puppet</span></tt>进行配置管理时，应该定义三个相应的资源来执行：</p>
+<p>那么使用<code class="docutils literal"><span class="pre">puppet</span></code>进行配置管理时，应该定义三个相应的资源来执行：</p>
 <div class="highlight-puppet"><div class="highlight"><pre><span class="c"># install httpd</span>
 <span class="k">package</span> <span class="p">{</span><span class="s">&quot;httpd&quot;</span><span class="p">:</span>
     <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="k">present</span><span class="p">,</span>
@@ -289,18 +296,18 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>当你实际应用上面的<tt class="docutils literal"><span class="pre">manifests</span></tt>时会发现执行失败（当然也可能成功）。原因呢？前面提到的手动操作步骤是存在先后顺序的，如果不按照相应的顺序，要么失败，要么结果不是预期的。这也就要求<tt class="docutils literal"><span class="pre">puppet</span></tt>中定义的资源在执行时应该可以设定先后顺序，即<a class="reference external" href="http://docs.puppetlabs.com/learning/ordering.html">Resource Ordering</a>。</p>
-<p><tt class="docutils literal"><span class="pre">puppet</span></tt>提供了四个关键字和两个符号来实现&#8221;<strong>Ordering</strong>&#8220;的控制：</p>
+<p>当你实际应用上面的<code class="docutils literal"><span class="pre">manifests</span></code>时会发现执行失败（当然也可能成功）。原因呢？前面提到的手动操作步骤是存在先后顺序的，如果不按照相应的顺序，要么失败，要么结果不是预期的。这也就要求<code class="docutils literal"><span class="pre">puppet</span></code>中定义的资源在执行时应该可以设定先后顺序，即<a class="reference external" href="http://docs.puppetlabs.com/learning/ordering.html">Resource Ordering</a>。</p>
+<p><code class="docutils literal"><span class="pre">puppet</span></code>提供了四个关键字和两个符号来实现&#8221;<strong>Ordering</strong>&#8220;的控制：</p>
 <ol class="arabic simple">
-<li><tt class="docutils literal"><span class="pre">before</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">require</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">notify</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">subscribe</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">-&gt;</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">~&gt;</span></tt></li>
+<li><code class="docutils literal"><span class="pre">before</span></code></li>
+<li><code class="docutils literal"><span class="pre">require</span></code></li>
+<li><code class="docutils literal"><span class="pre">notify</span></code></li>
+<li><code class="docutils literal"><span class="pre">subscribe</span></code></li>
+<li><code class="docutils literal"><span class="pre">-&gt;</span></code></li>
+<li><code class="docutils literal"><span class="pre">~&gt;</span></code></li>
 </ol>
-<p>前面四个关键字在<tt class="docutils literal"><span class="pre">puppet</span></tt>中称之为元参数（<a class="reference external" href="http://docs.puppetlabs.com/references/stable/metaparameter.html">metaparameters</a>），它们可以接受引用资源（<a class="reference external" href="http://docs.puppetlabs.com/puppet/latest/reference/lang_datatypes.html#resource-references">resource reference</a>）作为其值。</p>
-<p>用<tt class="docutils literal"><span class="pre">before</span></tt>和<tt class="docutils literal"><span class="pre">require</span></tt>改写上面的<tt class="docutils literal"><span class="pre">manifests</span></tt>以按照手动顺序完成：</p>
+<p>前面四个关键字在<code class="docutils literal"><span class="pre">puppet</span></code>中称之为元参数（<a class="reference external" href="http://docs.puppetlabs.com/references/stable/metaparameter.html">metaparameters</a>），它们可以接受引用资源（<a class="reference external" href="http://docs.puppetlabs.com/puppet/latest/reference/lang_datatypes.html#resource-references">resource reference</a>）作为其值。</p>
+<p>用<code class="docutils literal"><span class="pre">before</span></code>和<code class="docutils literal"><span class="pre">require</span></code>改写上面的<code class="docutils literal"><span class="pre">manifests</span></code>以按照手动顺序完成：</p>
 <div class="highlight-puppet"><div class="highlight"><pre><span class="c"># install httpd</span>
 <span class="k">package</span> <span class="p">{</span><span class="s">&quot;httpd&quot;</span><span class="p">:</span>
     <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="k">present</span><span class="p">,</span>
@@ -319,8 +326,8 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p><tt class="docutils literal"><span class="pre">notify</span></tt>是增强版式的<tt class="docutils literal"><span class="pre">before</span></tt>，当使用了<tt class="docutils literal"><span class="pre">notify</span></tt>的资源发生变化就会主动通知<tt class="docutils literal"><span class="pre">notify</span></tt>指向的资源；而<tt class="docutils literal"><span class="pre">subscribe</span></tt>是增强版的<tt class="docutils literal"><span class="pre">require</span></tt>,当<tt class="docutils literal"><span class="pre">subscribe</span></tt>指向的资源发生的变更，当前资源就会收到通知。</p>
-<p><tt class="docutils literal"><span class="pre">-&gt;</span></tt>和<tt class="docutils literal"><span class="pre">~&gt;</span></tt>意思犹如流程图，从前往后一步一步完成：</p>
+<p><code class="docutils literal"><span class="pre">notify</span></code>是增强版式的<code class="docutils literal"><span class="pre">before</span></code>，当使用了<code class="docutils literal"><span class="pre">notify</span></code>的资源发生变化就会主动通知<code class="docutils literal"><span class="pre">notify</span></code>指向的资源；而<code class="docutils literal"><span class="pre">subscribe</span></code>是增强版的<code class="docutils literal"><span class="pre">require</span></code>,当<code class="docutils literal"><span class="pre">subscribe</span></code>指向的资源发生的变更，当前资源就会收到通知。</p>
+<p><code class="docutils literal"><span class="pre">-&gt;</span></code>和<code class="docutils literal"><span class="pre">~&gt;</span></code>意思犹如流程图，从前往后一步一步完成：</p>
 <div class="highlight-puppet"><div class="highlight"><pre><span class="c"># install httpd</span>
 <span class="k">package</span> <span class="p">{</span><span class="s">&quot;httpd&quot;</span><span class="p">:</span>
     <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="k">present</span><span class="p">,</span>
@@ -480,7 +487,7 @@ On the agent:
 <div class="section" id="id5">
 <h2>问题<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id6">
-<h3>如何将<tt class="docutils literal"><span class="pre">puppet</span></tt>中的变量值传递给命令行<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<h3>如何将<code class="docutils literal"><span class="pre">puppet</span></code>中的变量值传递给命令行<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p>写了一个module来执行一个编译任务，目录结果如下：</p>
 <div class="highlight-text"><div class="highlight"><pre>stackless/
         manifests/
@@ -489,14 +496,14 @@ On the agent:
                 params.pp
 </pre></div>
 </div>
-<p>其中文件<tt class="docutils literal"><span class="pre">params.pp</span></tt>定义了一些变量，如：</p>
+<p>其中文件<code class="docutils literal"><span class="pre">params.pp</span></code>定义了一些变量，如：</p>
 <div class="highlight-puppet"><div class="highlight"><pre><span class="k">class</span> <span class="na">stackless</span><span class="p">::</span><span class="na">params</span> <span class="p">{</span>
     <span class="nv">$srcPath</span> <span class="o">=</span> <span class="s">&quot;/home/builder/stackless&quot;</span>
     <span class="nv">$installPath</span> <span class="o">=</span> <span class="s">&quot;/home/builder/local&quot;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>在<tt class="docutils literal"><span class="pre">install.pp</span></tt>中执行相关的编译工作，如：</p>
+<p>在<code class="docutils literal"><span class="pre">install.pp</span></code>中执行相关的编译工作，如：</p>
 <div class="highlight-puppet"><div class="highlight"><pre><span class="k">class</span> <span class="na">stackless</span><span class="p">::</span><span class="na">install</span> <span class="p">{</span>
     <span class="k">exec</span> <span class="p">{</span><span class="s">&quot;configure&quot;</span><span class="p">:</span>
         <span class="na">cwd</span> <span class="o">=&gt;</span> <span class="nv">$stackless::params::srcPath,</span>
@@ -506,7 +513,7 @@ On the agent:
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>然后使用此模块，编译正常完成，但是程序被安装到系统目录<tt class="docutils literal"><span class="pre">/usr</span></tt>下面。查看“<strong>config.log</strong>”，发现<tt class="docutils literal"><span class="pre">./configure</span> <span class="pre">--prefix=</span></tt>后面的参数为空。猜想应该时<tt class="docutils literal"><span class="pre">puppet</span></tt>直接将<em>command</em>交给了Shell执行，而没有先进行变量替换而导致的问题。还没有深入了解是否有其它机制将变量先替换然后再转交给Shell。</p>
+<p>然后使用此模块，编译正常完成，但是程序被安装到系统目录<code class="docutils literal"><span class="pre">/usr</span></code>下面。查看“<strong>config.log</strong>”，发现<code class="docutils literal"><span class="pre">./configure</span> <span class="pre">--prefix=</span></code>后面的参数为空。猜想应该时<code class="docutils literal"><span class="pre">puppet</span></code>直接将<em>command</em>交给了Shell执行，而没有先进行变量替换而导致的问题。还没有深入了解是否有其它机制将变量先替换然后再转交给Shell。</p>
 </div>
 </div>
 <div class="section" id="id7">
@@ -552,7 +559,7 @@ On the agent:
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

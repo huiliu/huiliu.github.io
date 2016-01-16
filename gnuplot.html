@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="使用GitHub" href="github.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -172,7 +179,7 @@
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Introduce to the GNUPlot</a><ul>
 <li><a class="reference internal" href="#id2">使用帮助</a></li>
-<li><a class="reference internal" href="#plot">绘图命令<tt class="docutils literal"><span class="pre">plot</span></tt></a><ul>
+<li><a class="reference internal" href="#plot">绘图命令<code class="docutils literal"><span class="pre">plot</span></code></a><ul>
 <li><a class="reference internal" href="#id3">绘制一个简单的函数</a></li>
 <li><a class="reference internal" href="#id4">从文件中读取数据并绘制</a></li>
 <li><a class="reference internal" href="#id5">绘制光滑的曲线</a></li>
@@ -196,11 +203,11 @@
               
                 
   <li>
-    <a href="matplot.html" title="Previous Chapter: Learning Matplot Library"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; Learning Matplot...</span>
+    <a href="matplot.html" title="Previous Chapter: Learning Matplot Library"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Learning Matp...</span>
     </a>
   </li>
   <li>
-    <a href="github.html" title="Next Chapter: 使用GitHub"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">使用GitHub &raquo;</span>
+    <a href="github.html" title="Next Chapter: 使用GitHub"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">使用GitHub &raquo;</span>
     </a>
   </li>
               
@@ -230,7 +237,7 @@
         <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
 <li><a class="reference internal" href="#">Introduce to the GNUPlot</a><ul>
 <li><a class="reference internal" href="#id2">使用帮助</a></li>
-<li><a class="reference internal" href="#plot">绘图命令<tt class="docutils literal"><span class="pre">plot</span></tt></a><ul>
+<li><a class="reference internal" href="#plot">绘图命令<code class="docutils literal"><span class="pre">plot</span></code></a><ul>
 <li><a class="reference internal" href="#id3">绘制一个简单的函数</a></li>
 <li><a class="reference internal" href="#id4">从文件中读取数据并绘制</a></li>
 <li><a class="reference internal" href="#id5">绘制光滑的曲线</a></li>
@@ -268,7 +275,7 @@
 <p>文中代码均可在<strong>GNUPlot Shell</strong>中运行完成。</p>
 <div class="section" id="id2">
 <h2>使用帮助<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>安装好<a class="reference external" href="http://en.wikipedia.org/wiki/Gnuplot">GnuPlot</a>后，运行<tt class="docutils literal"><span class="pre">gnuplot</span></tt>即进入命令模式，可以使用命令<tt class="docutils literal"><span class="pre">help</span></tt>查看帮助信息:</p>
+<p>安装好<a class="reference external" href="http://en.wikipedia.org/wiki/Gnuplot">GnuPlot</a>后，运行<code class="docutils literal"><span class="pre">gnuplot</span></code>即进入命令模式，可以使用命令<code class="docutils literal"><span class="pre">help</span></code>查看帮助信息:</p>
 <div class="highlight-bash"><div class="highlight"><pre>gnuplot&gt; <span class="nb">help</span>
 </pre></div>
 </div>
@@ -278,8 +285,8 @@
 </div>
 </div>
 <div class="section" id="plot">
-<h2>绘图命令<tt class="docutils literal"><span class="pre">plot</span></tt><a class="headerlink" href="#plot" title="Permalink to this headline">¶</a></h2>
-<p>GNUPlot的功能强大，控制灵活。目前我只用到<tt class="docutils literal"><span class="pre">plot</span></tt>命令以绘制一些数据。下面给出一些例子：</p>
+<h2>绘图命令<code class="docutils literal"><span class="pre">plot</span></code><a class="headerlink" href="#plot" title="Permalink to this headline">¶</a></h2>
+<p>GNUPlot的功能强大，控制灵活。目前我只用到<code class="docutils literal"><span class="pre">plot</span></code>命令以绘制一些数据。下面给出一些例子：</p>
 <div class="section" id="id3">
 <h3>绘制一个简单的函数<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>绘制<em>sin(x)</em>曲线：</p>
@@ -305,7 +312,7 @@ help set
 </div>
 <div class="section" id="id4">
 <h3>从文件中读取数据并绘制<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
-<p><tt class="docutils literal"><span class="pre">plot</span></tt>命令可以从<a class="reference external" href="http://en.wikipedia.org/wiki/Comma-separated_values">CSV</a>格式文 件中直接读取数据并作图。数据文件summary如下：</p>
+<p><code class="docutils literal"><span class="pre">plot</span></code>命令可以从<a class="reference external" href="http://en.wikipedia.org/wiki/Comma-separated_values">CSV</a>格式文 件中直接读取数据并作图。数据文件summary如下：</p>
 <div class="line-block">
 <div class="line">1.3    -0.03    -6.15</div>
 <div class="line">1.4    -4.72    -10.22</div>
@@ -331,20 +338,20 @@ help set
 <div class="highlight-gnuplot"><div class="highlight"><pre><span class="k">plot</span> <span class="s">&quot;summary&quot;</span> <span class="nb">using</span> <span class="mi">1</span><span class="o">:</span><span class="mi">2</span>
 </pre></div>
 </div>
-<p>上面的命令即：利用文件&#8221;summary&#8221;的第一列作为<em>x</em>, 第二列作为*y*作图，默认为点状图，可以利用选项<tt class="docutils literal"><span class="pre">with</span> <span class="pre">lines</span></tt>来作出线状图，如：</p>
+<p>上面的命令即：利用文件&#8221;summary&#8221;的第一列作为<em>x</em>, 第二列作为*y*作图，默认为点状图，可以利用选项<code class="docutils literal"><span class="pre">with</span> <span class="pre">lines</span></code>来作出线状图，如：</p>
 <div class="highlight-gnuplot"><div class="highlight"><pre><span class="k">plot</span> <span class="s">&quot;summary&quot;</span> <span class="nb">using</span> <span class="mi">1</span><span class="o">:</span><span class="mi">2</span> <span class="nb">with</span> <span class="n">lines</span>
 </pre></div>
 </div>
-<p>可是<tt class="docutils literal"><span class="pre">gnuplot</span></tt>就会简单的将图上的点用直线连接起来，图形极可能不光滑。</p>
+<p>可是<code class="docutils literal"><span class="pre">gnuplot</span></code>就会简单的将图上的点用直线连接起来，图形极可能不光滑。</p>
 </div>
 <div class="section" id="id5">
 <h3>绘制光滑的曲线<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
-<p>如果你有一系列坐标，如果用<tt class="docutils literal"><span class="pre">gnuplot</span></tt>直接绘制，曲线是不光滑的，数学上有一系列方法根据已知数据来拟合光滑曲线的方法，如插值法，外推法等，<tt class="docutils literal"><span class="pre">gnuplot</span></tt>也提供一些简单的功能来光滑我们的曲线。</p>
-<p>利用<tt class="docutils literal"><span class="pre">plot</span></tt>命令中的&#8221;<tt class="docutils literal"><span class="pre">smooth</span></tt>&#8220;属性来设定一些参数就可以实现，如：</p>
+<p>如果你有一系列坐标，如果用<code class="docutils literal"><span class="pre">gnuplot</span></code>直接绘制，曲线是不光滑的，数学上有一系列方法根据已知数据来拟合光滑曲线的方法，如插值法，外推法等，<code class="docutils literal"><span class="pre">gnuplot</span></code>也提供一些简单的功能来光滑我们的曲线。</p>
+<p>利用<code class="docutils literal"><span class="pre">plot</span></code>命令中的&#8221;<code class="docutils literal"><span class="pre">smooth</span></code>&#8220;属性来设定一些参数就可以实现，如：</p>
 <div class="highlight-gnuplot"><div class="highlight"><pre><span class="k">plot</span> <span class="s">&quot;summary&quot;</span> <span class="nb">using</span> <span class="mi">1</span><span class="o">:</span><span class="mi">2</span> <span class="nb">smooth</span> <span class="n">csplines</span>
 </pre></div>
 </div>
-<p>你会发现你的图形已经变得光滑，关于&#8221;<tt class="docutils literal"><span class="pre">smooth</span></tt>&#8220;的详细参数，请查看帮助信息</p>
+<p>你会发现你的图形已经变得光滑，关于&#8221;<code class="docutils literal"><span class="pre">smooth</span></code>&#8220;的详细参数，请查看帮助信息</p>
 </div>
 <div class="section" id="id6">
 <h3>设定坐标轴信息<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
@@ -365,7 +372,7 @@ help set
 </div>
 <div class="section" id="id7">
 <h2>输出到文件<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
-<p>最终我们希望将图形输出到文件，可能是图片，latex等格式，<tt class="docutils literal"><span class="pre">gnuplot</span></tt>一概可以搞定。</p>
+<p>最终我们希望将图形输出到文件，可能是图片，latex等格式，<code class="docutils literal"><span class="pre">gnuplot</span></code>一概可以搞定。</p>
 <div class="section" id="id8">
 <h3>设定字符集<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <p>首先设定一下字符集，推荐使用<strong>utf8</strong>，它可以兼容所有字符。</p>
@@ -375,7 +382,7 @@ help set
 </div>
 <div class="section" id="id9">
 <h3>设定输出文件格式<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
-<p><tt class="docutils literal"><span class="pre">gnuplot</span></tt>支持N多种输出文件格式，如图形(png, jpg, tiff, emf等）, latex,
+<p><code class="docutils literal"><span class="pre">gnuplot</span></code>支持N多种输出文件格式，如图形(png, jpg, tiff, emf等）, latex,
 epslatex等，有好些我都不知道。下面的命令将输出emf矢量图片:</p>
 <div class="highlight-gnuplot"><div class="highlight"><pre><span class="c"># enhanced属性允许你在标签中使用类latex格式的文本</span>
 <span class="k">set</span> <span class="nb">term</span> <span class="n">emf</span> <span class="n">enhanced</span>
@@ -418,7 +425,7 @@ epslatex等，有好些我都不知道。下面的命令将输出emf矢量图片
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

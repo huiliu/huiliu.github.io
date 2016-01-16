@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="Net-SNMP使用心得" href="net-snmp.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -196,7 +203,7 @@
 </li>
 <li><a class="reference internal" href="#id9">安装中可能的问题</a><ul>
 <li><a class="reference internal" href="#log-file-monitoringzbx-notsupport">Log File Monitoring时ZBX_NOTSUPPORT错误</a></li>
-<li><a class="reference internal" href="#zabbix-server-is-not-running"><tt class="docutils literal"><span class="pre">Zabbix</span> <span class="pre">Server</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">running</span></tt></a></li>
+<li><a class="reference internal" href="#zabbix-server-is-not-running"><code class="docutils literal"><span class="pre">Zabbix</span> <span class="pre">Server</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">running</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#id14">参考资料</a></li>
@@ -211,11 +218,11 @@
               
                 
   <li>
-    <a href="logfilter.html" title="Previous Chapter: Apache日志过滤－是否可以用来预防DDOS"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; Apache日志过滤－是否可以用...</span>
+    <a href="logfilter.html" title="Previous Chapter: Apache日志过滤－是否可以用来预防DDOS"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Apache日志过滤－是否...</span>
     </a>
   </li>
   <li>
-    <a href="net-snmp.html" title="Next Chapter: Net-SNMP使用心得"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Net-SNMP使用心得 &raquo;</span>
+    <a href="net-snmp.html" title="Next Chapter: Net-SNMP使用心得"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Net-SNMP使用心得 &raquo;</span>
     </a>
   </li>
               
@@ -269,7 +276,7 @@
 </li>
 <li><a class="reference internal" href="#id9">安装中可能的问题</a><ul>
 <li><a class="reference internal" href="#log-file-monitoringzbx-notsupport">Log File Monitoring时ZBX_NOTSUPPORT错误</a></li>
-<li><a class="reference internal" href="#zabbix-server-is-not-running"><tt class="docutils literal"><span class="pre">Zabbix</span> <span class="pre">Server</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">running</span></tt></a></li>
+<li><a class="reference internal" href="#zabbix-server-is-not-running"><code class="docutils literal"><span class="pre">Zabbix</span> <span class="pre">Server</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">running</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#id14">参考资料</a></li>
@@ -320,11 +327,11 @@
 <h4>安装Windows Agent<a class="headerlink" href="#windows-agent" title="Permalink to this headline">¶</a></h4>
 <p>从官方网站上下载Windows的软件包，32位和64位打包在一起。然后按照文档中执行就可以了：</p>
 <ol class="arabic">
-<li><p class="first">将<tt class="docutils literal"><span class="pre">agent</span></tt>安装为Windows服务。</p>
+<li><p class="first">将<code class="docutils literal"><span class="pre">agent</span></code>安装为Windows服务。</p>
 <div class="highlight-bat"><div class="highlight"><pre>zabbix_agentd.exe --install
 </pre></div>
 </div>
-<p>默认配置文件为：<tt class="docutils literal"><span class="pre">c:\zabbix_agentd.conf</span></tt>。也可以自由设定：</p>
+<p>默认配置文件为：<code class="docutils literal"><span class="pre">c:\zabbix_agentd.conf</span></code>。也可以自由设定：</p>
 <div class="highlight-bat"><div class="highlight"><pre>zabbix_agentd.exe --config <span class="s1">&#39;c:\zabbix\config\zabbix_agentd.conf&#39;</span> --install
 </pre></div>
 </div>
@@ -392,33 +399,33 @@
 </tr>
 </tbody>
 </table>
-<p>MIB的信息可以通过<a class="reference external" href="http://oid-info.com/index.htm">oid-info</a>查看。接下假定你有一个正常运行的<strong>snmpd</strong>服务。命令：<tt class="docutils literal"><span class="pre">snmpwalk</span> <span class="pre">-v</span> <span class="pre">2c</span> <span class="pre">-c</span> <span class="pre">public</span> <span class="pre">localhost</span> <span class="pre">.1.3.6.1.4.1.2021.13.15.1.1.3</span></tt>
+<p>MIB的信息可以通过<a class="reference external" href="http://oid-info.com/index.htm">oid-info</a>查看。接下假定你有一个正常运行的<strong>snmpd</strong>服务。命令：<code class="docutils literal"><span class="pre">snmpwalk</span> <span class="pre">-v</span> <span class="pre">2c</span> <span class="pre">-c</span> <span class="pre">public</span> <span class="pre">localhost</span> <span class="pre">.1.3.6.1.4.1.2021.13.15.1.1.3</span></code>
 可查询到本机各磁盘从开机到当前读取了多少字节。</p>
 <div class="section" id="discovery">
 <h3>新建<strong>discovery</strong>条目<a class="headerlink" href="#discovery" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>打开Zabbix监控页面后，进入&#8221;<tt class="docutils literal"><span class="pre">configuration</span></tt>&#8221; &#8211;&gt; &#8220;<tt class="docutils literal"><span class="pre">Templates</span></tt>&#8220;，在此将磁盘IO监控项放入到模板&#8221;<tt class="docutils literal"><span class="pre">Template</span> <span class="pre">SNMP</span> <span class="pre">Disks</span></tt>&#8220;（仅为方便归类，可任意）。</li>
-<li>进入&#8221;<tt class="docutils literal"><span class="pre">Template</span> <span class="pre">SNMP</span> <span class="pre">Disks</span></tt>&#8220;的&#8221;<tt class="docutils literal"><span class="pre">discovery</span></tt>&#8220;，点击右上方的&#8221;<tt class="docutils literal"><span class="pre">Create</span> <span class="pre">discovery</span>
-<span class="pre">rule</span></tt>&#8220;新建一条发现策略。内容填写如下图所示。</li>
+<li>打开Zabbix监控页面后，进入&#8221;<code class="docutils literal"><span class="pre">configuration</span></code>&#8221; &#8211;&gt; &#8220;<code class="docutils literal"><span class="pre">Templates</span></code>&#8220;，在此将磁盘IO监控项放入到模板&#8221;<code class="docutils literal"><span class="pre">Template</span> <span class="pre">SNMP</span> <span class="pre">Disks</span></code>&#8220;（仅为方便归类，可任意）。</li>
+<li>进入&#8221;<code class="docutils literal"><span class="pre">Template</span> <span class="pre">SNMP</span> <span class="pre">Disks</span></code>&#8220;的&#8221;<code class="docutils literal"><span class="pre">discovery</span></code>&#8220;，点击右上方的&#8221;<code class="docutils literal"><span class="pre">Create</span> <span class="pre">discovery</span>
+<span class="pre">rule</span></code>&#8220;新建一条发现策略。内容填写如下图所示。</li>
 </ul>
 <img alt="_images/discovery.png" src="_images/discovery.png" />
 <p>其中需要注意的是：</p>
 <blockquote>
 <div><ul class="simple">
-<li><tt class="docutils literal"><span class="pre">Type</span></tt>一定要选择&#8221;<tt class="docutils literal"><span class="pre">SNMP</span></tt>&#8220;，版本根据&#8221;<tt class="docutils literal"><span class="pre">snmpd</span></tt>&#8220;提供来选择</li>
-<li><tt class="docutils literal"><span class="pre">key</span></tt>和<tt class="docutils literal"><span class="pre">SNMP</span> <span class="pre">OID</span></tt>一定要设定为&#8221;<tt class="docutils literal"><span class="pre">UCD-DISKIO-MIB::diskIODevice</span></tt>和<tt class="docutils literal"><span class="pre">diskIODevice</span></tt>这与后面&#8221;<tt class="docutils literal"><span class="pre">item</span> <span class="pre">prototypes</span></tt>&#8220;的名称有莫大的关联。如果自定义其它SNMP信息，应该将其设定为对应的item name。</li>
-<li><tt class="docutils literal"><span class="pre">Name</span></tt>是自定义的，其它参数都是默认。</li>
-<li>建立好<strong>discovery rule</strong>后，再新建<tt class="docutils literal"><span class="pre">item</span> <span class="pre">prototypes</span></tt>。点击新建的策略&#8221;<tt class="docutils literal"><span class="pre">Disk</span> <span class="pre">io</span></tt> 进入其<tt class="docutils literal"><span class="pre">item</span> <span class="pre">prototypes</span></tt>新建发现的项目，内容填写如下图所示：</li>
+<li><code class="docutils literal"><span class="pre">Type</span></code>一定要选择&#8221;<code class="docutils literal"><span class="pre">SNMP</span></code>&#8220;，版本根据&#8221;<code class="docutils literal"><span class="pre">snmpd</span></code>&#8220;提供来选择</li>
+<li><code class="docutils literal"><span class="pre">key</span></code>和<code class="docutils literal"><span class="pre">SNMP</span> <span class="pre">OID</span></code>一定要设定为&#8221;<code class="docutils literal"><span class="pre">UCD-DISKIO-MIB::diskIODevice</span></code>和<code class="docutils literal"><span class="pre">diskIODevice</span></code>这与后面&#8221;<code class="docutils literal"><span class="pre">item</span> <span class="pre">prototypes</span></code>&#8220;的名称有莫大的关联。如果自定义其它SNMP信息，应该将其设定为对应的item name。</li>
+<li><code class="docutils literal"><span class="pre">Name</span></code>是自定义的，其它参数都是默认。</li>
+<li>建立好<strong>discovery rule</strong>后，再新建<code class="docutils literal"><span class="pre">item</span> <span class="pre">prototypes</span></code>。点击新建的策略&#8221;<code class="docutils literal"><span class="pre">Disk</span> <span class="pre">io</span></code> 进入其<code class="docutils literal"><span class="pre">item</span> <span class="pre">prototypes</span></code>新建发现的项目，内容填写如下图所示：</li>
 </ul>
 </div></blockquote>
 <img alt="_images/item.png" src="_images/item.png" />
 <p>其中需要注意的是：</p>
 <blockquote>
 <div><ul class="simple">
-<li><tt class="docutils literal"><span class="pre">SNMP</span> <span class="pre">OID</span></tt>填为你希望获取数据的OID，注意一般会加上一个Zabbix宏&#8221;<tt class="docutils literal"><span class="pre">#SNMPINDEX</span></tt>&#8220;，这主要是因为snmpd返回的数据一般为很多项，它会自动建立一个索引来对应不同项。此项我们读取磁盘的读操作数据。</li>
-<li><tt class="docutils literal"><span class="pre">key</span></tt></li>
-<li>另外还有<tt class="docutils literal"><span class="pre">Store</span> <span class="pre">value</span></tt>和<tt class="docutils literal"><span class="pre">show</span> <span class="pre">value</span></tt>等其它选项，根据数据特点设定。
-由于此处snmpd返回的是从开机到当前的总读取数据量，所以存储值选择&#8221;<tt class="docutils literal"><span class="pre">Delta</span></tt>&#8220;</li>
+<li><code class="docutils literal"><span class="pre">SNMP</span> <span class="pre">OID</span></code>填为你希望获取数据的OID，注意一般会加上一个Zabbix宏&#8221;<code class="docutils literal"><span class="pre">#SNMPINDEX</span></code>&#8220;，这主要是因为snmpd返回的数据一般为很多项，它会自动建立一个索引来对应不同项。此项我们读取磁盘的读操作数据。</li>
+<li><code class="docutils literal"><span class="pre">key</span></code></li>
+<li>另外还有<code class="docutils literal"><span class="pre">Store</span> <span class="pre">value</span></code>和<code class="docutils literal"><span class="pre">show</span> <span class="pre">value</span></code>等其它选项，根据数据特点设定。
+由于此处snmpd返回的是从开机到当前的总读取数据量，所以存储值选择&#8221;<code class="docutils literal"><span class="pre">Delta</span></code>&#8220;</li>
 </ul>
 </div></blockquote>
 </div>
@@ -428,15 +435,15 @@
 </div>
 <div class="section" id="id4">
 <h2>报警通知<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<p>请确认当前已开启了报警通知功能：<tt class="docutils literal"><span class="pre">Configuration</span></tt> -&gt; <tt class="docutils literal"><span class="pre">Actions</span></tt> -&gt;<tt class="docutils literal"><span class="pre">Event</span> <span class="pre">source</span></tt>（右上角）-&gt; 选择<tt class="docutils literal"><span class="pre">Triggers</span></tt> -&gt; 确认下面的“<em>Report problems to Zabbix administrators</em>”的状态为：<tt class="docutils literal"><span class="pre">Enabled</span></tt>。否则系统将不发送报警。</p>
+<p>请确认当前已开启了报警通知功能：<code class="docutils literal"><span class="pre">Configuration</span></code> -&gt; <code class="docutils literal"><span class="pre">Actions</span></code> -&gt;<code class="docutils literal"><span class="pre">Event</span> <span class="pre">source</span></code>（右上角）-&gt; 选择<code class="docutils literal"><span class="pre">Triggers</span></code> -&gt; 确认下面的“<em>Report problems to Zabbix administrators</em>”的状态为：<code class="docutils literal"><span class="pre">Enabled</span></code>。否则系统将不发送报警。</p>
 <div class="section" id="id5">
 <h3>邮件报警<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="id6">
 <h3>自定义报警<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
-<p><tt class="docutils literal"><span class="pre">zabbix</span></tt>提供了多种报警方式，但是还是满足不了要求怎么办？使用脚本自定义报警。
-<a class="footnote-reference" href="#alert" id="id7">[4]</a>首先需要在<tt class="docutils literal"><span class="pre">zabbix</span> <span class="pre">server</span></tt>的配置文件<tt class="docutils literal"><span class="pre">/etc/zabbix/zabbix_server.conf</span></tt>中通过<tt class="docutils literal"><span class="pre">AlertScriptsPath</span></tt>指定自定义命令所在的文件夹，其默认值为：<tt class="docutils literal"><span class="pre">/usr/local/share/zabbix/alertscripts</span></tt>（依赖于编译时的<tt class="docutils literal"><span class="pre">datadir</span></tt>设定值）。添加自定义报警步骤如下：</p>
-<p><tt class="docutils literal"><span class="pre">zabbix</span></tt>调用自定义报警脚本时会向其传递三个参数：
+<p><code class="docutils literal"><span class="pre">zabbix</span></code>提供了多种报警方式，但是还是满足不了要求怎么办？使用脚本自定义报警。
+<a class="footnote-reference" href="#alert" id="id7">[4]</a>首先需要在<code class="docutils literal"><span class="pre">zabbix</span> <span class="pre">server</span></code>的配置文件<code class="docutils literal"><span class="pre">/etc/zabbix/zabbix_server.conf</span></code>中通过<code class="docutils literal"><span class="pre">AlertScriptsPath</span></code>指定自定义命令所在的文件夹，其默认值为：<code class="docutils literal"><span class="pre">/usr/local/share/zabbix/alertscripts</span></code>（依赖于编译时的<code class="docutils literal"><span class="pre">datadir</span></code>设定值）。添加自定义报警步骤如下：</p>
+<p><code class="docutils literal"><span class="pre">zabbix</span></code>调用自定义报警脚本时会向其传递三个参数：
 *   第一个为接收者
 *   第二个为主题
 *   第三个消息内容</p>
@@ -482,17 +489,17 @@ cat <span class="s">&lt;&lt;EOF | mail -s &quot;$subject&quot; &quot;$to&quot;</
 </div>
 <p>按下面的步骤添加自定义报警：</p>
 <ol class="arabic simple">
-<li>进行报警类型设置：<tt class="docutils literal"><span class="pre">'Administration'</span> <span class="pre">→</span> <span class="pre">'Media</span> <span class="pre">types'</span></tt></li>
-<li>点击<tt class="docutils literal"><span class="pre">'Create</span> <span class="pre">media</span> <span class="pre">type'</span></tt><tt class="docutils literal"><span class="pre">Type</span></tt>选择<tt class="docutils literal"><span class="pre">Script</span></tt>，并填写好<tt class="docutils literal"><span class="pre">Name</span></tt>和<tt class="docutils literal"><span class="pre">Script</span> <span class="pre">name</span></tt>（不包括路径）</li>
-<li>为用户添加报警设置。对于当前用户，点击右上角<tt class="docutils literal"><span class="pre">profile</span></tt>设置<tt class="docutils literal"><span class="pre">Media</span></tt>添加新的报警。<tt class="docutils literal"><span class="pre">Send</span> <span class="pre">to</span></tt>设定为接收者的IP。</li>
+<li>进行报警类型设置：<code class="docutils literal"><span class="pre">'Administration'</span> <span class="pre">→</span> <span class="pre">'Media</span> <span class="pre">types'</span></code></li>
+<li>点击<code class="docutils literal"><span class="pre">'Create</span> <span class="pre">media</span> <span class="pre">type'</span></code><code class="docutils literal"><span class="pre">Type</span></code>选择<code class="docutils literal"><span class="pre">Script</span></code>，并填写好<code class="docutils literal"><span class="pre">Name</span></code>和<code class="docutils literal"><span class="pre">Script</span> <span class="pre">name</span></code>（不包括路径）</li>
+<li>为用户添加报警设置。对于当前用户，点击右上角<code class="docutils literal"><span class="pre">profile</span></code>设置<code class="docutils literal"><span class="pre">Media</span></code>添加新的报警。<code class="docutils literal"><span class="pre">Send</span> <span class="pre">to</span></code>设定为接收者的IP。</li>
 </ol>
 <div class="section" id="id8">
 <h4>没有接收到报警消息<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
-<p>如果没有收到报警消息，如下图所示，最右侧的一个红色数字<tt class="docutils literal"><span class="pre">1</span></tt>即说明有一个报警没有送达目的地。</p>
+<p>如果没有收到报警消息，如下图所示，最右侧的一个红色数字<code class="docutils literal"><span class="pre">1</span></code>即说明有一个报警没有送达目的地。</p>
 <img alt="_images/zabbix_alert.png" src="_images/zabbix_alert.png" />
 <p>点击查看报警的详细信息，会看到详细的信息，如：</p>
 <img alt="_images/zabbix_alert_failed.png" src="_images/zabbix_alert_failed.png" />
-<p>由上面可以发现是<tt class="docutils literal"><span class="pre">zabbix</span></tt>调用脚本的路径不正确。而实际上我已经在<tt class="docutils literal"><span class="pre">zabbix_server.conf</span></tt>指定了<tt class="docutils literal"><span class="pre">AlertScriptsPath=/usr/local/bin</span></tt>但是仍然不行。进而发现一个疑似BUG：<strong>将AlertScriptsPath是配置文件的第一个有效配置时，zabbix_server居然是使用的默认脚本路径，而将其移到配置文件最后就工作正常了。</strong></p>
+<p>由上面可以发现是<code class="docutils literal"><span class="pre">zabbix</span></code>调用脚本的路径不正确。而实际上我已经在<code class="docutils literal"><span class="pre">zabbix_server.conf</span></code>指定了<code class="docutils literal"><span class="pre">AlertScriptsPath=/usr/local/bin</span></code>但是仍然不行。进而发现一个疑似BUG：<strong>将AlertScriptsPath是配置文件的第一个有效配置时，zabbix_server居然是使用的默认脚本路径，而将其移到配置文件最后就工作正常了。</strong></p>
 </div>
 </div>
 </div>
@@ -606,11 +613,11 @@ bbix 2.0.5 (revision 33558).&#39;
 <p>通过上面的日志分析，可以发现，server监视agent上的日志文件，需要agent进程可以读取相应的文件，否则会出错。关于监控日志的详细文档见Zabbix Manual <a class="footnote-reference" href="#r2" id="id11">[2]</a><a class="footnote-reference" href="#r3" id="id12">[3]</a></p>
 </div>
 <div class="section" id="zabbix-server-is-not-running">
-<h3><tt class="docutils literal"><span class="pre">Zabbix</span> <span class="pre">Server</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">running</span></tt><a class="headerlink" href="#zabbix-server-is-not-running" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal"><span class="pre">Zabbix</span> <span class="pre">Server</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">running</span></code><a class="headerlink" href="#zabbix-server-is-not-running" title="Permalink to this headline">¶</a></h3>
 <p>请确认数据库的配置是否正确，特别是调整过相关配置时：<a class="footnote-reference" href="#notrun" id="id13">[5]</a></p>
 <ol class="arabic simple">
-<li>Zabbix Server的配置文件<tt class="docutils literal"><span class="pre">/etc/zabbix/zabbix_server.conf</span></tt></li>
-<li>前端网页的配置文件：<tt class="docutils literal"><span class="pre">/etc/zabbix/web/zabbix.conf.php</span></tt></li>
+<li>Zabbix Server的配置文件<code class="docutils literal"><span class="pre">/etc/zabbix/zabbix_server.conf</span></code></li>
+<li>前端网页的配置文件：<code class="docutils literal"><span class="pre">/etc/zabbix/web/zabbix.conf.php</span></code></li>
 </ol>
 <p>如果确认上面两处设置正确，请继续：</p>
 <ol class="arabic">
@@ -625,8 +632,8 @@ Policy from config file:        targeted
 </pre></div>
 </div>
 </li>
-<li><p class="first">请查看日志文件<tt class="docutils literal"><span class="pre">/var/log/audit/audit.log</span></tt>中是否有拒绝http操作的记录。
-如：（如果没有安装<tt class="docutils literal"><span class="pre">audit</span></tt>或启用<tt class="docutils literal"><span class="pre">auditd</span></tt>服务，则没有日志）</p>
+<li><p class="first">请查看日志文件<code class="docutils literal"><span class="pre">/var/log/audit/audit.log</span></code>中是否有拒绝http操作的记录。
+如：（如果没有安装<code class="docutils literal"><span class="pre">audit</span></code>或启用<code class="docutils literal"><span class="pre">auditd</span></code>服务，则没有日志）</p>
 <div class="highlight-text"><div class="highlight"><pre>type=AVC msg=audit(1403973943.600:949): avc:  denied  { name_connect }
 for  pid=2702 comm=&quot;httpd&quot; dest=10051
 scontext=unconfined_u:system_r:httpd_t:s0
@@ -712,7 +719,7 @@ httpd_can_network_connect_db --&gt; off
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="入侵检测与响应" href="intrusion.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -190,11 +197,11 @@
               
                 
   <li>
-    <a href="tcp-wrappers.html" title="Previous Chapter: 简易防火墙TCP-Wrapper"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; 简易防火墙TCP-Wrapper</span>
+    <a href="tcp-wrappers.html" title="Previous Chapter: 简易防火墙TCP-Wrapper"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; 简易防火墙TCP-Wrapper</span>
     </a>
   </li>
   <li>
-    <a href="intrusion.html" title="Next Chapter: 入侵检测与响应"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">入侵检测与响应 &raquo;</span>
+    <a href="intrusion.html" title="Next Chapter: 入侵检测与响应"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">入侵检测与响应 &raquo;</span>
     </a>
   </li>
               
@@ -294,7 +301,7 @@
 <div class="highlight-bash"><div class="highlight"><pre>togglesebool httpd_can_network_connect_db
 </pre></div>
 </div>
-<p>就可以完成这个任务。 但是，系统重启之后，httpd_can_network_connect_db的值将再次变为&#8221;<em>off</em>&#8220;，即上面命令只是临时修改了SELinux的策略值。如果要修改默认值，需要在命令<tt class="docutils literal"><span class="pre">setsebool</span></tt>后面加上参数<em>-P</em>:<a class="footnote-reference" href="#ref1" id="id3">[1]</a></p>
+<p>就可以完成这个任务。 但是，系统重启之后，httpd_can_network_connect_db的值将再次变为&#8221;<em>off</em>&#8220;，即上面命令只是临时修改了SELinux的策略值。如果要修改默认值，需要在命令<code class="docutils literal"><span class="pre">setsebool</span></code>后面加上参数<em>-P</em>:<a class="footnote-reference" href="#ref1" id="id3">[1]</a></p>
 <div class="highlight-bash"><div class="highlight"><pre>setsebool -P <span class="nv">httpd_can_network_connect_db</span><span class="o">=</span>on
 </pre></div>
 </div>
@@ -314,7 +321,7 @@ semanage boolean -l
 </div>
 <div class="section" id="id6">
 <h2>工具<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
-<p>软件包<tt class="docutils literal"><span class="pre">policycoreutils-python</span></tt>(CentOS 6), <tt class="docutils literal"><span class="pre">policycoreutils</span></tt>(CentOS 5)中包含了命令<tt class="docutils literal"><span class="pre">audit2allow,</span> <span class="pre">audit2why</span></tt>用来分析<tt class="docutils literal"><span class="pre">/var/log/audit/audit.log</span></tt>
+<p>软件包<code class="docutils literal"><span class="pre">policycoreutils-python</span></code>(CentOS 6), <code class="docutils literal"><span class="pre">policycoreutils</span></code>(CentOS 5)中包含了命令<code class="docutils literal"><span class="pre">audit2allow,</span> <span class="pre">audit2why</span></code>用来分析<code class="docutils literal"><span class="pre">/var/log/audit/audit.log</span></code>
 以生成新的SELinux规则，解决被SELinux拦截的问题</p>
 </div>
 <div class="section" id="id7">
@@ -348,7 +355,7 @@ semanage boolean -l
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

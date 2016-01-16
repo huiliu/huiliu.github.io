@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="samba集成Active Directory" href="samba_ads.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -215,11 +222,11 @@
               
                 
   <li>
-    <a href="mail.html" title="Previous Chapter: 邮件系统-Postfix, Dovecot, MySQL和Postfixadmin"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; 邮件系统-Postfix, Do...</span>
+    <a href="mail.html" title="Previous Chapter: 邮件系统-Postfix, Dovecot, MySQL和Postfixadmin"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; 邮件系统-Postfix,...</span>
     </a>
   </li>
   <li>
-    <a href="samba_ads.html" title="Next Chapter: samba集成Active Directory"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">samba集成Active Di... &raquo;</span>
+    <a href="samba_ads.html" title="Next Chapter: samba集成Active Directory"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">samba集成Active... &raquo;</span>
     </a>
   </li>
               
@@ -316,18 +323,18 @@
 <li><em>镜像卷</em> 逻辑卷为您提供了一个方便配置数据镜像的方法。</li>
 <li><em>卷快照</em> 使用逻辑卷，您可以提取设备快照，这样可在持续备份或者在不影响真实数据的情况下测试修改效果。</li>
 </ol>
-<p>使用LVM需要掌握几个新的概念：<tt class="docutils literal"><span class="pre">物理卷，卷组，逻辑卷</span></tt>。对详细说明请参考参考资料中列出的内容。</p>
+<p>使用LVM需要掌握几个新的概念：<code class="docutils literal"><span class="pre">物理卷，卷组，逻辑卷</span></code>。对详细说明请参考参考资料中列出的内容。</p>
 </div>
 <div class="section" id="id2">
 <h2>构建LVM<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>简单流程：</p>
 <ul class="simple">
-<li>使用命令 <tt class="docutils literal"><span class="pre">pvcreate</span></tt>创建<tt class="docutils literal"><span class="pre">PE</span></tt></li>
-<li>使用命令 <tt class="docutils literal"><span class="pre">vgcreate</span></tt>创建<tt class="docutils literal"><span class="pre">VG</span></tt></li>
-<li>使用命令 <tt class="docutils literal"><span class="pre">lvcreate</span></tt>创建<tt class="docutils literal"><span class="pre">LV</span></tt></li>
+<li>使用命令 <code class="docutils literal"><span class="pre">pvcreate</span></code>创建<code class="docutils literal"><span class="pre">PE</span></code></li>
+<li>使用命令 <code class="docutils literal"><span class="pre">vgcreate</span></code>创建<code class="docutils literal"><span class="pre">VG</span></code></li>
+<li>使用命令 <code class="docutils literal"><span class="pre">lvcreate</span></code>创建<code class="docutils literal"><span class="pre">LV</span></code></li>
 </ul>
-<p>再用<tt class="docutils literal"><span class="pre">mkfs</span></tt>格式化LV，即可以使用LV存储文件数据了。</p>
-<p>一个新的磁盘（存储器）插入到系统后会被识别为一个新的独立的文件系统，这类似于我们将一块大磁盘分割为几个小的文件系统（比如windows下经常分的C, D, E......等等分区）。如果你想将一个小的文件系统加入到LVM中，首先需要在这个小的文件系统上建立PE(physical extend)，命令：<tt class="docutils literal"><span class="pre">pvcreate</span></tt>。</p>
+<p>再用<code class="docutils literal"><span class="pre">mkfs</span></code>格式化LV，即可以使用LV存储文件数据了。</p>
+<p>一个新的磁盘（存储器）插入到系统后会被识别为一个新的独立的文件系统，这类似于我们将一块大磁盘分割为几个小的文件系统（比如windows下经常分的C, D, E......等等分区）。如果你想将一个小的文件系统加入到LVM中，首先需要在这个小的文件系统上建立PE(physical extend)，命令：<code class="docutils literal"><span class="pre">pvcreate</span></code>。</p>
 </div>
 <div class="section" id="pv">
 <h2>PV管理<a class="headerlink" href="#pv" title="Permalink to this headline">¶</a></h2>
@@ -338,7 +345,7 @@ pvck       pvdisplay  pvremove   pvs</dd>
 </dl>
 <div class="section" id="id3">
 <h3>创建<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<p>使用命令<tt class="docutils literal"><span class="pre">pvcreate</span></tt>创建PE，<tt class="docutils literal"><span class="pre">pvcreate</span></tt>的操作会破坏原分区（文件系统）中的数据。</p>
+<p>使用命令<code class="docutils literal"><span class="pre">pvcreate</span></code>创建PE，<code class="docutils literal"><span class="pre">pvcreate</span></code>的操作会破坏原分区（文件系统）中的数据。</p>
 <div class="highlight-bash"><div class="highlight"><pre>pvcreate /dev/sda1 /dev/sda2 /dev/sda3
 <span class="c"># pvcreate后接分区，即可在分区上创建PE</span>
 </pre></div>
@@ -346,7 +353,7 @@ pvck       pvdisplay  pvremove   pvs</dd>
 </div>
 <div class="section" id="pv-pe">
 <h3>查看PV/PE<a class="headerlink" href="#pv-pe" title="Permalink to this headline">¶</a></h3>
-<p>命令<tt class="docutils literal"><span class="pre">pvdisplay</span></tt>可以用来查看已创建PE的PV（物理卷）的属性，如，大小，PE大小，所属VG等等。例如：</p>
+<p>命令<code class="docutils literal"><span class="pre">pvdisplay</span></code>可以用来查看已创建PE的PV（物理卷）的属性，如，大小，PE大小，所属VG等等。例如：</p>
 <ol class="arabic simple">
 <li>默认使用选项-v，显示详细信息</li>
 </ol>
@@ -388,7 +395,7 @@ pvck       pvdisplay  pvremove   pvs</dd>
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
-<li>也可以使用选项“ <tt class="docutils literal"><span class="pre">-s|--short</span></tt>“显示精简信息。如：</li>
+<li>也可以使用选项“ <code class="docutils literal"><span class="pre">-s|--short</span></code>“显示精简信息。如：</li>
 </ol>
 <div class="highlight-bash"><div class="highlight"><pre>pvdisplay -s
 <span class="c"># Device &quot;/dev/sda10&quot; has a capacity of 244.00 MiB</span>
@@ -406,8 +413,8 @@ pvck       pvdisplay  pvremove   pvs</dd>
 <div class="section" id="id4">
 <h3>增加物理卷<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>如果你存放数据的文件系统，随着数据增加，空间不够，需要增加磁盘，怎么把新的磁盘空间增加到原来的文件系统中呢？</p>
-<p>确认*/dev*目录下可以发现新加磁盘，然后使用<tt class="docutils literal"><span class="pre">fdisk</span></tt>命令将新磁盘分区（亦可不分）。</p>
-<p>最后用<tt class="docutils literal"><span class="pre">pvcreate</span> <span class="pre">*PhysicalVolume*</span></tt>在新磁盘上建立PV。</p>
+<p>确认*/dev*目录下可以发现新加磁盘，然后使用<code class="docutils literal"><span class="pre">fdisk</span></code>命令将新磁盘分区（亦可不分）。</p>
+<p>最后用<code class="docutils literal"><span class="pre">pvcreate</span> <span class="pre">*PhysicalVolume*</span></code>在新磁盘上建立PV。</p>
 </div>
 <div class="section" id="id5">
 <h3>移除物理卷<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
@@ -424,7 +431,7 @@ vgmerge, vgsplit等等</dd>
 </dl>
 <div class="section" id="id6">
 <h3>创建VG<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
-<p>当完成创建PE之后就可以在相应的分区上建立VG了。使用命令<tt class="docutils literal"><span class="pre">vgcreate</span></tt>来创建VG，如：</p>
+<p>当完成创建PE之后就可以在相应的分区上建立VG了。使用命令<code class="docutils literal"><span class="pre">vgcreate</span></code>来创建VG，如：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="c"># 创建一个VG，其名字为vgName。</span>
 vgcreate vg-test /dev/sda9
 <span class="c"># Volume group &quot;vg-test&quot; successfully created</span>
@@ -439,7 +446,7 @@ vgcreate vg-test /dev/sda9
 </div>
 <div class="section" id="id7">
 <h3>查看VG信息<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
-<p>与查看PV/PE信息一样，使用命令<tt class="docutils literal"><span class="pre">vgdisplay</span></tt>来查看VG的信息。例如：</p>
+<p>与查看PV/PE信息一样，使用命令<code class="docutils literal"><span class="pre">vgdisplay</span></code>来查看VG的信息。例如：</p>
 <div class="highlight-bash"><div class="highlight"><pre>vgdisplay
 <span class="c">#  --- Volume group ---</span>
 <span class="c">#  VG Name               vg</span>
@@ -464,7 +471,7 @@ vgcreate vg-test /dev/sda9
 </pre></div>
 </div>
 <p>可以查看到卷组vg的相关信息，其中大部分都可以在创建VG时设定，不过一般我们都会使用默认值，除非你有特殊的要求。</p>
-<p>其实查看PE, VG的信息还有其它命令<tt class="docutils literal"><span class="pre">pvs,</span> <span class="pre">vgs</span></tt>，这两个命令主要用于生成报告信息，便于SA了解所需的信息。</p>
+<p>其实查看PE, VG的信息还有其它命令<code class="docutils literal"><span class="pre">pvs,</span> <span class="pre">vgs</span></code>，这两个命令主要用于生成报告信息，便于SA了解所需的信息。</p>
 </div>
 <div class="section" id="id8">
 <h3>分割合并卷组<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
@@ -479,7 +486,7 @@ vgcreate vg-test /dev/sda9
 <p>逻辑卷类似于系统中的分区/dev/sda1, /dev/sda2等等，是用来存储数据的。</p>
 <div class="section" id="id9">
 <h3>创建LV<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
-<p>与创建PE，VG类似，创建LV使用命令<tt class="docutils literal"><span class="pre">lvcreate</span></tt>来创建LV。创建一个分区当然要指明这个分区的大小了，还要给一个名字便于查找使用。</p>
+<p>与创建PE，VG类似，创建LV使用命令<code class="docutils literal"><span class="pre">lvcreate</span></code>来创建LV。创建一个分区当然要指明这个分区的大小了，还要给一个名字便于查找使用。</p>
 <div class="highlight-bash"><div class="highlight"><pre>lvcreate -L +200M -n lv-test vg-test
 </pre></div>
 </div>
@@ -487,7 +494,7 @@ vgcreate vg-test /dev/sda9
 </div>
 <div class="section" id="id10">
 <h3>查看LV属性<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
-<p>使用命令<tt class="docutils literal"><span class="pre">lvdisplay</span></tt>来查看LV的相关信息。用法与<tt class="docutils literal"><span class="pre">pvdisplay,</span> <span class="pre">vgdisplay</span></tt>类似。如：</p>
+<p>使用命令<code class="docutils literal"><span class="pre">lvdisplay</span></code>来查看LV的相关信息。用法与<code class="docutils literal"><span class="pre">pvdisplay,</span> <span class="pre">vgdisplay</span></code>类似。如：</p>
 <div class="highlight-bash"><div class="highlight"><pre>lvdisplay /dev/vg/vg-test
 <span class="c">#  --- Logical volume ---</span>
 <span class="c">#  LV Name                /dev/vg/vg-test</span>
@@ -532,24 +539,24 @@ vgcreate vg-test /dev/sda9
 <li><p class="first">确认VG（卷组）是否有足够的剩余空间。如果剩余空间不足，可以缩小其它剩余空间较
 多的LV，也可以增加新磁盘</p>
 </li>
-<li><p class="first">使用命令<tt class="docutils literal"><span class="pre">lvresize</span></tt>增加<em>lv_usr</em>空间</p>
+<li><p class="first">使用命令<code class="docutils literal"><span class="pre">lvresize</span></code>增加<em>lv_usr</em>空间</p>
 <div class="highlight-bash"><div class="highlight"><pre>lvresize -L +increaseNumber /dev/VolGroup/lv_usr
 </pre></div>
 </div>
 </li>
-<li><p class="first">使用命令<tt class="docutils literal"><span class="pre">resize2fs</span></tt>扩大逻辑分区<em>lv_usr</em>上的文件系统，使其与分区大
-小一致。此时系统可能提示你要先运行<tt class="docutils literal"><span class="pre">fsck</span></tt>检查一下文件系统</p>
+<li><p class="first">使用命令<code class="docutils literal"><span class="pre">resize2fs</span></code>扩大逻辑分区<em>lv_usr</em>上的文件系统，使其与分区大
+小一致。此时系统可能提示你要先运行<code class="docutils literal"><span class="pre">fsck</span></code>检查一下文件系统</p>
 <div class="highlight-bash"><div class="highlight"><pre>e2fsck -f /dev/VolGroup/lv_usr
 resize2fs /dev/VolGroup/lv_usr
 </pre></div>
 </div>
 </li>
-<li><p class="first">使用命令<tt class="docutils literal"><span class="pre">lvs</span></tt>确认扩容成功。</p>
+<li><p class="first">使用命令<code class="docutils literal"><span class="pre">lvs</span></code>确认扩容成功。</p>
 </li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">关键是：运行<tt class="docutils literal"><span class="pre">lvresize</span></tt>, <tt class="docutils literal"><span class="pre">resize2fs</span></tt>的先后顺序。扩容一定要先运行<tt class="docutils literal"><span class="pre">lvreize</span></tt>扩大分区，再运行<tt class="docutils literal"><span class="pre">resize2fs</span></tt>扩大文件系统</p>
+<p class="last">关键是：运行<code class="docutils literal"><span class="pre">lvresize</span></code>, <code class="docutils literal"><span class="pre">resize2fs</span></code>的先后顺序。扩容一定要先运行<code class="docutils literal"><span class="pre">lvreize</span></code>扩大分区，再运行<code class="docutils literal"><span class="pre">resize2fs</span></code>扩大文件系统</p>
 </div>
 </div>
 <div class="section" id="id18">
@@ -562,27 +569,27 @@ resize2fs /dev/VolGroup/lv_usr
 <ul>
 <li><p class="first">将新的硬盘经测试后安装到系统上并进行分区（此处我们假定新磁盘为/dev/sdb1）</p>
 </li>
-<li><p class="first">使用命令<tt class="docutils literal"><span class="pre">pvcreate</span></tt>将新的磁盘加入到PV（物理卷）</p>
+<li><p class="first">使用命令<code class="docutils literal"><span class="pre">pvcreate</span></code>将新的磁盘加入到PV（物理卷）</p>
 <div class="highlight-bash"><div class="highlight"><pre>pvcreate /dev/sdb1
 </pre></div>
 </div>
 </li>
-<li><p class="first">使用命令<tt class="docutils literal"><span class="pre">vgextend</span></tt>将/dev/sdb1加入到卷组VGroup中</p>
+<li><p class="first">使用命令<code class="docutils literal"><span class="pre">vgextend</span></code>将/dev/sdb1加入到卷组VGroup中</p>
 <div class="highlight-bash"><div class="highlight"><pre>vgextend VGroup /dev/sdb1
 </pre></div>
 </div>
 </li>
-<li><p class="first">在线使用命令<tt class="docutils literal"><span class="pre">pvmove</span></tt>将/dev/sda1上的数据转移/dev/sdb1</p>
+<li><p class="first">在线使用命令<code class="docutils literal"><span class="pre">pvmove</span></code>将/dev/sda1上的数据转移/dev/sdb1</p>
 <div class="highlight-bash"><div class="highlight"><pre>pvmove /dev/sda1 /dev/sdb1
 </pre></div>
 </div>
 </li>
-<li><p class="first">使用命令<tt class="docutils literal"><span class="pre">vgreduce</span></tt>将磁盘/dev/sda1从卷组VGroup中移除</p>
+<li><p class="first">使用命令<code class="docutils literal"><span class="pre">vgreduce</span></code>将磁盘/dev/sda1从卷组VGroup中移除</p>
 <div class="highlight-bash"><div class="highlight"><pre>vgreduce VGroup /dev/sda1
 </pre></div>
 </div>
 </li>
-<li><p class="first">使用命令<tt class="docutils literal"><span class="pre">pvremove</span></tt>将磁盘/dev/sda1从PV中移除</p>
+<li><p class="first">使用命令<code class="docutils literal"><span class="pre">pvremove</span></code>将磁盘/dev/sda1从PV中移除</p>
 <div class="highlight-bash"><div class="highlight"><pre>pvremove /dev/sda1
 </pre></div>
 </div>
@@ -623,7 +630,7 @@ resize2fs /dev/VolGroup/lv_usr
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

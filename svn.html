@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="SVN仓库安全之镜像备份" href="svn_mirror.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -184,11 +191,11 @@
               
                 
   <li>
-    <a href="jenkins.html" title="Previous Chapter: 赤兔项目持续集成系统－Jenkins CI部署"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; 赤兔项目持续集成系统－Jenki...</span>
+    <a href="jenkins.html" title="Previous Chapter: 赤兔项目持续集成系统－Jenkins CI部署"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; 赤兔项目持续集成系统－Je...</span>
     </a>
   </li>
   <li>
-    <a href="svn_mirror.html" title="Next Chapter: SVN仓库安全之镜像备份"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">SVN仓库安全之镜像备份 &raquo;</span>
+    <a href="svn_mirror.html" title="Next Chapter: SVN仓库安全之镜像备份"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">SVN仓库安全之镜像备份 &raquo;</span>
     </a>
   </li>
               
@@ -280,11 +287,11 @@ setsebool -P httpd_can_network_connect 1
 <li>客户端取SVN时指示<strong>Cannot open the request svn filesystem</strong>(记不很清),<strong>errcode=70014</strong></li>
 <li>检查http日志发现：<cite>access_log</cite>中相应的请求都是返回500；<cite>error_log</cite>中提示“<em>(20014)Internal error ...  End of file found</em>”“<em>Could not fetch resource information.  [500, #0] Could not open therequested SVN filesystem  [500, #70014]</em>”</li>
 </ul>
-<p>解决：google后发现，是因为相应仓库下的文件<tt class="docutils literal"><span class="pre">db/current</span></tt>和<tt class="docutils literal"><span class="pre">db\txn-current</span></tt>被坏所引起的。<a class="footnote-reference" href="#id6" id="id3">[2]</a><tt class="docutils literal"><span class="pre">db/current</span></tt>存放的是当前修订号；<tt class="docutils literal"><span class="pre">db/txn-current</span></tt>应该是存放提交次数之类的数据，此文件为空时，客户端可以正常获取SVN，但提交时会提示<strong>../db/txn-current end of file</strong>之类的错误。只需要向其中输入一个换行符(<tt class="docutils literal"><span class="pre">echo</span> <span class="pre">&gt;</span> <span class="pre">db/txn-current</span></tt>)就能解决此问题。</p>
+<p>解决：google后发现，是因为相应仓库下的文件<code class="docutils literal"><span class="pre">db/current</span></code>和<code class="docutils literal"><span class="pre">db\txn-current</span></code>被坏所引起的。<a class="footnote-reference" href="#id6" id="id3">[2]</a><code class="docutils literal"><span class="pre">db/current</span></code>存放的是当前修订号；<code class="docutils literal"><span class="pre">db/txn-current</span></code>应该是存放提交次数之类的数据，此文件为空时，客户端可以正常获取SVN，但提交时会提示<strong>../db/txn-current end of file</strong>之类的错误。只需要向其中输入一个换行符(<code class="docutils literal"><span class="pre">echo</span> <span class="pre">&gt;</span> <span class="pre">db/txn-current</span></code>)就能解决此问题。</p>
 </li>
-<li><p class="first">命令<tt class="docutils literal"><span class="pre">svn</span> <span class="pre">info</span></tt>可以正常执行，但是执行<tt class="docutils literal"><span class="pre">svn</span> <span class="pre">up</span></tt>时得到错误：<tt class="docutils literal"><span class="pre">svn:</span> <span class="pre">XML</span> <span class="pre">data</span> <span class="pre">was</span> <span class="pre">not</span> <span class="pre">well-formed</span></tt></p>
-<p>subversion 1.8时：<tt class="docutils literal"><span class="pre">svn</span> <span class="pre">info</span></tt>可以正常运行，<tt class="docutils literal"><span class="pre">svn</span> <span class="pre">up</span></tt>得到错误：<tt class="docutils literal"><span class="pre">Updating</span> <span class="pre">'.':</span>
-<span class="pre">svn:</span> <span class="pre">E175004:</span> <span class="pre">The</span> <span class="pre">PROPFIND</span> <span class="pre">response</span> <span class="pre">did</span> <span class="pre">not</span> <span class="pre">include</span> <span class="pre">the</span> <span class="pre">requested</span> <span class="pre">properties</span></tt></p>
+<li><p class="first">命令<code class="docutils literal"><span class="pre">svn</span> <span class="pre">info</span></code>可以正常执行，但是执行<code class="docutils literal"><span class="pre">svn</span> <span class="pre">up</span></code>时得到错误：<code class="docutils literal"><span class="pre">svn:</span> <span class="pre">XML</span> <span class="pre">data</span> <span class="pre">was</span> <span class="pre">not</span> <span class="pre">well-formed</span></code></p>
+<p>subversion 1.8时：<code class="docutils literal"><span class="pre">svn</span> <span class="pre">info</span></code>可以正常运行，<code class="docutils literal"><span class="pre">svn</span> <span class="pre">up</span></code>得到错误：<code class="docutils literal"><span class="pre">Updating</span> <span class="pre">'.':</span>
+<span class="pre">svn:</span> <span class="pre">E175004:</span> <span class="pre">The</span> <span class="pre">PROPFIND</span> <span class="pre">response</span> <span class="pre">did</span> <span class="pre">not</span> <span class="pre">include</span> <span class="pre">the</span> <span class="pre">requested</span> <span class="pre">properties</span></code></p>
 <p>原因：在OS X上使用svn时会提示key的解密，奇怪的行为。（用户由管理员降为普通用户，删除过<em>.subversion</em>，移除过<em>.ssh</em>均未奏效）</p>
 </li>
 <li><p class="first">在Linux下利用<em>crontab</em>定期更新一个SVN仓库时出错：</p>
@@ -292,7 +299,7 @@ setsebool -P httpd_can_network_connect 1
 svn: /home/artsvn/trunk/icloud/D.?\233?\129?\147?\229?\133?\183
 </pre></div>
 </div>
-<p>由于中文引起的乱码问题，在<em>crontab</em>中可以设置环境变量<tt class="docutils literal"><span class="pre">LANG=zh_CN.UTF-8,</span> <span class="pre">LC_ALL=zh_CN.UTF-8</span></tt>就可以了。</p>
+<p>由于中文引起的乱码问题，在<em>crontab</em>中可以设置环境变量<code class="docutils literal"><span class="pre">LANG=zh_CN.UTF-8,</span> <span class="pre">LC_ALL=zh_CN.UTF-8</span></code>就可以了。</p>
 </li>
 </ol>
 </div>
@@ -334,7 +341,7 @@ svn: /home/artsvn/trunk/icloud/D.?\233?\129?\147?\229?\133?\183
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

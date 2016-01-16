@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="MySQL日志相关服务器变量" href="mysql_logs.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -190,11 +197,11 @@
               
                 
   <li>
-    <a href="mysql_backup.html" title="Previous Chapter: MySQL数据库的备份"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; MySQL数据库的备份</span>
+    <a href="mysql_backup.html" title="Previous Chapter: MySQL数据库的备份"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; MySQL数据库的备份</span>
     </a>
   </li>
   <li>
-    <a href="mysql_logs.html" title="Next Chapter: MySQL日志相关服务器变量"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">MySQL日志相关服务器变量 &raquo;</span>
+    <a href="mysql_logs.html" title="Next Chapter: MySQL日志相关服务器变量"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">MySQL日志相关服务器变量 &raquo;</span>
     </a>
   </li>
               
@@ -254,11 +261,11 @@
 <h1>MongoDB<a class="headerlink" href="#mongodb" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="python-sdk">
 <h2>Python SDK<a class="headerlink" href="#python-sdk" title="Permalink to this headline">¶</a></h2>
-<p><tt class="docutils literal"><span class="pre">MongoDB</span></tt>的官方网站有提供利用各种语言进行MongoDB开发的SDK，Python当然不能少。
-关于SDK包<tt class="docutils literal"><span class="pre">pymongo</span></tt>的详细手册，可以参考<a class="reference external" href="http://api.mongodb.org/python/current/tutorial.html">MongoDB</a>。在此进行超简介绍：</p>
+<p><code class="docutils literal"><span class="pre">MongoDB</span></code>的官方网站有提供利用各种语言进行MongoDB开发的SDK，Python当然不能少。
+关于SDK包<code class="docutils literal"><span class="pre">pymongo</span></code>的详细手册，可以参考<a class="reference external" href="http://api.mongodb.org/python/current/tutorial.html">MongoDB</a>。在此进行超简介绍：</p>
 <div class="section" id="id2">
 <h3>连接MongoDB服务器<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<p><tt class="docutils literal"><span class="pre">MongoDB</span></tt>服务器默认是侦听TCP 27017这个端口，等待用户连接：</p>
+<p><code class="docutils literal"><span class="pre">MongoDB</span></code>服务器默认是侦听TCP 27017这个端口，等待用户连接：</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
 
 <span class="n">client</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">(</span><span class="s">&quot;localhost&quot;</span><span class="p">,</span> <span class="mi">27017</span><span class="p">)</span>
@@ -267,7 +274,7 @@
 </div>
 <div class="section" id="id3">
 <h3>建立一个数据库<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<p>通过<tt class="docutils literal"><span class="pre">MongoClient</span></tt>对象的属性的形式来获取或建立一个数据库，如：</p>
+<p>通过<code class="docutils literal"><span class="pre">MongoClient</span></code>对象的属性的形式来获取或建立一个数据库，如：</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">db</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">dbName</span>
 <span class="c"># or</span>
 <span class="n">db</span> <span class="o">=</span> <span class="n">client</span><span class="p">[</span><span class="n">dbName</span><span class="p">]</span>
@@ -276,7 +283,7 @@
 </div>
 <div class="section" id="collection">
 <h3>建立一个集合（Collection, 类似于表）<a class="headerlink" href="#collection" title="Permalink to this headline">¶</a></h3>
-<p><tt class="docutils literal"><span class="pre">Collection</span></tt>的获取和建立的方法与数据库一样：</p>
+<p><code class="docutils literal"><span class="pre">Collection</span></code>的获取和建立的方法与数据库一样：</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">collection</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">dbName</span>
 <span class="c"># OR</span>
 <span class="n">collection</span> <span class="o">=</span> <span class="n">db</span><span class="p">[</span><span class="n">dbName</span><span class="p">]</span>
@@ -285,7 +292,7 @@
 </div>
 <div class="section" id="document">
 <h3>插入一条记录（Document）<a class="headerlink" href="#document" title="Permalink to this headline">¶</a></h3>
-<p><tt class="docutils literal"><span class="pre">MongoDB</span></tt>的数据是以json格式存储，而这刚好与Python中的字典的形式一致，所以处理起来非常的方便。</p>
+<p><code class="docutils literal"><span class="pre">MongoDB</span></code>的数据是以json格式存储，而这刚好与Python中的字典的形式一致，所以处理起来非常的方便。</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;author&quot;</span><span class="p">:</span> <span class="s">&quot;Mike&quot;</span><span class="p">,</span>
         <span class="s">&quot;text&quot;</span><span class="p">:</span> <span class="s">&quot;My first blog post!&quot;</span><span class="p">,</span>
         <span class="s">&quot;tags&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;mongodb&quot;</span><span class="p">,</span> <span class="s">&quot;python&quot;</span><span class="p">,</span> <span class="s">&quot;pymongo&quot;</span><span class="p">],</span>
@@ -321,7 +328,7 @@
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

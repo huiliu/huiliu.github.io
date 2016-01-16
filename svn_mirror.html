@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="一个字符引发的问题 - sscanf" href="sscanf.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -192,11 +199,11 @@
               
                 
   <li>
-    <a href="svn.html" title="Previous Chapter: SVN Q/A"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; SVN Q/A</span>
+    <a href="svn.html" title="Previous Chapter: SVN Q/A"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; SVN Q/A</span>
     </a>
   </li>
   <li>
-    <a href="sscanf.html" title="Next Chapter: 一个字符引发的问题 - sscanf"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">一个字符引发的问题 - ssca... &raquo;</span>
+    <a href="sscanf.html" title="Next Chapter: 一个字符引发的问题 - sscanf"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">一个字符引发的问题 - s... &raquo;</span>
     </a>
   </li>
               
@@ -269,7 +276,7 @@
 </div>
 <div class="section" id="id2">
 <h2>建立SVN仓库（主）<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>使用命令<tt class="docutils literal"><span class="pre">svnadmin</span> <span class="pre">create</span></tt>可以方便建立SVN仓库，然后在Apache的配置文件中设定好URL访问路径，客户端就可以通过HTTP访问SVN服务器。</p>
+<p>使用命令<code class="docutils literal"><span class="pre">svnadmin</span> <span class="pre">create</span></code>可以方便建立SVN仓库，然后在Apache的配置文件中设定好URL访问路径，客户端就可以通过HTTP访问SVN服务器。</p>
 <ul>
 <li><p class="first">建立仓库</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> /repos
@@ -301,26 +308,26 @@ chcon -R -t httpd_sys_content_t repos
 </li>
 </ul>
 <p>客户端可以通过http://devhome/repos/hello来访问SVN仓库。</p>
-<p>如果SVN仓库非常庞大，数据达到十几G，几十G，<tt class="docutils literal"><span class="pre">svnsync</span></tt>的效率将非常低，同步完仓库可能要十几个小时甚至更长。所以可能通过伪造欺骗的方式来建立镜像仓库。</p>
+<p>如果SVN仓库非常庞大，数据达到十几G，几十G，<code class="docutils literal"><span class="pre">svnsync</span></code>的效率将非常低，同步完仓库可能要十几个小时甚至更长。所以可能通过伪造欺骗的方式来建立镜像仓库。</p>
 </div>
 <div class="section" id="svn-mirror">
 <h2>建立主SVN仓库的镜像(Mirror)<a class="headerlink" href="#svn-mirror" title="Permalink to this headline">¶</a></h2>
-<p>建议镜像仓库的前期步骤与主仓库一致，当建立好镜像仓库后需要使用命令<tt class="docutils literal"><span class="pre">svnsync</span></tt>将镜像仓库与主仓库同步、建立连接。假定镜像仓库的路径为：<em>/backup/hello</em>，访问URL为：<a class="reference external" href="http://devhome/backup/hello">http://devhome/backup/hello</a>。镜像仓库必须是一个全新的SVN仓库，没有进行任何提交。</p>
+<p>建议镜像仓库的前期步骤与主仓库一致，当建立好镜像仓库后需要使用命令<code class="docutils literal"><span class="pre">svnsync</span></code>将镜像仓库与主仓库同步、建立连接。假定镜像仓库的路径为：<em>/backup/hello</em>，访问URL为：<a class="reference external" href="http://devhome/backup/hello">http://devhome/backup/hello</a>。镜像仓库必须是一个全新的SVN仓库，没有进行任何提交。</p>
 <div class="highlight-bash"><div class="highlight"><pre>svnsync init http://devhome/backup/hello http://devhome/repos/hello
 svnsync sync http://devhome/backup/hello
 </pre></div>
 </div>
-<p><tt class="docutils literal"><span class="pre">svnsync</span> <span class="pre">init</span></tt>会在主（源）－镜像（目标）仓库间建立连接，<tt class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span></tt>将主仓库中的数据同步到镜像仓库。如果数据比较多，会需要相当长的时间。</p>
+<p><code class="docutils literal"><span class="pre">svnsync</span> <span class="pre">init</span></code>会在主（源）－镜像（目标）仓库间建立连接，<code class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span></code>将主仓库中的数据同步到镜像仓库。如果数据比较多，会需要相当长的时间。</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p>运行<tt class="docutils literal"><span class="pre">svnsync</span> <span class="pre">init</span> <span class="pre">...</span> <span class="pre">...</span></tt>时可能会出现如下错误：</p>
+<p>运行<code class="docutils literal"><span class="pre">svnsync</span> <span class="pre">init</span> <span class="pre">...</span> <span class="pre">...</span></code>时可能会出现如下错误：</p>
 <div class="highlight-text"><div class="highlight"><pre>svnsync: DAV request failed; it&#39;s possible that the repository&#39;s pre-revprop-change hook either failed or is non-existent
 svnsync: At least one property change failed; repository is unchanged
 svnsync: Error setting property &#39;sync-lock&#39;:
 could not remove a property
 </pre></div>
 </div>
-<p>这个错误说明缺少<em>hook</em>“pre-revprop-change”。只需要镜像仓库的hook目录下创建一个可执行脚本文件<tt class="docutils literal"><span class="pre">pre-revprop-change</span></tt>返回0即可，如果此脚本返回值不为0会出现下面的提示：</p>
+<p>这个错误说明缺少<em>hook</em>“pre-revprop-change”。只需要镜像仓库的hook目录下创建一个可执行脚本文件<code class="docutils literal"><span class="pre">pre-revprop-change</span></code>返回0即可，如果此脚本返回值不为0会出现下面的提示：</p>
 <div class="last highlight-text"><div class="highlight"><pre>svnsync: DAV request failed; it&#39;s possible that the repository&#39;s pre-revprop-change hook either failed or is non-existent
 svnsync: At least one property change failed; repository is unchanged
 svnsync: Error setting property &#39;sync-lock&#39;:
@@ -332,7 +339,7 @@ Changing revision properties other than svn:log is prohibited
 </div>
 <div class="section" id="hooks">
 <h2>安装hooks－实时镜像<a class="headerlink" href="#hooks" title="Permalink to this headline">¶</a></h2>
-<p>完成上面两步后，就可以手动通过<tt class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span></tt>来同步主库我镜像仓库的数据，使其保持一致。更为方便的是在主仓库中安装一个post-commit的hook，（关于钩子hook的使用请查看其它资料）当客户端向主仓库完成一次提交后，自动将数据同步到镜像仓库。</p>
+<p>完成上面两步后，就可以手动通过<code class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span></code>来同步主库我镜像仓库的数据，使其保持一致。更为方便的是在主仓库中安装一个post-commit的hook，（关于钩子hook的使用请查看其它资料）当客户端向主仓库完成一次提交后，自动将数据同步到镜像仓库。</p>
 <ul>
 <li><p class="first">在“<em>/repos/hello/hooks</em>”目录下建立一个文件“<strong>post-commit</strong>”并将其设为可执行。这个文件可以是任何形式的可执行文件，在此处使用Shell，最简单的文件内容为：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="c">#!/bin/bash</span>
@@ -352,12 +359,12 @@ svnsync sync http://devhome/backup/hello --non-interactive --no-auth-cache --use
 <h2>切换至镜像仓库<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p>尽量不要向镜像仓库提交数据，不得不使用镜像仓库时，先对镜像仓库进行一个完整备份，
 以备再次建立镜像备份。因为镜像仓库本来就是设计为只读仓库的，从镜像恢复主仓库可能会出现各种意外，后续将介绍一些实际经验。</p>
-<p>将镜像仓库作为主仓库接收用户提交数据时，还需要将镜像仓库的<tt class="docutils literal"><span class="pre">UUID</span></tt>修改为主仓库的<tt class="docutils literal"><span class="pre">UUID</span></tt>。</p>
+<p>将镜像仓库作为主仓库接收用户提交数据时，还需要将镜像仓库的<code class="docutils literal"><span class="pre">UUID</span></code>修改为主仓库的<code class="docutils literal"><span class="pre">UUID</span></code>。</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="c"># UUID文件位于文件repos_name/db/uuid中</span>
 <span class="nv">REPOS_PATH</span><span class="o">=</span>/repos
 <span class="k">for</span> dir in <span class="sb">`</span>ls <span class="nv">$REPOS_PATH</span><span class="sb">`</span>
 <span class="k">do</span>
-    <span class="nv">file</span><span class="o">=</span><span class="s2">&quot;${REPOS_PATH}/${dir}/db/uuid&quot;</span>
+    <span class="nv">file</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">REPOS_PATH</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">dir</span><span class="si">}</span><span class="s2">/db/uuid&quot;</span>
     cat <span class="nv">$file</span>
 <span class="k">done</span>
 </pre></div>
@@ -366,7 +373,7 @@ svnsync sync http://devhome/backup/hello --non-interactive --no-auth-cache --use
 <div class="section" id="id5">
 <h2>从镜像仓库恢复主仓库<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <p>由于故障时将镜像仓库用作主仓库接受客户端的数据提交，所以当修复的主仓库重新上线时，镜像仓库的数据比主仓库的更新一些，所以必须将提交到镜像仓库的数据重新导回主仓库才能重新恢复主－镜像备份功能。</p>
-<p>首先我们尝试使用<tt class="docutils literal"><span class="pre">svnsync</span></tt>命令来同步：</p>
+<p>首先我们尝试使用<code class="docutils literal"><span class="pre">svnsync</span></code>命令来同步：</p>
 <div class="highlight-bash"><div class="highlight"><pre>svnsync sync http://devhome/repos/hello
 </pre></div>
 </div>
@@ -375,7 +382,7 @@ svnsync sync http://devhome/backup/hello --non-interactive --no-auth-cache --use
 committed to the destination without using svnsync
 </pre></div>
 </div>
-<p>上面就是说没有使用<tt class="docutils literal"><span class="pre">svnsync</span></tt>向镜像仓库提交了数据，导致镜像仓库的数据比主仓库的数据要新。所以需要将镜像仓库中的新数据<strong>dump</strong>出来导入到主仓库。</p>
+<p>上面就是说没有使用<code class="docutils literal"><span class="pre">svnsync</span></code>向镜像仓库提交了数据，导致镜像仓库的数据比主仓库的数据要新。所以需要将镜像仓库中的新数据<strong>dump</strong>出来导入到主仓库。</p>
 <div class="highlight-bash"><div class="highlight"><pre>svnadmin dump /repos_backup/hello -r 主库revisionNumber+1 --incremental <span class="p">|</span> svnadmin load /repos/hello
 </pre></div>
 </div>
@@ -383,22 +390,22 @@ committed to the destination without using svnsync
 </div>
 <div class="section" id="id7">
 <h2>重新恢复主－镜像功能<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
-<p>镜像仓库数据导入回主仓库后，主仓库和镜像仓库的数据就完全一致（请确认）。此时运行命令<tt class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span> <span class="pre">http://devhome/backup/hello</span></tt>会收到错误：</p>
+<p>镜像仓库数据导入回主仓库后，主仓库和镜像仓库的数据就完全一致（请确认）。此时运行命令<code class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span> <span class="pre">http://devhome/backup/hello</span></code>会收到错误：</p>
 <div class="highlight-text"><div class="highlight"><pre>svnsync: Destination HEAD (11295) is not the last merged revision (11297);
 have you committed to the destination without using svnsync?
 </pre></div>
 </div>
 <p>从错误推断，镜像仓库应该是不允许提交数据，向镜像仓库提交数据会导致主－镜像无法同步，所以需要重新恢复同步信息。有以下几个欺骗SVN的方法：</p>
 <ul>
-<li><p class="first">修改<em>/backup/hello/db/current</em>的值为同步中断时的值，然后重新运行命令<tt class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span> <span class="pre">http://devhome/backup/hello</span></tt>。运气好的话可以重新同步成功。也有可能会出错：</p>
+<li><p class="first">修改<em>/backup/hello/db/current</em>的值为同步中断时的值，然后重新运行命令<code class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span> <span class="pre">http://devhome/backup/hello</span></code>。运气好的话可以重新同步成功。也有可能会出错：</p>
 <div class="highlight-text"><div class="highlight"><pre>Transmitting file data .svnsync: Corrupt representation &#39;25773 0 20806
 212480 0a6b7637ee622c6f0b2cb8fd8ecb9f48
 b5c5091ce33b04b5b7cb747b046d0e1114c7a7cc 25772-jwm/_6&#39;
 </pre></div>
 </div>
-<p>如果出现上面的错误，请使用命令<tt class="docutils literal"><span class="pre">svnadmin</span> <span class="pre">verify</span> <span class="pre">/backup/hello</span> <span class="pre">-r</span> <span class="pre">revNum</span></tt>检查修订号为<em>revNum</em>的提交数据是否正常，极有可能有问题。</p>
+<p>如果出现上面的错误，请使用命令<code class="docutils literal"><span class="pre">svnadmin</span> <span class="pre">verify</span> <span class="pre">/backup/hello</span> <span class="pre">-r</span> <span class="pre">revNum</span></code>检查修订号为<em>revNum</em>的提交数据是否正常，极有可能有问题。</p>
 </li>
-<li><p class="first">使用命令<tt class="docutils literal"><span class="pre">svnadmin</span> <span class="pre">recover</span> <span class="pre">/backup/hello</span></tt>恢复SVN信息，查看打开“<em>/backup/hello/db/revprop/0/0</em>”如下：</p>
+<li><p class="first">使用命令<code class="docutils literal"><span class="pre">svnadmin</span> <span class="pre">recover</span> <span class="pre">/backup/hello</span></code>恢复SVN信息，查看打开“<em>/backup/hello/db/revprop/0/0</em>”如下：</p>
 <div class="highlight-text"><div class="highlight"><pre>K 8
 svn:date
 V 27
@@ -422,7 +429,7 @@ V 5
 END
 </pre></div>
 </div>
-<p>将“<strong>svn:sync-currently-copyin</strong>”和“<strong>svn:sync-last-merged-rev</strong>”下面的修订号，如“25775”，“25774”修改为“<em>/backup/hello/db/current</em>”中的值，然后进行同步：<tt class="docutils literal"><span class="pre">svnadmin</span> <span class="pre">verify</span> <span class="pre">/backup/hello</span> <span class="pre">-r</span> <span class="pre">revNum</span></tt>。同步将顺利完成。但是可以出现其它一些错误。在此不一一列举，出现错误后将<tt class="docutils literal"><span class="pre">db/current</span></tt>和<tt class="docutils literal"><span class="pre">db/revprop/0/0</span></tt>中的修订号再修改小一点，重新运行<tt class="docutils literal"><span class="pre">svnsync</span></tt>命令，一般可以消除问题。（需要深入的了解一下）</p>
+<p>将“<strong>svn:sync-currently-copyin</strong>”和“<strong>svn:sync-last-merged-rev</strong>”下面的修订号，如“25775”，“25774”修改为“<em>/backup/hello/db/current</em>”中的值，然后进行同步：<code class="docutils literal"><span class="pre">svnadmin</span> <span class="pre">verify</span> <span class="pre">/backup/hello</span> <span class="pre">-r</span> <span class="pre">revNum</span></code>。同步将顺利完成。但是可以出现其它一些错误。在此不一一列举，出现错误后将<code class="docutils literal"><span class="pre">db/current</span></code>和<code class="docutils literal"><span class="pre">db/revprop/0/0</span></code>中的修订号再修改小一点，重新运行<code class="docutils literal"><span class="pre">svnsync</span></code>命令，一般可以消除问题。（需要深入的了解一下）</p>
 </li>
 <li><p class="first">用上面的方法基本可以保留原镜像，主仓库不变而恢复主－镜像架构，但是实际中可能会出现各种错误。<strong>建议完成重建一个镜像仓库。</strong></p>
 </li>
@@ -432,23 +439,23 @@ END
 <h2>问题说明<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <p>在实际运行过程中会出现各种奇怪的问题，集结如下：</p>
 <ol class="arabic">
-<li><p class="first">运行命令<tt class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span> <span class="pre">http://xxx.xxx.xxx/backup/xxxx</span></tt>提示错误：</p>
+<li><p class="first">运行命令<code class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span> <span class="pre">http://xxx.xxx.xxx/backup/xxxx</span></code>提示错误：</p>
 <div class="highlight-text"><div class="highlight"><pre>Transmitting file data .svnsync: Corrupt representation &#39;9890 0 12903 ..
 </pre></div>
 </div>
 <p>猜想应该是revision 9890有问题，将镜像仓库的相当修订号改为小于9890，再运行同步命令成功。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">调整镜像仓库修订号需要修改文件<tt class="docutils literal"><span class="pre">db/current</span></tt>和<tt class="docutils literal"><span class="pre">db/revprops/0/0</span></tt></p>
+<p class="last">调整镜像仓库修订号需要修改文件<code class="docutils literal"><span class="pre">db/current</span></code>和<code class="docutils literal"><span class="pre">db/revprops/0/0</span></code></p>
 </div>
 </li>
-<li><p class="first">运行同步命令<tt class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span> <span class="pre">http://xxxx/backup/xxx</span></tt>时，提示错误：</p>
+<li><p class="first">运行同步命令<code class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span> <span class="pre">http://xxxx/backup/xxx</span></code>时，提示错误：</p>
 <div class="highlight-text"><div class="highlight"><pre>Transmitting file data ....svnsync: Server sent unexpected return value (423 Locked) in response to PUT request for &#39;/backup/
 </pre></div>
 </div>
-<p>提示无法获取锁，将镜像仓库目录<tt class="docutils literal"><span class="pre">db/locks</span></tt>下的文件删除，再同步即可。</p>
+<p>提示无法获取锁，将镜像仓库目录<code class="docutils literal"><span class="pre">db/locks</span></code>下的文件删除，再同步即可。</p>
 </li>
-<li><p class="first">运行命令<tt class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span> <span class="pre">http://xxxx/backup/xxx</span></tt>出现下面的错误：</p>
+<li><p class="first">运行命令<code class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span> <span class="pre">http://xxxx/backup/xxx</span></code>出现下面的错误：</p>
 <div class="highlight-text"><div class="highlight"><pre>Failed to get lock on destination repos, currently held by &#39;devhome:8b8d326b-34b1-4fe1-8a81-a33e841d5047&#39;
 Failed to get lock on destination repos, currently held by &#39;devhome:8b8d326b-34b1-4fe1-8a81-a33e841d5047&#39;
 Failed to get lock on destination repos, currently held by &#39;devhome:8b8d326b-34b1-4fe1-8a81-a33e841d5047&#39;
@@ -462,7 +469,7 @@ Failed to get lock on destination repos, currently held by &#39;devhome:8b8d326b
 svnsync: Couldn&#39;t get lock on destination repos after 10 attempts
 </pre></div>
 </div>
-<p>打开SVN仓库中的文件<tt class="docutils literal"><span class="pre">db/revprops/0/0</span></tt>你会发现最后几行有<tt class="docutils literal"><span class="pre">sync-lock</span></tt>和上面的UUID值，所以只要将此lock删除掉就可以。比较安全的方法是使用命令删除：
+<p>打开SVN仓库中的文件<code class="docutils literal"><span class="pre">db/revprops/0/0</span></code>你会发现最后几行有<code class="docutils literal"><span class="pre">sync-lock</span></code>和上面的UUID值，所以只要将此lock删除掉就可以。比较安全的方法是使用命令删除：
 <a class="footnote-reference" href="#ref-lock" id="id9">[2]</a></p>
 <div class="highlight-bash"><div class="highlight"><pre>svn propdel --revprop -r0 svn:sync-lock file:///path/to/the/repository
 </pre></div>
@@ -475,7 +482,7 @@ svnsync: Couldn&#39;t get lock on destination repos after 10 attempts
 <table class="docutils footnote" frame="void" id="id11" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id6">[1]</a></td><td><p class="first">运行<tt class="docutils literal"><span class="pre">svnadmin</span> <span class="pre">load</span></tt>时，如果主仓库（“<em>/repos/hello</em>”）中的文件有加锁，会出错并中断当前操作。如：</p>
+<tr><td class="label"><a class="fn-backref" href="#id6">[1]</a></td><td><p class="first">运行<code class="docutils literal"><span class="pre">svnadmin</span> <span class="pre">load</span></code>时，如果主仓库（“<em>/repos/hello</em>”）中的文件有加锁，会出错并中断当前操作。如：</p>
 <div class="highlight-text"><div class="highlight"><pre>svnadmin: Cannot verify lock on path &#39;... ...&#39;; no username available
 </pre></div>
 </div>
@@ -521,7 +528,7 @@ svnadmin lslock /repos/hello &gt; helloLocks
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

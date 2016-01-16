@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="MySQL服务器状态" href="mysql_status.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -196,11 +203,11 @@
               
                 
   <li>
-    <a href="mysql_tuning.html" title="Previous Chapter: MySQL通用调优原则"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; MySQL通用调优原则</span>
+    <a href="mysql_tuning.html" title="Previous Chapter: MySQL通用调优原则"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; MySQL通用调优原则</span>
     </a>
   </li>
   <li>
-    <a href="mysql_status.html" title="Next Chapter: MySQL服务器状态"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">MySQL服务器状态 &raquo;</span>
+    <a href="mysql_status.html" title="Next Chapter: MySQL服务器状态"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">MySQL服务器状态 &raquo;</span>
     </a>
   </li>
               
@@ -264,18 +271,18 @@
       
   <div class="section" id="mysql">
 <h1>MySQL中的索引-读书笔记<a class="headerlink" href="#mysql" title="Permalink to this headline">¶</a></h1>
-<p>索引（MySQL中的<tt class="docutils literal"><span class="pre">Key</span></tt>）即书的目录，图书馆的图书编目等。索引是存储引擎实现的，所以索引与存储引擎相关，不同的引擎各有不同。</p>
-<p>MySQL中的索引有：<tt class="docutils literal"><span class="pre">B-Tree</span></tt>，<tt class="docutils literal"><span class="pre">哈希</span></tt>和<tt class="docutils literal"><span class="pre">R-Tree(空间)</span></tt>三种索引类型。</p>
+<p>索引（MySQL中的<code class="docutils literal"><span class="pre">Key</span></code>）即书的目录，图书馆的图书编目等。索引是存储引擎实现的，所以索引与存储引擎相关，不同的引擎各有不同。</p>
+<p>MySQL中的索引有：<code class="docutils literal"><span class="pre">B-Tree</span></code>，<code class="docutils literal"><span class="pre">哈希</span></code>和<code class="docutils literal"><span class="pre">R-Tree(空间)</span></code>三种索引类型。</p>
 <div class="section" id="b-tree">
 <h2>B-Tree索引<a class="headerlink" href="#b-tree" title="Permalink to this headline">¶</a></h2>
-<p>B-Tree索引与列顺序有很大的关系，只有在使用了索引的<tt class="docutils literal"><span class="pre">最左前缀</span></tt>（Leftmost Prefix）时才有效。它可以很好的应用于：</p>
+<p>B-Tree索引与列顺序有很大的关系，只有在使用了索引的<code class="docutils literal"><span class="pre">最左前缀</span></code>（Leftmost Prefix）时才有效。它可以很好的应用于：</p>
 <ol class="arabic simple">
-<li><tt class="docutils literal"><span class="pre">全键值匹配</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">匹配最左前缀</span></tt>：索引中的第一列</li>
-<li><tt class="docutils literal"><span class="pre">匹配列前缀</span></tt>：匹配列值的开头部分</li>
-<li><tt class="docutils literal"><span class="pre">匹配范围值</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">精确匹配一部分且匹配某个范围中的另一部分</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">只访问索引的查询</span></tt></li>
+<li><code class="docutils literal"><span class="pre">全键值匹配</span></code></li>
+<li><code class="docutils literal"><span class="pre">匹配最左前缀</span></code>：索引中的第一列</li>
+<li><code class="docutils literal"><span class="pre">匹配列前缀</span></code>：匹配列值的开头部分</li>
+<li><code class="docutils literal"><span class="pre">匹配范围值</span></code></li>
+<li><code class="docutils literal"><span class="pre">精确匹配一部分且匹配某个范围中的另一部分</span></code></li>
+<li><code class="docutils literal"><span class="pre">只访问索引的查询</span></code></li>
 </ol>
 </div>
 <div class="section" id="id1">
@@ -283,7 +290,7 @@
 </div>
 <div class="section" id="id2">
 <h2>空间索引<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p><tt class="docutils literal"><span class="pre">空间索引</span></tt>(R-Tree, Spatial Index)</p>
+<p><code class="docutils literal"><span class="pre">空间索引</span></code>(R-Tree, Spatial Index)</p>
 </div>
 <div class="section" id="id3">
 <h2>全文索引<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
@@ -298,7 +305,7 @@
 </ol>
 <div class="section" id="id5">
 <h3>隔离列<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
-<p><tt class="docutils literal"><span class="pre">隔离列</span></tt>即索引不能是表达式的一部分，也不能位于函数中。</p>
+<p><code class="docutils literal"><span class="pre">隔离列</span></code>即索引不能是表达式的一部分，也不能位于函数中。</p>
 </div>
 <div class="section" id="id6">
 <h3>前缀索引和索引选择性<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
@@ -322,12 +329,12 @@
 </div>
 <div class="section" id="id8">
 <h3>覆盖索引<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
-<p>所有查询需要的数据都包含在索引中索引称之为<tt class="docutils literal"><span class="pre">覆盖索引</span></tt></p>
+<p>所有查询需要的数据都包含在索引中索引称之为<code class="docutils literal"><span class="pre">覆盖索引</span></code></p>
 </div>
 <div class="section" id="id9">
 <h3>压纹索引<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
-<p><tt class="docutils literal"><span class="pre">MyISAM</span></tt>存储引擎使用前缀索引以减小索引大小，可以将更多索引装入内存，在某些情况下可以极大提高性能。默认不会压缩字符串，但可以压缩整数。</p>
-<p>可以在<tt class="docutils literal"><span class="pre">CREATE</span> <span class="pre">TABLE</span></tt>命令中使用<tt class="docutils literal"><span class="pre">PACK_KEYS</span></tt>控制索引压缩方式。</p>
+<p><code class="docutils literal"><span class="pre">MyISAM</span></code>存储引擎使用前缀索引以减小索引大小，可以将更多索引装入内存，在某些情况下可以极大提高性能。默认不会压缩字符串，但可以压缩整数。</p>
+<p>可以在<code class="docutils literal"><span class="pre">CREATE</span> <span class="pre">TABLE</span></code>命令中使用<code class="docutils literal"><span class="pre">PACK_KEYS</span></code>控制索引压缩方式。</p>
 </div>
 <div class="section" id="id10">
 <h3>多余索引和重复索引<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
@@ -364,7 +371,7 @@
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

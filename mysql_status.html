@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="MySQL复制" href="mysql_replication.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -201,11 +208,11 @@
               
                 
   <li>
-    <a href="mysql_key.html" title="Previous Chapter: MySQL中的索引-读书笔记"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; MySQL中的索引-读书笔记</span>
+    <a href="mysql_key.html" title="Previous Chapter: MySQL中的索引-读书笔记"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; MySQL中的索引-读书笔记</span>
     </a>
   </li>
   <li>
-    <a href="mysql_replication.html" title="Next Chapter: MySQL复制"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">MySQL复制 &raquo;</span>
+    <a href="mysql_replication.html" title="Next Chapter: MySQL复制"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">MySQL复制 &raquo;</span>
     </a>
   </li>
               
@@ -278,20 +285,20 @@
 <h2>线程和连接的统计信息<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>应该关注于服务器一段时间的变化，变化率，而不是总的计数</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">connections,</span> <span class="pre">max_used_connections,</span> <span class="pre">threads_connected</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">aborted_clients,</span> <span class="pre">aborted_connections</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">bytes_received,</span> <span class="pre">bytes_sent</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">slow_launch_threads,</span> <span class="pre">threads_cached,</span> <span class="pre">threads_created,</span> <span class="pre">threads_running</span></tt></li>
+<li><code class="docutils literal"><span class="pre">connections,</span> <span class="pre">max_used_connections,</span> <span class="pre">threads_connected</span></code></li>
+<li><code class="docutils literal"><span class="pre">aborted_clients,</span> <span class="pre">aborted_connections</span></code></li>
+<li><code class="docutils literal"><span class="pre">bytes_received,</span> <span class="pre">bytes_sent</span></code></li>
+<li><code class="docutils literal"><span class="pre">slow_launch_threads,</span> <span class="pre">threads_cached,</span> <span class="pre">threads_created,</span> <span class="pre">threads_running</span></code></li>
 </ul>
 </div>
 <div class="section" id="id2">
 <h2>二进制日志<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p><tt class="docutils literal"><span class="pre">binlog_cache_use,</span> <span class="pre">binlog_cache_disk_use</span></tt></p>
+<p><code class="docutils literal"><span class="pre">binlog_cache_use,</span> <span class="pre">binlog_cache_disk_use</span></code></p>
 </div>
 <div class="section" id="id3">
 <h2>命令计数器<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p><tt class="docutils literal"><span class="pre">Com_*</span></tt>变量记录了执行过的SQL和C API命令数。如<tt class="docutils literal"><span class="pre">Com_select</span></tt>记录的是
-<em>SELECT</em>语句的数目；<tt class="docutils literal"><span class="pre">Com_change_db</span></tt>记录的是使用<em>USE</em>或C API改变默认
+<p><code class="docutils literal"><span class="pre">Com_*</span></code>变量记录了执行过的SQL和C API命令数。如<code class="docutils literal"><span class="pre">Com_select</span></code>记录的是
+<em>SELECT</em>语句的数目；<code class="docutils literal"><span class="pre">Com_change_db</span></code>记录的是使用<em>USE</em>或C API改变默认
 数据库的次数。</p>
 </div>
 <div class="section" id="id4">
@@ -302,7 +309,7 @@
 </div>
 <div class="section" id="handler">
 <h2>Handler操作<a class="headerlink" href="#handler" title="Permalink to this headline">¶</a></h2>
-<p>Handler API是MySQL与存储引擎之间的接口。观察<tt class="docutils literal"><span class="pre">Handler_*</span></tt>变量能让你了解服务
+<p>Handler API是MySQL与存储引擎之间的接口。观察<code class="docutils literal"><span class="pre">Handler_*</span></code>变量能让你了解服务
 器做的最多的是哪些工作。</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">SHOW</span> <span class="k">GLOBAL</span> <span class="n">STATUS</span> <span class="k">LIKE</span> <span class="s1">&#39;Handler%&#39;</span><span class="p">;</span>
 </pre></div>
@@ -340,7 +347,7 @@
 </div>
 <div class="section" id="id8">
 <h2>表锁定<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
-<p>状态变量<tt class="docutils literal"><span class="pre">table_locks_immediate</span></tt>和<tt class="docutils literal"><span class="pre">table_locks_waited</span></tt></p>
+<p>状态变量<code class="docutils literal"><span class="pre">table_locks_immediate</span></code>和<code class="docutils literal"><span class="pre">table_locks_waited</span></code></p>
 </div>
 <div class="section" id="innodb-status">
 <h2>InnoDB STATUS<a class="headerlink" href="#innodb-status" title="Permalink to this headline">¶</a></h2>
@@ -373,8 +380,8 @@
 <span class="k">SHOW</span> <span class="nb">BINARY</span> <span class="n">LOGS</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>状态变量<tt class="docutils literal"><span class="pre">master_log_file,</span> <span class="pre">master_log_pos</span></tt>和<tt class="docutils literal"><span class="pre">relay_log_file,</span>
-<span class="pre">relay_log_pos,</span> <span class="pre">relay_master_log_file,</span> <span class="pre">relay_master_log_pos</span></tt></p>
+<p>状态变量<code class="docutils literal"><span class="pre">master_log_file,</span> <span class="pre">master_log_pos</span></code>和<code class="docutils literal"><span class="pre">relay_log_file,</span>
+<span class="pre">relay_log_pos,</span> <span class="pre">relay_master_log_file,</span> <span class="pre">relay_master_log_pos</span></code></p>
 </div>
 <div class="section" id="id13">
 <h2>参考资料<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
@@ -404,7 +411,7 @@
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

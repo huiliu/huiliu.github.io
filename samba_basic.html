@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="磁盘配额管理" href="disk_quota.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -176,7 +183,7 @@
 <li><a class="reference internal" href="#id5">安全考量</a><ul>
 <li><a class="reference internal" href="#ip">只允许特定IP范围的用户访问</a></li>
 <li><a class="reference internal" href="#id6">限制特定用户访问</a></li>
-<li><a class="reference internal" href="#id7">匿名共享开关</a></li>
+<li><a class="reference internal" href="#id7">匿名共享</a></li>
 <li><a class="reference internal" href="#id8">读写控制</a></li>
 <li><a class="reference internal" href="#id9">符号连接的问题</a></li>
 <li><a class="reference internal" href="#windows-linux">Windows, Linux混合使用问题</a></li>
@@ -209,11 +216,11 @@
               
                 
   <li>
-    <a href="samba_ads.html" title="Previous Chapter: samba集成Active Directory"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; samba集成Active Di...</span>
+    <a href="samba_ads.html" title="Previous Chapter: samba集成Active Directory"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; samba集成Active...</span>
     </a>
   </li>
   <li>
-    <a href="disk_quota.html" title="Next Chapter: 磁盘配额管理"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">磁盘配额管理 &raquo;</span>
+    <a href="disk_quota.html" title="Next Chapter: 磁盘配额管理"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">磁盘配额管理 &raquo;</span>
     </a>
   </li>
               
@@ -247,7 +254,7 @@
 <li><a class="reference internal" href="#id5">安全考量</a><ul>
 <li><a class="reference internal" href="#ip">只允许特定IP范围的用户访问</a></li>
 <li><a class="reference internal" href="#id6">限制特定用户访问</a></li>
-<li><a class="reference internal" href="#id7">匿名共享开关</a></li>
+<li><a class="reference internal" href="#id7">匿名共享</a></li>
 <li><a class="reference internal" href="#id8">读写控制</a></li>
 <li><a class="reference internal" href="#id9">符号连接的问题</a></li>
 <li><a class="reference internal" href="#windows-linux">Windows, Linux混合使用问题</a></li>
@@ -291,14 +298,14 @@
   <div class="section" id="samba">
 <h1>Samba<a class="headerlink" href="#samba" title="Permalink to this headline">¶</a></h1>
 <p>用Linux连接Samba服务器：
-{{Cmd|``smbclient`` //192.168.6.3/ <tt class="docutils literal"><span class="pre">-U</span></tt> test}}</p>
+{{Cmd|``smbclient`` //192.168.6.3/ <code class="docutils literal"><span class="pre">-U</span></code> test}}</p>
 <div class="section" id="id1">
 <h2>配置文件<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>关于samba的配置文件，请查看man手册<a class="footnote-reference" href="#man" id="id2">[1]</a></p>
 <div class="section" id="id3">
 <h3>配置日志<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<p><tt class="docutils literal"><span class="pre">Samba</span></tt>有自己的一套日志机制<a class="footnote-reference" href="#ref" id="id4">[2]</a>，既可自己(Samba)定义存储日志文件，也可以将日志交由系统日志系统处理，也可以选择同时发送给两者。在配置文件
-<tt class="docutils literal"><span class="pre">/etc/samba/smb.conf</span></tt>中与日志相关的配置选项有：&#8221;<tt class="docutils literal"><span class="pre">log</span> <span class="pre">level</span></tt>&#8221;,&#8221;<tt class="docutils literal"><span class="pre">debuglevel</span></tt>&#8221;,&#8221;<tt class="docutils literal"><span class="pre">syslog</span></tt>&#8220;，&#8221;<tt class="docutils literal"><span class="pre">syslog</span> <span class="pre">only</span></tt>&#8220;等。</p>
+<p><code class="docutils literal"><span class="pre">Samba</span></code>有自己的一套日志机制<a class="footnote-reference" href="#ref" id="id4">[2]</a>，既可自己(Samba)定义存储日志文件，也可以将日志交由系统日志系统处理，也可以选择同时发送给两者。在配置文件
+<code class="docutils literal"><span class="pre">/etc/samba/smb.conf</span></code>中与日志相关的配置选项有：&#8221;<code class="docutils literal"><span class="pre">log</span> <span class="pre">level</span></code>&#8221;,&#8221;<code class="docutils literal"><span class="pre">debuglevel</span></code>&#8221;,&#8221;<code class="docutils literal"><span class="pre">syslog</span></code>&#8220;，&#8221;<code class="docutils literal"><span class="pre">syslog</span> <span class="pre">only</span></code>&#8220;等。</p>
 <p>日志级别可以设定为0-10的一个整数，值越大，日志越详细。官方文档中推荐3及以上的级别只适用于开发人员，对一般系统管理员没有必要。使用日志级别 0 将避开除一些启动消息和关键错误之外的任何消息。</p>
 <p>Samba还提供了一系列更加详细的参数，可以更好的控制日志信息的输出。</p>
 <div class="highlight-text"><div class="highlight"><pre>all。该参数是可选的：如果您不指定额外的关键字，假定使用 all。
@@ -323,7 +330,7 @@ dmapi。数据管理应用程序编程接口（API）功能。必须使用第三
 registry。Windows 注册表的模仿。
 </pre></div>
 </div>
-<p>要使用这些额外的日志记录，将<tt class="docutils literal"><span class="pre">关键字</span></tt>和<tt class="docutils literal"><span class="pre">值</span></tt>附加到日志级别参数，用冒号（:）分割。如：</p>
+<p>要使用这些额外的日志记录，将<code class="docutils literal"><span class="pre">关键字</span></code>和<code class="docutils literal"><span class="pre">值</span></code>附加到日志级别参数，用冒号（:）分割。如：</p>
 <div class="highlight-ini"><div class="highlight"><pre><span class="na">log level</span> <span class="o">=</span> <span class="s">1 auth:3</span>
 </pre></div>
 </div>
@@ -336,11 +343,11 @@ registry。Windows 注册表的模仿。
 </div>
 <div class="section" id="id5">
 <h3>安全考量<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
-<p><tt class="docutils literal"><span class="pre">Samba</span></tt>中提供了很多与安全控制相关的参数。</p>
+<p><code class="docutils literal"><span class="pre">Samba</span></code>中提供了很多与安全控制相关的参数。</p>
 <div class="section" id="ip">
 <h4>只允许特定IP范围的用户访问<a class="headerlink" href="#ip" title="Permalink to this headline">¶</a></h4>
 <ul>
-<li><p class="first"><tt class="docutils literal"><span class="pre">hosts</span> <span class="pre">allow</span></tt>可以实现对服务访问进行控制，限制访问客户的来源，可以指定主机名，IP地址，网段等；此指令可以用于<tt class="docutils literal"><span class="pre">[global]</span></tt>，也可以用于单个共享项目。如：</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">hosts</span> <span class="pre">allow</span></code>可以实现对服务访问进行控制，限制访问客户的来源，可以指定主机名，IP地址，网段等；此指令可以用于<code class="docutils literal"><span class="pre">[global]</span></code>，也可以用于单个共享项目。如：</p>
 <div class="highlight-ini"><div class="highlight"><pre><span class="c1"># 配置文件/etc/samba/smb.conf</span>
 <span class="c1"># allow all IPs in 150.203.*.*; except one</span>
 <span class="na">hosts allow</span> <span class="o">=</span> <span class="s">150.203. EXCEPT 150.203.6.66</span>
@@ -360,9 +367,9 @@ registry。Windows 注册表的模仿。
 <p class="first admonition-title">Note</p>
 <p class="last">既可以对某一个共享目录进行限制，可以对全局进行限制</p>
 </div>
-<p>另外，当然也可以使用系统防火墙<tt class="docutils literal"><span class="pre">iptables</span></tt>来过滤掉一些不希望的用户。</p>
+<p>另外，当然也可以使用系统防火墙<code class="docutils literal"><span class="pre">iptables</span></code>来过滤掉一些不希望的用户。</p>
 </li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">hosts</span> <span class="pre">deny</span></tt>的用途与<tt class="docutils literal"><span class="pre">hosts</span> <span class="pre">allow</span></tt>刚好相反，用于拒绝用户访问。</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">hosts</span> <span class="pre">deny</span></code>的用途与<code class="docutils literal"><span class="pre">hosts</span> <span class="pre">allow</span></code>刚好相反，用于拒绝用户访问。</p>
 </li>
 <li><p class="first">一种比较好的访问控制策略是：<strong>拒绝所有的访问，显式的说明允许那些主机访问</strong>。</p>
 <div class="highlight-ini"><div class="highlight"><pre><span class="c1"># /etc/samba/smb.conf, hosts allow使用示例</span>
@@ -381,17 +388,17 @@ registry。Windows 注册表的模仿。
 <div class="section" id="id6">
 <h4>限制特定用户访问<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
-<li>选项&#8221;<tt class="docutils literal"><span class="pre">invalid</span> <span class="pre">users</span></tt>&#8220;列出不允许访问当前共享资源的用户。This is really a
+<li>选项&#8221;<code class="docutils literal"><span class="pre">invalid</span> <span class="pre">users</span></code>&#8220;列出不允许访问当前共享资源的用户。This is really a
 paranoid check to absolutely ensure an improper setting does not breach your
 security. 用于保证共享资源的绝对安全。</li>
-<li>选项&#8221;<tt class="docutils literal"><span class="pre">valid</span> <span class="pre">users</span></tt>&#8220;可以用于限制共享资源只对指定的用户开放。</li>
+<li>选项&#8221;<code class="docutils literal"><span class="pre">valid</span> <span class="pre">users</span></code>&#8220;可以用于限制共享资源只对指定的用户开放。</li>
 </ul>
-<p>对于选项&#8221;<tt class="docutils literal"><span class="pre">invalid</span> <span class="pre">users</span></tt>&#8220;和&#8221;<tt class="docutils literal"><span class="pre">valid</span> <span class="pre">users</span></tt>&#8220;的值，有以下规则：</p>
+<p>对于选项&#8221;<code class="docutils literal"><span class="pre">invalid</span> <span class="pre">users</span></code>&#8220;和&#8221;<code class="docutils literal"><span class="pre">valid</span> <span class="pre">users</span></code>&#8220;的值，有以下规则：</p>
 <ul class="simple">
-<li>以&#8221;<tt class="docutils literal"><span class="pre">&#64;</span></tt>&#8220;开头的字符串将首先被解释为NIS网络组，如果在NIS网络组中不存在，被解释为UNIX组</li>
-<li>以&#8221;<tt class="docutils literal"><span class="pre">+</span></tt>&#8220;开头的字符串将``仅``被解释为UNIX组</li>
-<li>以&#8221;<tt class="docutils literal"><span class="pre">&amp;</span></tt>&#8220;开头的字符串将``仅``被解释为NIS网络组</li>
-<li>&#8220;<tt class="docutils literal"><span class="pre">+</span></tt>&#8220;和&#8221;<tt class="docutils literal"><span class="pre">&amp;</span></tt>&#8220;可以组合使用，即&#8221;+&amp;group&#8221;或&#8221;&amp;+group&#8221;，首先check前面那个</li>
+<li>以&#8221;<code class="docutils literal"><span class="pre">&#64;</span></code>&#8220;开头的字符串将首先被解释为NIS网络组，如果在NIS网络组中不存在，被解释为UNIX组</li>
+<li>以&#8221;<code class="docutils literal"><span class="pre">+</span></code>&#8220;开头的字符串将``仅``被解释为UNIX组</li>
+<li>以&#8221;<code class="docutils literal"><span class="pre">&amp;</span></code>&#8220;开头的字符串将``仅``被解释为NIS网络组</li>
+<li>&#8220;<code class="docutils literal"><span class="pre">+</span></code>&#8220;和&#8221;<code class="docutils literal"><span class="pre">&amp;</span></code>&#8220;可以组合使用，即&#8221;+&amp;group&#8221;或&#8221;&amp;+group&#8221;，首先check前面那个</li>
 </ul>
 <p>例如：</p>
 <div class="highlight-ini"><div class="highlight"><pre><span class="na">valid users</span> <span class="o">=</span> <span class="s">sheldon, penny, @wheel</span>
@@ -399,38 +406,54 @@ security. 用于保证共享资源的绝对安全。</li>
 </div>
 </div>
 <div class="section" id="id7">
-<h4>匿名共享开关<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
-<ul>
-<li><p class="first">如果将选项&#8221;<tt class="docutils literal"><span class="pre">guest</span> <span class="pre">ok</span></tt>&#8220;和&#8221;<tt class="docutils literal"><span class="pre">public</span></tt>&#8220;（两者等同）设为&#8221;<tt class="docutils literal"><span class="pre">ok</span></tt>&#8220;，则相应的共享资源无需密码即可访问。相应的访问权限取决于选项&#8221;<tt class="docutils literal"><span class="pre">guest</span> <span class="pre">account</span></tt>&#8220;的设定值。</p>
+<h4>匿名共享<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>匿名共享有多种方式进行：<ul>
+<li>最简单的是全局匿名共享，将[global]中的<code class="docutils literal"><span class="pre">security</span></code>设置为<code class="docutils literal"><span class="pre">share</span></code>即可，这种方式一般用于打印机共享；</li>
+<li>另外一种是对指定的资源进行匿名共享，而一部分还是需要密码访问。</li>
+</ul>
 </li>
-<li><p class="first">选项&#8221;<tt class="docutils literal"><span class="pre">guest</span> <span class="pre">account</span></tt>&#8220;的设定值为一个用户名，表示samba客户端以guest身份访问共享资源时，在samba服务器上所使用的用户身份。</p>
+<li>全局共享模式：<ul>
+<li>将[global]中<code class="docutils literal"><span class="pre">security=share</span></code></li>
+<li>在相应的资源中添加<code class="docutils literal"><span class="pre">guest</span> <span class="pre">ok</span> <span class="pre">=</span> <span class="pre">yes</span></code>, <code class="docutils literal"><span class="pre">public</span> <span class="pre">=</span> <span class="pre">yes</span></code></li>
+</ul>
 </li>
-<li><p class="first">选项&#8221;<tt class="docutils literal"><span class="pre">guest</span> <span class="pre">only</span></tt>&#8220;设定为&#8221;<tt class="docutils literal"><span class="pre">yes</span></tt>&#8220;，共享资源将只允许匿名访问。&#8221;<tt class="docutils literal"><span class="pre">guest</span>
-<span class="pre">ok</span></tt>&#8220;为&#8221;<tt class="docutils literal"><span class="pre">yes</span></tt>&#8220;时，此选项才能生效，如：</p>
+<li>部分匿名共享模式<ul>
+<li>在[global]中，将<code class="docutils literal"><span class="pre">security=user</span></code></li>
+<li>在[global]中，将<code class="docutils literal"><span class="pre">map</span> <span class="pre">to</span> <span class="pre">guest</span> <span class="pre">=</span> <span class="pre">Bad</span> <span class="pre">User</span></code></li>
+<li>在相应的共享资源中添加：<code class="docutils literal"><span class="pre">guest</span> <span class="pre">accout</span> <span class="pre">=</span> <span class="pre">nobody</span></code>, <code class="docutils literal"><span class="pre">guest</span> <span class="pre">ok</span> <span class="pre">=</span> <span class="pre">yes</span></code></li>
+</ul>
+</li>
+</ul>
+<p>详细说明请查看man smb.conf(5)的<strong>Security</strong></p>
+<blockquote>
+<div><p>如果将选项&#8221;<code class="docutils literal"><span class="pre">guest</span> <span class="pre">ok</span></code>&#8220;和&#8221;<code class="docutils literal"><span class="pre">public</span></code>&#8220;（两者等同）设为&#8221;<code class="docutils literal"><span class="pre">ok</span></code>&#8220;，则相应的共享资源无需密码即可访问。相应的访问权限取决于选项&#8221;<code class="docutils literal"><span class="pre">guest</span> <span class="pre">account</span></code>&#8220;的设定值。</p>
+<p>选项&#8221;<code class="docutils literal"><span class="pre">guest</span> <span class="pre">account</span></code>&#8220;的设定值为一个用户名，表示samba客户端以guest身份访问共享资源时，在samba服务器上所使用的用户身份。
+选项&#8221;<code class="docutils literal"><span class="pre">guest</span> <span class="pre">only</span></code>&#8220;设定为&#8221;<code class="docutils literal"><span class="pre">yes</span></code>&#8220;，共享资源将只允许匿名访问。&#8221;<code class="docutils literal"><span class="pre">guest</span>
+<span class="pre">ok</span></code>&#8220;为&#8221;<code class="docutils literal"><span class="pre">yes</span></code>&#8220;时，此选项才能生效，如：</p>
 <div class="highlight-ini"><div class="highlight"><pre><span class="na">guest ok</span> <span class="o">=</span> <span class="s">&lt;yes|no&gt;</span>
 <span class="na">public</span> <span class="o">=</span> <span class="s">yes</span>
 </pre></div>
 </div>
-</li>
-</ul>
+</div></blockquote>
 </div>
 <div class="section" id="id8">
 <h4>读写控制<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li>只读相关<ul>
-<li>选项&#8221;<tt class="docutils literal"><span class="pre">read</span> <span class="pre">only</span></tt>&#8220;</li>
-<li>选项&#8221;<tt class="docutils literal"><span class="pre">read</span> <span class="pre">list</span></tt>&#8220;指明哪些用户对共享资源具有只读权限，无论&#8221;
-<tt class="docutils literal"><span class="pre">read</span> <span class="pre">only</span></tt>&#8220;是否为<em>yes</em>，当<tt class="docutils literal"><span class="pre">security</span> <span class="pre">=</span> <span class="pre">share</span></tt>时，此选项无效</li>
+<li>选项&#8221;<code class="docutils literal"><span class="pre">read</span> <span class="pre">only</span></code>&#8220;</li>
+<li>选项&#8221;<code class="docutils literal"><span class="pre">read</span> <span class="pre">list</span></code>&#8220;指明哪些用户对共享资源具有只读权限，无论&#8221;
+<code class="docutils literal"><span class="pre">read</span> <span class="pre">only</span></code>&#8220;是否为<em>yes</em>，当<code class="docutils literal"><span class="pre">security</span> <span class="pre">=</span> <span class="pre">share</span></code>时，此选项无效</li>
 </ul>
 </li>
 <li>读写相关<ul>
-<li>选项&#8221;<tt class="docutils literal"><span class="pre">writeable</span></tt>&#8220;</li>
-<li>选项&#8221;<tt class="docutils literal"><span class="pre">write</span> <span class="pre">list</span></tt>&#8220;指明哪些用户对共享资源具有读写权限，无论&#8221;<tt class="docutils literal"><span class="pre">read</span>
-<span class="pre">only</span></tt>&#8220;是否为<em>yes</em>，当<tt class="docutils literal"><span class="pre">security</span> <span class="pre">=</span> <span class="pre">share</span></tt>时，此选项无效</li>
+<li>选项&#8221;<code class="docutils literal"><span class="pre">writeable</span></code>&#8220;</li>
+<li>选项&#8221;<code class="docutils literal"><span class="pre">write</span> <span class="pre">list</span></code>&#8220;指明哪些用户对共享资源具有读写权限，无论&#8221;<code class="docutils literal"><span class="pre">read</span>
+<span class="pre">only</span></code>&#8220;是否为<em>yes</em>，当<code class="docutils literal"><span class="pre">security</span> <span class="pre">=</span> <span class="pre">share</span></code>时，此选项无效</li>
 </ul>
 </li>
 </ul>
-<p>&#8220;<tt class="docutils literal"><span class="pre">read</span> <span class="pre">list</span></tt>&#8220;和&#8221;<tt class="docutils literal"><span class="pre">write</span> <span class="pre">list</span></tt>&#8220;的语法与&#8217;&#8216;invalid users&#8217;&#8216;相同。</p>
+<p>&#8220;<code class="docutils literal"><span class="pre">read</span> <span class="pre">list</span></code>&#8220;和&#8221;<code class="docutils literal"><span class="pre">write</span> <span class="pre">list</span></code>&#8220;的语法与&#8217;&#8216;invalid users&#8217;&#8216;相同。</p>
 <div class="highlight-ini"><div class="highlight"><pre><span class="na">read only</span> <span class="o">=</span> <span class="s">yes</span>
 <span class="na">read list</span> <span class="o">=</span> <span class="s">sheldon, @wheel</span>
 
@@ -442,16 +465,16 @@ security. 用于保证共享资源的绝对安全。</li>
 <div class="section" id="id9">
 <h4>符号连接的问题<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
 <p>默认禁止打开连接到共享区域之外的符号链接，这也是安全的做法。</p>
-<p>相关选项有&#8221;<tt class="docutils literal"><span class="pre">allow</span> <span class="pre">insecure</span> <span class="pre">wide</span> <span class="pre">links</span></tt>&#8221;, &#8220;<tt class="docutils literal"><span class="pre">wide</span> <span class="pre">links</span></tt>&#8220;，&#8221;<tt class="docutils literal"><span class="pre">follow</span>
-<span class="pre">symlinks</span></tt>&#8220;，但我并没有成功连接到共享区域之外，可以还有地方没有设定正确。</p>
+<p>相关选项有&#8221;<code class="docutils literal"><span class="pre">allow</span> <span class="pre">insecure</span> <span class="pre">wide</span> <span class="pre">links</span></code>&#8221;, &#8220;<code class="docutils literal"><span class="pre">wide</span> <span class="pre">links</span></code>&#8220;，&#8221;<code class="docutils literal"><span class="pre">follow</span>
+<span class="pre">symlinks</span></code>&#8220;，但我并没有成功连接到共享区域之外，可以还有地方没有设定正确。</p>
 </div>
 <div class="section" id="windows-linux">
 <h4>Windows, Linux混合使用问题<a class="headerlink" href="#windows-linux" title="Permalink to this headline">¶</a></h4>
 </div>
 <div class="section" id="id10">
 <h4>文件名大小写<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
-<p>因为Windows系统不区分大小写，而Linux(Unix)系统是区分大小。为了消除可能带来的问题，Samba中也有相应的选项设定。&#8221;<tt class="docutils literal"><span class="pre">case</span> <span class="pre">sensitive</span></tt>&#8220;，&#8221;<tt class="docutils literal"><span class="pre">default</span> <span class="pre">case</span></tt>&#8220;，
-&#8220;<tt class="docutils literal"><span class="pre">preserve</span> <span class="pre">case</span></tt>&#8220;</p>
+<p>因为Windows系统不区分大小写，而Linux(Unix)系统是区分大小。为了消除可能带来的问题，Samba中也有相应的选项设定。&#8221;<code class="docutils literal"><span class="pre">case</span> <span class="pre">sensitive</span></code>&#8220;，&#8221;<code class="docutils literal"><span class="pre">default</span> <span class="pre">case</span></code>&#8220;，
+&#8220;<code class="docutils literal"><span class="pre">preserve</span> <span class="pre">case</span></code>&#8220;</p>
 </div>
 <div class="section" id="id11">
 <h4>编码问题<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
@@ -459,19 +482,19 @@ security. 用于保证共享资源的绝对安全。</li>
 <div class="section" id="id12">
 <h4>隐藏文件问题<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
-<li>&#8220;<tt class="docutils literal"><span class="pre">hide</span> <span class="pre">dot</span> <span class="pre">files</span> <span class="pre">=</span> <span class="pre">yes</span></tt>&#8220;将隐藏dot文件。Windows中打开文件夹选项中的查看系统隐藏文件即可查看dot文件</li>
-<li>选项&#8221;<tt class="docutils literal"><span class="pre">hide</span> <span class="pre">files</span></tt>&#8220;的内容为一个文件和目录列表。其中的文件或目录被隐藏但是可以被访问。这个选项会影响到samba服务器的性能，因为当导出共享资源时，samba服务器将强制检查每个文件和目录。值的字符串可以使用通配符，详细请查看<tt class="docutils literal"><span class="pre">man</span> <span class="pre">smb.conf</span></tt></li>
-<li>&#8220;<tt class="docutils literal"><span class="pre">veto</span> <span class="pre">files</span></tt>&#8220;指定某些文件或目录既不可见也不可访问。当某个文件或目录因为递归被删除时，会引发删除失败，除非选项&#8221;<tt class="docutils literal"><span class="pre">delete</span> <span class="pre">veto</span> <span class="pre">files</span></tt>&#8220;设定为“&#8217;&#8216;yes&#8217;&#8216;”</li>
+<li>&#8220;<code class="docutils literal"><span class="pre">hide</span> <span class="pre">dot</span> <span class="pre">files</span> <span class="pre">=</span> <span class="pre">yes</span></code>&#8220;将隐藏dot文件。Windows中打开文件夹选项中的查看系统隐藏文件即可查看dot文件</li>
+<li>选项&#8221;<code class="docutils literal"><span class="pre">hide</span> <span class="pre">files</span></code>&#8220;的内容为一个文件和目录列表。其中的文件或目录被隐藏但是可以被访问。这个选项会影响到samba服务器的性能，因为当导出共享资源时，samba服务器将强制检查每个文件和目录。值的字符串可以使用通配符，详细请查看<code class="docutils literal"><span class="pre">man</span> <span class="pre">smb.conf</span></code></li>
+<li>&#8220;<code class="docutils literal"><span class="pre">veto</span> <span class="pre">files</span></code>&#8220;指定某些文件或目录既不可见也不可访问。当某个文件或目录因为递归被删除时，会引发删除失败，除非选项&#8221;<code class="docutils literal"><span class="pre">delete</span> <span class="pre">veto</span> <span class="pre">files</span></code>&#8220;设定为“&#8217;&#8216;yes&#8217;&#8216;”</li>
 </ul>
 </div>
 </div>
 </div>
 <div class="section" id="id13">
 <h2>帐户问题<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
-<p>通常，访问Linux(Unix)服务器上的Samba服务需要用户在服务器上拥有一个帐户。当Windows用户（在Linux服务器上没有帐户的用户）首次访问时，需要创建一个帐户才可以访问。此时，{{Highlight|smb.conf}}中有一系列相关的选项可以完成这些任务：&#8221;<tt class="docutils literal"><span class="pre">add</span>
-<span class="pre">user</span> <span class="pre">script</span></tt>&#8220;，&#8221;<tt class="docutils literal"><span class="pre">add</span> <span class="pre">user</span> <span class="pre">to</span> <span class="pre">group</span> <span class="pre">script</span> <span class="pre">``&quot;，&quot;``add</span> <span class="pre">group</span> <span class="pre">script</span></tt>&#8220;，&#8221;<tt class="docutils literal"><span class="pre">add</span>
-<span class="pre">machine</span> <span class="pre">script</span></tt>&#8220;，&#8221;<tt class="docutils literal"><span class="pre">delete</span> <span class="pre">user</span> <span class="pre">script</span></tt>&#8220;等等，同时``security``不能设定为
-&#8220;<tt class="docutils literal"><span class="pre">share</span></tt>&#8220;。</p>
+<p>通常，访问Linux(Unix)服务器上的Samba服务需要用户在服务器上拥有一个帐户。当Windows用户（在Linux服务器上没有帐户的用户）首次访问时，需要创建一个帐户才可以访问。此时，{{Highlight|smb.conf}}中有一系列相关的选项可以完成这些任务：&#8221;<code class="docutils literal"><span class="pre">add</span>
+<span class="pre">user</span> <span class="pre">script</span></code>&#8220;，&#8221;<code class="docutils literal"><span class="pre">add</span> <span class="pre">user</span> <span class="pre">to</span> <span class="pre">group</span> <span class="pre">script</span> <span class="pre">``&quot;，&quot;``add</span> <span class="pre">group</span> <span class="pre">script</span></code>&#8220;，&#8221;<code class="docutils literal"><span class="pre">add</span>
+<span class="pre">machine</span> <span class="pre">script</span></code>&#8220;，&#8221;<code class="docutils literal"><span class="pre">delete</span> <span class="pre">user</span> <span class="pre">script</span></code>&#8220;等等，同时``security``不能设定为
+&#8220;<code class="docutils literal"><span class="pre">share</span></code>&#8220;。</p>
 <p>当Windows用户首次登陆Samba服务器时，samba向password server请求授权，如果授权通过但是Linux服务器上没有相应的用户，samba就会以root权限运行上面选项列出的命令或脚本创建相应用户。这样Linux Samba服务器就可以动态的为windows用户创建共享帐号。</p>
 <p>更好的方法应该是使用LDAP认证机制。</p>
 <div class="section" id="id14">
@@ -497,15 +520,15 @@ security. 用于保证共享资源的绝对安全。</li>
 <div class="section" id="linux-samba">
 <h3>Linux下浏览，挂载Samba共享文件<a class="headerlink" href="#linux-samba" title="Permalink to this headline">¶</a></h3>
 <ul>
-<li><p class="first">使用&#8221;<tt class="docutils literal"><span class="pre">smbclient</span></tt>&#8220;可以像浏览FTP一样浏览Samba服务器的共享资源。具体命令如下：
-<tt class="docutils literal"><span class="pre">smbclient</span> <span class="pre">//ShareName_OR_IP/ShareDir</span> <span class="pre">[-U</span> <span class="pre">username]</span></tt></p>
+<li><p class="first">使用&#8221;<code class="docutils literal"><span class="pre">smbclient</span></code>&#8220;可以像浏览FTP一样浏览Samba服务器的共享资源。具体命令如下：
+<code class="docutils literal"><span class="pre">smbclient</span> <span class="pre">//ShareName_OR_IP/ShareDir</span> <span class="pre">[-U</span> <span class="pre">username]</span></code></p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">特别需要注意是&#8221;/&#8221;而不是&#8221;\&#8221;，并且一定要跟随共享目录名。</p>
 </div>
 </li>
 <li><p class="first">挂载Samba共享资源到本地目录下，像访问NFS，本地硬盘一样访问。</p>
-<p>首先确认是否安装&#8221;<tt class="docutils literal"><span class="pre">cifs-utils</span></tt>&#8220;，&#8221;<tt class="docutils literal"><span class="pre">cifs-utils</span></tt>&#8220;中提供了挂载samba共享资源的命令:<tt class="docutils literal"><span class="pre">mount.cifs</span></tt>。</p>
+<p>首先确认是否安装&#8221;<code class="docutils literal"><span class="pre">cifs-utils</span></code>&#8220;，&#8221;<code class="docutils literal"><span class="pre">cifs-utils</span></code>&#8220;中提供了挂载samba共享资源的命令:<code class="docutils literal"><span class="pre">mount.cifs</span></code>。</p>
 <div class="highlight-bash"><div class="highlight"><pre>yum install cifs-utils
 
 <span class="c"># 运行mount.cifs挂载：</span>
@@ -517,11 +540,11 @@ mount.cifs //192.168.6.3/test ./tmp -o <span class="nv">user</span><span class="
 <p>如果挂载好目录后发现无法读写samba共享目录，可能是因为samba服务器上的SELinux阻止了相应的操作。解决方法：</p>
 <ul class="last simple">
 <li>查看与samba有关的SELinux设定值。
-<tt class="docutils literal"><span class="pre">getsebool</span> <span class="pre">-a</span> <span class="pre">|</span> <span class="pre">egrep</span> <span class="pre">'(samba)|(smb)|(nmb)|(win)'</span></tt></li>
+<code class="docutils literal"><span class="pre">getsebool</span> <span class="pre">-a</span> <span class="pre">|</span> <span class="pre">egrep</span> <span class="pre">'(samba)|(smb)|(nmb)|(win)'</span></code></li>
 <li>调整SELinux参数：
-<tt class="docutils literal"><span class="pre">setsebool</span> <span class="pre">-P</span> <span class="pre">samba_export_all_ro=1</span> <span class="pre">samba_export_all_rw=1</span></tt></li>
+<code class="docutils literal"><span class="pre">setsebool</span> <span class="pre">-P</span> <span class="pre">samba_export_all_ro=1</span> <span class="pre">samba_export_all_rw=1</span></code></li>
 <li>另外可能要调整samba共享目录的SELinux标签：
-<tt class="docutils literal"><span class="pre">chcon</span> <span class="pre">-Rt</span> <span class="pre">samba_share_t</span> <span class="pre">/common</span></tt></li>
+<code class="docutils literal"><span class="pre">chcon</span> <span class="pre">-Rt</span> <span class="pre">samba_share_t</span> <span class="pre">/common</span></code></li>
 </ul>
 </div>
 </li>
@@ -529,7 +552,7 @@ mount.cifs //192.168.6.3/test ./tmp -o <span class="nv">user</span><span class="
 </div>
 <div class="section" id="id16">
 <h3>开机自动挂载<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
-<p>对于需要密码才能访问的Samba共享，挂载时会提示要求输入密码，当然不能将用户名和密码作为参数写在<em>/etc/fstab</em>中。此时需要另外一个挂载参数<tt class="docutils literal"><span class="pre">credentials</span></tt>来<em>指定一个密码授权文件</em>。如：</p>
+<p>对于需要密码才能访问的Samba共享，挂载时会提示要求输入密码，当然不能将用户名和密码作为参数写在<em>/etc/fstab</em>中。此时需要另外一个挂载参数<code class="docutils literal"><span class="pre">credentials</span></code>来<em>指定一个密码授权文件</em>。如：</p>
 <div class="highlight-text"><div class="highlight"><pre># /etc/fstab 开机自动挂载samba共享内容
 //192.168.6.3/user1 /mnt/user1  cifs    credentials=/etc/samba/smbcred  0 0
 </pre></div>
@@ -549,13 +572,25 @@ password=password
 <div class="section" id="id17">
 <h2>常见问题<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic">
-<li><p class="first">登陆时提示<tt class="docutils literal"><span class="pre">session</span> <span class="pre">setup</span> <span class="pre">failed:</span> <span class="pre">NT_STATUS_LOGON_FAILURE</span></tt></p>
+<li><p class="first">登陆时提示<code class="docutils literal"><span class="pre">session</span> <span class="pre">setup</span> <span class="pre">failed:</span> <span class="pre">NT_STATUS_LOGON_FAILURE</span></code></p>
 <p>提示帐户不存在。</p>
-<p><strong>原因：</strong>登陆使用的用户在系统中存在，但是没有使用命令<tt class="docutils literal"><span class="pre">smbpasswd</span> <span class="pre">-a</span>
-<span class="pre">name</span></tt>将用户加入到samba中。</p>
+<p><strong>原因：</strong>登陆使用的用户在系统中存在，但是没有使用命令<code class="docutils literal"><span class="pre">smbpasswd</span> <span class="pre">-a</span>
+<span class="pre">name</span></code>将用户加入到samba中。</p>
 </li>
-<li><p class="first">使用命令<tt class="docutils literal"><span class="pre">smbclient</span> <span class="pre">//host/dir</span> <span class="pre">-U</span> <span class="pre">user</span></tt>登陆时出现错误<tt class="docutils literal"><span class="pre">tree</span> <span class="pre">connect</span> <span class="pre">failed:</span> <span class="pre">NT_STATUS_BAD_NETWORK_NAME</span></tt>。</p>
-<p><strong>原因：</strong>连接的目录<tt class="docutils literal"><span class="pre">dir</span></tt>不正确，不存在。</p>
+<li><p class="first">使用命令<code class="docutils literal"><span class="pre">smbclient</span> <span class="pre">//host/dir</span> <span class="pre">-U</span> <span class="pre">user</span></code>登陆时出现错误<code class="docutils literal"><span class="pre">tree</span> <span class="pre">connect</span> <span class="pre">failed:</span> <span class="pre">NT_STATUS_BAD_NETWORK_NAME</span></code>。</p>
+<p><strong>原因：</strong>连接的目录<code class="docutils literal"><span class="pre">dir</span></code>不正确，不存在。</p>
+</li>
+<li><p class="first">当使用匿名共享与认证共享混合时，Windows访问可能会提示&#8221;<strong>不允许一个用户使用一个以上用户名与一个服务器或共享资源的多重连接</strong>&#8220;。</p>
+<p><strong>解决：</strong>打开cmd，输入命令 <code class="docutils literal"><span class="pre">net</span> <span class="pre">use</span></code>查看本机当前的共享连接，可以发现本机当前已经连接上了samba服务器上的匿名共享资源，清除这个连接(<code class="docutils literal"><span class="pre">net</span> <span class="pre">use</span> <span class="pre">*</span> <span class="pre">/del</span></code>)，再直接输入需认证访问的资源的路径即可。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">/var/log/messages</span></code>中一直收到错误日志消息：<code class="docutils literal"><span class="pre">failed</span> <span class="pre">to</span> <span class="pre">retrieve</span>
+<span class="pre">printer</span> <span class="pre">list:</span> <span class="pre">NT_STATUS_UNSUCCESSFUL</span></code>。</p>
+<p><strong>解决：</strong>禁用samba的printer服务。在samba的配置文件<code class="docutils literal"><span class="pre">/etc/samba/smb.conf</span></code>中添加：</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="na">load printers</span> <span class="o">=</span> <span class="s">no</span>
+<span class="na">printing</span> <span class="o">=</span> <span class="s">bsd</span>
+<span class="na">printcap name</span> <span class="o">=</span> <span class="s">/dev/null</span>
+</pre></div>
+</div>
 </li>
 </ol>
 </div>
@@ -596,7 +631,7 @@ password=password
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

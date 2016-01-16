@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
     <link rel="next" title="赤兔项目持续集成系统－Jenkins CI部署" href="jenkins.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -57,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -97,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -143,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -153,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -171,19 +178,19 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">文件系统/proc</a><ul>
-<li><a class="reference internal" href="#proc-stat"><tt class="docutils literal"><span class="pre">/proc/stat</span></tt></a></li>
-<li><a class="reference internal" href="#proc-uptime"><tt class="docutils literal"><span class="pre">/proc/uptime</span></tt></a></li>
-<li><a class="reference internal" href="#proc-loadavg"><tt class="docutils literal"><span class="pre">/proc/loadavg</span></tt></a></li>
-<li><a class="reference internal" href="#proc-diskstats"><tt class="docutils literal"><span class="pre">/proc/diskstats</span></tt></a></li>
-<li><a class="reference internal" href="#proc-meminfo"><tt class="docutils literal"><span class="pre">/proc/meminfo</span></tt></a></li>
-<li><a class="reference internal" href="#proc-partitions"><tt class="docutils literal"><span class="pre">/proc/partitions</span></tt></a></li>
-<li><a class="reference internal" href="#proc-cpuinfo"><tt class="docutils literal"><span class="pre">/proc/cpuinfo</span></tt></a></li>
-<li><a class="reference internal" href="#proc-pid"><tt class="docutils literal"><span class="pre">/proc/[pid]</span></tt></a><ul>
-<li><a class="reference internal" href="#cmdline"><tt class="docutils literal"><span class="pre">cmdline</span></tt></a></li>
-<li><a class="reference internal" href="#cwd"><tt class="docutils literal"><span class="pre">cwd</span></tt></a></li>
-<li><a class="reference internal" href="#environ"><tt class="docutils literal"><span class="pre">environ</span></tt></a></li>
-<li><a class="reference internal" href="#exe"><tt class="docutils literal"><span class="pre">exe</span></tt></a></li>
-<li><a class="reference internal" href="#io"><tt class="docutils literal"><span class="pre">io</span></tt></a></li>
+<li><a class="reference internal" href="#proc-stat"><code class="docutils literal"><span class="pre">/proc/stat</span></code></a></li>
+<li><a class="reference internal" href="#proc-uptime"><code class="docutils literal"><span class="pre">/proc/uptime</span></code></a></li>
+<li><a class="reference internal" href="#proc-loadavg"><code class="docutils literal"><span class="pre">/proc/loadavg</span></code></a></li>
+<li><a class="reference internal" href="#proc-diskstats"><code class="docutils literal"><span class="pre">/proc/diskstats</span></code></a></li>
+<li><a class="reference internal" href="#proc-meminfo"><code class="docutils literal"><span class="pre">/proc/meminfo</span></code></a></li>
+<li><a class="reference internal" href="#proc-partitions"><code class="docutils literal"><span class="pre">/proc/partitions</span></code></a></li>
+<li><a class="reference internal" href="#proc-cpuinfo"><code class="docutils literal"><span class="pre">/proc/cpuinfo</span></code></a></li>
+<li><a class="reference internal" href="#proc-pid"><code class="docutils literal"><span class="pre">/proc/[pid]</span></code></a><ul>
+<li><a class="reference internal" href="#cmdline"><code class="docutils literal"><span class="pre">cmdline</span></code></a></li>
+<li><a class="reference internal" href="#cwd"><code class="docutils literal"><span class="pre">cwd</span></code></a></li>
+<li><a class="reference internal" href="#environ"><code class="docutils literal"><span class="pre">environ</span></code></a></li>
+<li><a class="reference internal" href="#exe"><code class="docutils literal"><span class="pre">exe</span></code></a></li>
+<li><a class="reference internal" href="#io"><code class="docutils literal"><span class="pre">io</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#id1">参考资源</a></li>
@@ -198,11 +205,11 @@
               
                 
   <li>
-    <a href="nagios.html" title="Previous Chapter: 监控工具-Nagios"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; 监控工具-Nagios</span>
+    <a href="nagios.html" title="Previous Chapter: 监控工具-Nagios"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; 监控工具-Nagios</span>
     </a>
   </li>
   <li>
-    <a href="jenkins.html" title="Next Chapter: 赤兔项目持续集成系统－Jenkins CI部署"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">赤兔项目持续集成系统－Jenki... &raquo;</span>
+    <a href="jenkins.html" title="Next Chapter: 赤兔项目持续集成系统－Jenkins CI部署"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">赤兔项目持续集成系统－Je... &raquo;</span>
     </a>
   </li>
               
@@ -231,19 +238,19 @@
       <div class="col-md-3">
         <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
 <li><a class="reference internal" href="#">文件系统/proc</a><ul>
-<li><a class="reference internal" href="#proc-stat"><tt class="docutils literal"><span class="pre">/proc/stat</span></tt></a></li>
-<li><a class="reference internal" href="#proc-uptime"><tt class="docutils literal"><span class="pre">/proc/uptime</span></tt></a></li>
-<li><a class="reference internal" href="#proc-loadavg"><tt class="docutils literal"><span class="pre">/proc/loadavg</span></tt></a></li>
-<li><a class="reference internal" href="#proc-diskstats"><tt class="docutils literal"><span class="pre">/proc/diskstats</span></tt></a></li>
-<li><a class="reference internal" href="#proc-meminfo"><tt class="docutils literal"><span class="pre">/proc/meminfo</span></tt></a></li>
-<li><a class="reference internal" href="#proc-partitions"><tt class="docutils literal"><span class="pre">/proc/partitions</span></tt></a></li>
-<li><a class="reference internal" href="#proc-cpuinfo"><tt class="docutils literal"><span class="pre">/proc/cpuinfo</span></tt></a></li>
-<li><a class="reference internal" href="#proc-pid"><tt class="docutils literal"><span class="pre">/proc/[pid]</span></tt></a><ul>
-<li><a class="reference internal" href="#cmdline"><tt class="docutils literal"><span class="pre">cmdline</span></tt></a></li>
-<li><a class="reference internal" href="#cwd"><tt class="docutils literal"><span class="pre">cwd</span></tt></a></li>
-<li><a class="reference internal" href="#environ"><tt class="docutils literal"><span class="pre">environ</span></tt></a></li>
-<li><a class="reference internal" href="#exe"><tt class="docutils literal"><span class="pre">exe</span></tt></a></li>
-<li><a class="reference internal" href="#io"><tt class="docutils literal"><span class="pre">io</span></tt></a></li>
+<li><a class="reference internal" href="#proc-stat"><code class="docutils literal"><span class="pre">/proc/stat</span></code></a></li>
+<li><a class="reference internal" href="#proc-uptime"><code class="docutils literal"><span class="pre">/proc/uptime</span></code></a></li>
+<li><a class="reference internal" href="#proc-loadavg"><code class="docutils literal"><span class="pre">/proc/loadavg</span></code></a></li>
+<li><a class="reference internal" href="#proc-diskstats"><code class="docutils literal"><span class="pre">/proc/diskstats</span></code></a></li>
+<li><a class="reference internal" href="#proc-meminfo"><code class="docutils literal"><span class="pre">/proc/meminfo</span></code></a></li>
+<li><a class="reference internal" href="#proc-partitions"><code class="docutils literal"><span class="pre">/proc/partitions</span></code></a></li>
+<li><a class="reference internal" href="#proc-cpuinfo"><code class="docutils literal"><span class="pre">/proc/cpuinfo</span></code></a></li>
+<li><a class="reference internal" href="#proc-pid"><code class="docutils literal"><span class="pre">/proc/[pid]</span></code></a><ul>
+<li><a class="reference internal" href="#cmdline"><code class="docutils literal"><span class="pre">cmdline</span></code></a></li>
+<li><a class="reference internal" href="#cwd"><code class="docutils literal"><span class="pre">cwd</span></code></a></li>
+<li><a class="reference internal" href="#environ"><code class="docutils literal"><span class="pre">environ</span></code></a></li>
+<li><a class="reference internal" href="#exe"><code class="docutils literal"><span class="pre">exe</span></code></a></li>
+<li><a class="reference internal" href="#io"><code class="docutils literal"><span class="pre">io</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#id1">参考资源</a></li>
@@ -268,10 +275,10 @@
       
   <div class="section" id="proc">
 <h1>文件系统/proc<a class="headerlink" href="#proc" title="Permalink to this headline">¶</a></h1>
-<p><tt class="docutils literal"><span class="pre">man</span> <span class="pre">proc</span></tt>可以查看<tt class="docutils literal"><span class="pre">/proc</span></tt>下文件的介绍。部分详细的信息在<tt class="docutils literal"><span class="pre">Document/</span></tt>
+<p><code class="docutils literal"><span class="pre">man</span> <span class="pre">proc</span></code>可以查看<code class="docutils literal"><span class="pre">/proc</span></code>下文件的介绍。部分详细的信息在<code class="docutils literal"><span class="pre">Document/</span></code>
 下的文档。</p>
 <div class="section" id="proc-stat">
-<h2><tt class="docutils literal"><span class="pre">/proc/stat</span></tt><a class="headerlink" href="#proc-stat" title="Permalink to this headline">¶</a></h2>
+<h2><code class="docutils literal"><span class="pre">/proc/stat</span></code><a class="headerlink" href="#proc-stat" title="Permalink to this headline">¶</a></h2>
 <p>内容如下：</p>
 <div class="highlight-text"><div class="highlight"><pre>cpu  2303587 581 429836 17770999 23613 6 3208 0 0 0
 cpu0 295930 14 54832 2211637 3243 0 460 0 0 0
@@ -293,7 +300,7 @@ softirq 53396993 13 36920330 4298 2049696 258348 0 182581 1762075 72888 12146764
 </div>
 </div>
 <div class="section" id="proc-uptime">
-<h2><tt class="docutils literal"><span class="pre">/proc/uptime</span></tt><a class="headerlink" href="#proc-uptime" title="Permalink to this headline">¶</a></h2>
+<h2><code class="docutils literal"><span class="pre">/proc/uptime</span></code><a class="headerlink" href="#proc-uptime" title="Permalink to this headline">¶</a></h2>
 <p>内容如下：</p>
 <div class="highlight-text"><div class="highlight"><pre>25864.56 179317.80
 </pre></div>
@@ -304,17 +311,17 @@ softirq 53396993 13 36920330 4298 2049696 258348 0 182581 1762075 72888 12146764
 </ul>
 </div>
 <div class="section" id="proc-loadavg">
-<h2><tt class="docutils literal"><span class="pre">/proc/loadavg</span></tt><a class="headerlink" href="#proc-loadavg" title="Permalink to this headline">¶</a></h2>
+<h2><code class="docutils literal"><span class="pre">/proc/loadavg</span></code><a class="headerlink" href="#proc-loadavg" title="Permalink to this headline">¶</a></h2>
 <p>内容如下：</p>
 <div class="highlight-text"><div class="highlight"><pre>0.17 0.45 1.85 3/431 13306
 </pre></div>
 </div>
-<p>前三个字段分别表示系统在1, 5, 15分钟内的负载，负载是根据进程队列和磁盘IO等待计算得到。其值与<tt class="docutils literal"><span class="pre">uptime</span></tt>输出的平均负载值。</p>
-<p>第四个字段，“<tt class="docutils literal"><span class="pre">/</span></tt>”前面的数字表示当前正在运行的进程，线程数；后面的数字表示当前内核调度队列中的进程数。</p>
+<p>前三个字段分别表示系统在1, 5, 15分钟内的负载，负载是根据进程队列和磁盘IO等待计算得到。其值与<code class="docutils literal"><span class="pre">uptime</span></code>输出的平均负载值。</p>
+<p>第四个字段，“<code class="docutils literal"><span class="pre">/</span></code>”前面的数字表示当前正在运行的进程，线程数；后面的数字表示当前内核调度队列中的进程数。</p>
 <p>最后一个字段为最近创建进程的PID。</p>
 </div>
 <div class="section" id="proc-diskstats">
-<h2><tt class="docutils literal"><span class="pre">/proc/diskstats</span></tt><a class="headerlink" href="#proc-diskstats" title="Permalink to this headline">¶</a></h2>
+<h2><code class="docutils literal"><span class="pre">/proc/diskstats</span></code><a class="headerlink" href="#proc-diskstats" title="Permalink to this headline">¶</a></h2>
 <p>内容如下：</p>
 <div class="highlight-text"><div class="highlight"><pre>  1       0 ram0 0 0 0 0 0 0 0 0 0 0 0
   1       1 ram1 0 0 0 0 0 0 0 0 0 0 0
@@ -364,7 +371,7 @@ softirq 53396993 13 36920330 4298 2049696 258348 0 182581 1762075 72888 12146764
 </div>
 </div>
 <div class="section" id="proc-meminfo">
-<h2><tt class="docutils literal"><span class="pre">/proc/meminfo</span></tt><a class="headerlink" href="#proc-meminfo" title="Permalink to this headline">¶</a></h2>
+<h2><code class="docutils literal"><span class="pre">/proc/meminfo</span></code><a class="headerlink" href="#proc-meminfo" title="Permalink to this headline">¶</a></h2>
 <p>内容如下：</p>
 <div class="highlight-text"><div class="highlight"><pre>MemTotal:       12265380 kB
 MemFree:          991860 kB
@@ -411,7 +418,7 @@ DirectMap1G:     8388608 kB
 </div>
 </div>
 <div class="section" id="proc-partitions">
-<h2><tt class="docutils literal"><span class="pre">/proc/partitions</span></tt><a class="headerlink" href="#proc-partitions" title="Permalink to this headline">¶</a></h2>
+<h2><code class="docutils literal"><span class="pre">/proc/partitions</span></code><a class="headerlink" href="#proc-partitions" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-text"><div class="highlight"><pre>major minor  #blocks  name
 
    8        0 1953514584 sda
@@ -438,7 +445,7 @@ DirectMap1G:     8388608 kB
 </div>
 </div>
 <div class="section" id="proc-cpuinfo">
-<h2><tt class="docutils literal"><span class="pre">/proc/cpuinfo</span></tt><a class="headerlink" href="#proc-cpuinfo" title="Permalink to this headline">¶</a></h2>
+<h2><code class="docutils literal"><span class="pre">/proc/cpuinfo</span></code><a class="headerlink" href="#proc-cpuinfo" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-text"><div class="highlight"><pre>processor   : 0
 vendor_id   : AuthenticAMD
 cpu family  : 21
@@ -496,21 +503,21 @@ power management: ts ttp tm 100mhzsteps hwpstate cpb eff_freq_ro
 </div>
 </div>
 <div class="section" id="proc-pid">
-<h2><tt class="docutils literal"><span class="pre">/proc/[pid]</span></tt><a class="headerlink" href="#proc-pid" title="Permalink to this headline">¶</a></h2>
+<h2><code class="docutils literal"><span class="pre">/proc/[pid]</span></code><a class="headerlink" href="#proc-pid" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="cmdline">
-<h3><tt class="docutils literal"><span class="pre">cmdline</span></tt><a class="headerlink" href="#cmdline" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal"><span class="pre">cmdline</span></code><a class="headerlink" href="#cmdline" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="cwd">
-<h3><tt class="docutils literal"><span class="pre">cwd</span></tt><a class="headerlink" href="#cwd" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal"><span class="pre">cwd</span></code><a class="headerlink" href="#cwd" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="environ">
-<h3><tt class="docutils literal"><span class="pre">environ</span></tt><a class="headerlink" href="#environ" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal"><span class="pre">environ</span></code><a class="headerlink" href="#environ" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="exe">
-<h3><tt class="docutils literal"><span class="pre">exe</span></tt><a class="headerlink" href="#exe" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal"><span class="pre">exe</span></code><a class="headerlink" href="#exe" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="io">
-<h3><tt class="docutils literal"><span class="pre">io</span></tt><a class="headerlink" href="#io" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal"><span class="pre">io</span></code><a class="headerlink" href="#io" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 <div class="section" id="id1">
@@ -538,7 +545,7 @@ power management: ts ttp tm 100mhzsteps hwpstate cpb eff_freq_ro
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

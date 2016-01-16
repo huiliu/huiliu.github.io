@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
 <meta charset='utf-8'>
@@ -37,7 +37,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -55,7 +55,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -95,6 +94,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -141,6 +144,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -151,10 +155,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1"><a class="reference internal" href="live_finace.html">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -220,16 +227,16 @@
       
   <dl class="function">
 <dt id="spam">
-<tt class="descname">spam</tt><big>(</big><em>eggs</em><big>)</big><a class="headerlink" href="#spam" title="Permalink to this definition">¶</a></dt>
+<code class="descname">spam</code><span class="sig-paren">(</span><em>eggs</em><span class="sig-paren">)</span><a class="headerlink" href="#spam" title="Permalink to this definition">¶</a></dt>
 <dt id="ham">
-<tt class="descname">ham</tt><big>(</big><em>eggs</em><big>)</big><a class="headerlink" href="#ham" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ham</code><span class="sig-paren">(</span><em>eggs</em><span class="sig-paren">)</span><a class="headerlink" href="#ham" title="Permalink to this definition">¶</a></dt>
 <dd><p>Spam or ham the foo.</p>
 </dd></dl>
 
-<p>The function <a class="reference internal" href="#spam" title="spam"><tt class="xref py py-func docutils literal"><span class="pre">spam()</span></tt></a> does a similar thing.</p>
+<p>The function <a class="reference internal" href="#spam" title="spam"><code class="xref py py-func docutils literal"><span class="pre">spam()</span></code></a> does a similar thing.</p>
 <dl class="option">
 <dt id="cmdoption-rm-rf">
-<tt class="descname">-rf</tt><tt class="descclassname"></tt><a class="headerlink" href="#cmdoption-rm-rf" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-rf</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-rm-rf" title="Permalink to this definition">¶</a></dt>
 <dd><p>work recursively and force</p>
 </dd></dl>
 
@@ -248,8 +255,8 @@
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt>Module <a class="reference external" href="http://docs.python.org/library/zipfile.html#module-zipfile" title="(in Python v2.7)"><tt class="xref py py-mod docutils literal"><span class="pre">zipfile</span></tt></a></dt>
-<dd>Documentation of the <a class="reference external" href="http://docs.python.org/library/zipfile.html#module-zipfile" title="(in Python v2.7)"><tt class="xref py py-mod docutils literal"><span class="pre">zipfile</span></tt></a> standard module.</dd>
+<dt>Module <a class="reference external" href="http://docs.python.org/library/zipfile.html#module-zipfile" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">zipfile</span></code></a></dt>
+<dd>Documentation of the <a class="reference external" href="http://docs.python.org/library/zipfile.html#module-zipfile" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">zipfile</span></code></a> standard module.</dd>
 <dt><a class="reference external" href="http://link">GNU tar manual, Basic Tar Format</a></dt>
 <dd>Documentation for tar archive files, including GNU tar extensions.</dd>
 </dl>
@@ -285,7 +292,7 @@ source files for one Sphinx project.</dd>
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

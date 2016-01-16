@@ -9,8 +9,8 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.1.0/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,12 +25,13 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Learning 0.9 documentation" href="index.html" />
+    <link rel="next" title="武夷山之行" href="travel_wuyi.html" />
     <link rel="prev" title="保持团队稳定" href="holdteam.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -38,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -56,7 +57,6 @@
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -96,6 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel.html">学习内核相关知识</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lsp01.html">Linux系统编程（一） IO基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epoll_man.html">epoll(7)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pxe.html">通过PXE安装Linux</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">Learning SQL</a></li>
@@ -142,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="comm_pipe.html">命令行管道编程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libpcap.html">抓包-libpcap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libevent.html">Learning libevent Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoll.html">epoll API</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Learning Python</a></li>
@@ -152,10 +157,13 @@
 <li class="toctree-l1"><a class="reference internal" href="python_var.html">Pyhton中变量的作用域</a></li>
 </ul>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="proverb.html">箴言</a></li>
 <li class="toctree-l1"><a class="reference internal" href="children.html">小孩教育</a></li>
 <li class="toctree-l1"><a class="reference internal" href="song.html">知足</a></li>
 <li class="toctree-l1"><a class="reference internal" href="holdteam.html">保持团队稳定</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">神仙打架-互联网金融</a></li>
+<li class="toctree-l1"><a class="reference internal" href="travel_wuyi.html">武夷山之行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iamprogramer.html">程序人生</a></li>
 </ul>
 </ul>
 </li>
@@ -179,7 +187,11 @@
               
                 
   <li>
-    <a href="holdteam.html" title="Previous Chapter: 保持团队稳定"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; 保持团队稳定</span>
+    <a href="holdteam.html" title="Previous Chapter: 保持团队稳定"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; 保持团队稳定</span>
+    </a>
+  </li>
+  <li>
+    <a href="travel_wuyi.html" title="Next Chapter: 武夷山之行"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">武夷山之行 &raquo;</span>
     </a>
   </li>
               
@@ -232,8 +244,8 @@
 <p>虽然余额宝的收益确实高过银行很多，说实话我不怎么在乎多那么一点收益，就如上面说的，用余额宝主要是因为没有跨行的概念，可以方便的转账。虽然说银行转帐收费也算不上高，不过让我觉得不爽。</p>
 <p>回到正题“神仙打架”，那什么会结束后，QQ和阿里巴巴就开始抢互联网第一张虚拟信用卡的名头，结果被如来泼了一盆冷水；网上就炸了锅，大体意思就是，银行觉得互联网金融动了它的奶子，动用行政力量扼杀互联网金融的创新等等吧，基本就是一面倒的指责银行；中国人就好这口-泼妇骂街。紧接着网传一个人民银行的意见征求稿-严格限制第三方支付的消费额度，依我看如果正式执行此意见，电子商务可以关门了。再后来商业银行开始限制快捷支付额度，紧缩快捷支付接口等，看上去对宝宝们极为不利。</p>
 <p>联想最近台湾的一个新闻“立法院被学生一直占领，要求政府这啊那的；占领行政院被警察给赶出来了，抓了几个学生第二天就马上放了”。有点庆幸大陆的舆论控制的比较严，要不一定要出大事，或许早就出大事了。紧追凤凰上一些知名评论员的讨论，发现台湾学生运动中参与者大部分都不知道“服务贸易协定”的内容，最初的口号是要求“逐条审议”，后来马同意之后，新的要求又出现了……大家都认为学生的行为是违法的，运动主要是发泄对政府的不満，马政府无能，国民党内部不团结等等。让我想的蒋介石的一句话“攘外必先安内”。再联想香港近年的反大陆活动，留学回来同学说的不要跟中国人住在一起等等，让人觉得华人的民主法制平等跟西方确实有天壤之别，任重道远啊。</p>
-<p>再回到“神仙打架”事件中的舆论倾向，几乎都认为宝宝们被打压了，政府怎么怎么着。我觉得跟台湾学生占领立法院有异曲同工之处，就差宝宝的拥趸们去中南海静坐了，个人看法：<tt class="docutils literal"><span class="pre">宝宝们有胁天子（民众）以令诸侯之嫌，银行是为点蝇头小利就不要节操的bitch</span>
-<span class="pre">（如果快捷支付在操作上确有违法）。</span></tt>而为什么大家都不喜欢银行呢？真的在乎多那点收益的人我想肯定不会是大多数（甚至批评银行的人都没用过宝宝）。原因比较多，我的原因是：<tt class="docutils literal"><span class="pre">服务意识、质量差，躺着嫌钱不公平。</span></tt>从我的角度基本就是借这事发泄一下对社会不公的不满，里子里跟台湾学生差不多，这可能也是反日游行变身打砸抢烧的一个原因吧。虽然共匪这次这事应该能趟过去，下次可未必，中国这种发泄的机会还是很多的，常在河边走哪有不湿鞋的。</p>
+<p>再回到“神仙打架”事件中的舆论倾向，几乎都认为宝宝们被打压了，政府怎么怎么着。我觉得跟台湾学生占领立法院有异曲同工之处，就差宝宝的拥趸们去中南海静坐了，个人看法：<code class="docutils literal"><span class="pre">宝宝们有胁天子（民众）以令诸侯之嫌，银行是为点蝇头小利就不要节操的bitch</span>
+<span class="pre">（如果快捷支付在操作上确有违法）。</span></code>而为什么大家都不喜欢银行呢？真的在乎多那点收益的人我想肯定不会是大多数（甚至批评银行的人都没用过宝宝）。原因比较多，我的原因是：<code class="docutils literal"><span class="pre">服务意识、质量差，躺着嫌钱不公平。</span></code>从我的角度基本就是借这事发泄一下对社会不公的不满，里子里跟台湾学生差不多，这可能也是反日游行变身打砸抢烧的一个原因吧。虽然共匪这次这事应该能趟过去，下次可未必，中国这种发泄的机会还是很多的，常在河边走哪有不湿鞋的。</p>
 <p>附加一点：</p>
 <p>风传QQ与京东要勾结后，京东帐号就出现大量被盗车事件；“神仙打架”开始，宝宝的漏洞就像筛子一样多了；我怎么看都觉得奇怪！</p>
 </div>
@@ -258,7 +270,7 @@
     </p>
     <p>
         &copy; Copyright 2013, Liu Hui.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>
