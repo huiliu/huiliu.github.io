@@ -1,0 +1,203 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>神仙打架-互联网金融 &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="Apache日志过滤－是否可以用来预防DDOS" href="logfilter.html" /><link rel="prev" title="抓包-libpcap" href="libpcap.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/database.html">database</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>January 19, 2016</span>
+        </div>
+    <div class="section" id="id1">
+<h1>神仙打架-互联网金融</h1>
+<div id="more"> </div><p>开完那个什么会时，“互联网金融”这个词的曝光度就开始暴涨了，刚一结束神仙们就开始打架了。</p>
+<p>由于之前淘宝帐号被盗给封号，所以多年都不玩淘宝，也没用支付宝了。第一次听说余额宝是跟胡聊天的时候他说起的，没怎么在意。没过多久跟淘宝杀手陈聊天的时候他又说起余额宝，主要是收益比放银行要高很多，有一两百万放里面吃利息就可以了，我开玩笑说等你有了一百万你就不会这么想了，就会想其它的投资方式……后来，费了点劲把淘宝帐号找了回来，主要目的是想把不同银行的资金收集到一起，东一块西一块的想检查下帐户余额麻烦的要命。</p>
+<p>虽然余额宝的收益确实高过银行很多，说实话我不怎么在乎多那么一点收益，就如上面说的，用余额宝主要是因为没有跨行的概念，可以方便的转账。虽然说银行转帐收费也算不上高，不过让我觉得不爽。</p>
+<p>回到正题“神仙打架”，那什么会结束后，QQ和阿里巴巴就开始抢互联网第一张虚拟信用卡的名头，结果被如来泼了一盆冷水；网上就炸了锅，大体意思就是，银行觉得互联网金融动了它的奶子，动用行政力量扼杀互联网金融的创新等等吧，基本就是一面倒的指责银行；中国人就好这口-泼妇骂街。紧接着网传一个人民银行的意见征求稿-严格限制第三方支付的消费额度，依我看如果正式执行此意见，电子商务可以关门了。再后来商业银行开始限制快捷支付额度，紧缩快捷支付接口等，看上去对宝宝们极为不利。</p>
+<p>联想最近台湾的一个新闻“立法院被学生一直占领，要求政府这啊那的；占领行政院被警察给赶出来了，抓了几个学生第二天就马上放了”。有点庆幸大陆的舆论控制的比较严，要不一定要出大事，或许早就出大事了。紧追凤凰上一些知名评论员的讨论，发现台湾学生运动中参与者大部分都不知道“服务贸易协定”的内容，最初的口号是要求“逐条审议”，后来马同意之后，新的要求又出现了……大家都认为学生的行为是违法的，运动主要是发泄对政府的不満，马政府无能，国民党内部不团结等等。让我想的蒋介石的一句话“攘外必先安内”。再联想香港近年的反大陆活动，留学回来同学说的不要跟中国人住在一起等等，让人觉得华人的民主法制平等跟西方确实有天壤之别，任重道远啊。</p>
+<p>再回到“神仙打架”事件中的舆论倾向，几乎都认为宝宝们被打压了，政府怎么怎么着。我觉得跟台湾学生占领立法院有异曲同工之处，就差宝宝的拥趸们去中南海静坐了，个人看法：<span class="docutils literal"><span class="pre">宝宝们有胁天子（民众）以令诸侯之嫌，银行是为点蝇头小利就不要节操的bitch</span>
+<span class="pre">（如果快捷支付在操作上确有违法）。</span></span>而为什么大家都不喜欢银行呢？真的在乎多那点收益的人我想肯定不会是大多数（甚至批评银行的人都没用过宝宝）。原因比较多，我的原因是：<span class="docutils literal"><span class="pre">服务意识、质量差，躺着嫌钱不公平。</span></span>从我的角度基本就是借这事发泄一下对社会不公的不满，里子里跟台湾学生差不多，这可能也是反日游行变身打砸抢烧的一个原因吧。虽然共匪这次这事应该能趟过去，下次可未必，中国这种发泄的机会还是很多的，常在河边走哪有不湿鞋的。</p>
+<p>附加一点：</p>
+<p>风传QQ与京东要勾结后，京东帐号就出现大量被盗车事件；“神仙打架”开始，宝宝的漏洞就像筛子一样多了；我怎么看都觉得奇怪！</p>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/life.html">life</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/瞎想.html">瞎想</a></span>
+        </div>
+        </div><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="libpcap.html">抓包-libpcap</a></li>
+            <li class="right"><a href="logfilter.html">Apache日志过滤－是否可以用来预防DDOS</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/live_finace";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="bash.html">Learning Bash</a>
+        </li><li>
+            <a href="code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="comm_pipe.html">命令行管道编程</a>
+        </li><li>
+            <a href="datamining.html">学习数据挖掘</a>
+        </li><li>
+            <a href="disk_quota.html">磁盘配额管理</a>
+        </li><li>
+            <a href="docker.html">docker使用小记</a>
+        </li><li>
+            <a href="economy.html">经济指标</a>
+        </li><li>
+            <a href="epoll_man.html">epoll(7)</a>
+        </li><li>
+            <a href="epoll.html">epoll API</a>
+        </li><li>
+            <a href="firefox.html">Speed Up Firefox</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (7)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (16)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (7), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (9), <a href="../../../tags/python.html">python</a> (10), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 11pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 11pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

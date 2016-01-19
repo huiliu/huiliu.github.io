@@ -1,0 +1,318 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>FreeBSD点滴 &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="Gentoo点滴" href="gentoo.html" /><link rel="prev" title="Nginx+Foreman+Passenger" href="foreman.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/database.html">database</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>January 19, 2016</span>
+        </div>
+    <div class="section" id="freebsd">
+<h1>FreeBSD点滴</h1>
+<div id="more"> </div><p>FreeBSD默认使用的是<span class="docutils literal"><span class="pre">csh</span></span>刚从Linux切换过去感觉相当的不爽，可以通过命令<span class="docutils literal"><span class="pre">chsh</span></span>来改变帐户shell，比较生猛的方法：直接修改&#8221;<em>/etc/passwd</em>&#8220;文件。</p>
+<div class="section" id="localization">
+<h2>本地化问题 - Localization</h2>
+<p>默认情况下显示中文会是乱码，从Linux切换过去，所以知道需要修改环境变量<span class="docutils literal"><span class="pre">LC_*</span></span>和<span class="docutils literal"><span class="pre">LANG</span></span>的值。FreeBSD在这方面与Linux不太一样。</p>
+<p>FreeBSD中可以在用户配置文件<span class="docutils literal"><span class="pre">~/.login_conf,</span> <span class="pre">~/.profile,</span> <span class="pre">~/.bashrc,</span> <span class="pre">~/.cshrc</span></span>中设定环境变量<span class="docutils literal"><span class="pre">LANG</span></span>和<span class="docutils literal"><span class="pre">MM_CHARSET</span></span>来进行调整。</p>
+<div class="section" id="locale">
+<h3>调整Locale设定的两种方法</h3>
+<div class="section" id="id1">
+<h4>登陆级别的设定</h4>
+<ol class="arabic">
+<li><p class="first">系统级设定<span class="docutils literal"><span class="pre">/etc/login.conf</span></span>
+修改<span class="docutils literal"><span class="pre">/etc/login.conf</span></span>中的设定，将对所有用户生效。如：</p>
+<div class="highlight-text"><div class="highlight"><pre>language_name|account_type_description:\
+    :charset=MIME_charset:\
+    :lang=locale_name:\
+    :tc=default:
+</pre></div>
+</div>
+<p>修改<span class="docutils literal"><span class="pre">/etc/login.conf</span></span>后，需要运行<span class="docutils literal"><span class="pre">cap_mkdb</span></span>来更新数据库：</p>
+<div class="highlight-bash"><div class="highlight"><pre>cap_mkdb /etc/login.conf
+</pre></div>
+</div>
+</li>
+<li><p class="first">用户级设定<span class="docutils literal"><span class="pre">~/.login.conf</span></span></p>
+<p>与系统级设定语法相同，每个用户可以自定义相应的环境参数。</p>
+<div class="highlight-text"><div class="highlight"><pre>me:\
+    :charset=utf-8:\
+    :lang=en_US.UTF-8:
+</pre></div>
+</div>
+</li>
+</ol>
+<p>从上面可以看出BSD的设定要求与Linux还是颇为相似的，只是BSD的格式与Linux下的<span class="docutils literal"><span class="pre">\</span>
+<span class="pre">/etc/login.conf</span></span>不一样，而且Linux下的很多设置都写在<span class="docutils literal"><span class="pre">/etc/profile</span></span>中。关于<span class="docutils literal"><span class="pre">login.conf</span></span>的详细设定可以查看man手册。</p>
+<p>另外还有一些常用命令可以用来调整Locale设定：</p>
+<ul>
+<li><p class="first"><span class="docutils literal"><span class="pre">vipw</span></span>(root)将会打开一个类似<span class="docutils literal"><span class="pre">/etc/passwd</span></span>的文件，对于普通用户，<span class="docutils literal"><span class="pre">vipw</span></span>打开的文件比<span class="docutils literal"><span class="pre">/etc/passwd</span></span>多三个分隔符“:”，其中有一个位置是用来设定Language。如下：</p>
+<div class="highlight-text"><div class="highlight"><pre># /etc/passwd
+xxxxxx:\*:1002:1002:xxxxxx:/home/xxxxxx:/usr/local/bin/bash
+
+# vipw打开的文件
+xxxxxx:passwd:1002:1002:language:0:0:xxxxxx:/home/xxxxxx:/usr/local/bin/bash
+</pre></div>
+</div>
+</li>
+<li><p class="first"><span class="docutils literal"><span class="pre">adduser</span></span>添加用户时进行设定。</p>
+<ul>
+<li><p class="first">修改添加用户时的配置文件<span class="docutils literal"><span class="pre">/etc/adduser.conf</span></span>，再其中设定添加用户时使用的Language－<span class="docutils literal"><span class="pre">defaultclass</span> <span class="pre">=</span> <span class="pre">language</span></span>，<span class="docutils literal"><span class="pre">/etc/adduser.conf</span></span>
+的详细配置查看Man手册。</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="na">defaultclass</span> <span class="o">=</span> <span class="s">zh_CN.UTF-8</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">命令提示时输入：</p>
+<div class="highlight-bash"><div class="highlight"><pre>adduser
+... ...
+Enter login class: default<span class="o">[]</span>:
+</pre></div>
+</div>
+</li>
+<li><p class="first">由命令行参数指定：<span class="docutils literal"><span class="pre">adduser</span> <span class="pre">-class</span> <span class="pre">language</span></span></p>
+</li>
+</ul>
+</li>
+<li><p class="first"><span class="docutils literal"><span class="pre">pw</span></span> 当<span class="docutils literal"><span class="pre">pw</span></span>用于创建新用户时，可以通过命令行参数来指定Language。如：</p>
+<div class="highlight-bash"><div class="highlight"><pre>pw useradd userName -L language
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="shell">
+<h4>设定Shell启动文件</h4>
+<ol class="arabic">
+<li><p class="first">文件<span class="docutils literal"><span class="pre">/etc/profile</span></span></p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">export</span>  <span class="nv">LANG</span><span class="o">=</span>en_US.UTF-8
+<span class="nb">export</span>  <span class="nv">MM_CHARSET</span><span class="o">=</span>UTF-8
+</pre></div>
+</div>
+</li>
+<li><p class="first">文件<span class="docutils literal"><span class="pre">/etc/csh.login</span></span></p>
+<div class="highlight-csh"><div class="highlight"><pre><span class="nb">setenv  </span>LANG        en_US.UTF-8
+<span class="nb">setenv  </span>MM_CHARSET  UTF-8
+</pre></div>
+</div>
+</li>
+<li><p class="first">添加用户，HOME</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="section" id="shelllinux">
+<h2>Shell命令与Linux的不同</h2>
+<div class="section" id="sed">
+<h3>sed</h3>
+<p>在Linux下，命令<cite>sed -i &#8216;s/a/b/g&#8217; file</cite>可以直接替换文件中的内容，不过在FreeBSD上却需要在选项<span class="docutils literal"><span class="pre">-i</span></span>后面加上一个空字符&#8221;&#8220;才可以完成同样的任务。看看<span class="docutils literal"><span class="pre">man</span></span>手册中是怎么说明的。</p>
+<ul>
+<li><p class="first">Linux中关于选项<span class="docutils literal"><span class="pre">-i</span></span>的说明：</p>
+<p>-i[SUFFIX], &#8211;in-place[=SUFFIX]</p>
+<blockquote>
+<div><p>edit files in place (makes backup if extension supplied)</p>
+</div></blockquote>
+</li>
+<li><p class="first">FreeBSD中关于选项<span class="docutils literal"><span class="pre">-i</span></span>的说明：</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-i <var>extension</var></span></kbd></td>
+<td><p class="first last">Edit files in-place similarly to -I, but treat each file independently
+from other files.  In particular, line numbers in each
+file start at 1, the “$” address matches the last line of the
+current file, and address ranges are limited to the current file.
+(See Sed Addresses.)  The net result is as though each file were
+edited by a separate sed instance.</p>
+</td></tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/tips.html">tips</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/devops.html">devops</a>, <a href="../../../tags/tips.html">tips</a>, <a href="../../../tags/bsd.html">bsd</a></span>
+        </div>
+        </div><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="foreman.html">Nginx+Foreman+Passenger</a></li>
+            <li class="right"><a href="gentoo.html">Gentoo点滴</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/freebsd";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="bash.html">Learning Bash</a>
+        </li><li>
+            <a href="code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="comm_pipe.html">命令行管道编程</a>
+        </li><li>
+            <a href="datamining.html">学习数据挖掘</a>
+        </li><li>
+            <a href="disk_quota.html">磁盘配额管理</a>
+        </li><li>
+            <a href="docker.html">docker使用小记</a>
+        </li><li>
+            <a href="economy.html">经济指标</a>
+        </li><li>
+            <a href="epoll_man.html">epoll(7)</a>
+        </li><li>
+            <a href="epoll.html">epoll API</a>
+        </li><li>
+            <a href="firefox.html">Speed Up Firefox</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (7)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (16)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (7), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (9), <a href="../../../tags/python.html">python</a> (10), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 11pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 11pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

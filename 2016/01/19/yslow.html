@@ -1,0 +1,785 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>Best Practices for Speeding Up Your Web Site &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="配置Zabbix" href="zabbix.html" /><link rel="prev" title="VIM Tips" href="vim.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/database.html">database</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>January 19, 2016</span>
+        </div>
+    <div class="section" id="best-practices-for-speeding-up-your-web-site">
+<h1>Best Practices for Speeding Up Your Web Site</h1>
+<div id="more"> </div><p>本文翻译自Yahoo<a class="footnote-reference" href="#ref" id="id1">[1]</a></p>
+<div class="section" id="http">
+<h2>最小化HTTP请求数</h2>
+<p>终端用户80%的响应时间花费在前端。其中花费最多的是下载页面中的各种组件：图片，样式表，JavaScript，Flash等。减少页面包含在页面中的组件可以减少客户端在渲染被请求页面时的HTTP的请求数。</p>
+<p>减少页面组件数的一种方法是简化页面的设计。但是有没有一种方法可以建立包含大量组件的页面同时保持更快的响应时间呢？实际上在设计富页面时，有一些方法可以减少HTTP的请求次数：</p>
+<ol class="arabic simple">
+<li><span class="docutils literal"><span class="pre">合并文件</span></span>是一种减少HTTP请求数的方法。<span class="docutils literal"><span class="pre">合并文件</span></span>即：通过将所有的脚本文件合并为一个脚本文件，同样将所有样式表文件合并为一个文件。当每个页面载入的脚本和样式表不尽相同时，<span class="docutils literal"><span class="pre">合并文件</span></span>的方法面临着更大挑战，但是应该了解到在发布过程时这是一种改善响应时间的手段。</li>
+<li><a class="reference external" href="http://alistapart.com/article/sprites">CSS Sprites</a>是减少图片请求数的有效方法。将背景图片组合为单个文件并使用CSS的<span class="docutils literal"><span class="pre">background-image</span></span>和<span class="docutils literal"><span class="pre">background-position</span></span>等属性来控制背景图片显示，以期符合期望。</li>
+<li><a class="reference external" href="http://www.w3.org/TR/html401/struct/objects.html#h-13.6">Image maps</a>将多幅图片组合为一张，图片总的大小相同，但是减少了HTTP请求数加快了页面的加载，只有当图片在页面上处于连续位置时才可以使用<span class="docutils literal"><span class="pre">Image</span> <span class="pre">maps</span></span>方法。例如导航栏。定义<span class="docutils literal"><span class="pre">Image</span> <span class="pre">maps</span></span>的坐标是相当乏味且容易出错，导航使用<span class="docutils literal"><span class="pre">Image</span>
+<span class="pre">maps</span></span>也无法访问，因此并不推荐使用。</li>
+<li><span class="docutils literal"><span class="pre">Inline</span> <span class="pre">images</span></span>使用<a class="reference external" href="http://tools.ietf.org/html/rfc2397">data: URL scheme</a>将图片嵌入到页面，这会增大HTML文件。将<span class="docutils literal"><span class="pre">inline</span> <span class="pre">images</span></span>合入到样式表（可缓存的）是一种减少HTTP请求数的方法，同时可以避免增加页面的大小。需要注意的是<span class="docutils literal"><span class="pre">Inline</span> <span class="pre">images</span></span>方法并不被所有的主流浏览器支持。</li>
+</ol>
+<p>减少页面的HTTP请求数是提高性能的第一步，对于改善首次访问的用户的体验是最为重要的准则。如Tenni Theurer博文<a class="reference external" href="http://yuiblog.com/blog/2007/01/04/performance-research-part-2/">Browser Cache Usage - Exposed!</a>中描述的：网站每天的访问中有40%-60%用户是没有缓存任何数据的，首次访问时更快是更好的用户体验的关键。</p>
+</div>
+<div class="section" id="cdn">
+<h2>使用CDN（内容分发网络）</h2>
+<p>用户距服务器的距离对<span class="docutils literal"><span class="pre">响应时间</span></span>有一定影响，因此将内容部署到多个分散的服务器
+上将使得用户加载速度更快，但是该从什么地方开始呢？</p>
+<p>作为第一步，将内容分散到不同地方的服务器，不必重新设计Web应用让其工作在分布式架构下。对于不同的应用，调整架构需要不同的工作量，甚至令人望而生畏。如同步会话状态，在不同位置的服务器间复制数据库等。这些都可能让你尝试减少用户与服务器间响应时间的努力功亏一篑，永远还要走到调整应用架构这一步。</p>
+<p>请铭记：用户响应时间的80%-90%花费在下载页面中的各种组件：图片、样式表、脚本、动画等。这是<em>性能黄金准则(Performance Golden Rule)</em>。与其从重新设计你的应用架构这类艰巨的任务开始，不如将你的静态文件分发到CDN，这不仅可以大大减少响应时间，而且CDN（的使用）非常简单。</p>
+<p>CDN是一系列分散在各地WEB服务器，可以更加高效快捷的向用户提供服务。分发内容到某一用户时CDN所选择的服务器通常基于网络近似度，如最小的网络跳数，服务器的最快响应时间。</p>
+<p>一些大的互联网公司拥有自己的CDN，但是也有一些CDN服务商提供付费服务，如Akamai
+Technologies, EdgeCast, level3。对于初创公司和个人站点，CDN的价格可能难以承受，但是如果你的受众量不断增大，变得更加全球化，为了达到更快的响应，使用CDN是必须的。在Yahoo，将静态内容从各自的应用中剥离并使用CDN（前面提到的第三方CDN服务商和Yahoo自己的CDN），使用用户的响应时间提高了20%以上。切换到CDN只需要相对简单的修改，但是可以极大的提高网站访问速度。</p>
+</div>
+<div class="section" id="expirescache-controlhttp">
+<span id="section-expires"></span><h2>添加<span class="docutils literal"><span class="pre">Expires</span></span>或<span class="docutils literal"><span class="pre">Cache-Control</span></span>HTTP头</h2>
+<p>此规则包含两个方面：</p>
+<ol class="arabic simple">
+<li>对于静态内容，通过将HTTP头<span class="docutils literal"><span class="pre">Expires</span></span>设定为遥远的将来使其“永不过期”；</li>
+<li>对于动态内容，通过合理的设定HTTP头<span class="docutils literal"><span class="pre">Cache-Control</span></span>为浏览器设定一个请求条件。</li>
+</ol>
+<p>现在网页被设计得越来越丰富，这意味着页面中包含更多的脚本、样式表，图片，动画等。
+用户第一次访问量不得不进行大量的HTTP请求，通过使用<span class="docutils literal"><span class="pre">Expires</span></span>头，可以让这些内容被客户端缓存，如此一来，用户接下来的访问就可以避免一些不必要的HTTP请求。<span class="docutils literal"><span class="pre">Expires</span></span>头大量应用于图片资源，但是实际上它可以被应用于所有的页面内容，包括脚本，样式表，动画等。</p>
+<p>浏览器（代理）使用缓存来减少HTTP请求数和大小，使用网页加载更快。WEB服务器通过在HTTP响应头中加入<span class="docutils literal"><span class="pre">Expires</span></span>头来告诉客户端（程序）当前内容可以缓存多久。下面是一个Expires时间设定较远的HTTP<span class="docutils literal"><span class="pre">Expires</span></span>头，它告诉浏览器直到2010年4月15号当前返回的内容都是有效的。</p>
+<div class="highlight-python"><div class="highlight"><pre>Expires: Thu, 15 Apr 2010 20:00:00 GMT
+</pre></div>
+</div>
+<p>如果你使用的是Apache，使用指令<span class="docutils literal"><span class="pre">ExpiresDefault</span></span>来设定一个相对当前的过期时间。下面的例子使用<span class="docutils literal"><span class="pre">ExpiresDefault</span></span>指令将过期时间设定为请求时间10年后。（译者注：<span class="docutils literal"><span class="pre">Expires</span></span>的设定值与WEB服务器时间有关，如果客户端与服务器时间不一致可能引起问题。详细请阅读<span class="target" id="index-0"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc2616.html"><strong>RFC 2616</strong></a>）</p>
+<div class="highlight-python"><div class="highlight"><pre>ExpiresDefault &quot;access plus 10 years&quot;
+</pre></div>
+</div>
+<p>请注意：如果使用<span class="docutils literal"><span class="pre">Expires</span></span>将内容设置为永不过期，无论什么时间你对某内容进行了更新，都必须更换此资源的文件名。在Yahoo，我们通常在构建步骤中加入这样一步：将版本号加入到文件名中。例如：<em>yahoo_2.0.6.js</em></p>
+<p>只有用户已经访问过你的站点，使用包含一个“永不过期”的<span class="docutils literal"><span class="pre">Expires</span></span>HTTP头才能影响页面访问量（PV, page views）。对于初次访问以及注意器缓存为空时，它不会影响（减少）HTTP请求数。<strong>因此这种性能改进的影响有赖于用户有多大几率是在有缓存情形下访问站点。</strong>我们测量了Yahoo站点的这方面数据，发现大约有75%-85%有页面访问量是在有缓存情况下进行的。<strong>通过使用“永不过期”的Expires头，可以增加被缓存的内容，当其它页面被访问时可以重复利用它们而不是向服务器再次请求</strong></p>
+</div>
+<div class="section" id="gzip-components">
+<span id="section-gzip"></span><h2>压缩页面内容(Gzip Components)</h2>
+<p>通过前端工程师的调优，可以显著的减少HTTP请求和响应在网络上的传输时间。另一方面，用户的访问带宽速度，ISP，proximity to peering exchange points等都超出了开发团队的控制范围。但是这些都会影响到响应时间，压缩可以减小HTTP响应内容的大小进而减少响应时间。</p>
+<p>从HTTP/1.1开始，WEB客户端在发起HTTP请求时，在请求头中添加字段<span class="docutils literal"><span class="pre">Accept-Encoding</span></span>来说明客户端支持压缩：</p>
+<div class="highlight-python"><div class="highlight"><pre>Accept-Encoding: gzip,deflate
+</pre></div>
+</div>
+<p>当WEB服务器从请求头文件中发现了上面内容后，就会对响应内容使用一种由<span class="docutils literal"><span class="pre">Accept-Encoding</span></span>指定的压缩方法进行压缩再返回给客户端。同样WEB服务器会在响应
+头也会添加字段<span class="docutils literal"><span class="pre">Accept-Encoding</span></span>来告诉客户端返回内容使用了什么方法进行压缩
+，如：</p>
+<div class="highlight-python"><div class="highlight"><pre>Accept-Encoding: gzip
+</pre></div>
+</div>
+<p>Gzip是由GNU项目开发的当前最为有效和流行压缩方法，在<span class="target" id="index-1"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc1952.html"><strong>RFC 1952</strong></a>中进行了标准化，另一种可以看到的压缩方法是<span class="docutils literal"><span class="pre">deflate</span></span>，它并不那么的高效和流行。</p>
+<p>经过Gzip压缩一般可以将响应内容大小减小70%，当前互联网上通过浏览器产生的流量的90%都声称支持gzip压缩。</p>
+<p>对于浏览器和代理存在已知的问题：浏览器收到的内容的压缩格式和期望收到的格式不一致。幸运的是随着旧浏览器被淘汰，这种边际问题正逐渐减少。Apache的模块通过在响应头中自动添加适当的<span class="docutils literal"><span class="pre">Vary</span></span>值也可以消除这种问题。</p>
+<p>WEB服务器基于文件类型来选择性进行压缩，决定压缩什么通常太有限。绝大多数WEB站点都会压缩HTML文件。另外对脚本、样式表进行压缩也是值得的，但是大多数站点都没有对它们进行压缩。事实上，任何文本内容包括XML，JSON都是值得压缩的。由于图片和PDF文件自身已经压缩过，所以它们都不需要压缩，如果对这些文件进行压缩，不仅浪费CPU，而且还可能增加文件大小。</p>
+<p>使用gzip压缩多种文件类型，是一种减小页面大小和提高用户体验的一种简单方法。</p>
+</div>
+<div class="section" id="id2">
+<h2>将样式表放在页面顶部</h2>
+<p>通过在Yahoo的(WEB)性能研究，我们发现将样式表放置在HTML文件的<span class="docutils literal"><span class="pre">HEAD</span></span>位置时，页面加载的更快。这是因为将样式表放在<span class="docutils literal"><span class="pre">HEAD</span></span>中允许页面逐步进行渲染。</p>
+<p>关注性能的前端工程师想要页面是逐步加载，也就是说希望浏览器只要它获取到内容就可以进行渲染显示。这对于包含大量内容页面和网络较慢的用户特别重要。一些研究和<a class="reference external" href="http://www.useit.com/papers/responsetime.html">资料</a>显示，（在加载时）给用户以视觉的反馈提示（如进度条）是非常重要的。在我们的研究例子中，页面是逐步加载的，浏览器中页面内的头部，导航栏，顶部Logo等被逐步加载显示。所以为正在等待加载页面用户提供的视觉反馈，都可以改善所有用户的体验。</p>
+<p>将样式表放在页面底部引起的问题是：大多数浏览器（包括IE）会禁止页面逐步渲染显示。
+由于在这种情况下，浏览器无法确定上部元素的样式表是否会发生变化，所以为了避免页面元素的重复渲染，这些浏览器禁止此种情况下逐步渲染页面。</p>
+<p><a class="reference external" href="http://www.w3.org/TR/html4/struct/links.html#h-12.3">HTML规范</a>明确指出样式表应该包含在页面的<span class="docutils literal"><span class="pre">HEAD</span></span>：“与标签<span class="docutils literal"><span class="pre">a</span></span>不同，<span class="docutils literal"><span class="pre">link</span></span>只能出现在HTML文档的<span class="docutils literal"><span class="pre">HEAD</span></span>中，然而是可以存在多个<span class="docutils literal"><span class="pre">link</span></span>标签
+。”对于空白页面或不包含样式表的内容，……最佳解决方案是遵循HTML规范，将你的样式表
+放在页面的<span class="docutils literal"><span class="pre">HEAD</span></span>中进行加载。</p>
+</div>
+<div class="section" id="id4">
+<h2>将脚本放在页面的底部</h2>
+<p>（加载）脚本会阻止浏览器的并行下载。<a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec8.html#sec8.1.4">HTTP/1.1规范</a>中建议浏览器下载内容时每个域名并行下载最多为2个。如果你使用多个域名提供图片服务，可以实现超过两个的并行下载。当正在下载一个脚本时，即使资料在不同的服务器上，浏览器也不会进行任何其它下载。</p>
+<p>在某些情形下，脚本不便于放置在页面的底部。例如，如果脚本中使用<em>document.write</em>向页面中插入内容时就不能将它移动到页面底部。可能还有作用域的问题，在许多情况下，也有方法来解决这些问题。</p>
+<p>另外一个常见的建议是使用延迟脚本（deferred scripts）。<span class="docutils literal"><span class="pre">DEFER</span></span>属性表示该脚本没有包含<em>document.write</em>内容，暗示浏览器可以继续进行渲染。不幸的是，Firefox不支持<span class="docutils literal"><span class="pre">DEFER</span></span>属性。对于IE浏览器，脚本可能被延迟，但是并不像期望的那样（工作）。如果一个脚本可以被延迟，它就可以被移到页面的底部，这样就可以加快网页的加载速度了。</p>
+</div>
+<div class="section" id="css">
+<h2>不要使用CSS表达式</h2>
+<p>CSS表达式是动态设定CSS属性的一种有力方法，同时也一种危险的方法。它们从IE 5开始被支持，但是从IE8开始被废弃。下面的例子中，通过使用CSS表达式，将每个小时改变背景颜色一次。</p>
+<div class="highlight-css"><div class="highlight"><pre><span class="nt">background-color</span><span class="o">:</span> <span class="nt">expression</span><span class="o">(</span> <span class="o">(</span><span class="nt">new</span> <span class="nt">Date</span><span class="o">())</span><span class="nc">.getHours</span><span class="o">()%</span><span class="nt">2</span> <span class="o">?</span> <span class="s2">&quot;#B8D4FF&quot;</span> <span class="o">:</span> <span class="s2">&quot;#F08A00&quot;</span> <span class="o">);</span>
+</pre></div>
+</div>
+<p>正如上面展示的，<span class="docutils literal"><span class="pre">expression</span></span>方法可以接受JavaScript表达式。通过计算JavaScript表达式的结果来设定CSS属性值。需要注意的是除IE外的其它浏览器并不支持<span class="docutils literal"><span class="pre">expression</span></span>方法，在IE浏览器中设置CSS属性是非常有用的，对于跨浏览器则需要提供相应一致性的体验。</p>
+<p>CSS表达式带来的一个问题是远超人们期望的频繁的计算表达式值。它们不仅会在页面渲染和改变大小时计算表达式的值，在页面滚动时，甚至是用户在页面上移动鼠标时都会重新计算表达式的值。在CSS表达式中增加一个计数器，我们可以方便的追踪CSS表达时在什么时候，什么样的频率计算表达式的值，将鼠标在页面内移动一圈计数器的值轻松超过10000.</p>
+<p>减少CSS表达式计算次数的一种方法就是使用<span class="docutils literal"><span class="pre">一次性（one-time）表达式</span></span>，一次性表达式在第一次被计算式给相应的属性设定一个显式的值，而不是CSS表达式。如果CSS属性必须在页面的生命周期内动态变化，可以<span class="docutils literal"><span class="pre">使用事件处理的方式来代替CSS表达式</span></span>。如果你必须使用CSS表达式，请记住它们可以被重复计算成千上万次，并且会影响页面性能。</p>
+</div>
+<div class="section" id="javascriptcss">
+<h2>将JavaScript和CSS内容存储在外部文件</h2>
+<p>这里介绍的大多数（改善）性能规则都是在介绍如何管理外部（译者注：HTML页面之外）组
+件，然而在考虑这些之前，你可能会考虑一个更基础的问题：“JavaScript, CSS应该存放在
+外部文件中还是直接写在HTML页面中呢？”</p>
+<p>由于JavaScript和CSS文件可以被浏览器缓存，所以现实中被它们存放在外部文件中（再链
+接到相应的HTML文件）通常会使用页面加载的更快。将JavaScript, CSS内容内联到HTML页
+面中，每次请求时都会下载，虽然可以相应的减少HTTP请求数，但是增大了HTML页面的大小
+。另一方面，存放在外面文件中的JavaScript和CSS如果已经被浏览器缓存，则可以减小
+HTML页面的大小，同时也不会增加HTTP请求数。</p>
+<p>关键点是：被缓存的JavaScript和CSS文件相对于HTML文件请求次数的频率。这个因素虽然
+难以量化，但是可以通过多种方法来测量。如果访问站点的用户每次会话时会浏览多个页面
+，并且大多页面重复使用了相同的脚本和样式表，就可以从缓存外部文件中警告巨大的好处
+。</p>
+<p>大多数站点都在这些指标中，对于这些站点，最好的解决方法通常是将JavaScript和CSS内
+容作为外部文件部署。将JavaScript和CSS内联到HTML文件中的唯一的例外是站点主页。例
+如Yahoo主页，我的Yahoo。用户每次会话，主页只有较少的页面访问量（可能只有一次），
+你可能会发现将JavaScript和CSS内联到页面中时，返回给用户的响应时间更快。</p>
+<p>主页通常是用户访问的入口，第一个页面。有一些技术既达到由内联带来的HTTP请求数减少
+的效果，也可以拥有缓存外部文件优点。如：将JavaScript和CSS内联在主页中，但是当页
+面（主页）加载完成后动态地加载外部文件，后续访问其它页面时就可以直接引用这些已经
+被浏览器缓存的外部文件。</p>
+</div>
+<div class="section" id="dns">
+<span id="section-dns"></span><h2>减小DNS查找</h2>
+<p>标签：内容</p>
+<p>域名系统（Domain Name System, DNS）将主机名映射到IP地址，就像电话薄将人名与他们
+的电话号码关联起来一样。当你在浏览器地址栏中输入<em>www.yahoo.com</em>（并按回车）
+后，浏览器就会联系DNS解析服务器查询<em>www.yahoo.com</em>对应的IP地址，进行DNS查询
+是有代价的，向DNS服务器查询某个域名（主机名）对应的IP通常会花费20-120毫秒。在完
+成DNS查询之前，浏览器无法从目标主机下载任何内容。</p>
+<p>缓存DNS查询结果可以获得更好的性能。这样一个缓存通常发生在ISP或者本地局域网中的一
+个特殊服务上，但是用户个人计算机也会缓存DNS查询结果，它们被保存在操作系统的DNS缓
+存中（Windows系统上的“<em>DNS Client service</em>”）。另外大多数浏览器也有不同于系
+统级的缓存。浏览器保存着自己的DNS缓存，并且对系统中的DNS缓存没有干扰。</p>
+<p>对于IE，默认会缓存DNS结果30分钟，这个值可以通过修改注册表中的字段<span class="docutils literal"><span class="pre">DnsCacheTimeout</span></span>调整。Firefox默认缓存DNS结果1分钟，可以通过修改配置选项<span class="docutils literal"><span class="pre">network.dnsCacheExpiration</span></span>来调整。（FasterFox将这个值修改为1小时）</p>
+<p>但是客户端DNS缓存为空时（浏览器和操作系统的均为空），DNS查询次数等于页面中唯一主
+机的数量，这包括当前页面URL对应的主机，图片，脚本文件，样式表文件，动画对象等。
+减少唯一主机名的数量可以减少DNS查询的次数。</p>
+<p>减少唯一主机名的数量潜在的也会减少加载页面时并行下载的数量。避免（减少）DNS查找(
+（次数）可以降低响应时间，但是减少并行下载会增加响应时间。我的经验是<strong>页面组件
+分配到至少2个，最多不超过4个域名中，可以在减少DNS查找次数和高的并行下载数间达到
+一个很好的平衡。</strong></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">将文件分散到2-4个域名下较为合适。当然可以通过调整DNS缓存时间来改善DNS请求次
+数，但是对于开发者来说，客户端因素无法掌控。</p>
+</div>
+</div>
+<div class="section" id="section-minify">
+<span id="id5"></span><h2>减小JavaScript和CSS代码的大小</h2>
+<p>缩小是通过删除代码中非必须字符来减小代码大小，从而提高加载速度的一种实践。当对代
+码进行缩小时，所有的注释，非必须的空白字符（空格，换行符，制表符）都被删除，在这
+种情况下，由于下载的数据减少可以改善JavaScript的响应时间。有两个流行的工具用来缩
+小JavaScript代码：<a class="reference external" href="http://crockford.com/javascript/jsmin">JSMin</a>和<a class="reference external" href="https://developer.yahoo.com/yui/compressor/">YUI Compressor</a>。YUI压缩工具也可以用来缩小
+CSS。</p>
+<p><span class="docutils literal"><span class="pre">模糊处理(Obfuscation)</span></span>是另一种优化源代码的方法。它比缩小都为复杂，也更容易
+在处理时产生BUG。一项对美国十大网站的调查显示，<strong>缩小可以将文件大小减小21%，模
+糊处理可以减小25%</strong>，虽然模数处理可以将文件变得更小，但是缩小JavaScript的风险
+更小。</p>
+<p>另外不仅外部的脚本和样式表可以被缩小，内联在标签<span class="docutils literal"><span class="pre">&lt;script&gt;</span></span>中的代码也可以被
+缩小。即使你使用gzip对脚本和样式表进行了压缩，缩小仍然可以将将文件大小减少<span class="docutils literal"><span class="pre">5%</span></span>以上。随着JavaScript和CSS不断增加，通过缩小取得的效果将愈加明显。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">WEB服务器启用压缩后，文件大小减少在5%（取决于原文件的大小）。</p>
+</div>
+</div>
+<div class="section" id="section-redirect">
+<span id="id6"></span><h2>避免重定向</h2>
+<p>标签：内容</p>
+<p>通过返回状态码<em>301, 302</em>可以实现重定向。下面是一个WEB服务器响应<em>301</em>的
+HTTP头：</p>
+<div class="highlight-text"><div class="highlight"><pre>HTTP/1.1 301 Moved Permanently
+Location: http://example.com/newuri
+Content-Type: text/html
+</pre></div>
+</div>
+<p>浏览器自动将用户带到（HTTP头中）<span class="docutils literal"><span class="pre">Location</span></span>字段指定的URL，重定向所需的信息
+全部都在HTTP响应头中，通常响应内容为空。除非响应头中包含有<span class="docutils literal"><span class="pre">Expires</span></span>或者<span class="docutils literal"><span class="pre">Cache-Control</span></span>字段控制缓存，否则不论是301还是302响应都不会被缓存。标签<span class="docutils literal"><span class="pre">meta</span> <span class="pre">refresh</span></span>和JavaScript都可以将用户引导至一个不同（于地址栏）的URL，但是
+如果必须进行重定向，最好是使用标准的3xx HTTP状态码。因为它可以让（浏览器的）后退
+按钮正确的工作。</p>
+<p>关于重定向最重要的是它会使得用户加载变慢，用户体验变差。对于重定向，直到HTML文件
+下载完成，页面中什么都不能被下载和渲染，在用户和目标HTML页面间插入重定向会延缓页
+面内的所有内容。</p>
+<p>一个开发者通常没有意识到且频繁发生的重定向行为是，当一个URL结尾应该有而没有斜线“
+”时，WEB服务器会返回一个301状态码重定向至一个包含斜线的URL。例如：访问
+<a class="reference external" href="http://astrology.yahoo.com/astrology">http://astrology.yahoo.com/astrology</a>，WEB服务器会返回一个包含重定向至
+<a class="reference external" href="http://astrology.yahoo.com/astrology">http://astrology.yahoo.com/astrology</a>/的301响应，Apache通过指令<span class="docutils literal"><span class="pre">Alias</span></span>，或
+者模块<span class="docutils literal"><span class="pre">mod_rewrite</span></span>或指令<span class="docutils literal"><span class="pre">DirectorySlash</span></span>可以避免这种行为，如果你使
+用的是Apache WEB服务器可以使用这些方法避免重定向。</p>
+<p>重定向的另一个最常用途是连接一个旧的站点到新站点；另外还用于连接站点的不同部分；
+基于某些条件（如浏览器类型，帐户类型等）将用户引导至不同页面。使用重定向连接两个
+站点非常的便利，而且对代码只需要很少的改动。虽然在这些情况下使用重定向降低了开发
+者的复杂度，但是也使用用户体验变差。如果重定向前后两部分都在同一台服务器上，可以
+使用（Apache的）指令<span class="docutils literal"><span class="pre">Alias</span></span>和URL重写模块<span class="docutils literal"><span class="pre">mod_rewrite</span></span>来代替重定向。
+如果重定向是域名发生了变化，可以在DNS记录中添加<span class="docutils literal"><span class="pre">CNAME</span></span>记录并组合<span class="docutils literal"><span class="pre">Alias</span></span>和<span class="docutils literal"><span class="pre">mod_rewrite</span></span>来取代重定向。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">竭力避免重定向。注意URL结尾斜线可能引起的重定向问题。</p>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>删除重复的脚本</h2>
+<p>标签：javascript</p>
+<p>在一个页面内将同一个JavaScript脚本加载再次会对性能产生影响。这并不像你想像的那样
+不同寻常。一个对美国前十大网站的研究表明，其中有20%的站点包含有重复脚本。有两方
+面的因素增加了在单个页面内重复加载脚本的几率：团队的大小和脚本的数量。当存在重复
+脚本时，浏览器需要额外非必需HTTP请求来下载脚本，并重复执行它们，从而影响页面的渲
+染性能。</p>
+<p>对于IE浏览器，重复的脚本会引起非必需的HTTP请求，Firefox则不会。对于IE浏览器，如
+果一个外部的脚本文件被包含两次并且不可缓存，在载入页面的时候浏览器会请求两次。即
+使脚本可以被缓存，当用户重新加载页面时也会进行额外HTTP请求。</p>
+<p>避免将同一个脚本加载两次的一种方法是：在你的模板系统中声明一个脚本管理模型。通常
+的做法是在HTML页面中通过<span class="docutils literal"><span class="pre">script</span></span>标签来包含一个外部脚本：</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;menu_1.0.17.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>在PHP中可以通过一个自定义函数（如下面的<span class="docutils literal"><span class="pre">insertScript</span></span>）来实现类似功能：</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="cp">&lt;?php</span> <span class="nx">insertScript</span><span class="p">(</span><span class="s2">&quot;menu.js&quot;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</div>
+<p>为了阻止同一脚本被插入多次，这个函数可以处理一些关于脚本的其它问题，如依赖检查，
+将版本号加入到文件名中并通过<span class="docutils literal"><span class="pre">Expires</span></span>使用脚本“永不过期”。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">通过良好的代码管理来避免重复插入脚本。</p>
+</div>
+</div>
+<div class="section" id="etags">
+<span id="section-etags"></span><h2>配置<span class="docutils literal"><span class="pre">ETag</span></span>s</h2>
+<p>标签：javascript</p>
+<p><span class="docutils literal"><span class="pre">实体标签(Entity</span> <span class="pre">tags,</span> <span class="pre">ETags)</span></span>是WEB服务器与浏览器间用来判断浏览器缓存项是否
+与原服务器上的数据一致的一种机制。（An &#8220;entity&#8221; is another word a &#8220;component&#8221;:
+images, scripts, stylesheets, etc.）通过添加实体标签来验证内容是否有效比起<span class="docutils literal"><span class="pre">Last-Modified</span></span>日期更加灵活。实体标签对某一特定版本的组件内容是一个唯一字符
+串标识。（实体标签内容的）唯一格式要求是<em>字符串必须包含在引号中</em>。WEB服务器
+在响应头中为特定组件添加<span class="docutils literal"><span class="pre">ETag</span></span>字段。</p>
+<div class="highlight-text"><div class="highlight"><pre>HTTP/1.1 200 OK
+Last-Modified: Tue, 12 Dec 2006 03:03:59 GMT
+ETag: &quot;10c24bc-4ab-457e1c1f&quot;
+Content-Length: 12195
+</pre></div>
+</div>
+<p>随后浏览时，如果浏览器必须验证某个内容组件，它会在HTTP请求头中添加<span class="docutils literal"><span class="pre">If-None-Match</span></span>并将<span class="docutils literal"><span class="pre">ETag</span></span>的值返回给WEB服务器。如果实体标签（与WEB服务
+器上文件的）匹配，WEB服务器就会返回一个304状态码（而不返回文件数据），针对上面的
+例子，HTTP响应可以减小12195个字节。</p>
+<div class="highlight-text"><div class="highlight"><pre>GET /i/yahoo.gif HTTP/1.1
+Host: us.yimg.com
+If-Modified-Since: Tue, 12 Dec 2006 03:03:59 GMT
+If-None-Match: &quot;10c24bc-4ab-457e1c1f&quot;
+HTTP/1.1 304 Not Modified
+</pre></div>
+</div>
+<p>实例标签的问题是WEB服务器在生成时，其值通常与存放站点文件的服务器相关。当浏览器
+从一个服务器上取得原始数据，然后到另外一个服务器上验证时，实体标签将不会匹配。而
+这种情况对于一个使用服务器集群来处理用户请求的站点来说是非常常见的。By default,
+both Apache and IIS embed data in the ETag that dramatically reduces the odds of
+the validity test succeeding on web sites with multiple servers.</p>
+<p>Apache 1.3和2.x中实体标签的格式是：<em>inode-size-timestamp</em>虽然一个文件在多个
+服务器上可能都存放在相同的目录、文件大小、权限和时间戳都相同，但是在每个服务器上
+的inode几乎不可以相同。</p>
+<p>IIS 5.0和6.0生成的实体标签也有类似的问题，IIS中实体标签的格式为：<em>Filetimestamp:ChangeNumber</em>。其中<em>ChangeNumber</em>用来追踪记录IIS配置文件的
+变化次数。站点集群中的各IIS服务器的<em>ChangeNumber</em>几乎不可能相同。</p>
+<p>上面问题导致的结果就是：<strong>不同服务器上的WEB服务器（Apache, IIS等）对同一个文件
+生成的实体标签并不匹配</strong>如果实体标签不匹配，用户就不会收到响应数据少的304状态
+码，而是收到状态码200和所有的请求数据。如果你的站点只是保存在一个服务器上，那么
+这将不会对你产生影响。但是如果你的站点比较大，使用集群来提供服务，并且你使用的
+Apache或IIS的默认ETag配置，你的用户访问页面将比较慢，而且服务器会处理高负载，同
+时消耗更多的带宽，代理也不能有效的缓存你的站点内容。<strong>即使你的内容组件使用一个“永不过期”的Expires头，当用户重新载入或刷新页面时，条件HTTP GET请求将会一直发起。</strong></p>
+<p>如果你没有从实体标签提供的验证模型中受益，最好的做法是将其从HTTP响应头中移除。<span class="docutils literal"><span class="pre">Last-Modified</span></span>头提供了基于文件时间戳的验证。从HTTP响应头中移除<span class="docutils literal"><span class="pre">ETag</span></span>段可以减小HTTP响应头的大小和后续请求头的大小。此篇文章中介绍了<a class="reference external" href="http://support.microsoft.com/?id=922733">IIS服务器</a>如
+果移除<span class="docutils literal"><span class="pre">ETag</span></span>。对于Apache服务器，只需要将下面的内容添加到配置文件中就可以了
+。</p>
+<div class="highlight-apache"><div class="highlight"><pre><span class="nb">FileETag</span> <span class="k">none</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p><span class="docutils literal"><span class="pre">ETag</span></span>值的生成与服务器有关，同一内容在不同服务器上生成的<span class="docutils literal"><span class="pre">ETag</span></span>值是
+不相同的，对于使用集群提供服务的站点必须注意这个问题。</p>
+<p class="last">另外<span class="docutils literal"><span class="pre">Expires</span></span>和<span class="docutils literal"><span class="pre">ETag</span></span>头的优先级是什么样的？<span class="docutils literal"><span class="pre">ETag</span></span>优先于<span class="docutils literal"><span class="pre">Expires</span></span>？</p>
+</div>
+</div>
+<div class="section" id="ajax">
+<h2>使得Ajax可缓存</h2>
+<p>标签：内容</p>
+<p>由于使用Ajax可以异步地向后台WEB服务器请求数据，使用Ajax的一个优势是可以向用户即时的提供反馈。然而使用Ajax并不能保证用户会等待JavaScript异步请求和返回XML数据。在大多数应用中，用户是否等待取决于如何使用Ajax。例如，在基于WEB的EMail客户端应用中，用户通常会等待Ajax返回所有符合他们搜索条件的结果。请铭记：<span class="docutils literal"><span class="pre">“异步“并不\</span>
+<span class="pre">意味着“瞬间”</span></span>。</p>
+<p>为了改进性能，优化Ajax响应（时间）至关重要。提高Ajax性能的最重要方法是使得Ajax的响应内容可缓存。正如前面讨论过的<a class="reference internal" href="#section-expires"><span>添加一个Expires或Cache-Control HTTP头</span></a>，一些其它规则也可以用于Ajax：</p>
+<ul class="simple">
+<li><a class="reference internal" href="#section-gzip"><span>使用Gzip压缩页面内容</span></a></li>
+<li><a class="reference internal" href="#section-dns"><span>减少DNS查找次数</span></a></li>
+<li><a class="reference internal" href="#section-minify"><span>减小JavaScript代码大小</span></a></li>
+<li><a class="reference internal" href="#section-redirect"><span>避免重定向</span></a></li>
+<li><a class="reference internal" href="#section-etags"><span>配置实体标签</span></a></li>
+</ul>
+<p>让我们看一个例子，一个WEB 2.0的电子邮件客户端可能会使用Ajax下载用户的地址来实现自动实例。如果用户从上次使用电子邮件Wep APP后没有修改更新地址薄，且Ajax的响应内容通过<span class="docutils literal"><span class="pre">Expires</span></span>或<span class="docutils literal"><span class="pre">Cache-Control</span></span>进行了缓存，Ajax请求可以直接从缓存中读取数据。浏览器必须告知什么时候使用缓存，什么发起一个新的请求。这可以通过在通过 Ajax请求地址薄时的URL中添加一个时间戳，用于标示地址薄的最后修改时间，例如：
+<em>&amp;t=1190241612</em>。如果地址薄自从上次下载之后没有发生变化，那么（请求时的）时间戳应该相同，并且可以从浏览器缓存中读取数据，这样就可以减少额外的HTTP请求操作；如果用户修改了她的地址薄，时间戳将保证新的URL不会匹配已缓存的响应内容，浏览器将会请求更新地址薄条目。</p>
+<p>即使你的Ajax响应是动态创建的，并且只适用于单个用户，他们仍然可以被缓存，这样做可以使得你的WEB 2.0应用更快。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">缓存Ajax内容</p>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>及早冲刷缓存</h2>
+<p>标签：服务器</p>
+<p>当用户请求一个页面时， it can take anywhere from 200 to 500ms for the backend
+server to stitch together the HTML page. 在此期间，浏览器一直空闲着等待服务器返回数据。在PHP中，你可以使用函数<span class="docutils literal"><span class="pre">flush()</span></span>输出已加载的缓存。这样可以将已经读入的部分HTML数据发送给客户端，这样在后端服务器忙于加载HTML页面的其它部分时，浏览器就可以开始下载页面内容。The benefit is mainly seen on busy backends or
+light frontends.</p>
+<p>A good place to consider flushing is right after the HEAD because the HTML for
+the head is usually easier to produce and it allows you to include any CSS and
+JavaScript files for the browser to start fetching in parallel while the backend
+is still processing.</p>
+<p>例如：</p>
+<div class="highlight-html"><div class="highlight"><pre>... <span class="c">&lt;!-- css, js --&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="cp">&lt;?php flush(); ?&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+... <span class="c">&lt;!-- content --&gt;</span>
+</pre></div>
+</div>
+<p>Yahoo搜索先锋研究和真实用户测试证明了使用这些技术是有好处的。</p>
+</div>
+<div class="section" id="ajaxget">
+<h2>Ajax使用GET方法请求</h2>
+<p>标签：服务器</p>
+<p>Yahoo邮箱团队发现但使用XMLHttpRequest，浏览器内部通过两步来实现POST方法：先发送请求头，再发送数据。因此最好使用GET方法，因为GET方法只发送一个TCP包（除非你有大量的cookies）。IE中URL的最大长度为2K，因此如果你发送超过2K的数据时，就不能使用GET方法了。</p>
+<p>有趣的是，POST方法没有像GET方法一样发送任何数据，基于<a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">HTTP规范</a>，GET方法是用于获取信息的，当你只是请求数据，而没有发送数据存放在服务端时，你应该使用GET方法。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>浏览器通过两步完成POST方法，至少发送两个TCP包，而GET方法通常只需发送一个TCP包。（不同浏览器实现是否不同？）</p>
+<p class="last">IE中URL最大长度为2K，即GET方法最多可发送2K的数据；那么其它浏览器呢？</p>
+</div>
+</div>
+<div class="section" id="post-load-components">
+<h2>Post-load Components</h2>
+<p>标签：内容</p>
+<p>仔细审视一下你的页面，问问自己”为了初始渲染页面，哪些东西是绝对必需的？”其它内容
+和组件可以等一等。</p>
+<p>JavaScript非常容易分为页面加载前和加载后两类。例如，你有一些用于拖放和动画的
+JavaScript库，那么它们就可以等等再加载，因为拖放页面上的元素只能在页面初始渲染完
+后才能进行。其它可能被暂缓加载的内容包括隐藏内容（需要用户动作才会显示的内容）和
+折叠内容下的图片。</p>
+<p>有一些工具可以帮助你实现这些工作：<a class="reference external" href="https://developer.yahoo.com/yui/imageloader/">YUI Image Loader</a>允许你延迟折叠内容下的
+图片，<a class="reference external" href="https://developer.yahoo.com/yui/get/">YUI Get utility</a>是一个包含JS和CSS的简单方法。例如，可以打开Firebug的
+Net面板，再加载Yahoo主页看看。</p>
+<p>(Post-load Components)与其它WEB开发最佳实践结合可以取得更好的效果。在这种情况下
+，逐步增强的想法告诉我们，如果浏览器支持，JavaScript能够提高用户体验，但是你不得
+不确保页面在没有JavaScript时也能正常工作。在你确认页面可以很好渲染后，你可以使用
+一些post-load组件内容来为页面添加更新花哨的功能，如（元素的）拖放和动画等。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">对页面元素建立一个加载优先顺序，逐步加载页面，以期尽快的向用户展示页面而提高
+用户体验。</p>
+</div>
+</div>
+<div class="section" id="id10">
+<h2>预加载内容</h2>
+<p>标签：内容</p>
+<p>预加载(preload)看上去与延迟加载(post-load)是相对立的，但事实上它们有着不同的目标
+，通过预加载你能够利用浏览器空闲时间来请求那些你将需要页面组件（如图片，样式表和
+脚本）。当用户访问下一个页面时，这种方式（预加载）使得有大多数组件内容已经缓存在
+客户端，那么用户加载页面时将会更快。</p>
+<p>通常预加载被分为下面几种类型：</p>
+<ul class="simple">
+<li><em>无条件预加载(unconditional preload)</em>加载完某个内容后，马上开始获取一些额
+外的内容组件。例如，可以查看一下google.com如何加载一个精灵(sprite)的？这个精
+灵图片并不是google.com主页所必须的，但是后续的搜索结果页面需要它。</li>
+<li><em>条件加载(conditional preload)</em>基于用户动作（的分析）你可以猜想用户接下来
+将会做什么并对其进行预加载。在search.yahoo.com页面，你可以看到当你在输入框输
+入内容后，有哪儿额外的组件资源被请求加载了。</li>
+<li><em>期待预加载(anticipated preload)</em>在进行重新设计前。完成重新设计后，你经常
+会听到“新站点很酷，但是加载速度比之前的慢”。部分原因是因为在用户访问时，已经
+缓存有旧站点的数据，但对于访问新站点，客户端并没有缓存。通过在重新设计之前，
+甚至是开始重新设计后，你可能通过（用户）访问旧站点时浏览器的空闲时，加载一些
+新站点会使用到的资源（如图片、脚本之类）来消除前面提到的重新设计带来的负面效
+应。</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">合理预加载——大数据分析，人工智能？</p>
+</div>
+</div>
+<div class="section" id="dom">
+<h2>减少DOM元素数量</h2>
+<p>标签：内容</p>
+<p>一个复杂的网页意味着需要下载更多的数据，另外JavaScript读取DOM时更慢。例如，当你想增加一个事件处理时需要遍历500和5000个DOM时，两者非常的不同。</p>
+<p>存在大量的DOM元素意味着可以通过删除页面中非必需元素加以改进。为了页面布局你是否使用过嵌套表格呢？你是否使用更多的<span class="docutils literal"><span class="pre">div</span></span>标签来改善这个问题呢？这可能是一种更好、（语义上）更加正确的方法改进你的HTML文件。</p>
+<p><a class="reference external" href="https://developer.yahoo.com/yui/">YUI CSS工具</a>对页面布局有非常大的帮助：文件<em>grids.css</em>可以帮助你进行页面布局；文件<em>fonts.css, reset.css</em>可以帮助你去掉浏览器的默认格式设置。这让你可以重新开始思考你使用的标签（来布局），例如只有当语义上正常，而还是因为需要渲染一个新行而使用<span class="docutils literal"><span class="pre">div</span></span>标签。</p>
+<p>DOM元素的数目很容易测算，在<span class="docutils literal"><span class="pre">Firebug</span></span>的命令栏输入：<span class="docutils literal"><span class="pre">document.getElementsByTagName('*').length</span></span>就可以得到。</p>
+<p>那么多少DOM元素算太多呢？检查对比其它标记（设计）良好页面。例如Yahoo主页，一个非常繁忙的页面，页面元素（HTML标签）数目一直少于700。</p>
+</div>
+<div class="section" id="id11">
+<h2>将页面内容拆分到不同域</h2>
+<p>标签：内容</p>
+<p>通过拆分内容组件，你可以最大化并行下载。确保你使用的域名数没有超过4个，因为DNS查找也是有代价的。例如你可以将HTML文件和动态内容存放在域www.example.com中，将静态内容拆分到static1.example.com和static2.example.com下。</p>
+<p>更多的信息请查看由Tenni Theurer和Patty Chi撰写的<a class="reference external" href="http://yuiblog.com/blog/2007/04/11/performance-research-part-4/">通过拼车道最大化并行下载</a>。</p>
+</div>
+<div class="section" id="iframe">
+<h2>最小化iframe数量</h2>
+<p>标签：内容</p>
+<p>框架（Iframes）允许HTML文档插入到其父文档中。只有理解了框架是如何工作的，才能更加有效的利用它。</p>
+<p>&lt;iframe&gt; pros:</p>
+<ul class="simple">
+<li>有助于较慢的第三方内容，如商标和广告</li>
+<li>安全沙盒（没明白）</li>
+<li>并行下载脚本（没明白）</li>
+</ul>
+<p>&lt;iframe&gt; cons:</p>
+<ul class="simple">
+<li>即使是空白的，也会消耗资源</li>
+<li>阻止页面加载</li>
+<li>Non-semantic</li>
+</ul>
+</div>
+<div class="section" id="no-404s">
+<h2>No 404s</h2>
+<p>标签：内容</p>
+<p>HTTP请求要消耗相当的资源，因为发起一个HTTP请求最终得到一个无意义的响应是完全没有必要的，它不会给用户带来任何好处，且降低用户体验。</p>
+<p>有些站点提供在404s提供一个提示信息”你的意思是X？“，这对用户有很大的帮助，但是会浪费服务端资源（如数据库等）。特别糟糕的是当链接一个外部JavaScript文件失败，返回404，这首先会阻塞并行下载，接下来浏览器可能尝试解析404响应返回的内容，试图从其中找到有用的东西。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">外链JavaScript返回404时，浏览器会尝试解析404返回的内容。</p>
+</div>
+</div>
+<div class="section" id="cookie">
+<h2>减少Cookie大小</h2>
+<p>标签：cookie</p>
+<p>HTTP cookies有着各种用途，如用户的认证和定制。cookies的内容通过HTTP的头部在WEB服务器和浏览器之间进行交换。重要的是尽可能的减小cookies的大小，以降低它对用户响应时间的影响。</p>
+<p>更多的信息请查看Tenni Theurer和Patty Chi撰写的“<a class="reference external" href="http://yuiblog.com/blog/2007/03/01/performance-research-part-3/">When the Cookie Crumbles</a>”，其主要观点为：</p>
+<ul class="simple">
+<li>删除非必需的cookies</li>
+<li>保持cookies尽可能的小，以降低它对用户响应时间的影响</li>
+<li>请在合适的域级别设置cookie，以免影响其它域名</li>
+<li>（为cookie）设置一个合适的过期日期，在(cookie)过期前或被删除前，可以提高用户响应时间</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">减小cookie的大小，以减小HTTP传输数据量，从而提高用户响应时间；为cookie设置一个过期日期，将cookie缓存在客户端。</p>
+</div>
+</div>
+<div class="section" id="use-cookie-free-domains-for-components">
+<h2>Use Cookie-free Domains for Components</h2>
+<p>标签：cookie</p>
+<p>当浏览器请求一个静态文件（如图片）时附加上cookie信息，服务器并不会使用这些cookie。因此它们（cookie）只是浪费网络流量而毫无意义。<strong>你应该确保在请求静态组件内容时不会携带cookie</strong>。可以创建一个子域用来存放静态内容。</p>
+<p>假设你的域名为<em>www.example.org</em>你可以将静态内容置于<em>static.example.org</em>下。然而，如果你将cookie设定在顶级域<em>example.org</em>而不是<em>www.example.org</em>将导致在请求<em>static.example.org</em>下的内容时也会携带cookie。在这种情况下，你可能需要使用一个全新的域名来存放静态内容，以保持此域<em>cookie-free</em>。例如：Yahoo使用yimg.com，YouTube使用<em>ytimg.com</em>，Amazon使用<em>images-amazon.com</em>来存放静态内容。</p>
+<p>将静态内容存放在一个<em>cookie-free</em>域的另一优势是：有些代理可以不会缓存包含cookie的请求。如此相关，如果你还没有想好使用<em>example.com</em>还是<em>www.example.com</em>作为你的主页，考虑到cookie的影响，如果没有<em>www</em>，你毫无选择，只能在cookie的作用域中写<em>*.example.org</em>，出于（前面所提到的）性能上的因素，最好还是使用<em>www</em>子域作用主页，并将cookie写在子域上。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">竭力减少不必要的数据流量。对于不会使用cookie的静态内容，在请求时杜绝携带cookie。</p>
+</div>
+</div>
+<div class="section" id="minimize-dom-access">
+<h2>Minimize DOM Access</h2>
+<p>标签：javascript</p>
+<p>JavaScript存取DOM元素通常慢，为了得到更多响应内容，你可以：</p>
+<ul class="simple">
+<li>对已存取过的元素进行缓存</li>
+<li>更新那些离线的结点，并且他们加入到树中</li>
+<li>避免通过JavaScript来固定侧面布局</li>
+</ul>
+<p>更加的信息你可以查看Julien Lecomte撰写的“<cite>高性能Ajax应用
+&lt;http://yuiblog.com/blog/2007/04/11/performance-research-part-4/&gt;</cite>”。</p>
+</div>
+<div class="section" id="develop-smart-event-handlers">
+<h2>Develop Smart Event Handlers</h2>
+<p>标签：javascript</p>
+<p>有时页面响应较慢是因为DOM树中的不同元素被附加了太多的事件，而且这些事件被频繁的执行。如果你在div中有10个按钮，只添加一个事件处理程序在div上以代替为每个按钮添加一个事件处理程序，事件发生时，你可以捕捉到事件并知道是那个按钮产生的事件。这就是为什么使用<em>事件代理(event delegations)</em>是一个好方法。</p>
+<p>You also don&#8217;t need to wait for the onload event in order to start doing
+something with the DOM tree. Often all you need is the element you want to
+access to be available in the tree. You don&#8217;t have to wait for all images to be
+downloaded. DOMContentLoaded is the event you might consider using instead of
+onload, but until it&#8217;s available in all browsers, you can use the YUI Event
+utility, which has an onAvailable method</p>
+<p>更多信息请查看Julien Lecomte所写的<a class="reference external" href="http://yuiblog.com/blog/2007/12/20/video-lecomte/">高性能Ajax应用</a>。</p>
+</div>
+<div class="section" id="link-import">
+<h2>使用&lt;link&gt;代替&#64;import</h2>
+<p>标签：CSS</p>
+<p>前面的规则已经建议将CSS放置在页面的顶部以允许浏览器进行逐步渲染。</p>
+<p>对于IE, <span class="docutils literal"><span class="pre">&#64;import</span></span>的作用与将<span class="docutils literal"><span class="pre">&lt;link&gt;</span></span>放置在页面底部等效，因此最好不要使用<span class="docutils literal"><span class="pre">&#64;import</span></span>。</p>
+</div>
+<div class="section" id="avoid-filters">
+<h2>Avoid Filters</h2>
+<p>标签：CSS</p>
+<p>IE特有的过滤器<span class="docutils literal"><span class="pre">AlphaImageLoader</span></span>主要是为了修正低版本IE（&lt;7）中真彩色PNG图片的半透明问题。这个过滤器会的问题在于：在图片在下载时，阻止浏览器进行渲染并会冻结浏览器；另外应该这一特性的元素会消耗更多的内存，不仅是图片，因此会引起更大的问题。</p>
+<p>最好的做法是完全避免使用<span class="docutils literal"><span class="pre">AlphaImageLoader</span></span>，使用在IE中工作的很好的PNG8来代替，如果你不得不使用它，请使用<span class="docutils literal"><span class="pre">_filter</span></span>来避免影响到使用IE7+的用户。</p>
+</div>
+<div class="section" id="id14">
+<h2>优化图片大小</h2>
+<p>标签：图片</p>
+<p>当设计师为你的网页制作好图片，在将图片上传至WEB服务器之前，你还可以对图片进行一些处理：</p>
+<ul>
+<li><p class="first">你可以检查GIF图片，看看使用的调色板大小是否与图片使用的色彩数相匹配。使用<span class="docutils literal"><span class="pre">imagemagick</span></span>可以很容易完成这项工作你可以检查GIF图片，看看使用的调色板大小是否与图片使用的色彩数相匹配。使用<a class="reference external" href="http://www.imagemagick.org/">imagemagick</a>很容易完成这个任务。
+当图片使用了四色和256色调色板时，图片大小就有很大的压缩空间。</p>
+</li>
+<li><p class="first">试着将GIF转换为PNG格式，看看图片大小是否会减小，通常会减小一些。由于（以前）浏览器对PNG图片的支持有限，不过这已经成为过去时了。（在此过程中）唯一的问题是真彩色PNG中的alpha透明，但是GIF不支持真彩色，也不支持可变的透明度，因为GIF 可以做到的，PNG（PNG8）调色板都可以做到（除了动画之外）。<span class="docutils literal"><span class="pre">imagemagick</span></span>中只需要输入下面的命令就可以安全的将GIF转换为PNG：</p>
+<div class="highlight-text"><div class="highlight"><pre>convert image.gif image.png
+</pre></div>
+</div>
+<p>我们只需要说：给PNG一个机会。</p>
+</li>
+<li><p class="first">使用PNG优化工具优化你的PNG图片，如<a class="reference external" href="http://pmt.sourceforge.net/pngcrush/">pngcrush</a>：</p>
+<p>..sourcecode:: text</p>
+<blockquote>
+<div><p>pngcrush image.png -rem alla -reduce-brute result.png</p>
+</div></blockquote>
+</li>
+<li><p class="first">使用JPEGs优化工具<em>jpegtran</em>优化你的JPEG图片。它可以对JPEG进行一些无损操作，如：旋转，另外也可以优化和删除图片中的注释和其它无用信息（如EXIF信息）。</p>
+<div class="highlight-text"><div class="highlight"><pre>jpegtran -copy none -optimize -perfect src.jpeg dest.jpeg
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="id15">
+<h2>优化CSS Sprites</h2>
+<p>标签：图片</p>
+<ul class="simple">
+<li>从水平方向布置图片通常比在垂直方向布置得到的图片更小；</li>
+<li>将颜色类似的图片合并到一个sprite中，可以降低颜色数量，理想情况是使得颜色小于256种可以符合PNG8标准</li>
+<li>为了使用sprite移动友好，图片间间隔不要太大。这并不会影响文件的大小，但是用户浏览器只需要较少的内存将图片解压为像素图。如：100×100的图片需要10000个像素；1000×1000的图片需要一百万个像素。</li>
+</ul>
+</div>
+<div class="section" id="id16">
+<h2>不要在HTML中缩放图片</h2>
+<p>标签：图片</p>
+<p>不要因为可以通过HTML标签中的<span class="docutils literal"><span class="pre">width</span></span>和<span class="docutils literal"><span class="pre">height</span></span>属性来调整图片大小而使用超过你需要的图片。如果你需要<span class="docutils literal"><span class="pre">&lt;img</span> <span class="pre">width=&quot;100&quot;</span> <span class="pre">height=&quot;100&quot;</span> <span class="pre">src=&quot;mycat.jpg&quot;</span>
+<span class="pre">alt=&quot;My</span> <span class="pre">Cat&quot;</span> <span class="pre">/&gt;</span></span>,那么你的图片尺寸应该是100x100px，而不是使用规格为500x500px进行缩放。</p>
+</div>
+<div class="section" id="favicon-ico">
+<h2>使用favicon.ico尽可能小且可缓存</h2>
+<p>标签：图片</p>
+<p><em>favicon.ico</em>是存放在你的站点顶级路径下的一张图片。它是一个无法避免的evil，因为即使你不关心，浏览器还是会一直请求它，因此最好不要返回一个<em>404 Not Found</em>的响应。由于（与其它内容）在同一服务器上，所以每次请求<em>favicon.ico</em>都会附带上cookie。这个图片也会影响到下载顺序。例如在IE中，当请求加载某一个组件时，<em>favicon.ico</em>会在被请求内容之前下载。</p>
+<p>因此为了减轻<em>favicon.ico</em>带来的不良影响，请确保：</p>
+<ul class="simple">
+<li><em>favicon.ico</em>文件比较小，最小小于1K</li>
+<li>通过<span class="docutils literal"><span class="pre">Expires</span></span>为<em>favicon.ico</em>设置一个合适的过期时间（如果你想更新favicon.ico，无法重命名）。你可以安全的过期日期设定为几个月之后。你可以能检查当前favicon.ico的修改时间以作出明智的决定。</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">浏览器在什么情况下会去请求<em>favicon.ico</em>？</p>
+</div>
+<p><a class="reference external" href="http://www.imagemagick.org/">Imagemagick</a>可以帮助你创建更小的favicon图标。</p>
+</div>
+<div class="section" id="k">
+<h2>使页面组件小于25K</h2>
+<p>标签：移动</p>
+<p>这个限制主要是因为iPhone不缓存大于25K的文件内容。需要注意的是这个大小是指未压缩时的大小。This is where minification is important because gzip alone may not be
+sufficient.</p>
+</div>
+<div class="section" id="pack-components-into-a-multipart-document">
+<h2>Pack Components into a Multipart Document</h2>
+<p>标签：移动</p>
+<p>将组件合并到一个multipart document就像一封附带附件的电子邮件，它可以帮助你使用一个HTTP请求来获取多个组件内容（请记住：HTTP请求是非常昂贵的）。当你使用这项技术时，首先需要检查用户浏览器是否支持此技术。</p>
+</div>
+<div class="section" id="avoid-empty-image-src">
+<h2>Avoid Empty Image src</h2>
+<p>标签：服务端</p>
+<p>下面两种情况可能导致一个<em>img</em>标签的<em>src</em>属性为空:</p>
+<ul>
+<li><p class="first">HTML文档中：<span class="docutils literal"><span class="pre">&lt;img</span> <span class="pre">src=''&gt;</span></span></p>
+</li>
+<li><p class="first">JavaScript：</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">img</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">();</span>
+<span class="nx">img</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>上面两种情况都会导致浏览器额外的请求：</p>
+<ul class="simple">
+<li>IE将对页面所在的目录发起请求</li>
+<li>Safari和Chrome (WebKit)会请求实际页面</li>
+<li>Firefox 3及之前的版本的行为与WebKit相同，3.5以后的版本解决了这个<a class="reference external" href="https://bugzilla.mozilla.org/show_bug.cgi?id=444931">问题</a>，不再发送请求</li>
+<li>Opera遇到上面的情况则什么也不会做（即不会发出额外的请求）</li>
+</ul>
+<p>为什么这是一种糟糕的做法？</p>
+<ol class="arabic simple">
+<li>向服务器发送大量无用的请求(unexpected traffic)会降低服务器的性能，特别是那些日浏览量达到百万的站点（攻击服务器方法之一？没听过）</li>
+<li>浪费服务器的CPU去生成一个永远不会被访问的页面</li>
+<li>可能会对用户数据造成误导。如果你正在通过cookie或其它方法追踪请求状态，你有可能破坏数据。即使是请求一张不会返回结果的图片，相应的响应头已经被浏览器读取接受，其中包括cookie，而响应的其它部分则被丢弃了，这可能会造成损害。（没太明白原文的意思）</li>
+</ol>
+<p>导致这一问题的根源是浏览器进行URI解析的方式。在<span class="target" id="index-2"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc3986.html"><strong>RFC 3986</strong></a>——统一资源标识（Uniform Resource Identifiers, URI）对此进行了定义。当URI是一个空字符串时，它被看作是一个相对URI，并且依据5.2部分算法进行解析。对于特殊情况——空字符串，5.4部分有介绍。Firefox, Safari和Chrome都按照正确的规范解决了URI为空字符串的问题，而IE则没有正确的处理这个问题，虽然表面上看IE依据了早期的规范<span class="target" id="index-3"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc2396.html"><strong>RFC 2396</strong></a>（但是它已经被<span class="target" id="index-4"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc3986.html"><strong>RFC 3986</strong></a>所取代）。从技术上讲，所有的浏览器都做了它们应该什么的事情，但问题是，造成URI为空完全是无心之过。</p>
+<p>HTML5在4.8.2节增加了对标签的<em>src</em>的说明，告诉浏览器不要进行额外的请求：</p>
+<div class="line-block">
+<div class="line"><em>src</em>属性必须存在，且必须包含一个有效的URL，这个URL可以指向一个非交互式的</div>
+<div class="line">，可以为动画的图片资源，但是不能是页面或脚本。如果此元素URI的base部分与文档</div>
+<div class="line">相同，那么<em>src</em>的值不得为空字符串。</div>
+</div>
+<p>但愿浏览器将来不会在存在这个问题，不幸的是，对<em>&lt;script src=&#8217;&#8216;&gt;</em>和<em>&lt;link
+href=&#8217;&#8216;</em>。也许还有时间进行调整确保浏览器不会意外的声明这种行为。</p>
+<p>这条规则是Yahoo的JavaScript专家Nicolas C. Zakas所发现。更详细的信息请查看他的文章“<a class="reference external" href="http://www.nczonline.net/blog/2009/11/30/empty-image-src-can-destroy-your-site/">空的img的src值可以摧毁你的站点</a>”。</p>
+</div>
+<div class="section" id="id19">
+<h2>参考资料</h2>
+<table class="docutils footnote" frame="void" id="ref" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="https://developer.yahoo.com/performance/rules.html">Best Practices for Speeding Up Your Web Site</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/learn.html">learn</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/web.html">web</a>, <a href="../../../tags/优化.html">优化</a>, <a href="../../../tags/http.html">http</a>, <a href="../../../tags/翻译.html">翻译</a></span>
+        </div>
+        </div><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="vim.html">VIM Tips</a></li>
+            <li class="right"><a href="zabbix.html">配置Zabbix</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/yslow";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="bash.html">Learning Bash</a>
+        </li><li>
+            <a href="code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="comm_pipe.html">命令行管道编程</a>
+        </li><li>
+            <a href="datamining.html">学习数据挖掘</a>
+        </li><li>
+            <a href="disk_quota.html">磁盘配额管理</a>
+        </li><li>
+            <a href="docker.html">docker使用小记</a>
+        </li><li>
+            <a href="economy.html">经济指标</a>
+        </li><li>
+            <a href="epoll_man.html">epoll(7)</a>
+        </li><li>
+            <a href="epoll.html">epoll API</a>
+        </li><li>
+            <a href="firefox.html">Speed Up Firefox</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (7)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (16)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (7), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (9), <a href="../../../tags/python.html">python</a> (10), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 11pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 11pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

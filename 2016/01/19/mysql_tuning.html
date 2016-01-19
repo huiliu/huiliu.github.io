@@ -1,0 +1,475 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>MySQL通用调优原则 &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="监控工具-Nagios" href="nagios.html" /><link rel="prev" title="MySQL服务器状态" href="mysql_status.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/database.html">database</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>January 19, 2016</span>
+        </div>
+    <div class="section" id="mysql">
+<h1>MySQL通用调优原则</h1>
+<div id="more"> </div><p>如果服务器使用单一存储引擎，调优相对容易的多。如，只使用MyISAM表，就可以完全禁止
+InnoDB；反之类似。</p>
+<div class="section" id="id1">
+<h2>查询缓存</h2>
+<p>MySQL可以缓存将查询结果，当客户再次查询时会直接将结果返回给用户。当服务端收到一
+个请求后，在解析请求之前会先检查<em>查询缓存</em>是否有相应结果，如果有，则直接将结
+果返回给用户，并增加<span class="docutils literal"><span class="pre">Qcache_hits</span></span>的计数（而不增加<span class="docutils literal"><span class="pre">Com_select</span></span>计算）
+。由于检查缓存时MySQL会使用查询语句，而且要求完全一致，区别大小写。</p>
+<p>即使开启查询缓存的功能，MySQL也不会缓存所有的查询。下列情况的查询就不会被缓存：<a class="footnote-reference" href="#query-cache" id="id2">[1]</a></p>
+<ul>
+<li><p class="first">查询是一个外部查询的子查询</p>
+</li>
+<li><p class="first">被存储函数(stored function)，触发器(trigger)，事务(event)执行的查询</p>
+</li>
+<li><p class="first">查询使用了用户自定义函数或存储函数</p>
+</li>
+<li><p class="first">查询使用了用户变量或本地存储程序的变量</p>
+</li>
+<li><p class="first">数据库<em>mysql, INFORMATION_SCHEMA和performance_schema</em>中的表</p>
+</li>
+<li><p class="first">任何下面形式的查询</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="p">...</span> <span class="k">LOCK</span> <span class="k">IN</span> <span class="k">SHARE</span> <span class="k">MODE</span><span class="p">;</span>
+<span class="k">SELECT</span> <span class="p">...</span> <span class="k">FOR</span> <span class="k">UPDATE</span><span class="p">;</span>
+<span class="k">SELECT</span> <span class="p">...</span> <span class="k">INTO</span> <span class="n">OUTFILE</span> <span class="p">...</span>
+<span class="k">SELECT</span> <span class="p">...</span> <span class="k">INTO</span> <span class="n">DUMPFILE</span> <span class="p">...</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="p">...</span> <span class="k">WHERE</span> <span class="n">autoincrement_col</span> <span class="k">IS</span> <span class="k">NULL</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">另外，如果查询中包含以下特殊函数，查询结果也不会被缓存。</p>
+</li>
+</ul>
+<div class="section" id="id3">
+<h3>相关服务器变量和状态值</h3>
+<p>与查询缓存相关的MySQL变量有：(不同版本可能有所不同，下面为MariaDB 5.5.36）</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="39%" />
+<col width="12%" />
+<col width="49%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Variable_name</td>
+<td>默认值</td>
+<td>说明</td>
+</tr>
+<tr class="row-even"><td>query_cache_limit</td>
+<td>1048576</td>
+<td>可以缓存的最大查询结果（字节）</td>
+</tr>
+<tr class="row-odd"><td>query_cache_min_res_unit</td>
+<td>4096</td>
+<td>缓存最小分配空间</td>
+</tr>
+<tr class="row-even"><td>query_cache_size</td>
+<td>0</td>
+<td>缓存大小</td>
+</tr>
+<tr class="row-odd"><td>query_cache_strip_comments</td>
+<td>OFF</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>query_cache_type</td>
+<td>ON</td>
+<td>缓存类型（如何缓存）</td>
+</tr>
+<tr class="row-odd"><td>query_cache_wlock_invalidate</td>
+<td>OFF</td>
+<td>详情请看<a class="reference external" href="http://dev.mysql.com/doc/refman/5.5/en/server-system-variables.html#sysvar_query_cache_wlock_invalidate">MySQL Manual</a></td>
+</tr>
+</tbody>
+</table>
+<p>与查询缓存相关的状态值有：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Variable_name</td>
+<td>说明</td>
+</tr>
+<tr class="row-even"><td>Qcache_free_blocks</td>
+<td>查询缓存中未使用的内存块</td>
+</tr>
+<tr class="row-odd"><td>Qcache_free_memory</td>
+<td>查询缓存中未使用的内存</td>
+</tr>
+<tr class="row-even"><td>Qcache_hits</td>
+<td>缓存命中次数</td>
+</tr>
+<tr class="row-odd"><td>Qcache_inserts</td>
+<td>插入记录至缓存中的次数</td>
+</tr>
+<tr class="row-even"><td>Qcache_lowmem_prunes</td>
+<td>当内存不足时从查询缓存中删除的记录数</td>
+</tr>
+<tr class="row-odd"><td>Qcache_not_cached</td>
+<td>没有被缓存的查询次数</td>
+</tr>
+<tr class="row-even"><td>Qcache_queries_in_cache</td>
+<td>缓存中的查询数</td>
+</tr>
+<tr class="row-odd"><td>Qcache_total_blocks</td>
+<td>查询缓冲的总块数</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="tips">
+<h3>Tips 关注点</h3>
+<ul>
+<li><p class="first">查询命中率</p>
+<div class="math">
+\[\% = \frac{Qcache\_hits}{Qcache\_hits + Com_select}\]</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="myisam">
+<h2>MyISAM的键缓存</h2>
+<p>MyISAM自身只缓存了索引，没有数据（数据由操作系统缓存）。最重要的选项是<span class="docutils literal"><span class="pre">key_buffer_size</span></span>。默认情况下，MyISAM将所有索引缓存在默认的键缓存中，但是可
+以创建多个命名键缓存区。例如在配置文件中添加下面两行，就会创建名为<em>key_buffer_1</em>和<em>key_buffer_2</em>的两个键缓存区，大小都为1G。此时MySQL就有三
+个键缓存区了。</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="na">key_buffer_1.key_buffer_size</span> <span class="o">=</span> <span class="s">1G</span>
+<span class="na">key_buffer_2.key_buffer_size</span> <span class="o">=</span> <span class="s">1G</span>
+</pre></div>
+</div>
+<p>可以通过<em>CACHE INDEX</em>将表映射到缓存。如，下面将表t1, t2的索引保存到<em>key_buffer_1</em>。</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">CACHE</span> <span class="k">INDEX</span> <span class="n">t1</span><span class="p">,</span> <span class="n">t2</span> <span class="k">IN</span> <span class="n">key_buffer_1</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>通过<span class="docutils literal"><span class="pre">SHOW</span> <span class="pre">STATUS</span></span>和<span class="docutils literal"><span class="pre">SHOW</span> <span class="pre">VARIABLES</span></span>监视键缓冲区的使用情况和性能。主
+要指标有：<span class="docutils literal"><span class="pre">缓存命中率</span></span>和<span class="docutils literal"><span class="pre">缓存使用率</span></span></p>
+<div class="section" id="id4">
+<h3>缓存命中率</h3>
+<div class="math">
+\[\begin{equation}
+    \% = \frac{key_read}{key_read_requests}\times 100
+\end{equation}\]</div>
+</div>
+<div class="section" id="id5">
+<h3>缓存使用率</h3>
+<div class="math">
+\[\begin{equation}
+    \% = \frac{key_blocks_unused * key_cache_block_size}{key_buffer_size}\times 100
+\end{equation}\]</div>
+<p>分配键缓存大小时，了解MyISAM索引的大小比较有帮助，使用下面命令可以计算索引文件的
+大小。</p>
+<div class="highlight-bash"><div class="highlight"><pre>du -sch <span class="sb">`</span>find /var/lib/mysql -name <span class="s1">&#39;*.MYI&#39;</span><span class="sb">`</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id6">
+<h3>MyISAM数据块的大小</h3>
+<p>键数据块的大小非常重要，因为它会影响MyISAM、操作系统和文件系统间的交互。如果键数
+据块太小，就会导致写入排队的情况。如果键数据块大小与操作系统相匹配，可以避免写入
+等待。</p>
+<p><span class="docutils literal"><span class="pre">myisam_block_size</span></span>变量控制着键缓存块的大小，也可以在<span class="docutils literal"><span class="pre">CREATE</span> <span class="pre">TABLE</span></span>或<span class="docutils literal"><span class="pre">CREATE</span> <span class="pre">INDEX</span></span>语句中为每一个键定义<span class="docutils literal"><span class="pre">KEY_BLOCK_SIZE</span></span>选项来控制键的大小。</p>
+</div>
+</div>
+<div class="section" id="innodb">
+<h2>InnoDB缓冲池</h2>
+</div>
+<div class="section" id="id7">
+<h2>线程缓存</h2>
+<p><span class="docutils literal"><span class="pre">thread_cache_size</span></span>定义了MySQL能在缓存中保存的线程数量。如果一个新的连接被创
+建且缓存中有线程，MySQL就会从缓存中取出一个并赋给它连接；当连接关闭时，MySQL会回
+收线程存放到缓存中，如果（线程）缓存中已经存满，则会将其销毁。</p>
+<p>通过观察变量<span class="docutils literal"><span class="pre">thread_created</span></span>的值可以确定线程缓存是否足够大。如果每秒创建的
+线程数量少于10个，缓存的大小就是够的。</p>
+<p>对大多数情况而言，非常巨大的线程缓存是没有必要的。每个在缓存中的线程通常会消耗
+256KB内存。</p>
+</div>
+<div class="section" id="id8">
+<h2>表缓存</h2>
+<p>表缓存有助于复用资源。如：当查询要求访问MyISAM表时，MySQL就可以从缓存中取出一个
+文件描述符，而不是打开一个文件。</p>
+<p>表缓存被分为两个部分：一部分为打开表）；另一部分为表的定义。分别由变量<span class="docutils literal"><span class="pre">table_open_cache</span></span>和<span class="docutils literal"><span class="pre">table_definition_cache</span></span>定义。表的定义（解析过的
+.frm文件）和其它资源（如文件描述符）是隔离的。打开的表仍然是基于每个线程、每个使
+用的表。而表的定义是全局的，可以在所有连接中共享。</p>
+<p>如果状态<span class="docutils literal"><span class="pre">opened_tables</span></span>的值很大或者不断上升，就说明缓存不够大，应该增加系
+统变量<span class="docutils literal"><span class="pre">table_cache</span></span>（或<span class="docutils literal"><span class="pre">table_open_cache</span></span>）的值。将表缓存变得很大的
+唯一坏处就是有很多MyISAM表的时候，会导致较长的关闭时间，因为要冲刷键数据块，而且
+表要被标记为不再打开。同样也会导致<span class="docutils literal"><span class="pre">FLUSH</span> <span class="pre">TABLES</span> <span class="pre">WITH</span> <span class="pre">READ</span> <span class="pre">LOCK</span></span>需要较长时
+间才能完成。</p>
+<p>如果收到MySQL不能打开更多文件的提示，需要在配置文件中使用<span class="docutils literal"><span class="pre">open_files_limit</span></span>来增加可打开文件数。</p>
+</div>
+<div class="section" id="id9">
+<h2>InnoDB数据字典</h2>
+</div>
+<div class="section" id="myisam-i-o">
+<h2>MyISAM I/O调优</h2>
+<p>此处I/O主要指的是数据写入磁盘，由于写缓存的存在，MySQL的性能会大大提高，但是也会
+引起一些风险，如突然断电，系统崩溃，缓存中的数据没有写入到磁盘，就可能导致数据丢
+失，即使是恢复，也可能需要相当长的时间。</p>
+<p>通常MyISAM在每次写入之后就会把索引的变化刷写到磁盘上。如果打算对一个表进行很多改
+变，那么把它们组成一个批处理会快很多。</p>
+<p><span class="docutils literal"><span class="pre">LOCK</span> <span class="pre">TABLES</span></span>可以将写延迟到对表解锁，所以可以用来精确的控制延迟写入。</p>
+<p>变量<span class="docutils literal"><span class="pre">delay_key_write</span></span>可以控制MyISAM键的延迟写入。可以取下面三个值：</p>
+<ul class="simple">
+<li><span class="docutils literal"><span class="pre">OFF</span></span> MyISAM每次写入后就把键缓冲区中修改过的数据块刷写到磁盘上，除非表被<span class="docutils literal"><span class="pre">LOCK</span> <span class="pre">TABLES</span></span>锁定。</li>
+<li><span class="docutils literal"><span class="pre">ON</span></span>  键延迟写入被开启。不过只对使用<span class="docutils literal"><span class="pre">DELAY_KEY_WRITE</span></span>项创建的表有效</li>
+<li><span class="docutils literal"><span class="pre">ALL</span></span> 所有MyISAM表都使用键延迟写入。</li>
+</ul>
+<p>键延迟写入对性能提高有一定帮助，但不会带来飞跃。</p>
+<p>选项<span class="docutils literal"><span class="pre">myisam_recover_options</span></span>控制着MyISAM查找和修复错误的方式，取值如下：</p>
+<ul class="simple">
+<li><span class="docutils literal"><span class="pre">DEFAULT</span></span>或不设置   MySQL会修复所有被标记为崩溃及没有标记为干净关闭的表</li>
+<li><span class="docutils literal"><span class="pre">BACKUP</span></span>  MySQL会将数据文件备份到一个.bak文件，可以方便随后检查</li>
+<li><span class="docutils literal"><span class="pre">FORCE</span></span>   即使.MYD丢失一行，恢复也会继续</li>
+<li><span class="docutils literal"><span class="pre">QUICK</span></span></li>
+</ul>
+<p>选项<span class="docutils literal"><span class="pre">myisam_use_mmap</span></span>可以开启使用内存映射打开数据文件。</p>
+</div>
+<div class="section" id="innodb-i-o">
+<h2>InnoDB I/O调优</h2>
+<p>InnoDB使用事务日志来减少提交事务的开销。每次事务提交时，并不会将缓存池写入到磁盘
+，而是记录到事务日志中。InnoDB最终还是要将数据变化写入到数据文件，它是通过后台线
+程智能的将数据变化写入文件（因为每次事务，不同事务的写入操作可能会进行随机I/O，
+而该线程会将事务中的I/O以高效的顺序I/O写入至数据文件）。</p>
+<p>事务日志也使用了缓存，即日志缓存。大小由变量<span class="docutils literal"><span class="pre">innodb_log_buffer_size</span></span>来控制
+，通常大小为1-8M，对大型事务，可能需要实际调整。在InnoDB数据发生变更时，它会将变
+化写入至日志缓存（内存）中，当缓存满、事务提交或每一秒任一条件满足，InnoDB会将日
+志缓冲区的写入磁盘日志文件中。</p>
+<p>事务日志文件的大小由<span class="docutils literal"><span class="pre">innodb_log_file_size</span></span>和<span class="docutils literal"><span class="pre">innodb_log_files_in_group</span></span>两个变量来控制。默认日志文件为2个，大小均为5M。对
+高负载，256M应该可以满足需求，总大小上限为4G。日志文件是以循环的方式写入的，即当
+记录到达日志底部，则会从顶部重新开始，但是不会覆盖没有写入至数据文件的记录。</p>
+<p>如果想改变日志文件的大小，需要干净的关闭MySQL，确认日志中所以记录已写入到数据文
+件，然后移走原日志文件，重新配置<span class="docutils literal"><span class="pre">innodb_log_file_size</span></span>启动服务器，检查错误
+日志，确认没有问题后删除原日志文件。</p>
+<p>那么日志缓存又是如何写入到日志文件的呢？前面已经提到过，在三种情况下会将日志缓存
+写入磁盘：<em>缓存满、事务提交或每秒</em>。这是通过变量<span class="docutils literal"><span class="pre">innodb_log_at_trx_commit</span></span>来控制的，它可以取下面三个值：</p>
+<ul class="simple">
+<li><span class="docutils literal"><span class="pre">0</span></span>   将日志缓存写入到日志文件中，且每秒写入一次，有事务提交时不进行操作</li>
+<li><span class="docutils literal"><span class="pre">1</span></span>   将日志写到日志文件中，且在事务提交时把缓存写入到<strong>持久存储</strong>中
+（确保写入硬盘）。默认设置</li>
+<li><span class="docutils literal"><span class="pre">2</span></span>   每次事务提交时将日志缓存写入到日志文件中，但不进行清理。InnoDB每秒会
+清理一次。MySQL崩溃时，事务不会丢失，但是数据存储崩溃、掉电则可能丢失事物</li>
+</ul>
+<p>注意写入到文件和写入到持久存储是有差别的。（系统缓存的存在）</p>
+<p>另外变量<span class="docutils literal"><span class="pre">innodb_flush_log_at_atx_commit</span></span>也对I/O有着非常大的影响。</p>
+<p>变量<span class="docutils literal"><span class="pre">innodb_flush_method</span></span>控制InnoDB如何与文件系统进行交互。</p>
+<div class="section" id="id10">
+<h3>InnoDB表空间</h3>
+<p>InnoDB将数据保存在表空间中。使用变量<span class="docutils literal"><span class="pre">innodb_data_file_path</span></span>定义表空间文件
+，<span class="docutils literal"><span class="pre">innodb_data_home_dir</span></span>定义表空间文件所在的目录。如：</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="na">innodb_data_home_dir</span> <span class="o">=</span> <span class="s">/var/lib/mysql</span>
+<span class="na">innodb_data_file_path</span> <span class="o">=</span> <span class="s">ibdata1:1G;ibdata2:1G;ibdata3:1G[:autoextend[:max:2G]]</span>
+</pre></div>
+</div>
+<p>InnoDB会依序向这些文件中写入数据，第一个写满了再写第二个……所以将这些文件分部存储
+至不同磁盘上并没有效果。在最后一个文件后面，我们可以使用<span class="docutils literal"><span class="pre">autoextend</span></span>，当表
+空间耗尽（即所以文件都写满）后，最后一个文件会自动增长，不过文件大小是只增不减的
+。为了防止文件过大，可以使用<span class="docutils literal"><span class="pre">max:2G</span></span>来设定一个上限。</p>
+<p>变量<span class="docutils literal"><span class="pre">innodb_file_per_table</span></span>可以使用InnoDB为每一表使用一个文件（在数据库目
+录中以“tbl_name.idb”保存数据），这样带来一些便利的同时会浪费更多的空间。</p>
+<p>变量<span class="docutils literal"><span class="pre">innodb_max_purge_lag</span></span></p>
+<p>双写缓存。变量<span class="docutils literal"><span class="pre">innodb_doublewrite</span></span>控制。</p>
+</div>
+<div class="section" id="binlog">
+<h3>Binlog的写入</h3>
+<p><span class="docutils literal"><span class="pre">sync_binlog</span></span>控制MySQL如何将binlog写入到磁盘。默认为<span class="docutils literal"><span class="pre">0</span></span>，即MySQL不会进
+行任何刷写操作，何时把日志持久化至存储设备由操作系统来控制。</p>
+<p>变量<span class="docutils literal"><span class="pre">expire_logs_days</span></span>用来设置日志的有效期。不要使用<em>rm</em>删除binlog，因
+为你不知道binlog是否已经同步至slave服务器。可以使用<span class="docutils literal"><span class="pre">PURGE</span> <span class="pre">MASTER</span> <span class="pre">LOGS</span></span>删除
+binlog。</p>
+</div>
+</div>
+<div class="section" id="id11">
+<h2>参考资源</h2>
+<ol class="arabic simple">
+<li>《高性能MySQL》</li>
+</ol>
+<table class="docutils footnote" frame="void" id="query-cache" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td><a class="reference external" href="http://dev.mysql.com/doc/refman/5.5/en/query-cache-operation.html">How the Query Cache Operates</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/database.html">database</a>, <a href="../../../categories/mysql.html">mysql</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/database.html">database</a>, <a href="../../../tags/mysql.html">mysql</a>, <a href="../../../tags/dba.html">dba</a></span>
+        </div>
+        </div><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="mysql_status.html">MySQL服务器状态</a></li>
+            <li class="right"><a href="nagios.html">监控工具-Nagios</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/mysql_tuning";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="bash.html">Learning Bash</a>
+        </li><li>
+            <a href="code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="comm_pipe.html">命令行管道编程</a>
+        </li><li>
+            <a href="datamining.html">学习数据挖掘</a>
+        </li><li>
+            <a href="disk_quota.html">磁盘配额管理</a>
+        </li><li>
+            <a href="docker.html">docker使用小记</a>
+        </li><li>
+            <a href="economy.html">经济指标</a>
+        </li><li>
+            <a href="epoll_man.html">epoll(7)</a>
+        </li><li>
+            <a href="epoll.html">epoll API</a>
+        </li><li>
+            <a href="firefox.html">Speed Up Firefox</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (7)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (16)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (7), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (9), <a href="../../../tags/python.html">python</a> (10), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 11pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 11pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

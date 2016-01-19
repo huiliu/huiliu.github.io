@@ -1,0 +1,345 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>MySQL权限管理 &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="MySQL复制" href="mysql_replication.html" /><link rel="prev" title="MySQL优化-《高性能MySQL》笔记" href="mysql_optimize.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/database.html">database</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>January 19, 2016</span>
+        </div>
+    <div class="section" id="mysql">
+<h1>MySQL权限管理</h1>
+<div id="more"> </div><p>当用户访问MySQL Server时，Server的存取控制分为两步：</p>
+<div class="section" id="id1">
+<h2>存取控制步骤</h2>
+<ol class="arabic simple">
+<li>身份核实。根据访问的源主机，用户名，密码来判断是否有连接权限</li>
+<li>请求核实。对通过身份核实的用户所发出的请求，对比<span class="docutils literal"><span class="pre">mysql</span></span>库中的<span class="docutils literal"><span class="pre">user,</span> <span class="pre">host,</span> <span class="pre">db,</span> <span class="pre">tables_priv</span></span>等权限控制表来核实用户是否有权限执行数额请求操作。</li>
+</ol>
+<div class="section" id="id2">
+<h3>阶段一：身份核实</h3>
+<p>进行连接身份核实时，MySQL Server会将客户端的输入信息与<span class="docutils literal"><span class="pre">mysql.user</span></span>表中的<span class="docutils literal"><span class="pre">user,</span> <span class="pre">host,</span> <span class="pre">password</span></span>字段进行核实，以判断是否允许连接。（注意MySQL Server没有直接排除用户，主机的功能）</p>
+<p>在<span class="docutils literal"><span class="pre">mysql.user</span></span>中经常会出现多个匹配项目，MySQL Server的原则是：<strong>将第一个
+与``user``匹配的权限返回</strong>。（注意不是路由的最大匹配原则）当MySQL Server载
+入授权表时会以<span class="docutils literal"><span class="pre">host,</span> <span class="pre">user</span></span>字段对授权表进行排序，匹配时会按照排序后的先后顺
+序来匹配。排序的基本原则是：<strong>指明越具体排名越靠前</strong>。例如<span class="docutils literal"><span class="pre">mysql.user</span></span>中数据如下：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="52%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Host</td>
+<td>User</td>
+</tr>
+<tr class="row-even"><td>%</td>
+<td>root</td>
+</tr>
+<tr class="row-odd"><td>%</td>
+<td>jeffrey</td>
+</tr>
+<tr class="row-even"><td>localhost</td>
+<td>root</td>
+</tr>
+<tr class="row-odd"><td>localhost</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>排名后应该为：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="52%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Host</td>
+<td>User</td>
+</tr>
+<tr class="row-even"><td>localhost</td>
+<td>root</td>
+</tr>
+<tr class="row-odd"><td>localhost</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>%</td>
+<td>jeffrey</td>
+</tr>
+<tr class="row-odd"><td>%</td>
+<td>root</td>
+</tr>
+</tbody>
+</table>
+<p>那么当<span class="docutils literal"><span class="pre">jeffrey</span></span>从<span class="docutils literal"><span class="pre">localhost</span></span>来访问时，实际上会匹配第二条（localhost, 用户名为匿名）。</p>
+<p>由于多条权限匹配时不确定当前用户时可以使用<span class="docutils literal"><span class="pre">SELECT</span> <span class="pre">CURRENT_USER()</span></span>来查看当前用户。</p>
+</div>
+<div class="section" id="id3">
+<h3>阶段二：访问控制，请求核实</h3>
+<p>对于用户的每个请求MySQL Server对核查授权表以检查是否有相应的权限。授权表主要包括：<span class="docutils literal"><span class="pre">mysql.(user,</span> <span class="pre">host,</span> <span class="pre">db,</span> <span class="pre">tables_priv)</span></span>。需要说明的是<span class="docutils literal"><span class="pre">mysql.user</span></span>中的权限设定是全局的，应该只在此表中授予超级用户权限。</p>
+</div>
+<div class="section" id="id4">
+<h3>权限更改何时生效</h3>
+<ol class="arabic">
+<li><p class="first">当mysqld启动时，所有授权表的内容被读进内存并且从此时生效。</p>
+</li>
+<li><dl class="first docutils">
+<dt>当服务器注意到授权表被改变了时，现存的客户端连接有如下影响：</dt>
+<dd><ol class="first last arabic simple">
+<li>表和列权限在客户端的下一次请求时生效。</li>
+<li>数据库权限改变在下一个USE db_name命令生效。</li>
+<li>全局权限的改变和密码改变在下一次客户端连接时生效。</li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><p class="first">如果用<span class="docutils literal"><span class="pre">GRANT、REVOKE</span></span>或<span class="docutils literal"><span class="pre">SET</span> <span class="pre">PASSWORD</span></span>对授权表进行修改，服务器会注意到并立即重新将授权表载入内存。</p>
+</li>
+<li><p class="first">如果你手动地修改授权表(使用<span class="docutils literal"><span class="pre">INSERT、UPDATE或DELETE</span></span>等等)，你应该执行<span class="docutils literal"><span class="pre">mysqladmin</span> <span class="pre">flush-privileges或mysqladmin</span> <span class="pre">reload</span></span>告诉服务器再装载授权表，否则你的更改将不会生效，除非你重启服务器</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>用户管理</h2>
+<div class="section" id="id6">
+<h3>增加新用户</h3>
+<p>一般可以通过<span class="docutils literal"><span class="pre">GRANT,</span> <span class="pre">INSERT</span> <span class="pre">INTO</span></span>语句来建立一个新账户并授予相应的权限。如：</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="n">test</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;user&#39;</span><span class="o">@</span><span class="s1">&#39;host&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;password&#39;</span> <span class="p">[</span><span class="k">WITH</span> <span class="k">OPTIONS</span><span class="p">];</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">mysql</span><span class="p">.</span><span class="k">user</span> <span class="p">(</span><span class="k">Host</span><span class="p">,</span> <span class="k">User</span><span class="p">,</span> <span class="n">Password</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="s1">&#39;host&#39;</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+<span class="n">FLUSH</span> <span class="k">PRIVILEGES</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h3>更改密码</h3>
+<p>正常情况下，使用拥有相应权限的用户登陆MySQL Server，执行下面的操作：</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="c1">-- 方法一</span>
+<span class="k">UPDATE</span> <span class="n">mysql</span><span class="p">.</span><span class="k">user</span> <span class="k">SET</span> <span class="n">Password</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">(</span><span class="s1">&#39;newpassword&#39;</span><span class="p">)</span> <span class="k">WHERE</span> <span class="k">User</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">;</span>
+<span class="c1">-- 方法二</span>
+<span class="k">SET</span> <span class="n">PASSWORD</span> <span class="k">FOR</span> <span class="s1">&#39;user&#39;</span><span class="o">@</span><span class="s1">&#39;host&#39;</span> <span class="o">=</span> <span class="n">PASSWORD</span><span class="p">(</span><span class="s1">&#39;newpassword&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="root">
+<h4>重置root密码</h4>
+<p>当忘记root密码时，需要关闭MySQL Server，</p>
+<ol class="arabic simple">
+<li>方法一：然后增加选项<span class="docutils literal"><span class="pre">--skip-grant-tables</span></span>来重启Server，再以root登陆MySQL Server，执行上面的语句重置密码。</li>
+<li>方法二：另外还可以将上面的<span class="docutils literal"><span class="pre">SET</span> <span class="pre">...</span></span>语句的内容写入到一个文件中（如mysql.init），然后用<span class="docutils literal"><span class="pre">mysqld_safe</span> <span class="pre">--init-file=./mysql.init</span> <span class="pre">&amp;</span></span>来启动Server。（注意删除mysql.init，此方法不如一安全）</li>
+</ol>
+</div>
+</div>
+<div class="section" id="id8">
+<h3>限制账户资源</h3>
+<p>在MySQL Server配置选项中有选项<span class="docutils literal"><span class="pre">max_user_connections</span></span>可以全局控制单个用户的同时连接数。</p>
+<p>在授权表<span class="docutils literal"><span class="pre">mysql.user</span></span>中有几个额外的选项可以更加精确的用户访问资源进行限制：</p>
+<ul class="simple">
+<li><span class="docutils literal"><span class="pre">max_questions</span></span></li>
+<li><span class="docutils literal"><span class="pre">max_updates</span></span></li>
+<li><span class="docutils literal"><span class="pre">max_connections</span></span></li>
+<li><span class="docutils literal"><span class="pre">max_user_connections</span></span></li>
+</ul>
+<p>可以在对用户授权时指定：</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">ON</span> <span class="n">customer</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;francis&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;frank&#39;</span>
+    <span class="k">WITH</span> <span class="n">MAX_QUERIES_PER_HOUR</span> <span class="mi">20</span>
+        <span class="n">MAX_UPDATES_PER_HOUR</span> <span class="mi">10</span>
+        <span class="n">MAX_CONNECTIONS_PER_HOUR</span> <span class="mi">5</span>
+        <span class="n">MAX_USER_CONNECTIONS</span> <span class="mi">2</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>修改用户账户限制：</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">GRANT</span> <span class="k">USAGE</span> <span class="k">ON</span> <span class="o">*</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;francis&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="k">WITH</span> <span class="n">MAX_QUERIES_PER_HOUR</span> <span class="mi">100</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>该语句没有改变账户的已有权限，只修改了指定的限制值。</p>
+<p><strong>取消限制</strong>只需要将相应的值设定为0即可。<strong>重置所有帐户</strong>的记数：<span class="docutils literal"><span class="pre">FLUSH</span> <span class="pre">USER_RESOURCES</span></span>或者<span class="docutils literal"><span class="pre">FLUSH</span> <span class="pre">PRIVILEGES</span></span>。</p>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>参考资料</h2>
+<ol class="arabic simple">
+<li><a class="reference external" href="http://doc.mysql.cn/mysql5/refman-5.1-zh.html-chapter/">http://doc.mysql.cn/mysql5/refman-5.1-zh.html-chapter/</a></li>
+</ol>
+</div>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/database.html">database</a>, <a href="../../../categories/mysql.html">mysql</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/database.html">database</a>, <a href="../../../tags/mysql.html">mysql</a>, <a href="../../../tags/dba.html">dba</a></span>
+        </div>
+        </div><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="mysql_optimize.html">MySQL优化-《高性能MySQL》笔记</a></li>
+            <li class="right"><a href="mysql_replication.html">MySQL复制</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/mysql_privileges";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="bash.html">Learning Bash</a>
+        </li><li>
+            <a href="code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="comm_pipe.html">命令行管道编程</a>
+        </li><li>
+            <a href="datamining.html">学习数据挖掘</a>
+        </li><li>
+            <a href="disk_quota.html">磁盘配额管理</a>
+        </li><li>
+            <a href="docker.html">docker使用小记</a>
+        </li><li>
+            <a href="economy.html">经济指标</a>
+        </li><li>
+            <a href="epoll_man.html">epoll(7)</a>
+        </li><li>
+            <a href="epoll.html">epoll API</a>
+        </li><li>
+            <a href="firefox.html">Speed Up Firefox</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (7)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (16)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (7), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (9), <a href="../../../tags/python.html">python</a> (10), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 11pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 11pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>MySQL优化-《高性能MySQL》笔记 &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="MySQL权限管理" href="mysql_privileges.html" /><link rel="prev" title="MySQL配置Master-Slave" href="mysql_master_slave.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/database.html">database</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>January 19, 2016</span>
+        </div>
+    <div class="section" id="mysql-mysql">
+<h1>MySQL优化-《高性能MySQL》笔记</h1>
+<div id="more"> </div><div class="section" id="id1">
+<h2>数据类型</h2>
+<p>数据库就是用来存放数据的，对数据的存储，操作是要消耗各种资源的（磁盘，内存，CPU），所以在选择存储数据类型是应该遵循<span class="docutils literal"><span class="pre">在满足需要的条件下更小，更简单的数据类</span>
+<span class="pre">型，尽可能不要使用NULL</span></span>。</p>
+<p>对于数值通常要考虑取值范围、精度问题，对于字符通常需要了解要存储字符的长度，还有时间，二进制数据等</p>
+<div class="section" id="id2">
+<h3>整型</h3>
+<p>整数类型通常有：<span class="docutils literal"><span class="pre">TINYINT,</span> <span class="pre">SMALLINT,</span> <span class="pre">MEDIUMINT,</span> <span class="pre">INT,</span> <span class="pre">BIGINT</span></span>，分别需要1, 23, 4, 8个字节的空间存储。还可以使用有符号和无符号，它们占用的存储空间大小一样，性能也是一样的。MySQL内部计算整型时通常使用8字节大小的<span class="docutils literal"><span class="pre">BIGINT</span></span>。</p>
+</div>
+<div class="section" id="id3">
+<h3>实型</h3>
+<p><span class="docutils literal"><span class="pre">FLOAT,</span> <span class="pre">DOUBLE</span></span>支持标准的浮点运算进行<span class="docutils literal"><span class="pre">近似</span></span>计算，它们分别占用4个和8个字节。MySQL内部对浮点类型使用<span class="docutils literal"><span class="pre">DOUBLE</span></span>进行计算。</p>
+<p><span class="docutils literal"><span class="pre">DECIMAL</span></span>类型可以保存精确的小数，支持精确的数据运算。<span class="docutils literal"><span class="pre">DECIMAL</span></span>类型可以定义小数点前、后的最大位数，最多65个数字（不同版本可能有差异）。<span class="docutils literal"><span class="pre">DECIMAL</span></span>被存储为一个二进制字符串（第4个字节保存9个数字）。如：<span class="docutils literal"><span class="pre">DECIMAL(18,</span> <span class="pre">9)</span></span>小数点前后均保存9位数字，总共需要使用9个字节（WHY?）。在计算时，<span class="docutils literal"><span class="pre">DECIMAL</span></span>类型被转换为<span class="docutils literal"><span class="pre">DOUBLE</span></span>。</p>
+</div>
+<div class="section" id="id4">
+<h3>字符串类型</h3>
+<p>字符串类型涉及到<em>字符集</em>和<em>排序规则</em>方面的的问题。</p>
+<p>字符串的存储方式与存储引擎有极大的关系。</p>
+<div class="section" id="varcharchar">
+<h4><span class="docutils literal"><span class="pre">VARCHAR</span></span>和<span class="docutils literal"><span class="pre">CHAR</span></span></h4>
+<p><span class="docutils literal"><span class="pre">VARCHAR</span></span>类型存储时只占用字符串实际大小空间，比固定大小的类型占用更少的存储空间。<span class="docutils literal"><span class="pre">VARCHAR</span></span>类型需要1到2个额外的字节来存储字符串的长度。<span class="docutils literal"><span class="pre">VARCHAR</span></span>类型适合存储很少进行更新的字符串，因为如果更新时字符串长度发生变化，会引起数据碎片（不同存储引擎行为不同），进而影响性能。</p>
+<p>另外，对于<span class="docutils literal"><span class="pre">VARCHAR</span></span>类型，如果使用属性<span class="docutils literal"><span class="pre">ROW_FORMAT=FIXED</span></span>创建的<span class="docutils literal"><span class="pre">MyISAM</span></span>表，每行将会使用固定长度空间，造成空间浪费。</p>
+<p>对于<span class="docutils literal"><span class="pre">VARCHAR</span></span>类型的列，被存储的字符串末尾如果有空格，可能会被存储引擎删除。</p>
+<p><span class="docutils literal"><span class="pre">CHAR</span></span>字符类型的长度是固定的，适用于哪些长度相近的字符串存储，对于需要经常变化的值也不会产生碎片。如果字符串长度小于设定长度，空格将会填充至末尾。</p>
+</div>
+</div>
+<div class="section" id="blobtext">
+<h3>BLOB和TEXT</h3>
+<p><span class="docutils literal"><span class="pre">BLOB</span></span>是以二进制形式保存大量数据的；<span class="docutils literal"><span class="pre">TEXT</span></span>是以文本形式来保存大量数据的。对于二进制数据<span class="docutils literal"><span class="pre">BLOB</span></span>没有字符集和排序规则的问题。对于长文本<span class="docutils literal"><span class="pre">TEXT</span></span>只会按照<span class="docutils literal"><span class="pre">max_sort_length=N</span></span>规定的前N个字符进行排序；也可以使用<span class="docutils literal"><span class="pre">ORDER</span> <span class="pre">BY</span> <span class="pre">SUBSTRING(col,</span> <span class="pre">len)</span></span>来排序。</p>
+<p>由于<span class="docutils literal"><span class="pre">Memory</span></span>存储引擎不支持这两种数据类型，所以使用了<span class="docutils literal"><span class="pre">BLOB,</span> <span class="pre">TEXT</span></span>列的临时表查询将不得在磁盘上建立临时表，会导致非常高的性能开销。非必要时应避免使用这两种数据类型。另外临时表的大小受到<span class="docutils literal"><span class="pre">max_heap_size=N</span></span>和<span class="docutils literal"><span class="pre">tmp_table_size=N</span></span>的限制，如果超过将会在磁盘上建立临时表。</p>
+</div>
+<div class="section" id="enum">
+<h3><span class="docutils literal"><span class="pre">ENUM</span></span></h3>
+<p>以<span class="docutils literal"><span class="pre">ENUM</span></span>类型来代替字符串类型，可以大大节省存储空间。<span class="docutils literal"><span class="pre">ENUM</span></span>类型以整型存储，以表示值在列表中的位置，并且还保留了一份“查找表”来表示整数和字符串的对映关系。可以把它们按数值形式取出；</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="n">use</span> <span class="n">test</span>
+
+<span class="k">start</span> <span class="n">transaction</span><span class="p">;</span>
+
+<span class="k">create</span> <span class="k">table</span> <span class="n">enum_test</span><span class="p">(</span>
+    <span class="n">e</span> <span class="n">ENUM</span><span class="p">(</span><span class="s1">&#39;fish&#39;</span><span class="p">,</span> <span class="s1">&#39;apple&#39;</span><span class="p">,</span> <span class="s1">&#39;dog&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="s1">&#39;eagle&#39;</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">insert</span> <span class="k">into</span> <span class="n">enum_test</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">values</span>
+    <span class="p">(</span><span class="s1">&#39;fish&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;cat&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;apple&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;eagle&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;dog&#39;</span><span class="p">);</span>
+
+<span class="k">select</span> <span class="n">e</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">from</span> <span class="n">enum_test</span><span class="p">;</span>
+<span class="c1">-- +-------+</span>
+<span class="c1">-- | e + 1 |</span>
+<span class="c1">-- +-------+</span>
+<span class="c1">-- |     2 |</span>
+<span class="c1">-- |     5 |</span>
+<span class="c1">-- |     3 |</span>
+<span class="c1">-- |     6 |</span>
+<span class="c1">-- |     4 |</span>
+<span class="c1">-- +-------+</span>
+
+<span class="k">select</span> <span class="n">e</span> <span class="k">from</span> <span class="n">enum_test</span> <span class="k">order</span> <span class="k">by</span> <span class="n">e</span><span class="p">;</span>
+<span class="c1">-- e</span>
+<span class="c1">-- fish</span>
+<span class="c1">-- apple</span>
+<span class="c1">-- dog</span>
+<span class="c1">-- cat</span>
+<span class="c1">-- eagle</span>
+
+<span class="k">commit</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>需要注意的有：</p>
+<ol class="arabic simple">
+<li><span class="docutils literal"><span class="pre">ENUM</span></span>字段内部是按数字进行排序的，而不是字符串，这一点极可能引起混乱。（如上面的<span class="docutils literal"><span class="pre">ORDER</span> <span class="pre">BY</span></span>查询）</li>
+<li><span class="docutils literal"><span class="pre">ENUM</span></span>的字符串列表是固定的，添加或删除字符串时必须使用<span class="docutils literal"><span class="pre">ALTER</span> <span class="pre">TABLE</span></span>来完成。所以，对于可能会改变的字符串，使用<span class="docutils literal"><span class="pre">ENUM</span></span>类型可能不太方便。在
+MySQL内部权限表中使用<span class="docutils literal"><span class="pre">ENUM</span></span>来保存``Y | N``值的。</li>
+<li><span class="docutils literal"><span class="pre">ENUM</span></span>类型与其它字段联结时会相对较慢（原因：内部是整型保存的，连接时要用字符串，需要额外的查找）</li>
+</ol>
+</div>
+<div class="section" id="id5">
+<h3>日期、时间类型</h3>
+<p>MySQL可保存的最细时间粒度是秒。</p>
+<p><span class="docutils literal"><span class="pre">DATETIME</span></span> 时间范围从1001年到9999年，与时区无关，占用8个字节。</p>
+<p><span class="docutils literal"><span class="pre">TIMESTAMP</span></span>保存了从Unix元年（1970年1月1日）以来的秒数，与Unix时间戳相同，占用4个存储空间。时间范围从1970年至2038年。<span class="docutils literal"><span class="pre">TIMESTAMP</span></span>的显示依赖于时区。
+MySQL服务器，操作系统，客户端都有时区的设置。</p>
+<p>在默认情况下，插入行没有<span class="docutils literal"><span class="pre">TIMESTAMP</span></span>列的值时，MySQL会将其设定为当前时间。在更新时，没有显式定义<span class="docutils literal"><span class="pre">TIMESTAMP</span></span>列值时，MySQL也会自动更新它。<span class="docutils literal"><span class="pre">TIMESTAMP</span></span>列默认为<span class="docutils literal"><span class="pre">NOT</span> <span class="pre">NULL</span></span>。</p>
+<p>MySQL另外提供了两个函数来操作Unix时间：</p>
+<ol class="arabic simple">
+<li><span class="docutils literal"><span class="pre">FROM_UNIXTIME()</span></span>将Unix时间戳转换为日期；</li>
+<li><span class="docutils literal"><span class="pre">UNIX_TIMESTAMP()</span></span>将日期转换为Unix时间戳。</li>
+</ol>
+</div>
+<div class="section" id="id6">
+<h3>特殊类型</h3>
+<p>如IP地址，实际上是一个无符号32位的整数，所以最小使用无符号整数来保存IP地址，MySQL提供了<span class="docutils literal"><span class="pre">INET_ATON()</span></span>和<span class="docutils literal"><span class="pre">INET_NTOA()</span></span>两个函数来完成IP地址与整数之前的转换。</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">INET_ATON</span><span class="p">(</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">);</span>
+<span class="c1">-- +------------------------+</span>
+<span class="c1">-- | inet_aton(&#39;127.0.0.1&#39;) |</span>
+<span class="c1">-- +------------------------+</span>
+<span class="c1">-- |             2130706433 |</span>
+<span class="c1">-- +------------------------+</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>表的正则化和非正则化</h2>
+<p>正则化的设计使得重复数据少，数据更新更快；同时对于一些查询可能需要使用到联接，会降低查询性能。</p>
+<p>非正则化与正则化刚好相反，不用联接，查询性能较好，但数据冗余大。</p>
+<div class="section" id="id8">
+<h3>缓存与汇总表</h3>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>存储引擎的特点</h2>
+<div class="section" id="myisam">
+<h3>MyISAM存储引擎</h3>
+<ol class="arabic simple">
+<li>表级锁</li>
+<li>不支持自动恢复</li>
+<li>不支持事务。MyISAM甚至不保存单个任务会完成。</li>
+<li>只有索引被缓存在内存中，表数据由操作系统缓存管理</li>
+<li>紧密存储。磁盘上数据占用空间较小，全表扫描较快。</li>
+</ol>
+</div>
+<div class="section" id="memory">
+<h3>Memory存储引擎</h3>
+<ol class="arabic simple">
+<li>表级锁</li>
+<li>不支持动态行（即长度可变行）</li>
+<li>默认索引为<span class="docutils literal"><span class="pre">哈希索引</span></span></li>
+<li>没有索引统计</li>
+<li>内存中，重启数据当然没有了</li>
+</ol>
+</div>
+<div class="section" id="innodb">
+<h3>InnoDB存储引擎</h3>
+<ol class="arabic simple">
+<li>支持事务和四种事务隔离级别</li>
+<li>支持外键</li>
+<li>等级锁</li>
+<li>多版本。（没太明白）</li>
+<li>按主键聚集</li>
+<li>所有索引包含主键列-请保持主键较短</li>
+<li>优化缓存，自动构建哈希索引加速</li>
+<li>索引未压缩，所以索引比较大</li>
+<li>数据加载慢</li>
+<li>阻塞<span class="docutils literal"><span class="pre">AUTO_INCREMENT</span></span></li>
+<li>没有缓存<span class="docutils literal"><span class="pre">COUNT(*)</span></span>的值。即没有保存表的行数。</li>
+</ol>
+</div>
+</div>
+<div class="section" id="id10">
+<h2>参考资料</h2>
+<ol class="arabic simple">
+<li>高性能MySQL（第二版）</li>
+</ol>
+</div>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/database.html">database</a>, <a href="../../../categories/mysql.html">mysql</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/database.html">database</a>, <a href="../../../tags/mysql.html">mysql</a>, <a href="../../../tags/dba.html">dba</a></span>
+        </div>
+        </div><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="mysql_master_slave.html">MySQL配置Master-Slave</a></li>
+            <li class="right"><a href="mysql_privileges.html">MySQL权限管理</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/mysql_optimize";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="bash.html">Learning Bash</a>
+        </li><li>
+            <a href="code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="comm_pipe.html">命令行管道编程</a>
+        </li><li>
+            <a href="datamining.html">学习数据挖掘</a>
+        </li><li>
+            <a href="disk_quota.html">磁盘配额管理</a>
+        </li><li>
+            <a href="docker.html">docker使用小记</a>
+        </li><li>
+            <a href="economy.html">经济指标</a>
+        </li><li>
+            <a href="epoll_man.html">epoll(7)</a>
+        </li><li>
+            <a href="epoll.html">epoll API</a>
+        </li><li>
+            <a href="firefox.html">Speed Up Firefox</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (7)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (16)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (7), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (9), <a href="../../../tags/python.html">python</a> (10), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 11pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 11pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

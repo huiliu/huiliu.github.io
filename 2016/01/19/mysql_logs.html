@@ -1,0 +1,327 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>MySQL日志相关服务器变量 &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="MySQL配置Master-Slave" href="mysql_master_slave.html" /><link rel="prev" title="MySQL中的索引-读书笔记" href="mysql_key.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/database.html">database</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>January 19, 2016</span>
+        </div>
+    <div class="section" id="mysql">
+<h1>MySQL日志相关服务器变量</h1>
+<div id="more"> </div><p>MySQL Server可以生成的日志分为：</p>
+<ol class="arabic simple">
+<li><span class="docutils literal"><span class="pre">Error</span> <span class="pre">log</span></span>用于保存服务器的启动，停止，运行及出错信息；</li>
+<li><span class="docutils literal"><span class="pre">General</span> <span class="pre">query</span> <span class="pre">log</span></span>记录客户连接及请求的SQL语句，主要用于调试客户端与服务商的连接；</li>
+<li><span class="docutils literal"><span class="pre">Binary</span> <span class="pre">log</span></span>记录变更数据的语句（依binlog格式不同有所差异），用于主从复制，备份及恢复；</li>
+<li><span class="docutils literal"><span class="pre">Relay</span> <span class="pre">log</span></span>产生于slave服务器，记录着从主数据库接收到的数据变更；</li>
+<li><span class="docutils literal"><span class="pre">Slow</span> <span class="pre">query</span> <span class="pre">log</span></span>请求执行时间大于<span class="docutils literal"><span class="pre">long_query_time</span></span>设定时长。</li>
+</ol>
+<p>主意：本文中使用的MySQL Server服务器变量名均为通过<span class="docutils literal"><span class="pre">show</span> <span class="pre">variables</span> <span class="pre">var_name</span></span>查看。在全局配置文件<span class="docutils literal"><span class="pre">/etc/my.cnf</span></span>中使用的变量名可能与此不同。主要差别是变量名中的连接符，配置文件中使用的可能是中划线（-），而利用SQL查看的变量名中的连接符均为下划线（_）</p>
+<div class="section" id="error-log">
+<h2>Error Log</h2>
+<p>与<span class="docutils literal"><span class="pre">Error</span> <span class="pre">log</span></span>相关的配置是：<span class="docutils literal"><span class="pre">log_error</span> <span class="pre">=</span> <span class="pre">file_name</span></span>。其中：<em>file_name</em>默认为<em>数据目录下的mysqld.err</em>。另外还有服务器变量<span class="docutils literal"><span class="pre">log_warning</span> <span class="pre">=</span> <span class="pre">0|1</span></span>来控制日志的输出级别。</p>
+</div>
+<div class="section" id="general-query-log">
+<h2>General query log</h2>
+<p>变量<span class="docutils literal"><span class="pre">general_log</span> <span class="pre">=</span> <span class="pre">OFF|ON</span></span>是控制开关，默认为<span class="docutils literal"><span class="pre">OFF</span></span>；另外变量<span class="docutils literal"><span class="pre">general_log_file</span> <span class="pre">=</span> <span class="pre">file_name</span></span>用于指定保存日志的文件名。默认为：<em>hostname.log</em></p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">General log按照收到客户端请求SQL的顺序记录在日志文件中，其顺序可能与服务器
+的执行顺序不一致。</p>
+</div>
+</div>
+<div class="section" id="binlog">
+<h2>Binlog</h2>
+<p>相关服务器变量：</p>
+<ol class="arabic simple">
+<li><span class="docutils literal"><span class="pre">log_bin</span> <span class="pre">=</span> <span class="pre">OFF|ON</span></span>控制着是否开启binlog功能。binlog的默认保存文件名为：<em>hostname-bin.xxxxxx</em></li>
+<li><span class="docutils literal"><span class="pre">sql_log_bin</span></span>控制着当前会话是否开启binlog功能。</li>
+</ol>
+<p>需要注意：MySQL Server版本不同其binlog格式可能不相同。</p>
+<div class="section" id="id1">
+<h3>过滤器</h3>
+<p>binlog还可以设置过滤器，用于指定记录某些数据库的操作，忽略哪些等：（注意下面的系统境变量都只能对应一个值，对于有多个值，可以重复）</p>
+<ol class="arabic simple">
+<li><span class="docutils literal"><span class="pre">binlog_do_db</span> <span class="pre">=</span> <span class="pre">dbname</span></span>   记录数据库<em>dbname</em>的binlog。</li>
+<li><span class="docutils literal"><span class="pre">binlog_ignore_db</span> <span class="pre">=</span> <span class="pre">dbname</span></span></li>
+<li><span class="docutils literal"><span class="pre">replication_db_db</span> <span class="pre">=</span> <span class="pre">dbname</span></span>在slave中设置。表示复制某个数据库。</li>
+<li><span class="docutils literal"><span class="pre">replication_ignore_db</span> <span class="pre">=</span> <span class="pre">dbname</span></span></li>
+</ol>
+<p>另外，在slave上如果开启binlog功能，默认slave是不会将来自master的操作记录到自己的
+binglog中，如果需要记录来自master的binlog，需要将<span class="docutils literal"><span class="pre">log_slave_updates</span></span>设置为
+：<span class="docutils literal"><span class="pre">ON</span></span>。如果想建立一个层级master-slave结构，在slave上必须开启此项。</p>
+</div>
+<div class="section" id="id2">
+<h3>binlog的清除</h3>
+<p>由于binlog会占用大量的磁盘空间，所以不得不清除binlog。清除方法有：</p>
+<ol class="arabic">
+<li><p class="first"><span class="docutils literal"><span class="pre">expire_logs_days</span> <span class="pre">=</span> <span class="pre">N</span></span>binlog最长保存周期为N天，超过此天数将被Server自动删除。个人认为对于稳定的服务（产生的数据量稳定），且建立的主从复制，此功能是一个不错的选择。</p>
+</li>
+<li><p class="first"><span class="docutils literal"><span class="pre">RESET</span> <span class="pre">MASTER</span></span></p>
+</li>
+<li><p class="first"><span class="docutils literal"><span class="pre">PURGE</span> <span class="pre">BINARY</span> <span class="pre">LOGS</span></span>
+PURGE语句可以指定log名或者日期。相应的语法：</p>
+<div class="highlight-sql"><div class="highlight"><pre>PURGE { BINARY | MASTER } LOGS { TO &#39;log_name&#39; | BEFORE &#39;datetime&#39; }
+</pre></div>
+</div>
+</li>
+<li><p class="first"><span class="docutils literal"><span class="pre">mysqladmin</span> <span class="pre">flush-logs</span></span></p>
+</li>
+</ol>
+<p>由于binlog会被用于主从复制，所以删除binlog时一定要小心，如果删除了没有同步到从库的binlog，就悲剧了。安全的方法是使用SQL语句<span class="docutils literal"><span class="pre">PURGE</span> <span class="pre">BINARY</span> <span class="pre">LOGS</span></span>执行些语句时，MySQL Server会主动检查binlog使用情况。</p>
+<p>所以可以通过<span class="docutils literal"><span class="pre">PURGE</span> <span class="pre">BINARY</span> <span class="pre">LOGS</span></span>建立一个binlog的备份策略：</p>
+<ol class="arabic simple">
+<li>根据实际情况设定一个合理binlog文件滚动值<span class="docutils literal"><span class="pre">max_bilog_size</span> <span class="pre">=</span> <span class="pre">N</span></span>当binlog文件大小超过其设定时。默认大小为1G（最大值），最小值为4KB。服务器会打开一个新的文件写入binlog。事务不会被分割到不同的binlog文件中。</li>
+<li>定期对旧的binlog文件进行物理备份</li>
+<li>运行<span class="docutils literal"><span class="pre">PURGE</span></span>语句清除binlog</li>
+</ol>
+</div>
+<div class="section" id="id3">
+<h3>磁盘缓存问题</h3>
+<p>默认情况下，binlog并不会马上同步写到磁盘上，所以如果在写至磁盘前机器或操作系统崩
+溃，就会造成部分binlog丢失。服务器变量<span class="docutils literal"><span class="pre">sync_binlog</span> <span class="pre">=</span> <span class="pre">N</span></span>可以减小这种损失，
+它将在执行N次写操作之后，强制同步binlog至磁盘。可以想像将其值写为<span class="docutils literal"><span class="pre">1</span></span>，应该
+是最为安全的，不过服务器也会变慢（WHY?）。</p>
+<p>另外，对于支持事务的<span class="docutils literal"><span class="pre">innoDB</span></span>引擎，执行一个事务提交<span class="docutils literal"><span class="pre">COMMIT</span></span>后，MySQL
+Server会先将事务写入到binlog，然后再提交给innoDB引擎。如果在再次操作中间出现故障
+，MySQL Server重启时会对事务进行回滚，而binlog中的数据将依旧存在，此时会引起数据
+不一致的情况发生。开启选项<span class="docutils literal"><span class="pre">innodb_support_xa</span> <span class="pre">=</span> <span class="pre">ON</span></span>可以解决此类问题，该选项
+用于保证binlog文件与innoDB数据文件同步。</p>
+</div>
+<div class="section" id="id4">
+<h3>缓存调优问题</h3>
+<p>与binlog相关的缓存的变量有：</p>
+<ol class="arabic simple">
+<li><span class="docutils literal"><span class="pre">binlog_cache_size</span></span>   用于缓存在执行事务时需要写入到binlog的变更的空间大小。MySQL Server会为每个客户分配缓存空间。</li>
+<li><span class="docutils literal"><span class="pre">binlog_stmt_cache_size</span></span>  statement cache.</li>
+<li><span class="docutils literal"><span class="pre">max_bilog_cache_size</span></span>    如果一个事务需要的内存大于此值，MySQL Server会报错</li>
+<li><span class="docutils literal"><span class="pre">max_bilog_stmt_cache_size</span></span>   statement cache</li>
+</ol>
+<p>MySQL Server还有对应的四个状态值用于记录binlog缓存的使用情况：</p>
+<ol class="arabic simple">
+<li><span class="docutils literal"><span class="pre">Binlog_cache_disk_use</span></span>使用磁盘缓存的事务次数。如果此值较大则应该增加binlog的缓存大小：<span class="docutils literal"><span class="pre">binlog_cache_size</span></span></li>
+<li><span class="docutils literal"><span class="pre">Binlog_stmt_cache_disk_use</span></span>  对比上面想一下</li>
+</ol>
+</div>
+<div class="section" id="id5">
+<h3>binlog的格式</h3>
+<p>binlog中有三个方式来保存数据的变化：</p>
+<ol class="arabic simple">
+<li>基于语句的（statement-based）</li>
+<li>基于行的（row-based）</li>
+<li>混合的（statement-based）</li>
+</ol>
+</div>
+</div>
+<div class="section" id="slow-query-log">
+<h2>Slow query log</h2>
+<p>与慢查询相关的重要系统变量有：</p>
+<ol class="arabic simple">
+<li><span class="docutils literal"><span class="pre">slow_query_log</span> <span class="pre">=</span> <span class="pre">OFF|ON</span></span> 慢查询日志是否开启的开关</li>
+<li><span class="docutils literal"><span class="pre">long_query_time</span> <span class="pre">=</span> <span class="pre">N</span></span> 判断是否属于慢查询的阀值。单位microsecond</li>
+<li><span class="docutils literal"><span class="pre">min_examined_row_limit</span> <span class="pre">=</span> <span class="pre">0</span></span>  被影响的最小行数</li>
+<li><span class="docutils literal"><span class="pre">log_queries_not_using_indxes</span> <span class="pre">=</span> <span class="pre">OFF|ON</span></span>  是否记录未使用索引的查询</li>
+<li><span class="docutils literal"><span class="pre">log_slow_admin_statements</span> <span class="pre">=</span> <span class="pre">OFF|ON</span></span> 是否记录执行较慢的admin操作</li>
+<li><span class="docutils literal"><span class="pre">slow_query_log_file</span> <span class="pre">=</span> <span class="pre">file_name</span></span> 慢查询日志文件名</li>
+</ol>
+<p>决定一个请求是否被记录至慢查询日志的步骤：</p>
+<ol class="arabic simple">
+<li>选项<span class="docutils literal"><span class="pre">log_slow_admin_statements</span></span>开启或查询为非admin操作</li>
+<li>执行时间超过<span class="docutils literal"><span class="pre">long_query_time</span></span>阀值或查询未使用索引且选项<span class="docutils literal"><span class="pre">log_queries_not_using_indxes</span></span>开启</li>
+<li>操作影响力的行数超过<span class="docutils literal"><span class="pre">min_examined_row_limit</span></span>设定值</li>
+</ol>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">需要注意慢查询日志的访问安全，因为其中可能会记录包含密码之类的敏感信息</p>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>参考资料</h2>
+<ol class="arabic simple">
+<li>MySQL Reference Manual 5.2</li>
+</ol>
+</div>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/database.html">database</a>, <a href="../../../categories/mysql.html">mysql</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/database.html">database</a>, <a href="../../../tags/mysql.html">mysql</a>, <a href="../../../tags/dba.html">dba</a></span>
+        </div>
+        </div><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="mysql_key.html">MySQL中的索引-读书笔记</a></li>
+            <li class="right"><a href="mysql_master_slave.html">MySQL配置Master-Slave</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/mysql_logs";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="bash.html">Learning Bash</a>
+        </li><li>
+            <a href="code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="comm_pipe.html">命令行管道编程</a>
+        </li><li>
+            <a href="datamining.html">学习数据挖掘</a>
+        </li><li>
+            <a href="disk_quota.html">磁盘配额管理</a>
+        </li><li>
+            <a href="docker.html">docker使用小记</a>
+        </li><li>
+            <a href="economy.html">经济指标</a>
+        </li><li>
+            <a href="epoll_man.html">epoll(7)</a>
+        </li><li>
+            <a href="epoll.html">epoll API</a>
+        </li><li>
+            <a href="firefox.html">Speed Up Firefox</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (7)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (16)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (7), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (9), <a href="../../../tags/python.html">python</a> (10), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 11pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 11pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

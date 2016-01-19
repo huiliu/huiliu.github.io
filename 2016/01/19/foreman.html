@@ -1,0 +1,395 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>Nginx+Foreman+Passenger &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="FreeBSD点滴" href="freebsd.html" /><link rel="prev" title="Speed Up Firefox" href="firefox.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/database.html">database</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>January 19, 2016</span>
+        </div>
+    <div class="section" id="nginx-foreman-passenger">
+<h1>Nginx+Foreman+Passenger</h1>
+<div id="more"> </div><div class="section" id="id1">
+<h2>准备工作</h2>
+<p>系统为<strong>CentOS 6.4(x64) mininal Installation</strong>。需要下载的软件包：</p>
+<ul class="simple">
+<li><a class="reference external" href="http://nginx.org/download/nginx-1.4.2.tar.gz&gt;">Nginx</a></li>
+<li><a class="reference external" href="http://s3.amazonaws.com/phusion-passenger/releases/passenger-4.0.16.tar.gz&gt;">Passenger</a></li>
+<li><a class="reference external" href="https://github.com/theforeman/foreman/archive/1.2-stable.zip&gt;">Foreman</a></li>
+</ul>
+<p>由于系统为最小安装的CentOS，所以基本的编译环境都没有，需要安装<strong>gcc, gcc-c++,
+make, automake</strong>等基本开发工具。</p>
+<div class="highlight-bash"><div class="highlight"><pre>yum install gcc gcc-c++ boost make automake
+</pre></div>
+</div>
+<p>安装Nginx, Passenger和Foreman时还需要安装一些软件包：</p>
+<div class="highlight-bash"><div class="highlight"><pre>yum install libcurl-devel zlib-devel ruby-devel pcre-devel openssl-devel libatomic_ops-devel
+gem install rake
+gem install bundle
+
+<span class="c1"># 请参考http://theforeman.org/manuals/1.1/index.html#3.4InstallFromSource</span>
+yum install libxml-devel libxslt-devel libvirt-devel mysql-devel postgresql-devel sqlite-devel
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>安装</h2>
+<p>解压下载的源代码：<cite>tar xf source.tar.gz</cite></p>
+<div class="section" id="nginxpassenger">
+<h3>安装Nginx和Passenger</h3>
+<ul>
+<li><p class="first">使用的Nginx编译选项为:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># 需要建立用户nginx</span>
+useradd -r nginx
+
+<span class="c1"># 需要特别注意的是--add-module选项，需要指向passenger源码包中的Nginx扩展</span>
+./configure --user<span class="o">=</span>nginx --group<span class="o">=</span>nginx --with-pcre --add-module<span class="o">=</span>/root/passenger-4.0.14/ext/nginx --with-file-aio --with-http_ssl_module --with-http_gunzip_module --with-http_gzip_static_module --with-libatomic
+
+<span class="c1"># 编译正常完成后，安装Nginx。安装目录默认为：/usr/local/nginx</span>
+<span class="c1"># Nginx的所有相关信息都存放在此目录中</span>
+make <span class="o">&amp;&amp;</span> make install
+</pre></div>
+</div>
+</li>
+<li><p class="first">验证安装：</p>
+<ul>
+<li><p class="first">安装完成后，在<em>/usr/local/nginx/html</em>下创建一个简单的例子，测试一下安装是否正确。<a class="footnote-reference" href="#ref1" id="id3">[1]</a></p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> /usr/local/nginx/html
+mkdir -p webapp/<span class="o">{</span>public,tmp<span class="o">}</span>
+
+<span class="c1"># 创建一个文件passenger_wsgi.py，并写入：</span>
+cat passenger_wsgi.py
+def application<span class="o">(</span>environ, start_response<span class="o">)</span>:
+  start_response<span class="o">(</span><span class="s1">&#39;200 OK&#39;</span>, <span class="o">[(</span><span class="s1">&#39;Content-Type&#39;</span>, <span class="s1">&#39;text/plain&#39;</span><span class="o">)])</span>
+    <span class="k">return</span> <span class="o">[</span>b<span class="s2">&quot;hello world!\n&quot;</span><span class="o">]</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">编辑Nginx的配置文件</p>
+<div class="highlight-nginx"><div class="highlight"><pre><span class="k">passenger_root</span>  <span class="s">/usr/lib/ruby/gems/1.8/gems/passenger-4.0.14</span><span class="p">;</span>
+<span class="k">passenger_ruby</span>  <span class="s">/usr/bin/ruby</span><span class="p">;</span>
+
+<span class="k">index</span>  <span class="s">index.html</span> <span class="s">index.htm</span> <span class="s">index.php</span><span class="p">;</span>
+<span class="k">server</span> <span class="p">{</span>
+    <span class="kn">listen</span>       <span class="mi">80</span><span class="p">;</span>
+    <span class="kn">server_name</span>  <span class="s">localhost</span><span class="p">;</span>
+
+    <span class="kn">charset</span> <span class="s">utf-8</span><span class="p">;</span>
+
+    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+        <span class="kn">root</span>   <span class="s">html/webapp/public</span><span class="p">;</span>
+        <span class="kn">passenger_enabled</span> <span class="no">on</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kn">error_page</span>  <span class="mi">404</span>              <span class="s">/404.html</span><span class="p">;</span>
+
+    <span class="c1"># redirect server error pages to the static page /50x.html</span>
+    <span class="c1">#</span>
+    <span class="kn">error_page</span>   <span class="mi">500</span> <span class="mi">502</span> <span class="mi">503</span> <span class="mi">504</span>  <span class="s">/50x.html</span><span class="p">;</span>
+    <span class="kn">location</span> <span class="p">=</span> <span class="s">/50x.html</span> <span class="p">{</span>
+        <span class="kn">root</span>   <span class="s">html</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">直接使用命令<cite>nginx</cite>启动Nginx(需要将<em>/usr/local/nginx/bin</em>加入到环境变量PATH)。用浏览器访问<em>http://localhost/webapp</em>。如果显示正常，说明passenger已经正常编译至Nginx。如果发生错误，请查看访问日志排除问题。</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>安装Foreman</h3>
+<p>上一步Nginx和Foreman成功安装以后，Foreman的安装相对简单，按照文档说明就可以完成
+<a class="footnote-reference" href="#ref2" id="id5">[2]</a> 。只需要注意将依赖的软件包安装好，如果出错仔细出错说明，再解决。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> foreman-1.2-stable
+bundle install --without mysql mysql2  sqlite <span class="nb">test</span> --path vendor <span class="c1"># or postgresql</span>
+cp config/settings.yaml.example config/settings.yaml
+cp config/database.yml.example config/database.yml
+<span class="nv">RAILS_ENV</span><span class="o">=</span>production bundle <span class="nb">exec</span> rake db:migrate <span class="c1"># (to set up database schema)</span>
+
+<span class="c1"># 顺利完成后就可以启动rail了。如果出错一般是因为依赖安装不完整。</span>
+./script/rails s -e production
+</pre></div>
+</div>
+<p>然后就可以在浏览器中打开<cite>http://localhost:3000</cite>了。当然也可能出错，比如：
+<strong>ActionView::Template::Error (couldn&#8217;t find file &#8216;jquery.ui.autocomplete&#8217;</strong>。
+google到此问题的解决方法：<a class="footnote-reference" href="#ref3" id="id6">[3]</a></p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># 请耐心等待此命令执行完，虽然不太明白其意思</span>
+<span class="nv">RAILS_ENV</span><span class="o">=</span>production bundle <span class="nb">exec</span> rake assets:precompile
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="nginx-passenger-foreman">
+<h2>Nginx+Passenger+Foreman</h2>
+<p>Nginx, Passenger和Foreman成功安装运行后，只需在给Nginx添加一小段配置就可以通过Nginx来访问Foreman了。</p>
+<div class="highlight-nginx"><div class="highlight"><pre><span class="c1"># 已经设定好passenger_root和passenger_ruby等</span>
+<span class="k">server</span> <span class="p">{</span>
+    <span class="kn">listen</span> <span class="mi">3000</span><span class="p">;</span>
+    <span class="kn">root</span> <span class="s">/opt/foreman/public</span><span class="p">;</span>
+
+    <span class="kn">passenger_enabled</span> <span class="no">on</span><span class="p">;</span>
+
+    <span class="kn">access_log</span> <span class="s">logs/foreman_access.log</span><span class="p">;</span>
+    <span class="kn">error_log</span> <span class="s">logs/foreman_access.log</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>另外还有官方文档说明<a class="footnote-reference" href="#ref4" id="id7">[4]</a>和<a class="reference external" href="https://github.com">GitHub</a>上关于Nginx和foreman的配置：<a class="footnote-reference" href="#ref5" id="id8">[5]</a></p>
+<div class="highlight-nginx"><div class="highlight"><pre><span class="c1">## Puppet Foreman</span>
+<span class="k">server</span> <span class="p">{</span>
+    <span class="kn">listen</span> <span class="mi">443</span> <span class="s">ssl</span><span class="p">;</span>
+    <span class="kn">ssl_certificate</span> <span class="s">ssl/foreman.xxx.com.crt</span><span class="p">;</span>
+    <span class="kn">ssl_certificate_key</span> <span class="s">ssl/foreman.xxx.com.key</span><span class="p">;</span>
+    <span class="kn">ssl_session_timeout</span> <span class="mi">10m</span><span class="p">;</span>
+    <span class="kn">add_header</span> <span class="s">Strict-Transport-Security</span> <span class="s">max-age=15768000</span><span class="p">;</span>
+
+    <span class="kn">server_name</span> <span class="s">foreman.xxx.com</span><span class="p">;</span>
+
+    <span class="kn">access_log</span> <span class="s">/var/log/nginx/foreman.access.log</span><span class="p">;</span>
+    <span class="kn">error_log</span> <span class="s">/var/log/nginx/foreman.error.log</span><span class="p">;</span>
+    <span class="kn">root</span> <span class="s">/opt/foreman/public</span><span class="p">;</span>
+
+    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+        <span class="kn">passenger_enabled</span> <span class="no">on</span><span class="p">;</span>
+        <span class="kn">auth_basic</span> <span class="s">&quot;Restricted!!!&quot;</span><span class="p">;</span>
+        <span class="kn">auth_basic_user_file</span> <span class="s">.htpasswd</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">server</span> <span class="p">{</span>
+    <span class="kn">listen</span> <span class="n">127.0.0.1</span><span class="p">:</span><span class="mi">3000</span><span class="p">;</span>
+    <span class="kn">root</span> <span class="s">/opt/foreman/public</span><span class="p">;</span>
+    <span class="kn">passenger_enabled</span> <span class="no">on</span><span class="p">;</span>
+    <span class="kn">access_log</span> <span class="no">off</span><span class="p">;</span>
+    <span class="kn">allow</span> <span class="mi">127</span><span class="s">.0.0.1</span><span class="p">;</span>
+    <span class="kn">deny</span> <span class="s">all</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>关于Nginx，Passenger和Foreman 各自详细的配置请查看各自文档。<a class="footnote-reference" href="#ref6" id="id9">[6]</a></p>
+</div>
+<div class="section" id="id10">
+<h2>参考资料</h2>
+<table class="docutils footnote" frame="void" id="ref1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[1]</a></td><td><a class="reference external" href="http://www.modrails.com/documentation/Users%20guide%20Nginx.html#_deploying_a_wsgi_python_application">http://www.modrails.com/documentation/Users%20guide%20Nginx.html#_deploying_a_wsgi_python_application</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="ref2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[2]</a></td><td><a class="reference external" href="http://theforeman.org/manuals/1.1/index.html#3.4InstallFromSource">http://theforeman.org/manuals/1.1/index.html#3.4InstallFromSource</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="ref3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[3]</a></td><td><a class="reference external" href="http://projects.theforeman.org/issues/2683">http://projects.theforeman.org/issues/2683</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="ref4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[4]</a></td><td><a class="reference external" href="http://projects.theforeman.org/projects/1/wiki/Setting_up_Nginx_+_Passenger_">http://projects.theforeman.org/projects/1/wiki/Setting_up_Nginx_+_Passenger_</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="ref5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id8">[5]</a></td><td><a class="reference external" href="https://gist.github.com/vladgh/1598698">https://gist.github.com/vladgh/1598698</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="ref6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id9">[6]</a></td><td><a class="reference external" href="http://nginx.org/en/docs/">http://nginx.org/en/docs/</a>, <a class="reference external" href="http://www.modrails.com/documentation/Users%20guide%20Nginx.html#_configuring_phusion_passenger">http://www.modrails.com/documentation/Users%20guide%20Nginx.html#_configuring_phusion_passenger</a>, <a class="reference external" href="http://theforeman.org/manuals/1.1/index.html#3.5Configuration">http://theforeman.org/manuals/1.1/index.html#3.5Configuration</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/devops.html">devops</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/devops.html">devops</a>, <a href="../../../tags/deploy.html">deploy</a>, <a href="../../../tags/forman.html">forman</a></span>
+        </div>
+        </div><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="firefox.html">Speed Up Firefox</a></li>
+            <li class="right"><a href="freebsd.html">FreeBSD点滴</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/foreman";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="bash.html">Learning Bash</a>
+        </li><li>
+            <a href="code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="comm_pipe.html">命令行管道编程</a>
+        </li><li>
+            <a href="datamining.html">学习数据挖掘</a>
+        </li><li>
+            <a href="disk_quota.html">磁盘配额管理</a>
+        </li><li>
+            <a href="docker.html">docker使用小记</a>
+        </li><li>
+            <a href="economy.html">经济指标</a>
+        </li><li>
+            <a href="epoll_man.html">epoll(7)</a>
+        </li><li>
+            <a href="epoll.html">epoll API</a>
+        </li><li>
+            <a href="firefox.html">Speed Up Firefox</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (7)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (16)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (7), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (9), <a href="../../../tags/python.html">python</a> (10), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 11pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 11pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

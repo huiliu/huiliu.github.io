@@ -1,0 +1,514 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>Learning SQL &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="一个字符引发的问题 - sscanf" href="sscanf.html" /><link rel="prev" title="爬虫框架 - scrapy" href="spider.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/database.html">database</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>January 19, 2016</span>
+        </div>
+    <div class="section" id="learning-sql">
+<h1>Learning SQL</h1>
+<p>学习SQL的一些基本语法。<a class="footnote-reference" href="#id21" id="id1">[1]</a></p>
+<p>一些基本术语：<strong>实体</strong>，<strong>列</strong>，<strong>行</strong>，<strong>表</strong>，<strong>结果集</strong>，<strong>主键</strong>，<strong>外键</strong>，<strong>事务</strong>，<strong>索引</strong>，<strong>视图</strong>，<strong>约
+束</strong>。</p>
+<p>SQL语言可以分为几个模块：</p>
+<ol class="arabic simple">
+<li><strong>SQL定义语句(Data Definition Language)</strong>，用于定义存储于数据库中的数据结构；<ul>
+<li><span class="docutils literal"><span class="pre">CREATE</span></span></li>
+<li><span class="docutils literal"><span class="pre">DROP</span></span></li>
+<li><span class="docutils literal"><span class="pre">ALTER</span></span></li>
+</ul>
+</li>
+<li><strong>SQL操作数据语句(Data Manipulation Language)</strong>，用于操作数据库中的数据；<ul>
+<li><span class="docutils literal"><span class="pre">SELECT</span></span></li>
+<li><span class="docutils literal"><span class="pre">INSERT</span></span></li>
+<li><span class="docutils literal"><span class="pre">UPDATE</span></span></li>
+<li><span class="docutils literal"><span class="pre">DELETE</span></span></li>
+</ul>
+</li>
+<li><strong>SQL事务语句(Data Control Language)</strong>，用于开始、结束或回滚事务。<ul>
+<li><span class="docutils literal"><span class="pre">COMMIT</span></span></li>
+<li><span class="docutils literal"><span class="pre">ROLLBACK</span></span></li>
+<li><span class="docutils literal"><span class="pre">GRANT</span></span></li>
+<li><span class="docutils literal"><span class="pre">REVOKE</span></span></li>
+</ul>
+</li>
+</ol>
+<p>一定要注意，不同的数据库软件使用的SQL语法略有不同，如果某条语句提示语法错误请查找相应手册，确认语法符合要求。</p>
+<div class="section" id="id2">
+<h2>数据操作</h2>
+<div class="section" id="create-table">
+<h3>CREATE TABLE</h3>
+<p>标准语法定义：</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">CREATE</span> <span class="p">[</span><span class="k">TEMPORARY</span><span class="p">]</span> <span class="k">TABLE</span> <span class="p">[</span><span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span><span class="p">]</span> <span class="n">tbl_name</span>
+<span class="p">[(</span><span class="n">create_definition</span><span class="p">,...)]</span> <span class="p">[</span><span class="n">table_options</span><span class="p">]</span> <span class="p">[</span><span class="n">select_statement</span><span class="p">]</span>
+<span class="c1">-- 或:</span>
+<span class="k">CREATE</span> <span class="p">[</span><span class="k">TEMPORARY</span><span class="p">]</span> <span class="k">TABLE</span> <span class="p">[</span><span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span><span class="p">]</span> <span class="n">tbl_name</span> <span class="p">[(]</span> <span class="k">LIKE</span> <span class="n">old_tbl_name</span> <span class="p">[)];</span>
+</pre></div>
+</div>
+<ul>
+<li><p class="first">使用<span class="docutils literal"><span class="pre">IF</span> <span class="pre">NOT</span> <span class="pre">EXISTS</span></span>判断表是否存在：</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">tbl_name</span> <span class="p">......</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="alter-table">
+<h3>ALTER TABLE</h3>
+<p>SQL格式：</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">tbl_name</span> <span class="k">ADD</span> <span class="p">(</span><span class="n">col_name1</span><span class="p">,</span> <span class="n">col_name2</span><span class="p">);</span>
+<span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">tbl_name</span> <span class="k">DROP</span> <span class="k">COLUMN</span> <span class="n">col_name</span><span class="p">;</span>
+</pre></div>
+</div>
+<ul>
+<li><p class="first">调整列的数据类型（在MariaDB 5.5.32上测试）<a class="footnote-reference" href="#id22" id="id3">[2]</a></p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">tbl_name</span> <span class="k">MODIFY</span> <span class="p">[</span><span class="k">COLUMN</span><span class="p">]</span> <span class="n">col_name</span> <span class="n">col_definition</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">创建一个主键（在MariaDB 5.5.32上测试）</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">tbl_name</span> <span class="k">ADD</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">index_col_name</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">删除列</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">tbl_name</span> <span class="k">DROP</span> <span class="k">COLUMN</span> <span class="n">col_name</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="where">
+<h2>条件过滤-WHERE子句</h2>
+<ul class="simple">
+<li>比较操作符有：<span class="docutils literal"><span class="pre">=,</span> <span class="pre">!=,</span> <span class="pre">&lt;&gt;,</span> <span class="pre">&lt;,</span> <span class="pre">&gt;,</span> <span class="pre">LIKE,</span> <span class="pre">IN,</span> <span class="pre">BETWEEN,</span> <span class="pre">IS</span></span>。</li>
+<li>逻辑操作符有：<span class="docutils literal"><span class="pre">AND,</span> <span class="pre">NOT,</span> <span class="pre">OR</span></span>。</li>
+</ul>
+<div class="section" id="between">
+<h3>范围条件-<strong>BETWEEN</strong></h3>
+<p>即：<span class="docutils literal"><span class="pre">a</span> <span class="pre">&gt;</span> <span class="pre">0</span> <span class="pre">and</span> <span class="pre">a</span> <span class="pre">&lt;</span> <span class="pre">10</span></span>等同于<span class="docutils literal"><span class="pre">a</span> <span class="pre">BETWEEN</span> <span class="pre">0</span> <span class="pre">10</span></span>。例如下列两条SQL语句等同。</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">start_time</span> <span class="o">&lt;</span> <span class="s1">&#39;2007-01-01&#39;</span> <span class="k">AND</span> <span class="n">start_time</span> <span class="o">&lt;</span> <span class="s1">&#39;2005-01-01&#39;</span>
+
+<span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">start_time</span> <span class="k">BETWEEN</span> <span class="s1">&#39;2005-01-01&#39;</span> <span class="s1">&#39;2007-01-01&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="in">
+<h3>成员条件-<strong>IN</strong></h3>
+<p>当对某个值的限制为一个有限集合时，SQL可以写为：</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">district</span> <span class="o">=</span> <span class="s1">&#39;CHN&#39;</span> <span class="k">OR</span> <span class="n">district</span> <span class="o">=</span> <span class="s1">&#39;CHK&#39;</span> <span class="k">OR</span> <span class="n">district</span> <span class="o">=</span> <span class="s1">&#39;CD&#39;</span> <span class="k">OR</span> <span class="n">district</span> <span class="o">=</span> <span class="s1">&#39;SAV&#39;</span>
+</pre></div>
+</div>
+<p>使用<strong>IN</strong>可以写的更为简洁，如：</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">district</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">&#39;CHN&#39;</span><span class="p">,</span> <span class="s1">&#39;CHK&#39;</span><span class="p">,</span> <span class="s1">&#39;CD&#39;</span><span class="p">,</span> <span class="s1">&#39;SAV&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>除了自定义集合，也可以使用子查询产生的集合。如：</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">district</span> <span class="k">IN</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">district_code</span> <span class="k">IN</span> <span class="n">district</span> <span class="k">WHERE</span> <span class="n">people_count</span> <span class="o">&lt;</span> <span class="mi">1000000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>对于<strong>IN</strong>也可以使用“非”操作，即表示不在集合内。关键字为：<strong>NOT IN</strong>。</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">district</span> <span class="k">NOT</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">&#39;CHN&#39;</span><span class="p">,</span> <span class="s1">&#39;CHK&#39;</span><span class="p">,</span> <span class="s1">&#39;CD&#39;</span><span class="p">,</span> <span class="s1">&#39;SAV&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="like">
+<h3>匹配条件-<strong>LIKE</strong>， 通配符，正则表达式</h3>
+<p>在各种匹配条件中，也可以使用内置函数。如：</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="k">LEFT</span><span class="p">(</span><span class="n">lname</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;T&#39;</span>
+</pre></div>
+</div>
+<p>上面使用内置函数<span class="docutils literal"><span class="pre">LEFT</span></span>提取<em>lname</em>的首字母，然后与字母“T”进行比较。</p>
+<ul class="simple">
+<li><span class="docutils literal"><span class="pre">LIKE</span></span>可以使用通配符和一些简单的正则表达式。如下表：</li>
+</ul>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="88%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">符号</th>
+<th class="head">匹配</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>%</td>
+<td>匹配任意数目的字符（包括0）。类似于正则表达式中的“.*”</td>
+</tr>
+<tr class="row-odd"><td>_</td>
+<td>匹配一个字符。类似于正则表达式中的“.”</td>
+</tr>
+<tr class="row-even"><td>[abc]</td>
+<td>匹配集合中的元素</td>
+</tr>
+<tr class="row-odd"><td>[^abc]</td>
+<td>不匹配集合中的元素</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>另外可以使用函数<span class="docutils literal"><span class="pre">REGEXP</span></span>来使用正则表达式来进行匹配。如：</li>
+</ul>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">lname</span> <span class="n">REGEXP</span> <span class="s1">&#39;^[FG]&#39;</span>
+</pre></div>
+</div>
+<p>在Oracle中使用函数<span class="docutils literal"><span class="pre">regexp_like</span></span>代替<span class="docutils literal"><span class="pre">REGEXP</span></span>，而在MS SQL SERVER中可以直接在<span class="docutils literal"><span class="pre">LIKE</span></span>中使用正则表达式。</p>
+</div>
+<div class="section" id="null">
+<h3>关于<strong>NULL</strong>值的操作</h3>
+<p>当使用<span class="docutils literal"><span class="pre">NULL</span></span>需要注意：</p>
+<ul class="simple">
+<li>表达式的值可以为“<span class="docutils literal"><span class="pre">NULL</span></span>”，但为不能等于“<span class="docutils literal"><span class="pre">NULL</span></span>”。</li>
+<li>两个“<span class="docutils literal"><span class="pre">NULL</span></span>”不能判断为相等。如果利用“<span class="docutils literal"><span class="pre">=</span></span>”来判断两个“<span class="docutils literal"><span class="pre">NULL</span></span>”值，将不会得到正确的结果，而且服务器也不会发出出错提示，这是相当危险的。</li>
+<li>判断两个“<span class="docutils literal"><span class="pre">NULL</span></span> ”相等，需要用到操作符“<span class="docutils literal"><span class="pre">IS</span></span>”。如下：</li>
+</ul>
+<div class="highlight-sql"><div class="highlight"><pre><span class="cm">/* 假定superior_emp_id存在NULL值 */</span>
+<span class="cm">/* 错误的做法 */</span>
+<span class="k">SELECT</span> <span class="n">emp_id</span><span class="p">,</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">superior_emp_id</span> <span class="o">=</span> <span class="k">NULL</span>
+<span class="cm">/* 正确的做法 */</span>
+<span class="k">SELECT</span> <span class="n">emp_id</span><span class="p">,</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">superior_emp_id</span> <span class="k">IS</span> <span class="k">NULL</span>
+</pre></div>
+</div>
+<p>另外进行条件筛选时也要考虑全面，注意<span class="docutils literal"><span class="pre">NULL</span></span>值的存在</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>分组与聚集</h2>
+<p>这一部分貌似有点像简单的数据分析和挖掘，当然是最最初级的。
+它主要包括：<strong>分组</strong>和<strong>聚集</strong>两种操作。</p>
+<ul class="simple">
+<li><strong>分组</strong>即针对某一特征的不同值进行分组，分块。</li>
+<li><strong>聚集</strong>其实是对分组后，每组中的数据进行统计分析。SQL只提供了一些简单的统计
+函数。如<a class="reference internal" href="#max">MAX</a>，<a class="reference internal" href="#min">MIN</a> ，<a class="reference internal" href="#sum">SUM</a> ，<a class="reference internal" href="#count">COUNT</a>，<a class="reference internal" href="#avg">AVG</a>等。</li>
+</ul>
+<div class="section" id="group-by">
+<span id="avg"></span><span id="count"></span><span id="sum"></span><span id="min"></span><span id="max"></span><h3><span class="docutils literal"><span class="pre">GROUP</span> <span class="pre">BY</span></span></h3>
+<p>SQL：</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">tbl_name</span> <span class="k">WHERE</span> <span class="n">conditions</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">col_names</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>SQL的执行顺序：</strong>（不同软件实现可能不同）</p>
+<div class="line-block">
+<div class="line"><span class="docutils literal"><span class="pre">FROM</span></span> -&gt; <span class="docutils literal"><span class="pre">WHERE</span></span> -&gt; <span class="docutils literal"><span class="pre">GROUP</span> <span class="pre">BY</span></span> -&gt; <span class="docutils literal"><span class="pre">SELECT</span></span></div>
+</div>
+<p>关于<span class="docutils literal"><span class="pre">GROUP</span> <span class="pre">BY</span></span>需要注意的：<em>``SELECT``字句中只能包含常数、聚合函数、``GROUP BY``子句中的列（聚合键）</em></p>
+<p>思考：</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="c1">-- 执行一下下面的语句，看看结果如何？分析一下？</span>
+<span class="k">SELECT</span> <span class="n">col_name</span> <span class="k">AS</span> <span class="n">COL_NAME</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">tbl_name</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">COL_NAME</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="having">
+<h3><span class="docutils literal"><span class="pre">HAVING</span></span></h3>
+<p><span class="docutils literal"><span class="pre">HAVING</span></span>子句类似于<span class="docutils literal"><span class="pre">WHERE</span></span>，为指定条件的语句。但是<span class="docutils literal"><span class="pre">HAVING</span></span>的条件主要是针对聚合结果进行判断。所以，<span class="docutils literal"><span class="pre">HAVING</span></span>子句的条件可以是什么？不能是什么？</p>
+<p>SQL格式：</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">tbl_name</span> <span class="k">WHERE</span> <span class="n">conditions</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">col_names</span> <span class="k">HAVING</span> <span class="n">conditions</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>思考：</p>
+<ul class="simple">
+<li>包含<span class="docutils literal"><span class="pre">HAVING</span></span>子句的SQL执行顺序是什么样的？</li>
+<li><strong>什么时候用``WHERE``？什么时候用``HAVING``呢？</strong></li>
+</ul>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>子查询</h2>
+<p>子查询是指包含在另一个SQL语句内部的查询。它总是被括号包围，且通常在包含语句前执行。可以分为两类：</p>
+<ul class="simple">
+<li><strong>非关联子查询</strong>。子查询单独执行，在包含语句之前完成执行，不引用包含语句。</li>
+<li><strong>关联子查询</strong>。不是在包含语句执行前一次执行完毕，而是为每个候选行执行一次。</li>
+</ul>
+<div class="section" id="id6">
+<h3>非关联子查询</h3>
+<ul class="simple">
+<li>如果子查询返回值为单行单列（即，仅为一个值），可以直接用于运算操作。如：</li>
+<li>如果子查询返回值为多行单列（即，为一个集合），不能用于相等操作，不过可以使用其它用于集合的操作符。如：<span class="docutils literal"><span class="pre">IN,</span> <span class="pre">NOT</span> <span class="pre">IN,</span> <span class="pre">ALL,</span> <span class="pre">ANY</span></span>。也可以使用聚集函数进行统计。</li>
+</ul>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">FROM</span> <span class="p">(</span>
+                        <span class="k">SELECT</span> <span class="mi">1</span> <span class="k">FROM</span> <span class="n">City</span>
+                        <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">district</span>
+                     <span class="p">)</span> <span class="k">AS</span> <span class="n">d</span><span class="p">;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>如果子查询返回（多行）多列。</li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h3>关联子查询</h3>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>多表查询与连接</h2>
+</div>
+<div class="section" id="id9">
+<h2>集合</h2>
+<p>等同于数学中关于<a class="reference external" href="http://zh.wikipedia.org/wiki/%E9%9B%86%E5%90%88_(%E6%95%B0%E5%AD%A6)">集合</a>的一些操作，如并集，交集，差集。
+并集操作</p>
+<div class="section" id="union-union-all">
+<h3>并集操作<span class="docutils literal"><span class="pre">UNION</span></span>，<span class="docutils literal"><span class="pre">UNION</span> <span class="pre">ALL</span></span></h3>
+<ul class="simple">
+<li><span class="docutils literal"><span class="pre">UNION</span></span>连接多个数据后会进行除重、排序。（所以速度后相对慢一点）</li>
+<li><span class="docutils literal"><span class="pre">UNION</span> <span class="pre">ALL</span></span>仅仅将两个数据集并在一起，无其它操作，相对于<span class="docutils literal"><span class="pre">UNION</span></span>快一些</li>
+</ul>
+<p>一个简单的例子：</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="mi">1</span> <span class="n">NUM</span><span class="p">,</span> <span class="s1">&#39;abc&#39;</span> <span class="n">STR</span>
+<span class="k">UNION</span>
+<span class="k">SELECT</span> <span class="mi">9</span> <span class="n">NUM</span><span class="p">,</span> <span class="s1">&#39;xyz&#39;</span> <span class="n">STR</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="intersectintersect-all">
+<h3>交集操作<span class="docutils literal"><span class="pre">INTERSECT</span></span>和<span class="docutils literal"><span class="pre">INTERSECT</span> <span class="pre">ALL</span></span></h3>
+<p>语法与<span class="docutils literal"><span class="pre">UNION</span></span>一样。在MySQL中没有实现，SQL Server、Oracle和IBM DB2中有实现。</p>
+</div>
+<div class="section" id="exceptexcept-all">
+<h3>差集操作<span class="docutils literal"><span class="pre">EXCEPT</span></span>和<span class="docutils literal"><span class="pre">EXCEPT</span> <span class="pre">ALL</span></span></h3>
+<p>MySQL中没有实现。</p>
+</div>
+<div class="section" id="id11">
+<h3>集合操作的一些规则</h3>
+<p>想想数学中的集合操作规则。</p>
+<div class="section" id="id12">
+<h4>指定排序</h4>
+<p>如果使用<span class="docutils literal"><span class="pre">ORDER</span> <span class="pre">BY</span></span>指定按某一列进行排序，此列名只能是第一个查询的列名。</p>
+<p>如：</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">num</span><span class="p">,</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span>
+<span class="k">UNION</span>
+<span class="k">SELECT</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">open_b_id</span> <span class="k">FROM</span> <span class="n">account</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">num</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id13">
+<h4>操作优先级</h4>
+<ul class="simple">
+<li><span class="docutils literal"><span class="pre">INTERSECT</span></span>优先于其它两个操作</li>
+<li>按从左到右的先后顺序进行操作</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="id14">
+<h2>条件逻辑</h2>
+</div>
+<div class="section" id="id15">
+<h2>事务</h2>
+<div class="section" id="id16">
+<h3>锁的策略</h3>
+<p>锁是数据库用于控制数据被并行使用的一种机制。当数据库的一些内容被锁定时，任何对这个数据的修改（甚至是读取）都必须等待锁被释放。主流有两种锁策略：</p>
+<ul class="simple">
+<li>数据库的写操作必须申请并获得写锁才能修改数据，而读操作必须申请和获得读锁才能查询数据，多用户可以同时读取数据（即读锁可以分配多个）。一个表（或页或行）只能分配一次分配一个写锁，并且拒绝读请求直至写锁释放。
+<strong>读写是相互排斥的，读写都必须申请锁。</strong>SQL Server才用的是此策略，MySQL取决于选择的存储引擎。</li>
+<li>数据库的写操作必须申请并获得锁才能修改数据，而读操作不需要锁。但是数据库服务器必须保证读操作从开始到结束看到的是一个一致的数据视图。此方法称为<strong>版本控制</strong>。<strong>写操作需要锁，读不需要锁，但服务器必须保证读时数据一致。</strong>Orale采取的是此策略。</li>
+</ul>
+</div>
+<div class="section" id="id17">
+<h3>锁的粒度</h3>
+<ul class="simple">
+<li><strong>表锁</strong>  阻止多用户同时操作一个表的数据</li>
+<li><strong>页锁</strong>  阻止多用户同时操作表中同一页（2-16KB内存空间）的数据</li>
+<li><strong>行锁</strong>  阻止多用户同时操作表中同一行的数据</li>
+</ul>
+<p>SQL Server使用表锁，页锁和行锁，Oracle只有行锁，MySQL取决于存储引擎的选择。在某些情况下，SQL Server会逐步升级锁，Oracle从不升级锁</p>
+</div>
+</div>
+<div class="section" id="id18">
+<h2>索引与约束</h2>
+</div>
+<div class="section" id="id19">
+<h2>视图</h2>
+</div>
+<div class="section" id="id20">
+<h2>参考资料</h2>
+<table class="docutils footnote" frame="void" id="id21" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Mick, 孙淼，罗勇译；《SQL基础教程》；人民邮电出版社</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id22" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td><a class="reference external" href="http://dev.mysql.com/doc/refman/5.5/en/alter-table.html">http://dev.mysql.com/doc/refman/5.5/en/alter-table.html</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+    <div class="postmeta">
+        
+        
+        
+        </div><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="spider.html">爬虫框架 - scrapy</a></li>
+            <li class="right"><a href="sscanf.html">一个字符引发的问题 - sscanf</a> &raquo; </li>
+        </ul></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="bash.html">Learning Bash</a>
+        </li><li>
+            <a href="code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="comm_pipe.html">命令行管道编程</a>
+        </li><li>
+            <a href="datamining.html">学习数据挖掘</a>
+        </li><li>
+            <a href="disk_quota.html">磁盘配额管理</a>
+        </li><li>
+            <a href="docker.html">docker使用小记</a>
+        </li><li>
+            <a href="economy.html">经济指标</a>
+        </li><li>
+            <a href="epoll_man.html">epoll(7)</a>
+        </li><li>
+            <a href="epoll.html">epoll API</a>
+        </li><li>
+            <a href="firefox.html">Speed Up Firefox</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (7)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (16)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (7), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (9), <a href="../../../tags/python.html">python</a> (10), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 11pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 11pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><script type="text/javascript">    var disqus_shortname = "huiliu";    disqus_count();</script><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

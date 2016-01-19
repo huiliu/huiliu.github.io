@@ -1,0 +1,1186 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>shadowsocks源码分析：ssserver &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="入侵检测工具－Snort" href="snort.html" /><link rel="prev" title="探索SELinux" href="selinux.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/database.html">database</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>January 19, 2016</span>
+        </div>
+    <div class="section" id="shadowsocks-ssserver">
+<h1>shadowsocks源码分析：ssserver</h1>
+<p>学习shadowsocks<a class="footnote-reference" href="#id11" id="id1">[1]</a>服务端源码。</p>
+<div id="more"> </div><div class="section" id="shadowsocks">
+<h2>shadowsocks的原理</h2>
+<p>关于shadowsocks<a class="footnote-reference" href="#id11" id="id2">[1]</a>的原理，这张图解释的清清楚楚。</p>
+<img alt="../../../_images/whats-shadowsocks-04.png" src="../../../_images/whats-shadowsocks-04.png" />
+<p>其中:</p>
+<ul class="simple">
+<li>PC是需要利用shadowsocks代理的应用；</li>
+<li><strong>SS Local</strong>为shadowsocks客户端，通常运行在PC/手机上（也可以运行在任务PC可
+以到达的位置），用于与shadowsocks服务端建立连接。</li>
+<li><strong>GFW</strong>无需赘述了；</li>
+<li><strong>ss server</strong>shadowsocks服务端，与<cite>ss local</cite>通讯，完成<cite>ss local</cite>请
+求的访问，并将返回数据加密返回给<cite>ss local</cite></li>
+</ul>
+<p><strong>数据流向</strong>：<a class="footnote-reference" href="#id13" id="id3">[2]</a></p>
+<ul class="simple">
+<li>图中<span class="docutils literal"><span class="pre">1)</span> <span class="pre">Request</span></span>即本地应用通过<span class="docutils literal"><span class="pre">sock5</span></span>代理向<cite>ss local</cite>发起访
+问请求</li>
+<li>图中<span class="docutils literal"><span class="pre">2)</span> <span class="pre">Encrypt</span> <span class="pre">Request</span></span>为<cite>ss local</cite>将PC的请求经加密交给<cite>ss
+server</cite></li>
+<li><cite>ss server</cite>收到<cite>ss local</cite>的数据后解密，得到目的地址和数据，再向目的地
+址(Google/Twitter/Facebook)发起请求，即图中<span class="docutils literal"><span class="pre">3)</span> <span class="pre">Request</span></span></li>
+<li>目的服务器(Google/Twitter/Facebook)响应<cite>ss server</cite>的请求，即<span class="docutils literal"><span class="pre">4)</span>
+<span class="pre">Response</span></span></li>
+<li><cite>ss server</cite>收到响应数据后，将其加密发送给<cite>ss local</cite>，即:<span class="docutils literal"><span class="pre">5)</span>
+<span class="pre">Encrypt</span> <span class="pre">Response</span></span></li>
+<li><cite>ss local</cite>收到<cite>ss server</cite>发回的经加密的响应数据后，解密交给请求发起
+方PC。即：<span class="docutils literal"><span class="pre">6)</span> <span class="pre">Response</span></span></li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h2>源码结构</h2>
+<p>这里以<strong>shadowsocks-2.8.2</strong>的python源代码为例来<strong>分析ssserver的设计</strong>。
+解开源码可以看到shadowsocks目录结构如下（crypto略去）</p>
+<div class="highlight-none"><div class="highlight"><pre>|...
+├── shadowsocks
+│   ├── asyncdns.py
+│   ├── common.py
+│   ├── crypto
+│   │   ├── ....
+│   ├── daemon.py
+│   ├── encrypt.py
+│   ├── eventloop.py
+│   ├── __init__.py
+│   ├── local.py
+│   ├── lru_cache.py
+│   ├── manager.py
+│   ├── server.py
+│   ├── shell.py
+│   ├── tcprelay.py
+│   └── udprelay.py
+|...
+</pre></div>
+</div>
+<p>其中：</p>
+<ul class="simple">
+<li>server.py是服务端入口ssserver；</li>
+<li>local.py是客户端入口sslocal；</li>
+<li>tcprelay.py提供了类<span class="docutils literal"><span class="pre">TCPRelay</span></span>, <span class="docutils literal"><span class="pre">TCPRelayHandler</span></span>来处理TCP连接，
+UDP相关由udprelay.py提供</li>
+<li>eventloop.py提供了类<span class="docutils literal"><span class="pre">EventLoop</span></span>对epoll, kqueue, select方法的包装，提
+供统一的IO复用接口</li>
+<li>encrypt.py提供加密解密相关接口</li>
+<li>common.py包含一些通用接口</li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h2>服务端数据处理流程</h2>
+<div class="section" id="id6">
+<h3>shadowsocks服务端的启动</h3>
+<p>首先看一下<span class="docutils literal"><span class="pre">server.py</span></span>中的入口函数main中的代码段：</p>
+<ol class="arabic simple">
+<li>创建<span class="docutils literal"><span class="pre">TCPRelay</span></span>侦听相应的端口，等待shadowsocks客户端连接。从这里可以看
+到shadowsocks的客户端同时侦听TCP和UDP端口</li>
+</ol>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1"># file: server.py</span>
+<span class="k">for</span> <span class="n">port</span><span class="p">,</span> <span class="n">password</span> <span class="ow">in</span> <span class="n">port_password</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">a_config</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">a_config</span><span class="p">[</span><span class="s1">&#39;server_port&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">port</span><span class="p">)</span>
+    <span class="n">a_config</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">password</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;starting server at </span><span class="si">%s</span><span class="s2">:</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span>
+<span class="hll">                 <span class="p">(</span><span class="n">a_config</span><span class="p">[</span><span class="s1">&#39;server&#39;</span><span class="p">],</span> <span class="nb">int</span><span class="p">(</span><span class="n">port</span><span class="p">)))</span>
+</span><span class="hll">    <span class="n">tcp_servers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tcprelay</span><span class="o">.</span><span class="n">TCPRelay</span><span class="p">(</span><span class="n">a_config</span><span class="p">,</span> <span class="n">dns_resolver</span><span class="p">,</span> <span class="bp">False</span><span class="p">))</span>
+</span>    <span class="n">udp_servers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">udprelay</span><span class="o">.</span><span class="n">UDPRelay</span><span class="p">(</span><span class="n">a_config</span><span class="p">,</span> <span class="n">dns_resolver</span><span class="p">,</span> <span class="bp">False</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="2">
+<li>接下来一看TCPRelay的初始化</li>
+</ol>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1"># file tcprelay.py</span>
+
+<span class="k">class</span> <span class="nc">TCPRelay</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c1"># TCPRelay侦听并处理来自ss client连接请求</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">dns_resolver</span><span class="p">,</span> <span class="n">is_local</span><span class="p">,</span> <span class="n">stat_callback</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_local</span> <span class="o">=</span> <span class="n">is_local</span>       <span class="c1"># 是否为ss local。False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dns_resolver</span> <span class="o">=</span> <span class="n">dns_resolver</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_eventloop</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fd_to_handlers</span> <span class="o">=</span> <span class="p">{}</span>   <span class="c1"># {socketfd: socket_handle}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;timeout&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timeouts</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># a list for all the handlers</span>
+        <span class="c1"># we trim the timeouts once a while</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_offset</span> <span class="o">=</span> <span class="mi">0</span>   <span class="c1"># last checked position for timeout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_handler_to_timeouts</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># key: handler value: index in timeouts</span>
+
+        <span class="k">if</span> <span class="n">is_local</span><span class="p">:</span>
+            <span class="n">listen_addr</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;local_address&#39;</span><span class="p">]</span>
+            <span class="n">listen_port</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;local_port&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">listen_addr</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;server&#39;</span><span class="p">]</span>
+            <span class="n">listen_port</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;server_port&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_listen_port</span> <span class="o">=</span> <span class="n">listen_port</span>
+
+        <span class="c1"># 打开一个socket，并设置相关参数，然后bind, listen</span>
+        <span class="n">addrs</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">getaddrinfo</span><span class="p">(</span><span class="n">listen_addr</span><span class="p">,</span> <span class="n">listen_port</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+                                   <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOL_TCP</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">addrs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;can&#39;t get addrinfo for </span><span class="si">%s</span><span class="s2">:</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span>
+                            <span class="p">(</span><span class="n">listen_addr</span><span class="p">,</span> <span class="n">listen_port</span><span class="p">))</span>
+        <span class="n">af</span><span class="p">,</span> <span class="n">socktype</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">canonname</span><span class="p">,</span> <span class="n">sa</span> <span class="o">=</span> <span class="n">addrs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">server_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">af</span><span class="p">,</span> <span class="n">socktype</span><span class="p">,</span> <span class="n">proto</span><span class="p">)</span>
+        <span class="n">server_socket</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SO_REUSEADDR</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">server_socket</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">sa</span><span class="p">)</span>
+        <span class="n">server_socket</span><span class="o">.</span><span class="n">setblocking</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;fast_open&#39;</span><span class="p">]:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">server_socket</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">SOL_TCP</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;warning: fast open is not available&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="p">[</span><span class="s1">&#39;fast_open&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">server_socket</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_server_socket</span> <span class="o">=</span> <span class="n">server_socket</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stat_callback</span> <span class="o">=</span> <span class="n">stat_callback</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="3">
+<li><span class="docutils literal"><span class="pre">TCPRelay</span></span>初始化完成后，返回回server.py的main函数。接下来创建了一个
+EventLoop对象，并将打开的socket注册到EventLoop</li>
+</ol>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1"># file: server.py</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># ...</span>
+    <span class="k">def</span> <span class="nf">run_server</span><span class="p">():</span>
+        <span class="c1"># 注册signal处理函数</span>
+        <span class="c1"># ...</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># 创建EventLoop</span>
+            <span class="n">loop</span> <span class="o">=</span> <span class="n">eventloop</span><span class="o">.</span><span class="n">EventLoop</span><span class="p">()</span>
+            <span class="n">dns_resolver</span><span class="o">.</span><span class="n">add_to_loop</span><span class="p">(</span><span class="n">loop</span><span class="p">)</span>
+
+            <span class="c1"># 观察者模式</span>
+            <span class="c1"># epoll/kqueue/select观察着socket的状态，当socket状态发生变化时</span>
+            <span class="c1"># 调用消息处理函数</span>
+            <span class="c1"># 将已经打开的socket注册到EventLoop侦听相应的事件</span>
+<span class="hll">            <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">add_to_loop</span><span class="p">(</span><span class="n">loop</span><span class="p">),</span> <span class="n">tcp_servers</span> <span class="o">+</span> <span class="n">udp_servers</span><span class="p">))</span>
+</span>
+            <span class="n">daemon</span><span class="o">.</span><span class="n">set_user</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">))</span>
+            <span class="c1"># 启动事件循环，等待shadowsocks客户端的连接</span>
+            <span class="n">loop</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">shell</span><span class="o">.</span><span class="n">print_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;workers&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1">#...</span>
+    <span class="n">run_server</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="4">
+<li>看一下<span class="docutils literal"><span class="pre">EventLoop</span></span>的初始化和<span class="docutils literal"><span class="pre">TCPRelay.add_to_loop</span></span>的代码：</li>
+</ol>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1"># file: eventloop.py</span>
+
+<span class="k">class</span> <span class="nc">EventLoop</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># 选择IO复用模式，初始化一些参数</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">select</span><span class="p">,</span> <span class="s1">&#39;epoll&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_impl</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">epoll</span><span class="p">()</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="s1">&#39;epoll&#39;</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">select</span><span class="p">,</span> <span class="s1">&#39;kqueue&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_impl</span> <span class="o">=</span> <span class="n">KqueueLoop</span><span class="p">()</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="s1">&#39;kqueue&#39;</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">select</span><span class="p">,</span> <span class="s1">&#39;select&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_impl</span> <span class="o">=</span> <span class="n">SelectLoop</span><span class="p">()</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="s1">&#39;select&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;can not find any available functions in select &#39;</span>
+                            <span class="s1">&#39;package&#39;</span><span class="p">)</span>
+<span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_fdmap</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># (f, handler) 此结构非重要</span>
+</span>        <span class="bp">self</span><span class="o">.</span><span class="n">_last_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_periodic_callbacks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stopping</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;using event model: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">handler</span><span class="p">):</span>
+        <span class="c1"># 参数：</span>
+        <span class="c1">#   f:  socket</span>
+        <span class="c1">#   mode: 所侦听的事件</span>
+        <span class="c1">#   handler: 事件处理对象，当socket注册的事件mode发生时，会调用</span>
+        <span class="c1">#           handler.handle_event(...)</span>
+        <span class="n">fd</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">fileno</span><span class="p">()</span>
+        <span class="c1"># 此处将(socket, handler)加入到一个字典, key为socket的文件描述符</span>
+<span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_fdmap</span><span class="p">[</span><span class="n">fd</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">handler</span><span class="p">)</span>
+</span>        <span class="bp">self</span><span class="o">.</span><span class="n">_impl</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stopping</span><span class="p">:</span>
+            <span class="c1"># ...</span>
+            <span class="n">asap</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># 等待事件触发，返回触发的事件</span>
+<span class="hll">                <span class="n">events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">poll</span><span class="p">(</span><span class="n">TIMEOUT_PRECISION</span><span class="p">)</span>
+</span>            <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="ne">IOError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">errno_from_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="n">errno</span><span class="o">.</span><span class="n">EPIPE</span><span class="p">,</span> <span class="n">errno</span><span class="o">.</span><span class="n">EINTR</span><span class="p">):</span>
+                <span class="c1"># ...</span>
+
+            <span class="c1"># 遍历被激活的事件</span>
+            <span class="k">for</span> <span class="n">sock</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+                <span class="c1"># 根据文件描述述查找对应的handle。在self.add函数加注册的</span>
+                <span class="n">handler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fdmap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">handler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">handler</span> <span class="o">=</span> <span class="n">handler</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="c1"># 调用相关_handle_event方法，处理事件</span>
+<span class="hll">                        <span class="n">handler</span><span class="o">.</span><span class="n">handle_event</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span>
+</span>                    <span class="c1"># ...</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="5">
+<li>再来看看<span class="docutils literal"><span class="pre">TCPRelay.add_to_loop</span></span>做了什么</li>
+</ol>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1"># file: tcprelay.py</span>
+<span class="k">class</span> <span class="nc">TCPRelay</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c1"># ...</span>
+    <span class="k">def</span> <span class="nf">add_to_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loop</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eventloop</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;already add to loop&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;already closed&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_eventloop</span> <span class="o">=</span> <span class="n">loop</span>
+        <span class="c1"># 调用EventLoop的add方法注册自身打开的socket</span>
+<span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_eventloop</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_server_socket</span><span class="p">,</span>
+</span>                            <span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_IN</span> <span class="o">|</span> <span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_ERR</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="c1"># 调用EventLoop的add_periodic方法注册一个周期处理函数，</span>
+        <span class="c1"># 清理失效的socket</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_eventloop</span><span class="o">.</span><span class="n">add_periodic</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">handle_periodic</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>到这里，shadowsocks服务端就算启动完成了，就等shadowsocks客户端来连接了。回顾一下做了些什么：</p>
+<ul class="simple">
+<li>根据配置文件打开指定的TCP/UDP端口</li>
+<li>建立一个IO复用对象EventLoop，并注册socket的读事件(<span class="docutils literal"><span class="pre">eventloop.POLL_IN</span></span>）</li>
+<li>启动EventLoop，等待shadowsocks连接。</li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h3>shadowsocks客户端连接服务端</h3>
+<p>当shadowsocks客户端连接到服务端时，EventLoop中就会产生相关的事件，并调用对应的
+<span class="docutils literal"><span class="pre">TCPRelay.handle_event</span></span>方法来处理事件。</p>
+<ol class="arabic simple">
+<li>shadowsocks客户端向服务端发起连接，将触发TCPRelay的socket的
+<span class="docutils literal"><span class="pre">EventLoop.POLL_IN</span></span>事件。即会调用<span class="docutils literal"><span class="pre">TCPRelay.handle_event</span></span>方法。
+shodowsocks服务端接受连接，并创建一个<span class="docutils literal"><span class="pre">TCPRelayHandler</span></span>来管理，
+即由TCPRelayHandler与shadowsocks客户端通讯。初始连接事件处理完，Eventloop又
+进入待机状态，</li>
+</ol>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1"># file: tcprelay.py</span>
+<span class="k">class</span> <span class="nc">TCPRelay</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">handle_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sock</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="c1"># handle events and dispatch to handlers</span>
+        <span class="k">if</span> <span class="n">sock</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">shell</span><span class="o">.</span><span class="n">VERBOSE_LEVEL</span><span class="p">,</span> <span class="s1">&#39;fd </span><span class="si">%d</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span>
+                        <span class="n">eventloop</span><span class="o">.</span><span class="n">EVENT_NAMES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">event</span><span class="p">))</span>
+        <span class="c1"># 如果事件来自self._server_socket(服务端侦听socket)</span>
+        <span class="k">if</span> <span class="n">sock</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server_socket</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">event</span> <span class="o">&amp;</span> <span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_ERR</span><span class="p">:</span>
+                <span class="c1"># TODO</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;server_socket error&#39;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;accept&#39;</span><span class="p">)</span>
+                <span class="c1"># 接受新的客户端连接</span>
+<span class="hll">                <span class="n">conn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server_socket</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+</span>                <span class="c1"># 建立TCPRelayHandler来管理客户端</span>
+<span class="hll">                <span class="n">TCPRelayHandler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fd_to_handlers</span><span class="p">,</span>
+</span>                                <span class="bp">self</span><span class="o">.</span><span class="n">_eventloop</span><span class="p">,</span> <span class="n">conn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="p">,</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">_dns_resolver</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_local</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="ne">IOError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="c1"># ...</span>
+        <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># 如果事件是由其它socket触发的，</span>
+        <span class="c1"># 且sock是有效的</span>
+            <span class="k">if</span> <span class="n">sock</span><span class="p">:</span>
+                <span class="c1"># 根据fd查找到对应的handler</span>
+<span class="hll">                <span class="n">handler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fd_to_handlers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+</span>                <span class="k">if</span> <span class="n">handler</span><span class="p">:</span>
+                    <span class="c1"># 调用handler.handle_event来处理事件</span>
+<span class="hll">                    <span class="n">handler</span><span class="o">.</span><span class="n">handle_event</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span>
+</span>        <span class="c1"># ...</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="2">
+<li>第一步中，当一个客户端连接上服务端后，建立一个新的<span class="docutils literal"><span class="pre">TCPRelayHandler</span></span>来
+管理客户端，看看<span class="docutils literal"><span class="pre">TCPRelayHandler</span></span>的初始化做了什么：</li>
+</ol>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1"># file: tcprelay.py</span>
+<span class="k">class</span> <span class="nc">TCPRelayHandler</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">fd_to_handlers</span><span class="p">,</span> <span class="n">loop</span><span class="p">,</span> <span class="n">local_sock</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span>
+                 <span class="n">dns_resolver</span><span class="p">,</span> <span class="n">is_local</span><span class="p">):</span>
+        <span class="c1"># 创建当前对象的TCPRelay对象</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_server</span> <span class="o">=</span> <span class="n">server</span>
+<span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_fd_to_handlers</span> <span class="o">=</span> <span class="n">fd_to_handlers</span>
+</span>        <span class="bp">self</span><span class="o">.</span><span class="n">_loop</span> <span class="o">=</span> <span class="n">loop</span>
+        <span class="c1"># 与ss client的socket连接</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_local_sock</span> <span class="o">=</span> <span class="n">local_sock</span>
+        <span class="c1"># ...</span>
+        <span class="c1"># 请注意初始状态值</span>
+<span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_stage</span> <span class="o">=</span> <span class="n">STAGE_INIT</span>
+</span>        <span class="bp">self</span><span class="o">.</span><span class="n">_upstream_status</span> <span class="o">=</span> <span class="n">WAIT_STATUS_READING</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_downstream_status</span> <span class="o">=</span> <span class="n">WAIT_STATUS_INIT</span>
+        <span class="c1"># ...</span>
+<span class="hll">        <span class="c1"># 将socket(与ss client连接)加入到TCPRelay的fd_to_handlers的字典中</span>
+</span>        <span class="c1"># 此时字典里只有一项（假定当前是第一个也是唯一一个ss client的连接）</span>
+        <span class="c1"># 即ss client与ss server的连接socket</span>
+        <span class="n">fd_to_handlers</span><span class="p">[</span><span class="n">local_sock</span><span class="o">.</span><span class="n">fileno</span><span class="p">()]</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="n">local_sock</span><span class="o">.</span><span class="n">setblocking</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">local_sock</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">SOL_TCP</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">TCP_NODELAY</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># 将与ss client连接的socket注册至EventLoop。首先注册的是POLL_IN事件</span>
+        <span class="c1"># socket被添加到EventLoop的字典_fdmap中</span>
+        <span class="n">loop</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">local_sock</span><span class="p">,</span> <span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_IN</span> <span class="o">|</span> <span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_ERR</span><span class="p">,</span>
+                 <span class="bp">self</span><span class="o">.</span><span class="n">_server</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_activity</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># 更新活动信息，以免被TCPRelay清理</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_activity</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>这样，<em>ss client</em>就与<em>ss server</em>建立了连接，EventLoop开始侦听与<cite>ss client</cite>连接的socket。</p>
+</div>
+<div class="section" id="id8">
+<h3>shadowsocks客户端向服务端发送数据</h3>
+<p>当<cite>ss local</cite>与<cite>ss server</cite>建立好连接之后，socket即处理EvetLoop的监听下。
+<cite>ss local</cite>开始向<cite>ss server</cite>发送数据。EventLoop会调用<span class="docutils literal"><span class="pre">TCPRelay.handle_event</span></span>并通过查找<span class="docutils literal"><span class="pre">TCPRelay._fd_to_handles</span></span>，最终调用
+<span class="docutils literal"><span class="pre">TCPRelayHandler.handle_event</span></span>方法来处理。</p>
+<ol class="arabic simple">
+<li><cite>ss local</cite>向<cite>ss server</cite>发送请求数据。调用<span class="docutils literal"><span class="pre">TCPRelayHandler.handle_event</span></span>来处理。因为是<cite>ss local</cite> -&gt; <cite>ss server</cite>
+所以socket是<span class="docutils literal"><span class="pre">TCPRelayHandler._local_sock</span></span>, 最后会调用
+<span class="docutils literal"><span class="pre">TCPRelayHandler._on_local_read()</span></span>来处理</li>
+</ol>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1"># file: tcprelay.py</span>
+<span class="k">class</span> <span class="nc">TCPRelayHandler</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c1"># ...</span>
+    <span class="k">def</span> <span class="nf">handle_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sock</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="c1"># handle all events in this handler and dispatch them to methods</span>
+<span class="hll">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stage</span> <span class="o">==</span> <span class="n">STAGE_DESTROYED</span><span class="p">:</span>
+</span>            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;ignore handle_event: destroyed&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="c1"># order is important</span>
+<span class="hll">        <span class="k">if</span> <span class="n">sock</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_sock</span><span class="p">:</span>
+</span>            <span class="k">if</span> <span class="n">event</span> <span class="o">&amp;</span> <span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_ERR</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_on_remote_error</span><span class="p">()</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stage</span> <span class="o">==</span> <span class="n">STAGE_DESTROYED</span><span class="p">:</span>
+                    <span class="k">return</span>
+            <span class="k">if</span> <span class="n">event</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_IN</span> <span class="o">|</span> <span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_HUP</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_on_remote_read</span><span class="p">()</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stage</span> <span class="o">==</span> <span class="n">STAGE_DESTROYED</span><span class="p">:</span>
+                    <span class="k">return</span>
+            <span class="k">if</span> <span class="n">event</span> <span class="o">&amp;</span> <span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_OUT</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_on_remote_write</span><span class="p">()</span>
+        <span class="c1"># 是ss local与ss server间的socket触发了事件</span>
+<span class="hll">        <span class="k">elif</span> <span class="n">sock</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_sock</span><span class="p">:</span>
+</span>            <span class="k">if</span> <span class="n">event</span> <span class="o">&amp;</span> <span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_ERR</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_on_local_error</span><span class="p">()</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stage</span> <span class="o">==</span> <span class="n">STAGE_DESTROYED</span><span class="p">:</span>
+                    <span class="k">return</span>
+            <span class="c1"># 如果为读事件，即ss local向ss server发送请求</span>
+            <span class="k">if</span> <span class="n">event</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_IN</span> <span class="o">|</span> <span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_HUP</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_on_local_read</span><span class="p">()</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stage</span> <span class="o">==</span> <span class="n">STAGE_DESTROYED</span><span class="p">:</span>
+                    <span class="k">return</span>
+            <span class="c1"># 如果为可写事件</span>
+            <span class="k">if</span> <span class="n">event</span> <span class="o">&amp;</span> <span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_OUT</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_on_local_write</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;unknown socket&#39;</span><span class="p">)</span>
+    <span class="c1"># ...</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="2">
+<li>接下来看看<span class="docutils literal"><span class="pre">TCPRelayHandler.on_local_read()</span></span>如何处理<span class="docutils literal"><span class="pre">ss</span> <span class="pre">local</span></span>的
+请求。</li>
+</ol>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1"># file: tcprelay.py</span>
+<span class="k">class</span> <span class="nc">TCPRelayHandler</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_on_local_read</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># handle all local read events and dispatch them to methods for</span>
+        <span class="c1"># each stage</span>
+<span class="hll">        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_sock</span><span class="p">:</span>
+</span>            <span class="k">return</span>
+        <span class="n">is_local</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_local</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="hll">        <span class="k">try</span><span class="p">:</span>
+</span>            <span class="c1"># 从socket读取数据</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_sock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">BUF_SIZE</span><span class="p">)</span>
+        <span class="c1"># ...</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_local</span><span class="p">:</span>
+            <span class="c1"># 由于当前是 ss server，所以走向此分支</span>
+            <span class="c1"># 将数据解密</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encryptor</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span>
+        <span class="c1"># 检查状态</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stage</span> <span class="o">==</span> <span class="n">STAGE_STREAM</span><span class="p">:</span>
+<span class="hll">            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_local</span><span class="p">:</span>
+</span>                <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encryptor</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_write_to_sock</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_sock</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="c1"># 当前是ss server</span>
+        <span class="k">elif</span> <span class="n">is_local</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stage</span> <span class="o">==</span> <span class="n">STAGE_INIT</span><span class="p">:</span>
+            <span class="c1"># TODO check auth method</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_write_to_sock</span><span class="p">(</span><span class="n">b</span><span class="s1">&#39;</span><span class="se">\x05\00</span><span class="s1">&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_sock</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_stage</span> <span class="o">=</span> <span class="n">STAGE_ADDR</span>
+            <span class="k">return</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stage</span> <span class="o">==</span> <span class="n">STAGE_CONNECTING</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_handle_stage_connecting</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">is_local</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stage</span> <span class="o">==</span> <span class="n">STAGE_ADDR</span><span class="p">)</span> <span class="ow">or</span> \
+                <span class="p">(</span><span class="ow">not</span> <span class="n">is_local</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stage</span> <span class="o">==</span> <span class="n">STAGE_INIT</span><span class="p">):</span>
+            <span class="c1"># 第一个数据包的处理来到这一步</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_handle_stage_addr</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_handle_stage_addr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_local</span><span class="p">:</span>
+                <span class="c1"># ...</span>
+            <span class="c1"># 解析ss local的数据包</span>
+            <span class="n">header_result</span> <span class="o">=</span> <span class="n">parse_header</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="c1"># ...</span>
+            <span class="c1"># 得到ss local想要连接到remote主机和数据</span>
+            <span class="n">addrtype</span><span class="p">,</span> <span class="n">remote_addr</span><span class="p">,</span> <span class="n">remote_port</span><span class="p">,</span> <span class="n">header_length</span> <span class="o">=</span> <span class="n">header_result</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;connecting </span><span class="si">%s</span><span class="s1">:</span><span class="si">%d</span><span class="s1"> from </span><span class="si">%s</span><span class="s1">:</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span>
+                         <span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">to_str</span><span class="p">(</span><span class="n">remote_addr</span><span class="p">),</span> <span class="n">remote_port</span><span class="p">,</span>
+                          <span class="bp">self</span><span class="o">.</span><span class="n">_client_address</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client_address</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_remote_address</span> <span class="o">=</span> <span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">to_str</span><span class="p">(</span><span class="n">remote_addr</span><span class="p">),</span> <span class="n">remote_port</span><span class="p">)</span>
+            <span class="c1"># pause reading</span>
+            <span class="c1"># 改变与ss local连接socket的侦听事件？</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_stream</span><span class="p">(</span><span class="n">STREAM_UP</span><span class="p">,</span> <span class="n">WAIT_STATUS_WRITING</span><span class="p">)</span>
+            <span class="c1"># 进入到STAGE_DNS态</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_stage</span> <span class="o">=</span> <span class="n">STAGE_DNS</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_local</span><span class="p">:</span>
+                <span class="c1"># ...</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">header_length</span><span class="p">:</span>
+                    <span class="c1"># 将ss local的请求数据写入值缓冲队列</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_data_to_write_to_remote</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">header_length</span><span class="p">:])</span>
+                <span class="c1"># notice here may go into _handle_dns_resolved directly</span>
+                <span class="c1"># 解析ss local请求的域名</span>
+                <span class="c1"># 完成后调用TCPRelayHandler._handle_dns_resolved()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dns_resolver</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">remote_addr</span><span class="p">,</span>
+                                           <span class="bp">self</span><span class="o">.</span><span class="n">_handle_dns_resolved</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="c1"># ...</span>
+    <span class="c1"># ...</span>
+
+    <span class="c1"># 此函数有点让人晕</span>
+    <span class="k">def</span> <span class="nf">_update_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
+        <span class="c1"># update a stream to a new waiting status</span>
+
+        <span class="c1"># check if status is changed</span>
+        <span class="c1"># only update if dirty</span>
+        <span class="n">dirty</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">if</span> <span class="n">stream</span> <span class="o">==</span> <span class="n">STREAM_DOWN</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_downstream_status</span> <span class="o">!=</span> <span class="n">status</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_downstream_status</span> <span class="o">=</span> <span class="n">status</span>
+                <span class="n">dirty</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">elif</span> <span class="n">stream</span> <span class="o">==</span> <span class="n">STREAM_UP</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upstream_status</span> <span class="o">!=</span> <span class="n">status</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_upstream_status</span> <span class="o">=</span> <span class="n">status</span>
+                <span class="n">dirty</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">if</span> <span class="n">dirty</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_sock</span><span class="p">:</span>
+                <span class="n">event</span> <span class="o">=</span> <span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_ERR</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_downstream_status</span> <span class="o">&amp;</span> <span class="n">WAIT_STATUS_WRITING</span><span class="p">:</span>
+                    <span class="n">event</span> <span class="o">|=</span> <span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_OUT</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upstream_status</span> <span class="o">&amp;</span> <span class="n">WAIT_STATUS_READING</span><span class="p">:</span>
+                    <span class="n">event</span> <span class="o">|=</span> <span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_IN</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="o">.</span><span class="n">modify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_local_sock</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_sock</span><span class="p">:</span>
+                <span class="n">event</span> <span class="o">=</span> <span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_ERR</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_downstream_status</span> <span class="o">&amp;</span> <span class="n">WAIT_STATUS_READING</span><span class="p">:</span>
+                    <span class="n">event</span> <span class="o">|=</span> <span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_IN</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upstream_status</span> <span class="o">&amp;</span> <span class="n">WAIT_STATUS_WRITING</span><span class="p">:</span>
+                    <span class="n">event</span> <span class="o">|=</span> <span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_OUT</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="o">.</span><span class="n">modify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_remote_sock</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span>
+
+    <span class="c1"># 客户端请求的域名解析完成</span>
+    <span class="k">def</span> <span class="nf">_handle_dns_resolved</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">error</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log_error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+            <span class="n">ip</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">ip</span><span class="p">:</span>
+
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_stage</span> <span class="o">=</span> <span class="n">STAGE_CONNECTING</span>
+                    <span class="n">remote_addr</span> <span class="o">=</span> <span class="n">ip</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_local</span><span class="p">:</span>
+                        <span class="n">remote_port</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chosen_server</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">remote_port</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote_address</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_local</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="p">[</span><span class="s1">&#39;fast_open&#39;</span><span class="p">]:</span>
+                        <span class="c1"># ...</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c1"># else do connect</span>
+                        <span class="c1"># 非常重要!!</span>
+                        <span class="c1"># 创建一个到remote主机的socket，并将socket的文件描述</span>
+                        <span class="c1"># 符和socket添加到TCPRelay的字典</span>
+                        <span class="c1"># TCPRelay._fd_to_handler中</span>
+                        <span class="n">remote_sock</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_remote_socket</span><span class="p">(</span><span class="n">remote_addr</span><span class="p">,</span>
+                                                                 <span class="n">remote_port</span><span class="p">)</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="c1"># 连接remote主机（ss local请求的地址）</span>
+                            <span class="n">remote_sock</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="n">remote_addr</span><span class="p">,</span> <span class="n">remote_port</span><span class="p">))</span>
+                        <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="ne">IOError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">eventloop</span><span class="o">.</span><span class="n">errno_from_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">==</span> \
+                                    <span class="n">errno</span><span class="o">.</span><span class="n">EINPROGRESS</span><span class="p">:</span>
+                                <span class="k">pass</span>
+                        <span class="c1"># 注册可写事件。是不是只要可写立即就会触发？</span>
+                        <span class="c1"># 如果是，马上会调用TCPRelayHandler._on_remote_wirte()</span>
+                        <span class="c1"># 将ss local请求的数据发送到remote主机</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_loop</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">remote_sock</span><span class="p">,</span>
+                                       <span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_ERR</span> <span class="o">|</span> <span class="n">eventloop</span><span class="o">.</span><span class="n">POLL_OUT</span><span class="p">,</span>
+                                       <span class="bp">self</span><span class="o">.</span><span class="n">_server</span><span class="p">)</span>
+                        <span class="c1"># TCPRelayHandler进入STAGE_CONNECTING态</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_stage</span> <span class="o">=</span> <span class="n">STAGE_CONNECTING</span>
+                        <span class="c1"># 更新stream状态</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_update_stream</span><span class="p">(</span><span class="n">STREAM_UP</span><span class="p">,</span> <span class="n">WAIT_STATUS_READWRITING</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_update_stream</span><span class="p">(</span><span class="n">STREAM_DOWN</span><span class="p">,</span> <span class="n">WAIT_STATUS_READING</span><span class="p">)</span>
+                    <span class="k">return</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">shell</span><span class="o">.</span><span class="n">print_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="p">[</span><span class="s1">&#39;verbose&#39;</span><span class="p">]:</span>
+                        <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="3">
+<li>此时TCPRelayHandler已经将<cite>ss local</cite>的请求数据发送给的remote主机，当远程主
+机发回响应数据给<cite>ss server</cite>时，会触发TCPRelayHandler._remote_socket的读事
+件。最终会调用<span class="docutils literal"><span class="pre">TCPRelayHandler._on_remote_read</span></span>方法：</li>
+</ol>
+<p>即此时，<cite>ss local</cite>完成了一次与<cite>ss server</cite>的代理访问：</p>
+<ol class="arabic simple">
+<li><cite>ss local</cite>将想要访问的地址和数据加密将给<cite>ss server</cite></li>
+<li><cite>ss server</cite>将<cite>ss local</cite>的请求数据解密，并向remote主机发送请求</li>
+<li>remote主机将响应数据发送给<cite>ss server</cite>，<cite>ss server</cite>将响应数据加密发送
+给<cite>ss local</cite></li>
+</ol>
+<p>注意：</p>
+<ol class="arabic simple">
+<li><span class="docutils literal"><span class="pre">TCPRelay</span></span>对应着一个<cite>ss server</cite>的侦听端口，主要负责处理与<cite>ss local</cite>
+的连接</li>
+<li><span class="docutils literal"><span class="pre">TCPRelayHandler</span></span>对应着一条<cite>ss local</cite>与<cite>ss server</cite>间的TCP链接，
+同时管理着一条<cite>ss server</cite>与remote主机的连接。</li>
+</ol>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>不解</h2>
+<ol class="arabic simple">
+<li>侦听与<cite>ss local</cite>连接socket事件时，为什么在侦听读和侦听写之间切换？同时侦
+听两个事件有什么问题？</li>
+<li>由于<span class="docutils literal"><span class="pre">TCPRelayHandler</span></span>只能管理一条<cite>ss server</cite>与remote的连接，且除第
+一个数据包之外，后续数据，<cite>ss server</cite>都是收到之后直接交给remote。如此则
+要求<cite>ss local</cite>针对每一个不同域名/IP，需要与<cite>ss server</cite>建立一条TCP链
+接？</li>
+</ol>
+</div>
+<div class="section" id="id10">
+<h2>参数资料</h2>
+<table class="docutils footnote" frame="void" id="id11" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>)</em> <a class="reference external" href="https://shadowsocks.org">Shadowsocks</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id13" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td><a class="reference external" href="http://vc2tea.com/whats-shadowsocks/">写给非专业人士看的 Shadowsocks 简介</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/program.html">program</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/python.html">python</a>, <a href="../../../tags/network.html">network</a>, <a href="../../../tags/vpn.html">vpn</a></span>
+        </div>
+        </div><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="selinux.html">探索SELinux</a></li>
+            <li class="right"><a href="snort.html">入侵检测工具－Snort</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/shadowsocks";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="bash.html">Learning Bash</a>
+        </li><li>
+            <a href="code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="comm_pipe.html">命令行管道编程</a>
+        </li><li>
+            <a href="datamining.html">学习数据挖掘</a>
+        </li><li>
+            <a href="disk_quota.html">磁盘配额管理</a>
+        </li><li>
+            <a href="docker.html">docker使用小记</a>
+        </li><li>
+            <a href="economy.html">经济指标</a>
+        </li><li>
+            <a href="epoll_man.html">epoll(7)</a>
+        </li><li>
+            <a href="epoll.html">epoll API</a>
+        </li><li>
+            <a href="firefox.html">Speed Up Firefox</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (7)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (16)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (7), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (9), <a href="../../../tags/python.html">python</a> (10), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 11pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 11pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

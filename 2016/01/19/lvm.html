@@ -1,0 +1,493 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>LVM基础知识 &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="邮件系统-Postfix, Dovecot, MySQL和Postfixadmin" href="mail.html" /><link rel="prev" title="Linux系统编程（一） IO基础" href="lsp01.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/database.html">database</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>January 19, 2016</span>
+        </div>
+    <div class="section" id="lvm">
+<h1>LVM基础知识</h1>
+<div id="more"> </div><div class="section" id="id1">
+<h2>基本概念</h2>
+<p>如果我们单块磁盘最大容量为1TB，但是有一个数据库文件有5个TB怎么办？在<strong>分区</strong>这个概念下是无法做到的，我们无法将小的分区（文件系统）合在一起使用。LVM可以做到，
+前面也介绍过，LVM中的LV（逻辑卷）与物理磁盘的大小是完全无关的，可以将不同大小的物理盘合并到一起最终构建一个大的LV，那要怎么去实现呢，下面我们将介绍。</p>
+<p>使用LVM(Logic Volume Manager)可以灵活方便的管理物理磁盘。你是否遇到某个磁盘分区空间不足，给你的文档存放规范带来不便。使用LVM可以轻松的解决这个问题。逻辑卷实际上是将物理磁盘虚拟化，这样逻辑卷的大小就不受物理卷大小的限制。并且它还有其它优点：</p>
+<ol class="arabic simple">
+<li><em>灵活的容量</em> 当使用逻辑卷时，可在多个磁盘间扩展文件系统，因为您可以将磁盘和分区集合成一个逻辑卷。</li>
+<li><em>重新设定存储池大小</em> 您可以使用检单的软件命令增大或者减小逻辑卷的大小，而无需对所在磁盘设备重新格式化或者重新分区。</li>
+<li><em>在线数据重新定位</em> 要部署更新、更快或者更有弹性的存储子系统，以便您可以在系统活跃时移动数据。数据可以在磁盘正在使用时进行重新分配。例如，您可以在删除一个热交换磁盘之前将其清空。</li>
+<li><em>方便设备命名</em> 逻辑存储卷可在用户定义的组群中进行管理，这些组群可按您的要求进行命名。</li>
+<li><em>磁盘条带</em> 您可以创建一个可在两个或者更多磁盘间条状分布数据的逻辑卷。这可大幅度提高吞吐量。</li>
+<li><em>镜像卷</em> 逻辑卷为您提供了一个方便配置数据镜像的方法。</li>
+<li><em>卷快照</em> 使用逻辑卷，您可以提取设备快照，这样可在持续备份或者在不影响真实数据的情况下测试修改效果。</li>
+</ol>
+<p>使用LVM需要掌握几个新的概念：<span class="docutils literal"><span class="pre">物理卷，卷组，逻辑卷</span></span>。对详细说明请参考参考资料中列出的内容。</p>
+</div>
+<div class="section" id="id2">
+<h2>构建LVM</h2>
+<p>简单流程：</p>
+<ul class="simple">
+<li>使用命令 <span class="docutils literal"><span class="pre">pvcreate</span></span>创建<span class="docutils literal"><span class="pre">PE</span></span></li>
+<li>使用命令 <span class="docutils literal"><span class="pre">vgcreate</span></span>创建<span class="docutils literal"><span class="pre">VG</span></span></li>
+<li>使用命令 <span class="docutils literal"><span class="pre">lvcreate</span></span>创建<span class="docutils literal"><span class="pre">LV</span></span></li>
+</ul>
+<p>再用<span class="docutils literal"><span class="pre">mkfs</span></span>格式化LV，即可以使用LV存储文件数据了。</p>
+<p>一个新的磁盘（存储器）插入到系统后会被识别为一个新的独立的文件系统，这类似于我们将一块大磁盘分割为几个小的文件系统（比如windows下经常分的C, D, E......等等分区）。如果你想将一个小的文件系统加入到LVM中，首先需要在这个小的文件系统上建立PE(physical extend)，命令：<span class="docutils literal"><span class="pre">pvcreate</span></span>。</p>
+</div>
+<div class="section" id="pv">
+<h2>PV管理</h2>
+<dl class="docutils">
+<dt>相关命令有：</dt>
+<dd>pvchange   pvcreate   pvmove     pvresize   pvscan
+pvck       pvdisplay  pvremove   pvs</dd>
+</dl>
+<div class="section" id="id3">
+<h3>创建</h3>
+<p>使用命令<span class="docutils literal"><span class="pre">pvcreate</span></span>创建PE，<span class="docutils literal"><span class="pre">pvcreate</span></span>的操作会破坏原分区（文件系统）中的数据。</p>
+<div class="highlight-bash"><div class="highlight"><pre>pvcreate /dev/sda1 /dev/sda2 /dev/sda3
+<span class="c1"># pvcreate后接分区，即可在分区上创建PE</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pv-pe">
+<h3>查看PV/PE</h3>
+<p>命令<span class="docutils literal"><span class="pre">pvdisplay</span></span>可以用来查看已创建PE的PV（物理卷）的属性，如，大小，PE大小，所属VG等等。例如：</p>
+<ol class="arabic simple">
+<li>默认使用选项-v，显示详细信息</li>
+</ol>
+<div class="highlight-bash"><div class="highlight"><pre>pvdisplay <span class="o">[</span>-v<span class="o">]</span>
+<span class="c1">#   Scanning for physical volume names</span>
+<span class="c1"># --- Physical volume ---</span>
+<span class="c1"># PV Name               /dev/sda10</span>
+<span class="c1"># VG Name               vg</span>
+<span class="c1"># PV Size               972.65 MiB / not usable 4.65 MiB</span>
+<span class="c1"># Allocatable           yes</span>
+<span class="c1"># PE Size               4.00 MiB</span>
+<span class="c1"># Total PE              242</span>
+<span class="c1"># Free PE               61</span>
+<span class="c1"># Allocated PE          181</span>
+<span class="c1"># PV UUID               fGisVN-LA7s-MPJW-F5ZI-gYqC-SS0O-UPNzPI</span>
+<span class="c1">#</span>
+<span class="c1"># --- Physical volume ---</span>
+<span class="c1"># PV Name               /dev/sda11</span>
+<span class="c1"># VG Name               vg</span>
+<span class="c1"># PV Size               972.65 MiB / not usable 4.65 MiB</span>
+<span class="c1"># Allocatable           yes</span>
+<span class="c1"># PE Size               4.00 MiB</span>
+<span class="c1"># Total PE              242</span>
+<span class="c1"># Free PE               223</span>
+<span class="c1"># Allocated PE          19</span>
+<span class="c1"># PV UUID               I0HjTy-Bcjf-oZG1-4hTR-CxVq-vHF1-DTvzyn</span>
+<span class="c1">#</span>
+<span class="c1"># &quot;/dev/sda9&quot; is a new physical volume of &quot;972.65 MiB&quot;</span>
+<span class="c1"># --- NEW Physical volume ---</span>
+<span class="c1"># PV Name               /dev/sda9</span>
+<span class="c1"># VG Name</span>
+<span class="c1"># PV Size               972.65 MiB</span>
+<span class="c1"># Allocatable           NO</span>
+<span class="c1"># PE Size               0</span>
+<span class="c1"># Total PE              0</span>
+<span class="c1"># Free PE               0</span>
+<span class="c1"># Allocated PE          0</span>
+<span class="c1"># PV UUID               dhL0cH-wS6w-dscI-PXRv-dRLS-aXaN-tzn08w</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>也可以使用选项“ <span class="docutils literal"><span class="pre">-s|--short</span></span>“显示精简信息。如：</li>
+</ol>
+<div class="highlight-bash"><div class="highlight"><pre>pvdisplay -s
+<span class="c1"># Device &quot;/dev/sda10&quot; has a capacity of 244.00 MiB</span>
+<span class="c1"># Device &quot;/dev/sda11&quot; has a capacity of 892.00 MiB</span>
+<span class="c1"># Device &quot;/dev/sda9&quot; has a capacity of 972.65 MiB</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>也显示指定分区的信息。</li>
+</ol>
+<div class="highlight-bash"><div class="highlight"><pre>pvdisplay <span class="o">[</span>option<span class="o">]</span> &lt;pv_path&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>增加物理卷</h3>
+<p>如果你存放数据的文件系统，随着数据增加，空间不够，需要增加磁盘，怎么把新的磁盘空间增加到原来的文件系统中呢？</p>
+<p>确认*/dev*目录下可以发现新加磁盘，然后使用<span class="docutils literal"><span class="pre">fdisk</span></span>命令将新磁盘分区（亦可不分）。</p>
+<p>最后用<span class="docutils literal"><span class="pre">pvcreate</span> <span class="pre">*PhysicalVolume*</span></span>在新磁盘上建立PV。</p>
+</div>
+<div class="section" id="id5">
+<h3>移除物理卷</h3>
+<p>如果需要更换某个磁盘，那怎么办呢？</p>
+</div>
+</div>
+<div class="section" id="vg">
+<h2>卷组(VG)管理</h2>
+<dl class="docutils">
+<dt>相关命令有:</dt>
+<dd>vgcreate, vgs, vgdisplay
+vgreduce, vgextend, vgremove, vgexport, vgimport
+vgmerge, vgsplit等等</dd>
+</dl>
+<div class="section" id="id6">
+<h3>创建VG</h3>
+<p>当完成创建PE之后就可以在相应的分区上建立VG了。使用命令<span class="docutils literal"><span class="pre">vgcreate</span></span>来创建VG，如：</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># 创建一个VG，其名字为vgName。</span>
+vgcreate vg-test /dev/sda9
+<span class="c1"># Volume group &quot;vg-test&quot; successfully created</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">1.  VG可以使用多个分区，也正是因为这样，LVM才能把多个小的分区（文件系统）联合起
+来形成一个大的文件系统
+2.  另外，一个分区只能属于一个VG</p>
+</div>
+</div>
+<div class="section" id="id7">
+<h3>查看VG信息</h3>
+<p>与查看PV/PE信息一样，使用命令<span class="docutils literal"><span class="pre">vgdisplay</span></span>来查看VG的信息。例如：</p>
+<div class="highlight-bash"><div class="highlight"><pre>vgdisplay
+<span class="c1">#  --- Volume group ---</span>
+<span class="c1">#  VG Name               vg</span>
+<span class="c1">#  System ID</span>
+<span class="c1">#  Format                lvm2</span>
+<span class="c1">#  Metadata Areas        2</span>
+<span class="c1">#  Metadata Sequence No  26</span>
+<span class="c1">#  VG Access             read/write</span>
+<span class="c1">#  VG Status             resizable</span>
+<span class="c1">#  MAX LV                0</span>
+<span class="c1">#  Cur LV                5</span>
+<span class="c1">#  Open LV               1</span>
+<span class="c1">#  Max PV                0</span>
+<span class="c1">#  Cur PV                2</span>
+<span class="c1">#  Act PV                2</span>
+<span class="c1">#  VG Size               1.89 GiB</span>
+<span class="c1">#  PE Size               4.00 MiB</span>
+<span class="c1">#  Total PE              484</span>
+<span class="c1">#  Alloc PE / Size       200 / 800.00 MiB</span>
+<span class="c1">#  Free  PE / Size       284 / 1.11 GiB</span>
+<span class="c1">#  VG UUID               DXKStQ-rGBh-kVSa-PDy2-eFvg-FLAx-kELRZX</span>
+</pre></div>
+</div>
+<p>可以查看到卷组vg的相关信息，其中大部分都可以在创建VG时设定，不过一般我们都会使用默认值，除非你有特殊的要求。</p>
+<p>其实查看PE, VG的信息还有其它命令<span class="docutils literal"><span class="pre">pvs,</span> <span class="pre">vgs</span></span>，这两个命令主要用于生成报告信息，便于SA了解所需的信息。</p>
+</div>
+<div class="section" id="id8">
+<h3>分割合并卷组</h3>
+</div>
+</div>
+<div class="section" id="lv">
+<h2>逻辑卷(LV)管理</h2>
+<dl class="docutils">
+<dt>相关命令:</dt>
+<dd>lvcreate, lvresize, lvextend, lvreduce, lvremove等等</dd>
+</dl>
+<p>逻辑卷类似于系统中的分区/dev/sda1, /dev/sda2等等，是用来存储数据的。</p>
+<div class="section" id="id9">
+<h3>创建LV</h3>
+<p>与创建PE，VG类似，创建LV使用命令<span class="docutils literal"><span class="pre">lvcreate</span></span>来创建LV。创建一个分区当然要指明这个分区的大小了，还要给一个名字便于查找使用。</p>
+<div class="highlight-bash"><div class="highlight"><pre>lvcreate -L +200M -n lv-test vg-test
+</pre></div>
+</div>
+<p>上面的命令将在卷组vg-test中创建一个名为lv-test，200M大小的LV。选项*-L*后接LV的大小，单位可以是K(b), M(b), T(b), P(b), E(b)；选项*-n*后接LV的名称，最后为已存在的 VG名称（即要在哪个VG上建立LV）。</p>
+</div>
+<div class="section" id="id10">
+<h3>查看LV属性</h3>
+<p>使用命令<span class="docutils literal"><span class="pre">lvdisplay</span></span>来查看LV的相关信息。用法与<span class="docutils literal"><span class="pre">pvdisplay,</span> <span class="pre">vgdisplay</span></span>类似。如：</p>
+<div class="highlight-bash"><div class="highlight"><pre>lvdisplay /dev/vg/vg-test
+<span class="c1">#  --- Logical volume ---</span>
+<span class="c1">#  LV Name                /dev/vg/vg-test</span>
+<span class="c1">#  VG Name                vg</span>
+<span class="c1">#  LV UUID                DwWf1w-0UMN-61WD-rHF1-pZtM-uec5-z7mGQW</span>
+<span class="c1">#  LV Write Access        read/write</span>
+<span class="c1">#  LV Status              available</span>
+<span class="c1">#  # open                 1</span>
+<span class="c1">#  LV Size                500.00 MiB</span>
+<span class="c1">#  Current LE             125</span>
+<span class="c1">#  Segments               1</span>
+<span class="c1">#  Allocation             inherit</span>
+<span class="c1">#  Read ahead sectors     auto</span>
+<span class="c1">#  - currently set to     256</span>
+<span class="c1">#  Block device           253:9</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id11">
+<h3>线性逻辑卷</h3>
+</div>
+<div class="section" id="id12">
+<h3>条状逻辑卷</h3>
+</div>
+<div class="section" id="id13">
+<h3>镜像逻辑卷</h3>
+</div>
+<div class="section" id="id14">
+<h3>快照卷</h3>
+</div>
+</div>
+<div class="section" id="id15">
+<h2>LVM重要操作</h2>
+<div class="section" id="id16">
+<h3>使用LVM来构建系统</h3>
+</div>
+<div class="section" id="id17">
+<h3>调整LV（逻辑分区）大小</h3>
+<p><strong>情 境</strong>：挂载于/usr下的分区LV（逻辑分区）lv_usr空间快被消耗殆尽，怎么办？</p>
+<p><strong>解决步骤</strong>：</p>
+<ul>
+<li><p class="first">确认VG（卷组）是否有足够的剩余空间。如果剩余空间不足，可以缩小其它剩余空间较
+多的LV，也可以增加新磁盘</p>
+</li>
+<li><p class="first">使用命令<span class="docutils literal"><span class="pre">lvresize</span></span>增加<em>lv_usr</em>空间</p>
+<div class="highlight-bash"><div class="highlight"><pre>lvresize -L +increaseNumber /dev/VolGroup/lv_usr
+</pre></div>
+</div>
+</li>
+<li><p class="first">使用命令<span class="docutils literal"><span class="pre">resize2fs</span></span>扩大逻辑分区<em>lv_usr</em>上的文件系统，使其与分区大
+小一致。此时系统可能提示你要先运行<span class="docutils literal"><span class="pre">fsck</span></span>检查一下文件系统</p>
+<div class="highlight-bash"><div class="highlight"><pre>e2fsck -f /dev/VolGroup/lv_usr
+resize2fs /dev/VolGroup/lv_usr
+</pre></div>
+</div>
+</li>
+<li><p class="first">使用命令<span class="docutils literal"><span class="pre">lvs</span></span>确认扩容成功。</p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">关键是：运行<span class="docutils literal"><span class="pre">lvresize</span></span>, <span class="docutils literal"><span class="pre">resize2fs</span></span>的先后顺序。扩容一定要先运行<span class="docutils literal"><span class="pre">lvreize</span></span>扩大分区，再运行<span class="docutils literal"><span class="pre">resize2fs</span></span>扩大文件系统</p>
+</div>
+</div>
+<div class="section" id="id18">
+<h3>增加或更换磁盘</h3>
+<p>情境：由于某个块磁盘年代比较久远，性能较差，需要更换新的磁盘，利用LVM如何在系统
+不停机的情形下更换硬盘？</p>
+<p>现在情况为：系统中有一块磁盘/dev/sda，在其上有一个分区/dev/sda1，/dev/sda1为VG（
+卷组）VGroup中的P，其中有很多LV</p>
+<p>完成步骤：</p>
+<ul>
+<li><p class="first">将新的硬盘经测试后安装到系统上并进行分区（此处我们假定新磁盘为/dev/sdb1）</p>
+</li>
+<li><p class="first">使用命令<span class="docutils literal"><span class="pre">pvcreate</span></span>将新的磁盘加入到PV（物理卷）</p>
+<div class="highlight-bash"><div class="highlight"><pre>pvcreate /dev/sdb1
+</pre></div>
+</div>
+</li>
+<li><p class="first">使用命令<span class="docutils literal"><span class="pre">vgextend</span></span>将/dev/sdb1加入到卷组VGroup中</p>
+<div class="highlight-bash"><div class="highlight"><pre>vgextend VGroup /dev/sdb1
+</pre></div>
+</div>
+</li>
+<li><p class="first">在线使用命令<span class="docutils literal"><span class="pre">pvmove</span></span>将/dev/sda1上的数据转移/dev/sdb1</p>
+<div class="highlight-bash"><div class="highlight"><pre>pvmove /dev/sda1 /dev/sdb1
+</pre></div>
+</div>
+</li>
+<li><p class="first">使用命令<span class="docutils literal"><span class="pre">vgreduce</span></span>将磁盘/dev/sda1从卷组VGroup中移除</p>
+<div class="highlight-bash"><div class="highlight"><pre>vgreduce VGroup /dev/sda1
+</pre></div>
+</div>
+</li>
+<li><p class="first">使用命令<span class="docutils literal"><span class="pre">pvremove</span></span>将磁盘/dev/sda1从PV中移除</p>
+<div class="highlight-bash"><div class="highlight"><pre>pvremove /dev/sda1
+</pre></div>
+</div>
+</li>
+<li><p class="first">将原磁盘拆下即可</p>
+</li>
+</ul>
+</div>
+<div class="section" id="id19">
+<h3>利用快照卷进行在线备份</h3>
+</div>
+<div class="section" id="id20">
+<h3>性能问题</h3>
+</div>
+</div>
+<div class="section" id="id21">
+<h2>参考资料</h2>
+</div>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/devops.html">devops</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/devops.html">devops</a>, <a href="../../../tags/deploy.html">deploy</a>, <a href="../../../tags/disk.html">disk</a></span>
+        </div>
+        </div><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="lsp01.html">Linux系统编程（一） IO基础</a></li>
+            <li class="right"><a href="mail.html">邮件系统-Postfix, Dovecot, MySQL和Postfixadmin</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/lvm";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="bash.html">Learning Bash</a>
+        </li><li>
+            <a href="code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="comm_pipe.html">命令行管道编程</a>
+        </li><li>
+            <a href="datamining.html">学习数据挖掘</a>
+        </li><li>
+            <a href="disk_quota.html">磁盘配额管理</a>
+        </li><li>
+            <a href="docker.html">docker使用小记</a>
+        </li><li>
+            <a href="economy.html">经济指标</a>
+        </li><li>
+            <a href="epoll_man.html">epoll(7)</a>
+        </li><li>
+            <a href="epoll.html">epoll API</a>
+        </li><li>
+            <a href="firefox.html">Speed Up Firefox</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (7)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (16)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (7), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (9), <a href="../../../tags/python.html">python</a> (10), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 11pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 11pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

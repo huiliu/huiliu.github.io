@@ -1,0 +1,417 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>磁盘配额管理 &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="docker使用小记" href="docker.html" /><link rel="prev" title="学习数据挖掘" href="datamining.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/database.html">database</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>January 19, 2016</span>
+        </div>
+    <div class="section" id="id1">
+<h1>磁盘配额管理</h1>
+<div id="more"> </div><p>对于Linux服务器，一般都是多用户的，如何防止某一个或一些用户将系统资源占用太多呢，<span class="docutils literal"><span class="pre">ulimit</span></span>命令可以进行一些限制。对于一个文件存储服务器，怎么给用户分配一定额度的空间呢？总不能把磁盘分为N个分区一个用户分一块吧。Linux提供了一个工具<span class="docutils literal"><span class="pre">quota</span></span>控制每个用户或工作组的磁盘使用量。</p>
+<dl class="docutils">
+<dt>命令有：</dt>
+<dd><span class="docutils literal"><span class="pre">quotacheck,</span> <span class="pre">setquota,</span> <span class="pre">edquota</span></span>
+<span class="docutils literal"><span class="pre">quotastats,</span> <span class="pre">repquota,</span> <span class="pre">warnquota</span></span>
+<span class="docutils literal"><span class="pre">quotaoff,</span> <span class="pre">quotaon</span></span>
+<span class="docutils literal"><span class="pre">quota,</span> <span class="pre">quotasync,</span> <span class="pre">quota_nld,</span> <span class="pre">rpc.rquotad</span></span></dd>
+</dl>
+<div class="section" id="quota">
+<h2>启用quota功能</h2>
+<ul class="simple">
+<li>首先确认你的内核支持quota，一般发行版Linux内核都支持quota功能，如果是自己手动编译，注意要选择支持quota。</li>
+<li>第二步，安装quota软件包。具体方法请参照你所用的系统。</li>
+<li>第三步，在磁盘的挂载选项中添加上<span class="docutils literal"><span class="pre">usrquota,</span> <span class="pre">grpquota</span></span>。使得文件系统支持quota。</li>
+<li>最后，运行命令<span class="docutils literal"><span class="pre">quotacheck</span> <span class="pre">-a</span></span>自动检查确认哪些系统支持quota。</li>
+</ul>
+<div class="section" id="id2">
+<h3>开机自开启</h3>
+<p>如果你想开机后quota功能自动开启</p>
+<ul class="simple">
+<li>只需要将挂载选项<span class="docutils literal"><span class="pre">usrquota,</span> <span class="pre">grpquota</span></span>加入到<span class="docutils literal"><span class="pre">/etc/fstab</span></span>中相应的文件系统</li>
+<li>然后将<span class="docutils literal"><span class="pre">quota</span></span>服务设定为开机自动运行即可。</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>简单举例</h2>
+<p>首先使用LVM创建了一个500M的实验分区scale</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># lvs</span>
+LV     VG   Attr   LSize   Origin Snap%  Move Log         Copy%  Convert
+scale  vg   -wi-ao 500.00m
+</pre></div>
+</div>
+<p>然后将该分区挂载到<em>/tmp/scale</em>下。</p>
+<div class="section" id="id4">
+<h3>生成记录文件</h3>
+<p>运行命令： <span class="docutils literal"><span class="pre">quotacheck</span> <span class="pre">-avug</span></span>。目录/tmp/scale（文件系统）中生成两个文件:<em>aquota.user, aquota.group</em>（注意这个文件是由``quotacheck``生成的，而不是手动创建的）。<em>aquota.user, aquota.group</em>这两个文件是用来存放用户配额相关信息的，并不是文本格式。</p>
+</div>
+<div class="section" id="id5">
+<h3>开启和关闭quota功能</h3>
+<p>使用命令<span class="docutils literal"><span class="pre">quotaon,</span> <span class="pre">quotaoff</span></span>来手动开启或关闭磁盘配额功能。如果你想开机自动运行，应该将quota服务设定为开机自运行。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># 开启磁盘配额管理功能</span>
+quotaon -vug filesystem
+quotaon -avug
+<span class="c1"># 关闭磁盘配额管理功能</span>
+quotaoff -vug filesystem
+quotaoff -avug
+</pre></div>
+</div>
+<p>设置服务开机自运行的方法请根据你的系统设定。</p>
+</div>
+<div class="section" id="id6">
+<h3>为用户设定配额值</h3>
+<p>最为激动的一个环节到了，怎么来为用户，工作组来设定配额呢？命令``edquota``将为您服务。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># 对sheldon进行配额限制</span>
+edquota -u sheldon
+<span class="c1"># 将会打开如下格式的一个文件：</span>
+Disk quotas <span class="k">for</span> user sheldon <span class="o">(</span>uid 1000<span class="o">)</span>:
+  Filesystem                   blocks       soft       hard     inodes     soft     hard
+  /dev/mapper/vg-scale          <span class="m">20480</span>      <span class="m">10240</span>      <span class="m">30720</span>          <span class="m">3</span>        <span class="m">0</span>        0
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">上面的文件是我已经编辑过的，如果对没有对用户进行过设置，则所有项均为0.</p>
+</div>
+<p>这个文件为一个表格形式，分为七列：</p>
+<ul class="simple">
+<li>第一列为文件系统，即哪个文件系统上sheldon个用多少空间。</li>
+<li>第二列为blocks.此列由系统自动计算得到的。请勿修改。</li>
+<li>同样第五列inodes与第二列一样，由系统自动计算得到的。</li>
+<li>第三，六列均为soft限制，即当用户所用磁盘量超过这个值后，会触发一些系统动作。</li>
+<li>第四，七列为hard限制，即用户使用磁盘量达到这个值之后，无法再写入文件。请特别注意。</li>
+</ul>
+<p>从上面我们可以发现，<span class="docutils literal"><span class="pre">quota</span></span>可以对用户使用磁盘量的两个指标进行限制－<span class="docutils literal"><span class="pre">block</span></span>和<span class="docutils literal"><span class="pre">inode</span></span>，关于两个值的意义请查看文件存储部分。</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">使用命令<span class="docutils literal"><span class="pre">edquota</span></span>编辑配额时，<span class="docutils literal"><span class="pre">数字必须与列名右对齐</span></span>，否则会提示格式错误而设置失败。</p>
+</div>
+<p>同样<span class="docutils literal"><span class="pre">quota</span></span>也支持对工作组磁盘用量的限额，只需要使用选项<span class="docutils literal"><span class="pre">-g</span></span>替代<span class="docutils literal"><span class="pre">-u</span></span>就可以了。例如：</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># 对bigbang小组进行限制</span>
+edquota -g bigbang
+Disk quotas <span class="k">for</span> group bigbang <span class="o">(</span>gid 1000<span class="o">)</span>:
+  Filesystem                   blocks       soft       hard     inodes     soft     hard
+  /dev/mapper/vg-scale          <span class="m">20480</span>    <span class="m">102400</span>      <span class="m">307200</span>          <span class="m">3</span>        <span class="m">0</span>        0
+</pre></div>
+</div>
+<p>其格式与作用与对user的设定完全一致。</p>
+<p>如果运行一个文件服务器，可能对很多用户的配额是完成一样的，比较说sheldon，harwod与leonard都只可以使用100M空间，你设定好sheldon的，然后再设定leonard的，再……如果有N个人一样，你一个一个的去设定那不得麻烦S啊。你一定要相信Linux一定有&#8221;偷懒&#8221;的方法。下面就是一个：</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># 将sheldon的配额设定copy一份给leonard，这样他们的就完全一样了，也不用再编辑</span>
+edquota -p sheldon -u leonard
+</pre></div>
+</div>
+<p>Easy吧。</p>
+</div>
+<div class="section" id="id7">
+<h3>设定宽限期</h3>
+<p>前面我们知道配额有一个<span class="docutils literal"><span class="pre">soft</span></span>，一个<span class="docutils literal"><span class="pre">hard</span></span>限制，这两者有什么区别呢？</p>
+<p>当用户磁盘用量超过<span class="docutils literal"><span class="pre">soft</span></span>限制之后，会触发一个宽限期（grace-time），如果在宽限期内用户占用磁盘量没有下降到soft设定值下，soft将变为hard。超出的数据会被怎么样还不清楚，正在实验。</p>
+<p>下面的命令用于设定grace-period（宽限期）：</p>
+<div class="highlight-bash"><div class="highlight"><pre>   <span class="c1"># 默认是设定针对用户的宽限期</span>
+   edquota -t
+   <span class="c1"># 加上参数``-g``可以设定工作的宽限期</span>
+edquota -t -g
+   <span class="c1"># 使用选项``-T``可以针对某个用户或工作组进行设定，如果没有特别设定，则使用设</span>
+   <span class="c1"># 定（即``-t``的设定值）。</span>
+   edquota -T -u sheldon
+   edquota -T -g bigbang
+</pre></div>
+</div>
+</div>
+<div class="section" id="id8">
+<h3>批量设定磁盘配额</h3>
+<p>命令<span class="docutils literal"><span class="pre">setquota</span></span>不同于<span class="docutils literal"><span class="pre">edquota</span></span>通过编辑方式设定配额，<span class="docutils literal"><span class="pre">setquota</span></span>可以方便的使用命令／参数模式来批量的设定用户的磁盘配额。请看命令说明：</p>
+<div class="highlight-bash"><div class="highlight"><pre>setquota <span class="o">[</span> -rm <span class="o">]</span> <span class="o">[</span> -u <span class="p">|</span> -g <span class="o">]</span> <span class="o">[</span> -F quotaformat <span class="o">]</span> name block-softlimit block-hardlimit inode-softlimit inode-hardlimit -a <span class="p">|</span> filesystem
+setquota <span class="o">[</span> -rm <span class="o">]</span> <span class="o">[</span> -u <span class="p">|</span> -g <span class="o">]</span> <span class="o">[</span> -F quotaformat <span class="o">]</span> <span class="o">[</span> -p protoname <span class="o">]</span> name -a <span class="p">|</span> filesystem
+setquota -b <span class="o">[</span> -rm <span class="o">]</span> <span class="o">[</span> -u <span class="p">|</span> -g <span class="o">]</span> <span class="o">[</span> -F quotaformat <span class="o">]</span> -a <span class="p">|</span> filesystem
+setquota -t <span class="o">[</span> -m <span class="o">]</span> <span class="o">[</span> -u <span class="p">|</span> -g <span class="o">]</span> <span class="o">[</span> -F quotaformat <span class="o">]</span> block-grace inode-grace -a <span class="p">|</span> filesystem
+setquota -T <span class="o">[</span> -m <span class="o">]</span> <span class="o">[</span> -u <span class="p">|</span> -g <span class="o">]</span> <span class="o">[</span> -F quotaformat <span class="o">]</span> name block-grace inode-grace -a <span class="p">|</span> filesystem
+</pre></div>
+</div>
+<p>例如，设定sheldon只能使用/home文件系统100M，上限为200M，可以如此设定：</p>
+<div class="highlight-bash"><div class="highlight"><pre>setquota -u sheldon <span class="m">100000</span> <span class="m">200000</span> <span class="m">0</span> <span class="m">0</span> /home
+</pre></div>
+</div>
+<p>同样可以设定宽限期：</p>
+<div class="highlight-bash"><div class="highlight"><pre>setquota -t -u sheldon <span class="m">7</span> <span class="m">0</span> /home
+</pre></div>
+</div>
+</div>
+<div class="section" id="id9">
+<h3>警告提示</h3>
+<p>如果仅仅是限额而没有提示，这很可能会造成用户数据溢出丢失，Linux怎么会允许这样情况发现了。为了方便提醒用户，<span class="docutils literal"><span class="pre">qutoa</span></span>提供了一个命令<span class="docutils literal"><span class="pre">warnquota</span></span>用户提醒用户。</p>
+<p>如果你写入的文件直接超出了hard限定，程序会提示你写入错误，磁盘配额超出，你所写入的数据将是不完整的，切记！</p>
+<div class="highlight-bash"><div class="highlight"><pre>$ dd if=/dev/zero of=test bs=1M count=30M
+dd: writing `test&#39;: Disk quota exceeded
+14+0 records in
+13+0 records out
+14581760 bytes (15 MB) copied, 0.0170676 s, 854 MB/s
+</pre></div>
+</div>
+<p><span class="docutils literal"><span class="pre">dd</span></span>命令提示“<em>Disk quota exceeded</em>，再看本来计划写入30M数据，结果只写入了15M，写入数据不完整的，超出部分的数据将会丢失。</p>
+<p>命令<span class="docutils literal"><span class="pre">warnquota</span></span>的作用是：检查所有文件系统中的配额控制，如果有用户的磁盘用户达到的<span class="docutils literal"><span class="pre">soft</span></span>的限制，就会给用户发送一封邮件提醒。注意<span class="docutils literal"><span class="pre">warnquota</span></span>不会自动执行，如果你想定期检查，请用<span class="docutils literal"><span class="pre">cron</span></span>功能。</p>
+<p><span class="docutils literal"><span class="pre">warnquota</span></span>需要一个配置文件<span class="docutils literal"><span class="pre">/etc/warnquota.conf</span></span>。内容摘要如下，在配置文件中，定义邮件的相关信息，如：邮件主题、内容，发送者，签名等等</p>
+<div class="highlight-text"><div class="highlight"><pre>MAIL_CMD        = &quot;/usr/sbin/sendmail -t&quot;
+FROM            = &quot;root@CCTV&quot;
+# but they don&#39;t have to be:
+SUBJECT         = Hey, user, clean up your account!
+CC_TO           = &quot;sysadm@example.com&quot;
+# If you set this variable CC will be used only when user has less than
+# specified grace time left (examples of possible times: 5 seconds, 1 minute,
+# 12 hours, 5 days)
+# CC_BEFORE = 2 days
+SUPPORT         = &quot;support@example.com&quot;
+PHONE           = &quot;(123) 456-1111 or (222) 333-4444&quot;
+# Text in the beginning of the mail (if not specified, default text is used)
+# This way text can be split to more lines
+# Line breaks are done by &#39;|&#39; character
+# The expressions %i, %h, %d, and %% are substituted for user/group name,
+# host name, domain name, and &#39;%&#39; respectively. For backward compatibility
+# %s behaves as %i but is deprecated.
+MESSAGE         = Hello user %i, I&#39;ve noticed you use too much space\
+on my disk in %h.%d.|Delete your files on the following filesystems:|
+# Text in the end of the mail (if not specified, default text using SUPPORT and PHONE
+# is created)
+SIGNATURE       = See you!|                     Your admin of %h|
+# Following text is used for mails about group exceeding quotas
+GROUP_MESSAGE   = Hello, a group &#39;%i&#39; you&#39;re member of use too much space at %h.
+</pre></div>
+</div>
+<p>使用<span class="docutils literal"><span class="pre">cron</span></span>定期检查的，系统即可以定期检查用户的磁盘使用情况，并及时提醒用户。</p>
+</div>
+</div>
+<div class="section" id="id10">
+<h2>监控报表</h2>
+<p>作为SA(system administrator)你需要关注用户的磁盘配额使用量。</p>
+<p>命令<span class="docutils literal"><span class="pre">quota</span></span>和<span class="docutils literal"><span class="pre">repquota</span></span>可以帮你完成这些任务。</p>
+<div class="section" id="id11">
+<h3>查看配额设定</h3>
+<p><span class="docutils literal"><span class="pre">quota</span></span>可以用于查看对某个用户或工作组的磁盘配额设定情况。如：查看sheldon的配额设定值。</p>
+<div class="highlight-bash"><div class="highlight"><pre>quota -su sheldon
+<span class="c1"># 选项-s使得输出值便于阅读</span>
+<span class="c1"># 命令输出值：</span>
+Disk quotas <span class="k">for</span> user sheldon <span class="o">(</span>uid 1000<span class="o">)</span>:
+    Filesystem   space   quota   limit   grace   files   quota   limit   grace
+/dev/mapper/vg-scale
+                30720K* 10240K  30720K   6days       <span class="m">2</span>       <span class="m">0</span>       0
+</pre></div>
+</div>
+<p>查看某个工作组的配额设定，使用选项<span class="docutils literal"><span class="pre">-g</span></span>即可。</p>
+<div class="highlight-bash"><div class="highlight"><pre>quota -sg bigbang
+<span class="c1"># 命令行输出值：</span>
+Disk quotas <span class="k">for</span> group liuhui <span class="o">(</span>gid 1000<span class="o">)</span>:
+    Filesystem   space   quota   limit   grace   files   quota   limit   grace
+/dev/mapper/vg-scale
+                30720K    100M    200M               <span class="m">2</span>       <span class="m">0</span>       0
+</pre></div>
+</div>
+</div>
+<div class="section" id="id12">
+<h3>查看详细使用情况</h3>
+<p><span class="docutils literal"><span class="pre">repquota</span></span>命令用于查看某个文件系统上所有用户，工作组的磁盘配额使用情况。例如：
+*   查看用户报告使用选项<span class="docutils literal"><span class="pre">-u</span></span>:</p>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre>repquota -su .
+*** Report <span class="k">for</span> user quotas on device /dev/mapper/vg-scale
+Block grace time: 7days<span class="p">;</span> Inode grace time: 7days
+                        Space limits                File limits
+User            used    soft    hard  grace    used  soft  hard  grace
+----------------------------------------------------------------------
+root      --     13K      0K      0K              <span class="m">2</span>     <span class="m">0</span>     0
+sheldon   +-  30720K  10240K  30720K  6days       <span class="m">2</span>     <span class="m">0</span>     0
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li>查看工作组报告选项<span class="docutils literal"><span class="pre">-g</span></span>:</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id13">
+<h2>参考资料</h2>
+</div>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/devops.html">devops</a>, <a href="../../../categories/disk.html">disk</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/devops.html">devops</a>, <a href="../../../tags/disk.html">disk</a></span>
+        </div>
+        </div><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="datamining.html">学习数据挖掘</a></li>
+            <li class="right"><a href="docker.html">docker使用小记</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/disk_quota";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="bash.html">Learning Bash</a>
+        </li><li>
+            <a href="code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="comm_pipe.html">命令行管道编程</a>
+        </li><li>
+            <a href="datamining.html">学习数据挖掘</a>
+        </li><li>
+            <a href="#">磁盘配额管理</a>
+        </li><li>
+            <a href="docker.html">docker使用小记</a>
+        </li><li>
+            <a href="economy.html">经济指标</a>
+        </li><li>
+            <a href="epoll_man.html">epoll(7)</a>
+        </li><li>
+            <a href="epoll.html">epoll API</a>
+        </li><li>
+            <a href="firefox.html">Speed Up Firefox</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (7)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (16)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (7), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (9), <a href="../../../tags/python.html">python</a> (10), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 11pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 11pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

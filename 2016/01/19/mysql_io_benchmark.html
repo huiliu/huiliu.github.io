@@ -1,0 +1,334 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>测试MySQL服务器性能 &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="MySQL中的索引-读书笔记" href="mysql_key.html" /><link rel="prev" title="MySQL的高可用方案（一）" href="mysql_high_availability.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/database.html">database</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>January 19, 2016</span>
+        </div>
+    <div class="section" id="mysql">
+<h1>测试MySQL服务器性能</h1>
+<div id="more"> </div><div class="section" id="id1">
+<h2>测试的目的</h2>
+<p>希望了解当前MySQL Server的下面两个重要的性能指标</p>
+<ul class="simple">
+<li>MySQL Server的并发处理能力</li>
+<li>磁盘IO</li>
+<li>CPU</li>
+<li>内存</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>工具</h2>
+<ul class="simple">
+<li>MySQL发行版自带了一个测试程序`mysqlslap`。</li>
+<li><a class="reference external" href="http://sysbench.sourceforge.net/">sysbench</a>是一款开源的测试工具</li>
+<li><a class="reference external" href="http://pagesperso-orange.fr/sebastien.godard/">sysstat</a>提供的命令`iostat`可以读取磁盘读写性能数据，便于统计分析磁盘IO</li>
+<li>使用<a class="reference external" href="http://www.gnuplot.info/">GNUPlot</a> 对数据进行作图</li>
+</ul>
+<div class="section" id="iostat">
+<h3>命令<span class="docutils literal"><span class="pre">iostat</span></span>说明</h3>
+<p>命令<span class="docutils literal"><span class="pre">iostat</span></span>会读取文件&#8221;<em>/proc/diskstat</em>&#8216;中关于磁盘的数据<a class="footnote-reference" href="#ref1" id="id3">[1]</a>：</p>
+<div class="highlight-bash"><div class="highlight"><pre>iostat -kxd /dev/sda5
+Device:         rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
+sda5              0.01     1.36    0.54    5.43     3.72   149.66    51.39     0.03    4.58    5.17    4.53   2.05   1.22
+</pre></div>
+</div>
+<div class="section" id="id4">
+<h4>参数说明</h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="78%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">参数</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>rrqm/s</td>
+<td>每秒中处于队列中的写操作请求数目</td>
+</tr>
+<tr class="row-odd"><td>wrqm/s</td>
+<td>每秒中处于队列中的读操作请求数目</td>
+</tr>
+<tr class="row-even"><td>r/s</td>
+<td>每秒完成的写操作请求数目</td>
+</tr>
+<tr class="row-odd"><td>w/s</td>
+<td>每秒完成的读操作请求数目</td>
+</tr>
+<tr class="row-even"><td>rsec/s (rkB/s, rMB/s)</td>
+<td>每秒从设备读取了多少数据(不同一列名，单位分别为sections, Kb, Mb)</td>
+</tr>
+<tr class="row-odd"><td>rsec/s (wkB/s, wMB/s)</td>
+<td>每秒向设备写入了多少数据(不同一列名，单位分别为sections, Kb, Mb)</td>
+</tr>
+<tr class="row-even"><td>avgrq-sz</td>
+<td>向设备请求的平均大小(单位为sectors)</td>
+</tr>
+<tr class="row-odd"><td>avgqu-sz</td>
+<td>向设备请求的平均队列长度</td>
+</tr>
+<tr class="row-even"><td>await</td>
+<td>I/O的平均等待时间（从发出请求到IO操作完成）。包括I/O排队时间和I/O操作时间</td>
+</tr>
+<tr class="row-odd"><td>r_await</td>
+<td>读操作的平均等待时间（从发出请求到IO操作完成）。包括I/O排队时间和I/O操作时间</td>
+</tr>
+<tr class="row-even"><td>w_await</td>
+<td>写操作的平均等待时间（从发出请求到IO操作完成）。包括I/O排队时间和I/O操作时间</td>
+</tr>
+<tr class="row-odd"><td>svctm</td>
+<td>I/O操作执行的平均耗时。（此字段不可信）</td>
+</tr>
+<tr class="row-even"><td>%util</td>
+<td>设备处理I/O请求时消耗的CPU时间百分比。这个值接近100%时说明设备处于満负荷工作状态</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="mysqlslap">
+<h3>命令mysqlslap说明</h3>
+<p><span class="docutils literal"><span class="pre">mysqlslap</span></span>有以下常用参数<a class="footnote-reference" href="#ref2" id="id5">[2]</a>:</p>
+<ul class="simple">
+<li>-a | –auto-generate-sql   自动产生测试SQL</li>
+<li>–defaults-file，配置文件存放位置</li>
+<li>-c | –concurrency &lt;int&gt;         并发数</li>
+<li>-i | –iterations &lt;int&gt;    迭代的实验次数</li>
+</ul>
+<p>另外一些更为高级的控制：</p>
+<ul class="simple">
+<li>–engines，引擎</li>
+<li>–auto-generate-sql-load-type，测试SQL的类型。类型有mixed，update，write，key，
+read。</li>
+<li>–number-of-queries，执行的SQL总数量</li>
+<li>–number-int-cols，表内int列的数量</li>
+<li>–number-char-cols，表内char列的数量</li>
+<li>–socket，socket文件位置</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>低并发时的性能</h2>
+<p>最近看到一篇BLOG&#8221;<a class="reference external" href="http://www.mysqlperformanceblog.com/2013/03/27/why-mysql-performance-at-low-concurrency-is-important/">Why MySQL Performance at Low Concurrency is Important</a>&#8220;，其主要观点是：</p>
+<ul class="simple">
+<li>并发数为1时，MySQL Server的性能参数是重要的基准参数，因为1个并发时，MySQL
+Server不会启用多个进程并行的执行请求。在其它不同并发级别的响应时间可以与单并发的数据进行对比，以观察并发数对响应时间的响应，以及如何系统有效的提高并发性的尺度和各并发级别的响应时间。</li>
+<li>在许多情况下，MySQL的操作都是在单线程情况下进行的。如批处理操作都被设计为单线程的，MySQL的复制操作也是单线程的（5.6引入了一定的并行复制能力）；大部分的MySQL维护操作，如<span class="docutils literal"><span class="pre">alter</span> <span class="pre">table</span></span>都是单线程运行的。</li>
+<li>更为重要的是，你的系统大部分时间都是在低负载下运行的。在一个正常运行的系统上系统中MySQL的线程数平均为5个或者更少，当发现系统并发数较高时，系统一般都处于过载状态。</li>
+<li>只关注高并发时的性能有什么问题呢？它可能会误导你对产品的判断。例如：一个系统在低并发时响应时间相对较长，而在高并发时明显快很多（这是一种典型案例）。如果只关注高并发时的性能，你可能不能很好的理解为什么在真实的低并发环境中性能更差。</li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h2>高并发时的性能</h2>
+<p>同一个作者的另篇<a class="reference external" href="http://www.mysqlperformanceblog.com/2013/02/26/why-do-we-care-about-performance-at-high-concurrency/">Blog</a>介绍了为什么MySQL Server在高并发时的性能很重要。简言之：</p>
+<p>虽然正常运行情况下，系统处于低并发或中并发情形下，不过当系统因为某些原因处理速度稍慢一点点（几十毫秒），需要处理的请求就会大量堆积，如果并发处理能力强，则可以顺利的挺过，系统也会快速恢复正常；如果并发处理能量差，则堆积的请求数将越来越多，最终影响用户体验，甚至导致系统崩溃必须重启。</p>
+</div>
+<div class="section" id="id8">
+<h2>附录</h2>
+<div class="section" id="id9">
+<h3>衡量性能的指标</h3>
+</div>
+</div>
+<div class="section" id="id10">
+<h2>参考资料</h2>
+<table class="docutils footnote" frame="void" id="ref1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[1]</a></td><td><a class="reference external" href="http://www.dbasquare.com/2012/04/18/analyzing-io-performance/">http://www.dbasquare.com/2012/04/18/analyzing-io-performance/</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="ref2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[2]</a></td><td><a class="reference external" href="http://www.taobaodba.com/html/200_mysql%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7%EF%BC%9Amysqlslap.html">http://www.taobaodba.com/html/200_mysql%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7%EF%BC%9Amysqlslap.html</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/database.html">database</a>, <a href="../../../categories/mysql.html">mysql</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/database.html">database</a>, <a href="../../../tags/mysql.html">mysql</a>, <a href="../../../tags/dba.html">dba</a></span>
+        </div>
+        </div><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="mysql_high_availability.html">MySQL的高可用方案（一）</a></li>
+            <li class="right"><a href="mysql_key.html">MySQL中的索引-读书笔记</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/mysql_io_benchmark";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="bash.html">Learning Bash</a>
+        </li><li>
+            <a href="code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="comm_pipe.html">命令行管道编程</a>
+        </li><li>
+            <a href="datamining.html">学习数据挖掘</a>
+        </li><li>
+            <a href="disk_quota.html">磁盘配额管理</a>
+        </li><li>
+            <a href="docker.html">docker使用小记</a>
+        </li><li>
+            <a href="economy.html">经济指标</a>
+        </li><li>
+            <a href="epoll_man.html">epoll(7)</a>
+        </li><li>
+            <a href="epoll.html">epoll API</a>
+        </li><li>
+            <a href="firefox.html">Speed Up Firefox</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (7)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (16)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (7), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (9), <a href="../../../tags/python.html">python</a> (10), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 11pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 11pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

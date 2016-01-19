@@ -1,0 +1,370 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>抓包-libpcap &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="神仙打架-互联网金融" href="live_finace.html" /><link rel="prev" title="Learning libevent Programming" href="libevent.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/database.html">database</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>January 19, 2016</span>
+        </div>
+    <div class="section" id="libpcap">
+<h1>抓包-libpcap</h1>
+<div id="more"> </div><div class="section" id="id1">
+<h2>简单实例</h2>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;pcap.h&gt;</span><span class="cp"></span>
+
+<span class="kt">void</span>
+<span class="nf">handle_packets</span><span class="p">(</span><span class="n">u_char</span> <span class="o">*</span><span class="n">user</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">pcap_pkthdr</span> <span class="o">*</span><span class="n">h</span><span class="p">,</span> <span class="k">const</span> <span class="n">u_char</span> <span class="o">*</span><span class="n">packet</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">fprint</span><span class="p">(</span><span class="s">&quot;capture a packet.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span>
+<span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">errbuff</span><span class="p">[</span><span class="n">PCAP_ERRBUF_SIZE</span><span class="p">];</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">dev</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">((</span><span class="n">dev</span> <span class="o">=</span> <span class="n">pcap_lookupdev</span><span class="p">(</span><span class="n">errbuff</span><span class="p">))</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;Failed to find active network interface!&quot;</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">pcap_t</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">((</span><span class="n">p</span> <span class="o">=</span> <span class="n">pcap_open_live</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="mi">1518</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">errbuff</span><span class="p">))</span> <span class="o">==</span><span class="nb">NULL</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;Failed to open the interface: %s!&quot;</span><span class="p">,</span> <span class="n">dev</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">struct</span> <span class="n">bpf_program</span> <span class="n">bfp</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">fp</span> <span class="o">=</span> <span class="s">&quot;ip&quot;</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">pcap_compile</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">bfp</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">PCAP_NETMASK_UNKNOWN</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;Failed to compile the bpf expression: %s!&quot;</span><span class="p">,</span> <span class="n">pcap_geterr</span><span class="p">(</span><span class="n">p</span><span class="p">));</span>
+        <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">pcap_setfilter</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">bfp</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;Failed to set the bpf expression: %s!&quot;</span><span class="p">,</span> <span class="n">pcap_geterr</span><span class="p">(</span><span class="n">p</span><span class="p">));</span>
+        <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">pcap_loop</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">handle_packets</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+
+    <span class="n">pcap_freecode</span><span class="p">(</span><span class="o">&amp;</span><span class="n">fp</span><span class="p">);</span>
+    <span class="n">pcap_close</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>基本步骤</h2>
+<p>利用<strong>libpcap</strong>抓包包含下列基本步骤：</p>
+<ul class="simple">
+<li>设置或查找网络接口设备，调用函数<span class="docutils literal"><span class="pre">pcap_lookupdev</span></span>查找当然活动的网络接口</li>
+</ul>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&lt;pcap/pcap.h&gt;</span><span class="cp"></span>
+
+<span class="kt">char</span> <span class="n">errbuf</span><span class="p">[</span><span class="n">PCAP_ERRBUF_SIZE</span><span class="p">];</span>
+
+<span class="c1">// errbuf   存储出错信息</span>
+<span class="c1">// 函数返回网络接口名，如eth0, em0等; 如果出错返回NULL</span>
+<span class="kt">char</span> <span class="o">*</span><span class="nf">pcap_lookupdev</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">errbuf</span><span class="p">);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>调用函数<span class="docutils literal"><span class="pre">pcap_open_live</span></span>打开网络接口，进行侦听</li>
+</ul>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&lt;pcap/pcap.h&gt;</span><span class="cp"></span>
+
+<span class="kt">char</span> <span class="n">errbuf</span><span class="p">[</span><span class="n">PCAP_ERRBUF_SIZE</span><span class="p">];</span>
+
+<span class="c1">// 打开网络接口准备侦听</span>
+<span class="c1">// device       设备名，可以自己设定；也可以从第一步返回。如果设定为&quot;any&quot;或</span>
+<span class="c1">//              &quot;NULL&quot;，则会侦听所有接口</span>
+<span class="c1">// snaplen      捕捉包的最大长度</span>
+<span class="c1">// promisc      是否将网络设备设置为“混杂”模式。</span>
+<span class="c1">// to_ms        超时时间</span>
+<span class="c1">// errbuf       存储出错信息</span>
+<span class="n">pcap_t</span> <span class="o">*</span><span class="nf">pcap_open_live</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">device</span><span class="p">,</span> <span class="kt">int</span> <span class="n">snaplen</span><span class="p">,</span> <span class="kt">int</span> <span class="n">promisc</span><span class="p">,</span>
+                                                <span class="kt">int</span> <span class="n">to_ms</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">errbuf</span><span class="p">);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>设定过滤器。调用函数<span class="docutils literal"><span class="pre">pcap_compile</span></span>和<span class="docutils literal"><span class="pre">pcap_setfilter</span></span>来设定BFP过滤器</li>
+</ul>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&lt;pcap/pcap.h&gt;</span><span class="cp"></span>
+
+<span class="c1">// p            是由函数pcap_open_live返回的指针</span>
+<span class="c1">// fp           用于存放编译后的BPF</span>
+<span class="c1">// str          bpf表达式</span>
+<span class="c1">// optimize     是否对bpf进行优化</span>
+<span class="c1">// netmask      一个IPV4的网络掩码，仅当bpf表达式中要过滤IP广播时有用，如果</span>
+<span class="c1">//              设定为PCAP_NETMASK_UNKNOWN，将忽略广播</span>
+<span class="c1">//</span>
+<span class="c1">//  成功将返回0,失败返回-1, 失败时可以通调用函数pcap_geterr(p),</span>
+<span class="c1">//  pcap_perror(p)获取详细的出错信息</span>
+<span class="kt">int</span> <span class="nf">pcap_compile</span><span class="p">(</span><span class="n">pcap_t</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="k">struct</span> <span class="n">bpf_program</span> <span class="o">*</span><span class="n">fp</span><span class="p">,</span>
+                      <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">,</span> <span class="kt">int</span> <span class="n">optimize</span><span class="p">,</span> <span class="n">bpf_u_int32</span> <span class="n">netmask</span><span class="p">);</span>
+
+<span class="c1">// 设定过滤器</span>
+<span class="c1">// 成功返回0, 失败返回-1, 同样可以用函数pcap_geterr, pcap_perror获取出错信息</span>
+<span class="kt">int</span> <span class="nf">pcap_setfilter</span><span class="p">(</span><span class="n">pcap_t</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="k">struct</span> <span class="n">bpf_program</span> <span class="o">*</span><span class="n">fp</span><span class="p">);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>开始抓包。调用函数<span class="docutils literal"><span class="pre">pcap_loop</span></span>，根据自己的需求编写处理数据包的回调函数。</li>
+</ul>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&lt;pcap/pcap.h&gt;</span><span class="cp"></span>
+
+<span class="cm">/* pcap_loop 启动对数据的处理，可以是来自一个已经将打开的网络接口，也可以是</span>
+<span class="cm"> * 保存在磁盘上的数据文件，当抓取cnt个数据包，或者到外文件的结尾(从文件中读</span>
+<span class="cm"> * 取数据时），或者调用了pcap_breakloop()，或者发生错误，pcap_loop会退出。当</span>
+<span class="cm"> * 读取数据时超时，pcap_loop并不会返回；</span>
+<span class="cm"> *</span>
+<span class="cm"> * cnt          处理数据包的个数。设定为0或-1表示无限；注意对于一些低版本</span>
+<span class="cm"> *              libpcap，或者在不同平台上，&quot;0&quot;可能是未定义的，只有&quot;-1&quot;才表</span>
+<span class="cm"> *              示无穷多</span>
+<span class="cm"> * callback     回调函数，当pcap收到数据后就会调用此函数对数据进行处理</span>
+<span class="cm"> * user         将传递给回调函数的第一参数</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">pcap_loop</span><span class="p">(</span><span class="n">pcap_t</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">cnt</span><span class="p">,</span> <span class="n">pcap_handler</span> <span class="n">callback</span><span class="p">,</span> <span class="n">u_char</span> <span class="o">*</span><span class="n">user</span><span class="p">);</span>
+
+<span class="cm">/* pcap_dispatch 与pcap_loop作用类似,不过不太明白。测试时发现pcap_loop貌似应</span>
+<span class="cm"> * 该是阻塞形式，直到处理了cnt个数据包才会返回，而相同程序pcap_dispatch可能一</span>
+<span class="cm"> * 个包也没处理就返回了，正如文档中描述的最多处理cnt个数据包。</span>
+<span class="cm"> *</span>
+<span class="cm"> * pcap_dispatch() processes packets from a live capture or ``savefile&#39;&#39;</span>
+<span class="cm"> * until cnt packets are processed, the end  of  the current  bufferful of</span>
+<span class="cm"> * packets is reached when doing a live capture, the end of the ``savefile&#39;&#39;</span>
+<span class="cm"> * is reached when reading from a ``savefile&#39;&#39;, pcap_breakloop() is called,</span>
+<span class="cm"> * or an error occurs.  Thus, when doing a live capture, cnt is the maximum</span>
+<span class="cm"> * number  of packets to process before returning, but is not a minimum</span>
+<span class="cm"> * number; when reading a live capture, only one bufferful of packets is</span>
+<span class="cm"> * read at a time, so fewer than cnt packets may be processed. A value of -1</span>
+<span class="cm"> * or 0 for  cnt  causes all  the  packets received in one buffer to be</span>
+<span class="cm"> * processed when reading a live capture, and causes all the packets in the</span>
+<span class="cm"> * file to be processed when reading a ``savefile&#39;&#39;.</span>
+<span class="cm"> *</span>
+<span class="cm"> * 返回值为“0”说明正常返回，“-1”说明发生了错误，”-2“说明是调用pcap_breakloop</span>
+<span class="cm"> * 中止的sniff,建议详细确认返回值。</span>
+<span class="cm"> */</span>
+<span class="kt">int</span> <span class="nf">pcap_dispatch</span><span class="p">(</span><span class="n">pcap_t</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">cnt</span><span class="p">,</span> <span class="n">pcap_handler</span> <span class="n">callback</span><span class="p">,</span> <span class="n">u_char</span> <span class="o">*</span><span class="n">user</span><span class="p">);</span>
+
+<span class="cm">/* 定义一个回调函数来处理每个被捕捉到的数据包</span>
+<span class="cm"> * 第一个参数user由pcap_loop或pcap_dispatch第三个参数传递而来</span>
+<span class="cm"> * 第二个参数h指向一个pcap_pkthdr结构体，其中包含了捕捉到的数据包的相关信息，</span>
+<span class="cm"> *      如时间戳，大小等。此结构体不能被主动释放，也不保证回调函数返回后仍然</span>
+<span class="cm"> *      可用，如果希望可以，请在返回之前拷贝一份。</span>
+<span class="cm"> * 第三个参数用于指定捕捉一个数据包的最大bytes数</span>
+<span class="cm"> */</span>
+<span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">*</span><span class="n">pcap_handler</span><span class="p">)(</span><span class="n">u_char</span> <span class="o">*</span><span class="n">user</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">pcap_pkthdr</span> <span class="o">*</span><span class="n">h</span><span class="p">,</span>
+                                                    <span class="k">const</span> <span class="n">u_char</span> <span class="o">*</span><span class="n">bytes</span><span class="p">);</span>
+
+<span class="k">struct</span> <span class="n">pcap_pkthdr</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="n">timeval</span> <span class="n">ts</span><span class="p">;</span>      <span class="cm">/* time stamp */</span>
+    <span class="n">bpf_u_int32</span> <span class="n">caplen</span><span class="p">;</span>     <span class="cm">/* length of portion present */</span>
+    <span class="n">bpf_u_int32</span> <span class="n">len</span><span class="p">;</span>        <span class="cm">/* length this packet (off wire) */</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>包处理</h2>
+<p>关于数据包的处理，需要详细的了解TCP/IP协议簇，清楚的知道每层协议的头部结构，还需
+要知道<strong>网络字节序</strong>和<strong>主机字节序</strong>等基本知识。至于数据如何处理，根据应
+用需求，涉及的知识可能更多。</p>
+<p>TCP, UDP等协议在IP头部中的标示定义在<cite>/usr/include/netinet/in.h</cite>中</p>
+</div>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/program.html">program</a>, <a href="../../../categories/c_c.html">c/c++</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/c_c.html">c/c++</a>, <a href="../../../tags/network.html">network</a></span>
+        </div>
+        </div><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="libevent.html">Learning libevent Programming</a></li>
+            <li class="right"><a href="live_finace.html">神仙打架-互联网金融</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/libpcap";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="bash.html">Learning Bash</a>
+        </li><li>
+            <a href="code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="comm_pipe.html">命令行管道编程</a>
+        </li><li>
+            <a href="datamining.html">学习数据挖掘</a>
+        </li><li>
+            <a href="disk_quota.html">磁盘配额管理</a>
+        </li><li>
+            <a href="docker.html">docker使用小记</a>
+        </li><li>
+            <a href="economy.html">经济指标</a>
+        </li><li>
+            <a href="epoll_man.html">epoll(7)</a>
+        </li><li>
+            <a href="epoll.html">epoll API</a>
+        </li><li>
+            <a href="firefox.html">Speed Up Firefox</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (7)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (16)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (7), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (9), <a href="../../../tags/python.html">python</a> (10), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 11pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 11pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

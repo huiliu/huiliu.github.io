@@ -1,0 +1,426 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>samba集成Active Directory &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="Samba" href="samba_basic.html" /><link rel="prev" title="RPM软件包" href="rpm.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/database.html">database</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>January 19, 2016</span>
+        </div>
+    <div class="section" id="sambaactive-directory">
+<h1>samba集成Active Directory</h1>
+<div id="more"> </div><p>如何将Linux主机加入到Windows的域中呢？即Linux可以通过Windows域来登陆。</p>
+<div class="section" id="id1">
+<h2>前提说明</h2>
+<div class="section" id="id2">
+<h3>软件需求</h3>
+<ul class="simple">
+<li>操作系统：CentOS 5.8</li>
+<li>软件包： <span class="docutils literal"><span class="pre">samba3x-winbind,</span> <span class="pre">samba3x-common,</span> <span class="pre">samba3x,</span> <span class="pre">samba3x-client</span></span></li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h3>系统环境</h3>
+<ul class="simple">
+<li>Windows域：<span class="docutils literal"><span class="pre">DEVEL.EXAMPLE.COM</span></span></li>
+<li>域控制器为：<span class="docutils literal"><span class="pre">domain.devel.example.com</span></span></li>
+</ul>
+</div>
+<div class="section" id="sambaldapkerberos">
+<h3>确认samba支持LDAP和kerberos</h3>
+<p>执行命令<span class="docutils literal"><span class="pre">smbd</span> <span class="pre">-b</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">KRB</span></span>和<span class="docutils literal"><span class="pre">smbd</span> <span class="pre">-b</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">LDAP</span></span>观察是否有类似下面的信息输出。</p>
+<div class="highlight-bash"><div class="highlight"><pre>$ smbd -b <span class="p">|</span> grep KRB
+    HAVE_KRB5_H
+    HAVE_KRB5_LOCATE_PLUGIN_H
+    HAVE_ADDRTYPE_IN_KRB5_ADDRESS
+    HAVE_DECL_KRB5_AUTH_CON_SET_REQ_CKSUMTYPE
+    HAVE_DECL_KRB5_GET_CREDENTIALS_FOR_USER
+    HAVE_INITIALIZE_KRB5_ERROR_TABLE
+    HAVE_KRB5
+    HAVE_KRB5_AUTH_CON_SETUSERUSERKEY
+    HAVE_KRB5_AUTH_CON_SET_REQ_CKSUMTYPE
+    HAVE_KRB5_C_ENCTYPE_COMPARE
+    HAVE_KRB5_C_VERIFY_CHECKSUM
+    HAVE_KRB5_DEPRECATED_WITH_IDENTIFIER
+    HAVE_KRB5_ENCRYPT_BLOCK
+    HAVE_KRB5_ENCRYPT_DATA
+    HAVE_KRB5_ENCTYPE_TO_STRING
+    HAVE_KRB5_ENCTYPE_TO_STRING_WITH_SIZE_T_ARG
+
+$ smbd -b <span class="p">|</span> grep LDAP
+    HAVE_LDAP_H
+    HAVE_LDAP
+    HAVE_LDAP_ADD_RESULT_ENTRY
+    HAVE_LDAP_INIT
+    HAVE_LDAP_INITIALIZE
+    HAVE_LDAP_SASL_WRAPPING
+    HAVE_LDAP_SET_REBIND_PROC
+    HAVE_LIBLDAP
+    LDAP_SET_REBIND_PROC_ARGS
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="active-directory">
+<h2>共享Active Directory帐户</h2>
+<div class="section" id="sambakerberos">
+<h3>samba和kerberos</h3>
+<p>samba可以通过<span class="docutils literal"><span class="pre">kerberos</span></span>与AD域服务器通讯，对域用户进行验证。配置samba，需要编辑配置文件<span class="docutils literal"><span class="pre">/etc/krb5.conf</span></span></p>
+<div class="highlight-text"><div class="highlight"><pre>[logging]
+ default = FILE:/var/log/krb5libs.log
+ kdc = FILE:/var/log/krb5kdc.log
+ admin_server = FILE:/var/log/kadmind.log
+
+[libdefaults]
+ default_realm = DEVEL.EXAMPLE.CN
+ dns_lookup_realm = false
+ dns_lookup_kdc = false
+ ticket_lifetime = 24h
+ forwardable = yes
+
+[realms]
+ # 注意此处域一定要大写
+ DEVEL.EXAMPLE.CN = {
+  # kdc 用于指定Active Directory域控制器
+  kdc = domain.devel.example.cn
+  # admin_server
+  admin_server = domain.devel.example.cn
+  # default_domain  默认使用的域
+  default_domain = devel.example.cn
+ }
+
+[domain_realm]
+ .devel.example.cn = DEVEL.EXAMPLE.CN
+ devel.example.cn = DEVEL.EXAMPLE.CN
+
+[appdefaults]
+ pam = {
+   debug = false
+   ticket_lifetime = 36000
+   renew_lifetime = 36000
+   forwardable = true
+   krb4_convert = false
+ }
+</pre></div>
+</div>
+<p>使用命令<span class="docutils literal"><span class="pre">kinit</span> <span class="pre">Administrator&#64;DEVEL.EXAMPLE.CN</span></span>来测试</p>
+</div>
+<div class="section" id="winbind">
+<h3>winbind</h3>
+<p>守护进程<span class="docutils literal"><span class="pre">winbindd</span></span>将与AD域进行通讯并为Linux提供帐户验证。<span class="docutils literal"><span class="pre">winbindd</span></span>是通过PAM(Pluggable Authentication Modules)来实现此功能的。</p>
+<p>确认存在模块<span class="docutils literal"><span class="pre">/lib64/security/pam_winbind.so</span></span>，如果是手动编译安装的请将<span class="docutils literal"><span class="pre">pam_winbind.so</span></span>链接至前面的位置。</p>
+<p>配置系统使用<span class="docutils literal"><span class="pre">pam_winbind</span></span>模块：在<span class="docutils literal"><span class="pre">/etc/pam.d</span></span>目录下建立文件<span class="docutils literal"><span class="pre">system-auth-winbind</span></span>，并将其链接至<span class="docutils literal"><span class="pre">system-auth</span></span>。注意备份好原文件。</p>
+<div class="highlight-text"><div class="highlight"><pre># /etc/pam.d/system-auth -&gt; /etc/pam.d/system-auth-winbind
+# 关于PAM模块的配置请查看相关文档
+auth required pam_env.so
+auth sufficient pam_unix.so likeauth nullok
+# 使用winbind进行帐户验证
+auth sufficient pam_winbind.so use_first_pass
+auth required pam_deny.so
+
+account required pam_unix.so
+account sufficient pam_succeed_if.so uid &lt; 100 quiet
+account sufficient pam_winbind.so use_first_pass
+account required pam_permit.so
+
+password requisite pam_cracklib.so retry=3 type=
+password sufficient pam_unix.so nullok use_authtok md5 shadow
+password sufficient pam_winbind.so use_first_pass
+password required pam_deny.so
+
+session required pam_limits.so
+session required pam_unix.so
+session required pam_winbind.so use_first_pass
+</pre></div>
+</div>
+<p>另外模块<span class="docutils literal"><span class="pre">pam_winbind</span></span>的配置文件为：<span class="docutils literal"><span class="pre">/etc/security/pam_winbind.conf</span></span>可以编辑：</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="c1">#</span>
+<span class="c1"># pam_winbind configuration file</span>
+<span class="c1">#</span>
+<span class="c1"># /etc/security/pam_winbind.conf</span>
+<span class="c1">#</span>
+
+<span class="k">[global]</span>
+
+<span class="c1"># turn on debugging</span>
+<span class="c1">;debug = yes</span>
+
+<span class="c1"># request a cached login if possible</span>
+<span class="c1"># (needs &quot;winbind offline logon = yes&quot; in smb.conf)</span>
+<span class="c1">;cached_login = yes</span>
+
+<span class="c1"># authenticate using kerberos</span>
+<span class="na">krb5_auth</span> <span class="o">=</span> <span class="s">yes</span>
+
+<span class="c1"># 如果home目录不存在则新建之</span>
+<span class="na">mkhomedir</span> <span class="o">=</span> <span class="s">yes</span>
+<span class="c1"># when using kerberos, request a &quot;FILE&quot; krb5 credential cache type</span>
+<span class="c1"># (leave empty to just do krb5 authentication but not have a ticket</span>
+<span class="c1"># afterwards)</span>
+<span class="c1">;krb5_ccache_type = FILE</span>
+
+<span class="c1"># make successful authentication dependend on membership of one SID</span>
+<span class="c1"># (can also take a name)</span>
+<span class="c1">;require_membership_of =</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="name-service-switch">
+<h3>Name Service Switch</h3>
+<p><span class="docutils literal"><span class="pre">Name</span> <span class="pre">Service</span> <span class="pre">Switch</span></span>提供了一种标准机制，在该机制中，Linux计算机可以与常见服务进行交互，其中一个服务是身份验证。在使用这些服务时，Linux会查询 <span class="docutils literal"><span class="pre">/etc/nsswitch.conf</span></span>文件。请根据下列方法修改该文件，以便允许 Linux使用 Winbind 进行用户身份验证。</p>
+<p>下面的代码突出了使用Winbind添加Winbind支持，以便允许用户参照AD DS Kerberos 5数据库，使用Winbind进行身份验证：</p>
+<div class="highlight-text"><div class="highlight"><pre>passwd: files winbind
+group:   files winbind
+</pre></div>
+</div>
+<p>完成上面的配置后，启动守护进程<span class="docutils literal"><span class="pre">winbindd</span></span>，当前Linux服务器就可以与域服务器通讯了。 smb.conf &#8212;&#8212;&#8212;
+为了让samba加入到AD域中工作，当然要配置<span class="docutils literal"><span class="pre">smb.conf</span></span>：</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="k">[global]</span>
+    <span class="na">unix charset</span> <span class="o">=</span> <span class="s">utf8</span>
+<span class="s">    display charset = utf8</span>
+<span class="s">    dos charset = cp936</span>
+<span class="s">    load printers = no</span>
+<span class="s">    # AD域</span>
+<span class="s">    realm = devel.example.cn</span>
+<span class="s">    # ads or domain</span>
+<span class="s">    security = ads</span>
+<span class="s">    ; 域控制器服务器</span>
+<span class="s">    password server = domain.devel.example.cn</span>
+<span class="s">    ; 域</span>
+<span class="s">    workgroup = devel</span>
+<span class="s">    ; 映射AD域用户，组的uid,gid</span>
+<span class="s">    idmap uid = 10000-15000</span>
+<span class="s">    idmap gid = 10000-15000</span>
+<span class="s">    winbind enum users = yes</span>
+<span class="s">    winbind enum groups = yes</span>
+<span class="s">    ; 使用默认域</span>
+<span class="s">    winbind use default domain = yes</span>
+<span class="s">    winbind separator = \</span>
+<span class="s">    ; 设定AD域用户的默认shell，如果不进行设定，则为/bin/false</span>
+<span class="s">    template shell = /bin/bash</span>
+
+<span class="k">[homes]</span>
+    <span class="na">comment</span> <span class="o">=</span> <span class="s">Home Directories</span>
+<span class="s">    read only = No</span>
+<span class="s">    browseable = yes</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="net">
+<h2><span class="docutils literal"><span class="pre">net</span></span>命令</h2>
+<p>完成上面的配置操作后，可以通过<span class="docutils literal"><span class="pre">net</span></span>命令加入到AD域：</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># 根据提示输入密码。加入成功命令行会有提示</span>
+sudo net ads join -U Administrator
+
+<span class="c1"># 使用下面命令测试加入成功</span>
+sudo net ads tesjoin
+</pre></div>
+</div>
+<p><span class="docutils literal"><span class="pre">net</span></span>命令是一个非常强大完善的管理工具，其它详细信息请查看帮助<span class="docutils literal"><span class="pre">net</span> <span class="pre">help</span> <span class="pre">subcrommand</span></span></p>
+<p>另外也可以通过winbindd提供的工具<span class="docutils literal"><span class="pre">wbinfo</span></span>来查询AD域的信息、资源等</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># 检查winbindd是否在运行</span>
+wbinfo -p
+
+<span class="c1"># 列出域中的用户</span>
+wbinfo -u
+
+<span class="c1"># 列出域中的组</span>
+wbinfo -g
+
+wbinfo -t
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>参数资料</h2>
+<ol class="arabic simple">
+<li><a class="reference external" href="http://www.ibm.com/developerworks/cn/linux/l-lpic3-314-3/index.html">学习 Linux，302（混合环境）: 与 Active Directory 集成</a></li>
+<li><a class="reference external" href="http://wiki.samba.org/index.php/Samba_%26_Active_Directory">Samba &amp; Active Directory</a></li>
+<li><a class="reference external" href="http://wiki.samba.org/index.php/Samba,_Active_Directory_%26_LDAP">http://wiki.samba.org/index.php/Samba,_Active_Directory_%26_LDAP</a></li>
+<li><a class="reference external" href="http://www.samba.org/samba/docs/man/Samba-HOWTO-Collection/domain-member.html#ads-member">http://www.samba.org/samba/docs/man/Samba-HOWTO-Collection/domain-member.html#ads-member</a></li>
+</ol>
+</div>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/devops.html">devops</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/devops.html">devops</a>, <a href="../../../tags/deploy.html">deploy</a></span>
+        </div>
+        </div><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="rpm.html">RPM软件包</a></li>
+            <li class="right"><a href="samba_basic.html">Samba</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/samba_ads";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="bash.html">Learning Bash</a>
+        </li><li>
+            <a href="code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="comm_pipe.html">命令行管道编程</a>
+        </li><li>
+            <a href="datamining.html">学习数据挖掘</a>
+        </li><li>
+            <a href="disk_quota.html">磁盘配额管理</a>
+        </li><li>
+            <a href="docker.html">docker使用小记</a>
+        </li><li>
+            <a href="economy.html">经济指标</a>
+        </li><li>
+            <a href="epoll_man.html">epoll(7)</a>
+        </li><li>
+            <a href="epoll.html">epoll API</a>
+        </li><li>
+            <a href="firefox.html">Speed Up Firefox</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (7)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (16)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (7), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (9), <a href="../../../tags/python.html">python</a> (10), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 11pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 11pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

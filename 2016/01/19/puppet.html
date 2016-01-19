@@ -1,0 +1,460 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>配置管理工具-Puppet &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="通过PXE安装Linux" href="pxe.html" /><link rel="prev" title="箴言" href="proverb.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/database.html">database</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>January 19, 2016</span>
+        </div>
+    <div class="section" id="puppet">
+<h1>配置管理工具-Puppet</h1>
+<div id="more"> </div><div class="section" id="resource-ordering">
+<h2>Resource Ordering</h2>
+<p>回想一下手动配置一个Apache服务器要经过那些步骤：</p>
+<ol class="arabic simple">
+<li>安装软件包<span class="docutils literal"><span class="pre">httpd</span></span></li>
+<li>根据需要修改配置文件</li>
+<li>启动<span class="docutils literal"><span class="pre">httpd</span></span>服务</li>
+</ol>
+<p>那么使用<span class="docutils literal"><span class="pre">puppet</span></span>进行配置管理时，应该定义三个相应的资源来执行：</p>
+<div class="highlight-puppet"><div class="highlight"><pre><span class="c"># install httpd</span>
+<span class="k">package</span> <span class="p">{</span><span class="s">&quot;httpd&quot;</span><span class="p">:</span>
+    <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="k">present</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="k">file</span> <span class="p">{</span><span class="s">&quot;/etc/httpd/conf/httpd.conf&quot;</span><span class="p">:</span>
+    <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="k">present</span><span class="p">,</span>
+    <span class="na">owner</span> <span class="o">=&gt;</span> <span class="na">root</span><span class="p">,</span>
+    <span class="na">group</span> <span class="o">=&gt;</span> <span class="na">root</span><span class="p">,</span>
+    <span class="na">mode</span> <span class="o">=&gt;</span> <span class="mo">0644</span><span class="p">,</span>
+    <span class="na">source</span> <span class="o">=&gt;</span> <span class="s">&quot;puppet:///modules/$module_name/httpd.conf&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="k">service</span> <span class="p">{</span><span class="s">&quot;httpd&quot;</span><span class="p">:</span>
+    <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="k">running</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>当你实际应用上面的<span class="docutils literal"><span class="pre">manifests</span></span>时会发现执行失败（当然也可能成功）。原因呢？前面提到的手动操作步骤是存在先后顺序的，如果不按照相应的顺序，要么失败，要么结果不是预期的。这也就要求<span class="docutils literal"><span class="pre">puppet</span></span>中定义的资源在执行时应该可以设定先后顺序，即<a class="reference external" href="http://docs.puppetlabs.com/learning/ordering.html">Resource Ordering</a>。</p>
+<p><span class="docutils literal"><span class="pre">puppet</span></span>提供了四个关键字和两个符号来实现&#8221;<strong>Ordering</strong>&#8220;的控制：</p>
+<ol class="arabic simple">
+<li><span class="docutils literal"><span class="pre">before</span></span></li>
+<li><span class="docutils literal"><span class="pre">require</span></span></li>
+<li><span class="docutils literal"><span class="pre">notify</span></span></li>
+<li><span class="docutils literal"><span class="pre">subscribe</span></span></li>
+<li><span class="docutils literal"><span class="pre">-&gt;</span></span></li>
+<li><span class="docutils literal"><span class="pre">~&gt;</span></span></li>
+</ol>
+<p>前面四个关键字在<span class="docutils literal"><span class="pre">puppet</span></span>中称之为元参数（<a class="reference external" href="http://docs.puppetlabs.com/references/stable/metaparameter.html">metaparameters</a>），它们可以接受引用资源（<a class="reference external" href="http://docs.puppetlabs.com/puppet/latest/reference/lang_datatypes.html#resource-references">resource reference</a>）作为其值。</p>
+<p>用<span class="docutils literal"><span class="pre">before</span></span>和<span class="docutils literal"><span class="pre">require</span></span>改写上面的<span class="docutils literal"><span class="pre">manifests</span></span>以按照手动顺序完成：</p>
+<div class="highlight-puppet"><div class="highlight"><pre><span class="c"># install httpd</span>
+<span class="k">package</span> <span class="p">{</span><span class="s">&quot;httpd&quot;</span><span class="p">:</span>
+    <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="k">present</span><span class="p">,</span>
+    <span class="k">before</span> <span class="o">=&gt;</span> <span class="k">File</span><span class="p">[</span><span class="s">&#39;/etc/httpd/conf/httpd.conf&#39;</span><span class="p">],</span>
+<span class="p">}</span>
+<span class="k">file</span> <span class="p">{</span><span class="s">&quot;/etc/httpd/conf/httpd.conf&quot;</span><span class="p">:</span>
+    <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="k">present</span><span class="p">,</span>
+    <span class="na">owner</span> <span class="o">=&gt;</span> <span class="na">root</span><span class="p">,</span>
+    <span class="na">group</span> <span class="o">=&gt;</span> <span class="na">root</span><span class="p">,</span>
+    <span class="na">mode</span> <span class="o">=&gt;</span> <span class="mo">0644</span><span class="p">,</span>
+    <span class="na">source</span> <span class="o">=&gt;</span> <span class="s">&quot;puppet:///modules/$module_name/httpd.conf&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="k">service</span> <span class="p">{</span><span class="s">&quot;httpd&quot;</span><span class="p">:</span>
+    <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="k">running</span><span class="p">,</span>
+    <span class="na">require</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s">&#39;/etc/httpd/conf/httpd.conf&#39;</span><span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><span class="docutils literal"><span class="pre">notify</span></span>是增强版式的<span class="docutils literal"><span class="pre">before</span></span>，当使用了<span class="docutils literal"><span class="pre">notify</span></span>的资源发生变化就会主动通知<span class="docutils literal"><span class="pre">notify</span></span>指向的资源；而<span class="docutils literal"><span class="pre">subscribe</span></span>是增强版的<span class="docutils literal"><span class="pre">require</span></span>,当<span class="docutils literal"><span class="pre">subscribe</span></span>指向的资源发生的变更，当前资源就会收到通知。</p>
+<p><span class="docutils literal"><span class="pre">-&gt;</span></span>和<span class="docutils literal"><span class="pre">~&gt;</span></span>意思犹如流程图，从前往后一步一步完成：</p>
+<div class="highlight-puppet"><div class="highlight"><pre><span class="c"># install httpd</span>
+<span class="k">package</span> <span class="p">{</span><span class="s">&quot;httpd&quot;</span><span class="p">:</span>
+    <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="k">present</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="k">file</span> <span class="p">{</span><span class="s">&quot;/etc/httpd/conf/httpd.conf&quot;</span><span class="p">:</span>
+    <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="k">present</span><span class="p">,</span>
+    <span class="na">owner</span> <span class="o">=&gt;</span> <span class="na">root</span><span class="p">,</span>
+    <span class="na">group</span> <span class="o">=&gt;</span> <span class="na">root</span><span class="p">,</span>
+    <span class="na">mode</span> <span class="o">=&gt;</span> <span class="mo">0644</span><span class="p">,</span>
+    <span class="na">source</span> <span class="o">=&gt;</span> <span class="s">&quot;puppet:///modules/$module_name/httpd.conf&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="k">service</span> <span class="p">{</span><span class="s">&quot;httpd&quot;</span><span class="p">:</span>
+    <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="k">running</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">Package</span><span class="p">[</span><span class="s">&#39;httpd&#39;</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="k">File</span><span class="p">[</span><span class="s">&quot;/etc/httpd/conf/httpd.conf&quot;</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="k">Service</span><span class="p">[</span><span class="s">&#39;httpd&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="type">
+<h2>Type</h2>
+<div class="section" id="group">
+<h3>group</h3>
+<p>在大多数平台上只能创建组，对于添加组成员由用户属性来控制。<strong>group</strong>类型包含以下一些常用的属性：</p>
+<p class="graphviz">
+<img src="../../../_images/graphviz-dc2dc3bbff1fc8955c6133e5704e1a1ae12bab6d.png" alt="digraph group {
+    edge [labeldistance=0.1];
+    group -&gt; provider;
+    group -&gt; ensure;
+    group -&gt; name;
+    group -&gt; gid;
+    group -&gt; system;
+    group -&gt; forcelocal;
+
+    ensure -&gt; present;
+    ensure -&gt; absent;
+
+    provider -&gt; aix;
+    provider -&gt; directoryservice;
+    provider -&gt; groupadd;
+    provider -&gt; ldap;
+    provider -&gt; pw;
+    provider -&gt; windows_adsi;
+}" />
+</p>
+</div>
+<div class="section" id="host">
+<h3>host</h3>
+<p>用来管理<strong>/etc/hosts</strong>中的host条目。对于MacOS X略有不同。</p>
+<p class="graphviz">
+<img src="../../../_images/graphviz-e0a433fcea718abd2f949f771696c501a85fcaac.png" alt="digraph host {
+    rankdir=LR;
+
+    host -&gt; name;
+    host -&gt; ensure;
+    host -&gt; ip;
+    host -&gt; host_aliases;
+    host -&gt; provider;
+    host -&gt; target;
+
+    ensure -&gt; present;
+    ensure -&gt; absent;
+
+    provider -&gt; parsed;
+
+    target -&gt; &quot;/etc/hosts&quot;;
+}" />
+</p>
+</div>
+<div class="section" id="user">
+<h3>user</h3>
+<p>通常用来管理系统用户，缺少一些管理普通用户的特性。<strong>user</strong>类型包含以下一些常见的属性：</p>
+<p class="graphviz">
+<img src="../../../_images/graphviz-acc3891d5c8c94169ed338fc82a4313be35fa671.png" alt="digraph user {
+    user -&gt; provider;
+    user -&gt; ensure;
+    user -&gt; name;
+    user -&gt; uid;
+    user -&gt; gid;
+    user -&gt; groups;
+    user -&gt; home;
+    user -&gt; password;
+    user -&gt; shell;
+    user -&gt; system;
+}" />
+</p>
+<p>例如</p>
+</div>
+<div class="section" id="file">
+<h3>file</h3>
+<p>管理文件（目录）和它们的属性。<strong>file</strong>类型具有以下常用属性：</p>
+<p class="graphviz">
+<img src="../../../_images/graphviz-15a3e204695dd486b45ae4e238ea10ac61bf4d96.png" alt="digraph file {
+    file -&gt; path;
+    file -&gt; ensure;
+    file -&gt; owner;
+    file -&gt; group;
+    file -&gt; mode;
+    file -&gt; target;
+    file -&gt; content;
+    file -&gt; source;
+
+    ensure -&gt; absent;
+    ensure -&gt; present;
+    ensure -&gt; file;
+    ensure -&gt; directory;
+    ensure -&gt; link;
+
+    content -&gt; &quot;a file&quot;;
+    content -&gt; &quot;a string&quot;;
+}" />
+</p>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>问题解答</h2>
+<ul>
+<li><dl class="first docutils">
+<dt>&#8220;<strong>certificate B: certificate verify failed: [certificate revoked for</strong>&#8220;</dt>
+<dd><p class="first">从下面的错误中，可以发现&#8221;<strong>certificate revoked for ......</strong>&#8220;，由此可以判断应该是证书过期的原因。</p>
+<div class="highlight-text"><div class="highlight"><pre>Notice: Starting Puppet client version 3.2.4
+Info: Caching certificate_revocation_list for ca
+Warning: Unable to fetch my node definition, but the agent run will continue:
+Warning: SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed: [certificate revoked for /CN=puppet.virt.liuhui]
+Info: Retrieving plugin
+Error: /File[/var/lib/puppet/lib]: Failed to generate additional resources using &#39;eval_generate: SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed: [certificate revoked for /CN=puppet.virt.liuhui]
+Error: /File[/var/lib/puppet/lib]: Could not evaluate: SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed: [certificate revoked for /CN=puppet.virt.liuhui] Could not retrieve file metadata for puppet://puppet.virt.liuhui/plugins: SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed: [certificate revoked for /CN=puppet.virt.liuhui]
+Error: Could not retrieve catalog from remote server: SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed: [certificate revoked for /CN=puppet.virt.liuhui]
+</pre></div>
+</div>
+<p>但是，在实际操作时，我几乎是同时进行的，前后不差三分钟。还是按照官方文档<a class="footnote-reference" href="#ref1" id="id2">[1]</a>中的提示检查了证书有效期：</p>
+<div class="highlight-bash"><div class="highlight"><pre>openssl x509 -text -noout -in /var/lib/puppet/ssl/certs/hostname.tld.pem <span class="p">|</span> grep -A2 Validity
+</pre></div>
+</div>
+<p>最后发现确实有点问题，日期不是当前日期，而且与&#8221;<cite>puppet master</cite>&#8220;的日期亦不同步。由此可以推断可能是&#8221;<cite>agent</cite>&#8220;和&#8221;<cite>master</cite>&#8220;的时间不同步，而&#8221;<cite>agent</cite>&#8220;的系统刚好不在&#8221;<cite>master</cite>&#8220;签发的有效时间内，导致证书无效。由此得到教训：“<strong>使用Puppet时一定要保证&#8221;master&#8221;和&#8221;slave&#8221;的时间同步</strong>”。</p>
+<p>修正时间同步的问题后，此问题仍然存在，又google了一些讨论<a class="footnote-reference" href="#ref2" id="id3">[2]</a><a class="footnote-reference" href="#ref3" id="id4">[3]</a>
+：有人提到是&#8221;<strong>.ssh</strong>&#8220;目录的问题，经查没有此目录，故排除。</p>
+<p>经常反复尝试，发现问题所在，因为使用了三台虚拟机，一个作为Master，两个Slave。发现有一个Slave一直都可以用，不会出上面的错误。但是当先将Master的自管理建立好，然后就再去设定Slave时，这个一直没有问题的Slave也出现相同问题。联想到在Master上运行&#8221;<cite>puppet agent &#8211;server=host &#8211;test</cite>&#8220;，总是提示：</p>
+<div class="highlight-text"><div class="highlight"><pre>On the master:
+    puppet cert clean puppet.virt.liuhui
+On the agent:
+    rm -f /etc/puppet/ssl/certs/puppet.virt.liuhui.pem
+    puppet agent -t
+</pre></div>
+</div>
+<p>相当于重新生成一个证书，而在<cite>puppet master</cite>启动时也生成了一套证书的。猜想是不是因为再次的证书混乱导致<cite>puppet master</cite>上证书管理混乱？最后发现<cite>puppet master</cite>生成的证书位于&#8221;/var/lib/puppet/ssl&#8221;下，而<cite>puppet agent</cite>生成的证书在&#8221;/etc/puppet/ssl&#8221;下，但是两次证书的名字一样，使用的CA一样，所以导致<cite>puppet master</cite>分不清，搞乱了。</p>
+<p>为什么<cite>puppet master</cite>和<cite>puppet agent</cite>的证书存放目录不一样呢？检查配置文件&#8221;/etc/puppet/puppet.conf&#8221;发现，其中只有关于<cite>master</cite>的配置，没有<cite>agent</cite>的信息，应该是<cite>agent</cite>的默认路径就是在&#8221;/etc/puppet/ssl&#8221;，而<cite>master</cite>的证书信息则在&#8221;/var/lib/puppet/ssl&#8221;。怎么解决呢？在配置文件&#8221;<cite>/etc/puppet/puppet.conf</cite>&#8220;中添加上关于<cite>agent</cite>的配置信息就好了。</p>
+<div class="last highlight-ini"><div class="highlight"><pre><span class="k">[agent]</span>
+    <span class="na">ssldir</span> <span class="o">=</span> <span class="s">/var/lib/puppet/ssl</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h2>问题</h2>
+<div class="section" id="id6">
+<h3>如何将<span class="docutils literal"><span class="pre">puppet</span></span>中的变量值传递给命令行</h3>
+<p>写了一个module来执行一个编译任务，目录结果如下：</p>
+<div class="highlight-text"><div class="highlight"><pre>stackless/
+        manifests/
+                init.pp
+                install.pp
+                params.pp
+</pre></div>
+</div>
+<p>其中文件<span class="docutils literal"><span class="pre">params.pp</span></span>定义了一些变量，如：</p>
+<div class="highlight-puppet"><div class="highlight"><pre><span class="k">class</span> <span class="na">stackless</span><span class="p">::</span><span class="na">params</span> <span class="p">{</span>
+    <span class="nv">$srcPath</span> <span class="o">=</span> <span class="s">&quot;/home/builder/stackless&quot;</span>
+    <span class="nv">$installPath</span> <span class="o">=</span> <span class="s">&quot;/home/builder/local&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>在<span class="docutils literal"><span class="pre">install.pp</span></span>中执行相关的编译工作，如：</p>
+<div class="highlight-puppet"><div class="highlight"><pre><span class="k">class</span> <span class="na">stackless</span><span class="p">::</span><span class="na">install</span> <span class="p">{</span>
+    <span class="k">exec</span> <span class="p">{</span><span class="s">&quot;configure&quot;</span><span class="p">:</span>
+        <span class="na">cwd</span> <span class="o">=&gt;</span> <span class="nv">$stackless::params::srcPath,</span>
+        <span class="na">path</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s">&quot;/bin&quot;</span><span class="p">,</span> <span class="s">&quot;/usr/bin&quot;</span><span class="p">],</span>
+        <span class="na">command</span> <span class="o">=&gt;</span> <span class="s">&quot;chmod 755 configure &amp;&amp; ./configure --prefix=$stackless::params::installPath&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>然后使用此模块，编译正常完成，但是程序被安装到系统目录<span class="docutils literal"><span class="pre">/usr</span></span>下面。查看“<strong>config.log</strong>”，发现<span class="docutils literal"><span class="pre">./configure</span> <span class="pre">--prefix=</span></span>后面的参数为空。猜想应该时<span class="docutils literal"><span class="pre">puppet</span></span>直接将<em>command</em>交给了Shell执行，而没有先进行变量替换而导致的问题。还没有深入了解是否有其它机制将变量先替换然后再转交给Shell。</p>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>参考资料</h2>
+<table class="docutils footnote" frame="void" id="ref1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td><a class="reference external" href="http://projects.puppetlabs.com/projects/1/wiki/certificates_and_security">http://projects.puppetlabs.com/projects/1/wiki/certificates_and_security</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="ref2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td><a class="reference external" href="http://smartest.blog.51cto.com/3585938/1016576">http://smartest.blog.51cto.com/3585938/1016576</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="ref3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[3]</a></td><td><a class="reference external" href="http://bitcube.co.uk/content/puppet-errors-explained">http://bitcube.co.uk/content/puppet-errors-explained</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/devops.html">devops</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/devops.html">devops</a>, <a href="../../../tags/deploy.html">deploy</a></span>
+        </div>
+        </div><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="proverb.html">箴言</a></li>
+            <li class="right"><a href="pxe.html">通过PXE安装Linux</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/puppet";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="bash.html">Learning Bash</a>
+        </li><li>
+            <a href="code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="comm_pipe.html">命令行管道编程</a>
+        </li><li>
+            <a href="datamining.html">学习数据挖掘</a>
+        </li><li>
+            <a href="disk_quota.html">磁盘配额管理</a>
+        </li><li>
+            <a href="docker.html">docker使用小记</a>
+        </li><li>
+            <a href="economy.html">经济指标</a>
+        </li><li>
+            <a href="epoll_man.html">epoll(7)</a>
+        </li><li>
+            <a href="epoll.html">epoll API</a>
+        </li><li>
+            <a href="firefox.html">Speed Up Firefox</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (7)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (16)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (7), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (9), <a href="../../../tags/python.html">python</a> (10), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 11pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 11pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

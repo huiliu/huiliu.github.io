@@ -1,0 +1,328 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>Learning Bash &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="Code Evolution" href="code_evolution.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/database.html">database</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>January 19, 2016</span>
+        </div>
+    <div class="section" id="learning-bash">
+<h1>Learning Bash</h1>
+<p>学习Bash，记录一些新学到的知识和tips。</p>
+<div id="more"> </div><div class="section" id="tips-1">
+<h2>Tips 1 <strong>&amp;&amp;</strong>和<strong>||</strong></h2>
+<p><strong>&amp;&amp;</strong>和<strong>||</strong>在条件判断时分别表示“逻辑与”和“逻辑或”，等同于在c中的功能。</p>
+<p>另外，它们还可以直接用于命令后面，如：</p>
+<div class="highlight-bash"><div class="highlight"><pre>command1 <span class="o">&amp;&amp;</span> command2 <span class="o">||</span>command3
+</pre></div>
+</div>
+<p>上面的意思为：如果命令<span class="docutils literal"><span class="pre">command1</span></span>正常完成（返回0），则执行<span class="docutils literal"><span class="pre">command2</span></span>
+如果<span class="docutils literal"><span class="pre">command2</span></span>执行时发生错误（返回非0），则执行<span class="docutils literal"><span class="pre">command3</span></span>。</p>
+<p>如果<span class="docutils literal"><span class="pre">commandn</span></span>执行多条语句，可以写为<span class="docutils literal"><span class="pre">command1;</span> <span class="pre">command2;</span> <span class="pre">......</span></span>，如果代码为下面的形式：</p>
+<div class="highlight-bash"><div class="highlight"><pre>command1<span class="p">;</span> command2 <span class="o">&amp;&amp;</span> command3<span class="p">;</span> command4 <span class="o">||</span> command5<span class="p">;</span> command6
+</pre></div>
+</div>
+<p>如果期待<span class="docutils literal"><span class="pre">command2</span></span>正常完成后执行<span class="docutils literal"><span class="pre">command3</span></span>和<span class="docutils literal"><span class="pre">command4</span></span>，出错时执行命令<span class="docutils literal"><span class="pre">command5</span></span>和<span class="docutils literal"><span class="pre">command6</span></span>。那就错了。上面的写法中，命令
+<span class="docutils literal"><span class="pre">command1</span></span>, <span class="docutils literal"><span class="pre">command2</span></span>, <span class="docutils literal"><span class="pre">command4</span></span>, <span class="docutils literal"><span class="pre">command6</span></span>一定会被执行，
+<span class="docutils literal"><span class="pre">command3</span></span>，<span class="docutils literal"><span class="pre">command5</span></span>则依情况而定。如果期待如前所述，则必须将
+<span class="docutils literal"><span class="pre">command3;</span> <span class="pre">command4</span></span>和 <span class="docutils literal"><span class="pre">command5;</span> <span class="pre">command6</span></span>用&#8221;<strong>`</strong>&#8220;括起来，如：</p>
+<div class="highlight-bash"><div class="highlight"><pre>command1<span class="p">;</span> command2 <span class="o">&amp;&amp;</span> <span class="sb">`</span>command3<span class="p">;</span> command4<span class="sb">`</span> <span class="o">||</span> <span class="sb">`</span>command5<span class="p">;</span> command6<span class="sb">`</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tips-2">
+<h2>Tips 2 关于删除文件时使用引号的疑问</h2>
+<p>假定目录结构如下：</p>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line">tree abc</div>
+<div class="line">.</div>
+<div class="line">├── a</div>
+<div class="line">└── b</div>
+<div class="line-block">
+<div class="line">└── c</div>
+<div class="line"><br /></div>
+</div>
+<div class="line">2 directories, 1 file</div>
+</div>
+<p>目标是将目录<em>abc</em>清空。看看下面两个命令，你认为它们的效果是一样么？</p>
+<div class="highlight-bash"><div class="highlight"><pre>rm -rf <span class="s2">&quot;abc/*&quot;</span>
+rm -rf abc/*
+</pre></div>
+</div>
+<p>动手试试上面两个命令，看看结果如何？第一个命令<span class="docutils literal"><span class="pre">rm</span> <span class="pre">-rf</span> <span class="pre">&quot;abc/\*&quot;</span></span>不能删除目录<em>abc</em>下的内容，而第二个命令可以。原因是什么？</p>
+</div>
+<div class="section" id="tips-3">
+<h2>Tips 3 防御型代码</h2>
+<p>今天看《Shell脚本学习指南》p307页时，发现一段代码：</p>
+<div class="highlight-bash"><div class="highlight"><pre>grep POSTX_OPEN_MAX /dev/null <span class="k">$(</span>find /usr/include -type f <span class="p">|</span> sort<span class="k">)</span>
+</pre></div>
+</div>
+<p>就觉得奇怪，为什么要加一个<cite>/dev/null</cite>在<cite>grep</cite>后面。</p>
+<p>因为如果<cite>$(find /usr/include -type f | sort)</cite>返回为空，<cite>grep</cite>命令就会一直等待终端输入，导致程序“卡死”。
+添加一个<cite>/dev/null</cite>的作用就是<strong>防止</strong><cite>find</cite><strong>返回为空是程序卡死发生</strong>。</p>
+</div>
+<div class="section" id="tips-4">
+<h2>Tips 4 终端打印彩色文字</h2>
+<p>使用Shell在终端打印彩色文字：</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">echo</span> -e <span class="s2">&quot;\e[32mHello World!\e[0m&quot;</span>
+</pre></div>
+</div>
+<p>Python的<span class="docutils literal"><span class="pre">print</span></span>语句也可以利用相似的语法在终端打开彩色文字：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\x1B</span><span class="s2">[32mHello World</span><span class="se">\x1B</span><span class="s2">[0m&quot;</span><span class="p">)</span>
+
+<span class="c1"># Python彩色文字</span>
+<span class="n">green</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">string</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\x1B</span><span class="s1">[32m</span><span class="si">%s</span><span class="se">\x1B</span><span class="s1">[0m&#39;</span> <span class="o">%</span> <span class="n">string</span>
+<span class="n">yellow</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">string</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\x1B</span><span class="s1">[31m</span><span class="se">\x1B</span><span class="s1">[1m</span><span class="si">%s</span><span class="se">\x1B</span><span class="s1">[0m&#39;</span> <span class="o">%</span> <span class="n">string</span>
+<span class="n">red</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">string</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\x1B</span><span class="s1">[33m</span><span class="se">\x1B</span><span class="s1">[1m</span><span class="si">%s</span><span class="se">\x1B</span><span class="s1">[0m&#39;</span> <span class="o">%</span> <span class="n">string</span>
+
+<span class="n">warning</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">msg</span><span class="p">:</span> <span class="s1">&#39;[</span><span class="si">%s</span><span class="s1">]: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">yellow</span><span class="p">(</span><span class="s1">&#39;警告&#39;</span><span class="p">),</span> <span class="n">msg</span><span class="p">)</span>
+<span class="n">error</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">msg</span><span class="p">:</span> <span class="s1">&#39;[</span><span class="si">%s</span><span class="s1">]: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">yellow</span><span class="p">(</span><span class="s1">&#39;错误&#39;</span><span class="p">),</span> <span class="n">msg</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Below are the color init strings for the basic file types. A color init
+string consists of one or more of the following numeric codes:</p>
+<dl class="last docutils">
+<dt>Attribute codes:</dt>
+<dd>00=none 01=bold 04=underscore 05=blink 07=reverse 08=concealed</dd>
+<dt>Text color codes:</dt>
+<dd>30=black 31=red 32=green 33=yellow 34=blue 35=magenta 36=cyan 37=white</dd>
+<dt>Background color codes:</dt>
+<dd>40=black 41=red 42=green 43=yellow 44=blue 45=magenta 46=cyan 47=white</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="tips-5-n">
+<h2>Tips 5 求N天前的日期字符串</h2>
+<p>个人觉得这个问题要完全正确是要花一点力气的，首先必须考虑以下情况：</p>
+<ul class="simple">
+<li>每个月天数不一样，有28, 30, 31</li>
+<li>存在闫年情况，二月份有29天</li>
+</ul>
+<p>所以用Shell内置的功能偷了一下懒<a class="footnote-reference" href="#ref1" id="id1">[1]</a>：</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># Author: Liu Hui</span>
+<span class="c1"># </span>
+<span class="c1"># Date: Thu Jul  4 23:42:53 CST 2013</span>
+
+
+<span class="nv">SECOND_TODAY</span><span class="o">=</span><span class="sb">`</span>date +%s<span class="sb">`</span>
+<span class="nv">SECOND_PER_DAY</span><span class="o">=</span>86400
+
+<span class="nv">INTERVAL</span><span class="o">=</span>7
+
+<span class="nv">SEQ</span><span class="o">=</span><span class="sb">`</span>seq $INTERVAL<span class="sb">`</span>
+
+<span class="c1">#set -x</span>
+<span class="k">for</span> i in $SEQ
+<span class="k">do</span>
+    <span class="nv">DATE</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s2">&quot;</span>$<span class="s2">SECOND_TODAY - </span>$<span class="s2">SECOND_PER_DAY * </span><span class="si">${</span><span class="nv">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">|</span> bc<span class="sb">`</span>
+    <span class="nb">echo</span> <span class="sb">`</span>date --date<span class="o">=</span><span class="s2">&quot;@</span><span class="nv">$DA</span><span class="s2">TE&quot;</span> +%Y%m%d<span class="sb">`</span>
+<span class="k">done</span>
+<span class="c1">#set +x</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>利用<span class="docutils literal"><span class="pre">date</span></span>命令自身功能更加简单方便：</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre>date -d <span class="s1">&#39;-2 day&#39;</span> <span class="s1">&#39;+%Y%m%d&#39;</span>
+<span class="c1"># output:   20140118</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>参考资料</h2>
+<table class="docutils footnote" frame="void" id="ref1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://witmax.cn/linux-date.html">date命令用法详解</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/shell.html">shell</a>, <a href="../../../categories/devops.html">devops</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/shell.html">shell</a>, <a href="../../../tags/tips.html">tips</a></span>
+        </div>
+        </div><ul class="related clearfix">
+            <li class="left"></li>
+            <li class="right"><a href="code_evolution.html">Code Evolution</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/bash";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="#">Learning Bash</a>
+        </li><li>
+            <a href="code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="comm_pipe.html">命令行管道编程</a>
+        </li><li>
+            <a href="datamining.html">学习数据挖掘</a>
+        </li><li>
+            <a href="disk_quota.html">磁盘配额管理</a>
+        </li><li>
+            <a href="docker.html">docker使用小记</a>
+        </li><li>
+            <a href="economy.html">经济指标</a>
+        </li><li>
+            <a href="epoll_man.html">epoll(7)</a>
+        </li><li>
+            <a href="epoll.html">epoll API</a>
+        </li><li>
+            <a href="firefox.html">Speed Up Firefox</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (7)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (16)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (7), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (9), <a href="../../../tags/python.html">python</a> (10), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 11pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 11pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

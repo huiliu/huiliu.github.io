@@ -1,0 +1,372 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>由内联函数引起的一个BUG &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="入侵检测与响应" href="intrusion.html" /><link rel="prev" title="程序人生" href="iamprogramer.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/database.html">database</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>January 19, 2016</span>
+        </div>
+    <div class="section" id="bug">
+<h1>由内联函数引起的一个BUG</h1>
+<div id="more"> </div><p>假定有三个文件inline.h, inline.cpp, main.cpp，内容如下：</p>
+<p><span class="docutils literal"><span class="pre">inline.h</span></span>类CPeople定义如下，其中包含一个内联函数<span class="docutils literal"><span class="pre">SetHouse</span></span>。</p>
+<div class="highlight-cpp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#ifndef __INLINE_H__</span>
+<span class="cp">#define __INLINE_H__</span>
+<span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">class</span> <span class="nc">CPeople</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">CPeople</span><span class="p">(</span><span class="kt">int</span> <span class="n">age</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">bHouse</span><span class="p">,</span> <span class="kt">int</span><span class="o">*</span> <span class="n">p</span><span class="p">);</span>
+    <span class="o">~</span><span class="n">CPeople</span><span class="p">();</span>
+
+<span class="hll">    <span class="kt">void</span> <span class="nf">SetHouse</span><span class="p">(</span><span class="kt">bool</span> <span class="n">bStatus</span><span class="p">)</span> <span class="p">{</span> <span class="n">m_hasHouse</span> <span class="o">=</span> <span class="n">bStatus</span><span class="p">;</span> <span class="p">}</span>
+</span>
+    <span class="kt">void</span> <span class="nf">Show</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">m_age</span><span class="p">;</span>
+<span class="hll">    <span class="c1">//bool m_hasCar;</span>
+</span>    <span class="kt">bool</span> <span class="n">m_hasHouse</span><span class="p">;</span>
+    <span class="kt">int</span><span class="o">*</span> <span class="n">m_pNull</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+</td></tr></table></div>
+<p><span class="docutils literal"><span class="pre">inline.cpp</span></span>类CPeople的实现。成员函数<span class="docutils literal"><span class="pre">Show</span></span>仅仅是方便调试下断点。</p>
+<div class="highlight-cpp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&quot;inline.h&quot;</span><span class="cp"></span>
+
+<span class="n">CPeople</span><span class="o">::</span><span class="n">CPeople</span><span class="p">(</span><span class="kt">int</span> <span class="n">age</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">bHouse</span><span class="p">,</span> <span class="kt">int</span><span class="o">*</span> <span class="n">p</span><span class="p">)</span>
+<span class="o">:</span> <span class="n">m_age</span><span class="p">(</span><span class="n">age</span><span class="p">)</span>
+<span class="c1">//, m_hasCar(false)</span>
+<span class="p">,</span> <span class="n">m_hasHouse</span><span class="p">(</span><span class="n">bHouse</span><span class="p">)</span>
+<span class="p">,</span> <span class="n">m_pNull</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+
+
+<span class="n">CPeople</span><span class="o">::~</span><span class="n">CPeople</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="n">CPeople</span><span class="o">::</span><span class="n">Show</span><span class="p">()</span> <span class="k">const</span>
+<span class="p">{</span>
+    <span class="c1">// just for debug</span>
+<span class="hll">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">m_age</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span><span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p><span class="docutils literal"><span class="pre">main.cpp</span></span>中创建一个实例，并调用被实现为内联的成员函数<span class="docutils literal"><span class="pre">SetHouse</span></span></p>
+<div class="highlight-cpp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&quot;inline.h&quot;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="n">CPeople</span> <span class="n">cI</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="nb">false</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+
+<span class="hll">    <span class="n">cI</span><span class="p">.</span><span class="n">SetHouse</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+</span>    <span class="n">cI</span><span class="p">.</span><span class="n">Show</span><span class="p">();</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p><span class="docutils literal"><span class="pre">Makefile</span></span>是这样的：（请特别注意Makefile）</p>
+<div class="highlight-makefile"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span class="c">#CXXFLAGS = -g -std=c++11</span>
+<span class="nv">CXXFLAGS</span> <span class="o">=</span> -std<span class="o">=</span>c++11
+<span class="nv">LIBS</span> <span class="o">=</span> inline.o main.o
+<span class="nv">TARGETS</span> <span class="o">=</span> main
+
+<span class="nf">all</span><span class="o">:</span> <span class="k">$(</span><span class="nv">TARGETS</span><span class="k">)</span>
+<span class="hll">
+</span><span class="nf">main</span><span class="o">:</span> <span class="k">$(</span><span class="nv">LIBS</span><span class="k">)</span>
+	g++ <span class="k">$(</span>CXXFLAGS<span class="k">)</span> $^ -o <span class="nv">$@</span>
+<span class="hll">
+</span><span class="nf">inline.o</span><span class="o">:</span> <span class="n">inline</span>.<span class="n">cpp</span> <span class="n">inline</span>.<span class="n">h</span>
+	g++ <span class="k">$(</span>CXXFLAGS<span class="k">)</span> inline.cpp -c -o <span class="nv">$@</span>
+
+<span class="nf">clean</span><span class="o">:</span>
+	rm -f <span class="k">$(</span>LIBS<span class="k">)</span> <span class="k">$(</span>TARGETS<span class="k">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>首先我们运行<span class="docutils literal"><span class="pre">make</span></span>命令编译代码：</p>
+<div class="highlight-shell"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre>make
+g++ -g -std<span class="o">=</span>c++11 inline.cpp -c -o inline.o
+g++ -g -std<span class="o">=</span>c++11   -c -o main.o main.cpp
+g++ -g -std<span class="o">=</span>c++11 inline.o main.o -o main
+</pre></div>
+</td></tr></table></div>
+<p>请注意上面make的输出，编译得到了<cite>inline.o</cite>和<cite>main.o</cite>，然后将两者链接得
+到<cite>main</cite>。</p>
+<p>运行<cite>main</cite>在&#8221;<span class="docutils literal"><span class="pre">inline.cpp</span></span>&#8220;的20行放置断点，那么成员变量的值分别为？用GDB
+看一下实际输出：</p>
+<div class="highlight-text"><div class="highlight"><pre>(gdb) p \*this
+$1 = {m_age = 10, m_hasHouse = true, m_pNull = 0x0}
+</pre></div>
+</div>
+<p>你答对了吗？</p>
+<p>接下来，将类CPeople中的变量<span class="docutils literal"><span class="pre">m_hasCar</span></span>注释去掉，再编译：</p>
+<div class="highlight-shell"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre>make
+g++ -g -std<span class="o">=</span>c++11 inline.cpp -c -o inline.o
+g++ -g -std<span class="o">=</span>c++11 inline.o main.o -o main
+</pre></div>
+</td></tr></table></div>
+<p>看仔细了，<span class="docutils literal"><span class="pre">make</span></span>的输出有什么问题吗？</p>
+<p>再用<span class="docutils literal"><span class="pre">GDB</span></span>调试main，同样在<span class="docutils literal"><span class="pre">inline.cpp</span></span>的第20行放置断点，看看此时的
+成员变量值：</p>
+<div class="highlight-text"><div class="highlight"><pre>(gdb) p \*this
+$1 = {m_age = 10, m_hasCar = true, m_hasHouse = false, m_pNull = 0x0}
+</pre></div>
+</div>
+<p>你发现问题了吗？</p>
+<p>成员函数<span class="docutils literal"><span class="pre">SetHouse</span></span>修改的应该是<span class="docutils literal"><span class="pre">m_hasHouse</span></span>的值，结果却是<span class="docutils literal"><span class="pre">m_hasCar</span></span>的值变了。出现BUG呢！！！</p>
+<p>这是为什么呢？</p>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/c_c.html">c/c++</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/c_c.html">c/c++</a>, <a href="../../../tags/program.html">program</a>, <a href="../../../tags/debug.html">debug</a>, <a href="../../../tags/tips.html">tips</a>, <a href="../../../tags/learn.html">learn</a></span>
+        </div>
+        </div><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="iamprogramer.html">程序人生</a></li>
+            <li class="right"><a href="intrusion.html">入侵检测与响应</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/inline_link_problem";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="bash.html">Learning Bash</a>
+        </li><li>
+            <a href="code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="comm_pipe.html">命令行管道编程</a>
+        </li><li>
+            <a href="datamining.html">学习数据挖掘</a>
+        </li><li>
+            <a href="disk_quota.html">磁盘配额管理</a>
+        </li><li>
+            <a href="docker.html">docker使用小记</a>
+        </li><li>
+            <a href="economy.html">经济指标</a>
+        </li><li>
+            <a href="epoll_man.html">epoll(7)</a>
+        </li><li>
+            <a href="epoll.html">epoll API</a>
+        </li><li>
+            <a href="firefox.html">Speed Up Firefox</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (7)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (16)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (7), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (9), <a href="../../../tags/python.html">python</a> (10), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 11pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 11pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>
