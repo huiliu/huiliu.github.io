@@ -1,0 +1,346 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>const修饰符 &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="function program in python" href="../04/function_program_in_python.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>February 15, 2016</span>
+        </div>
+    <div class="section" id="const">
+<h1>const修饰符</h1>
+<p>const修饰符的特殊使用方法。<a class="footnote-reference" href="#id7" id="id1">[1]</a> <a class="footnote-reference" href="#id8" id="id2">[2]</a></p>
+<div id="more"> </div><div class="section" id="char-pchar-xxx">
+<h2>例一 经典的<span class="docutils literal"><span class="pre">char*</span> <span class="pre">pchar</span> <span class="pre">=</span> <span class="pre">&quot;xxx&quot;</span></span></h2>
+<p>C中最常见的一个问题-<span class="docutils literal"><span class="pre">char*</span> <span class="pre">pchar</span> <span class="pre">=</span> <span class="pre">&quot;xxx&quot;</span></span>的隐含了什么，算是C语言的一个坑，也算是语法要求不严谨。如下：</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="kt">void</span> <span class="nf">testConstChar</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">char</span><span class="o">*</span> <span class="n">pchar</span> <span class="o">=</span> <span class="s">&quot;abc&quot;</span><span class="p">;</span>
+    <span class="n">pchar</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;a&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>函数``testConstChar``执行结果是什么样的？为什么？</strong>
+从字面上看<span class="docutils literal"><span class="pre">char*</span> <span class="pre">pchar</span> <span class="pre">=</span> <span class="pre">&quot;abc&quot;;</span></span>只是定义子一个指向字符串的指针；而实际
+上<span class="docutils literal"><span class="pre">pchar</span></span>的类型应该是: <span class="docutils literal"><span class="pre">const</span> <span class="pre">static</span> <span class="pre">char*</span></span>。即：<span class="docutils literal"><span class="pre">pchar</span></span>隐含
+了<span class="docutils literal"><span class="pre">const</span></span>属性，修改pchar指向的内存必然引发&#8217;segment fault&#8217;。</p>
+<p>在C编译器中完全没有任何提示警告；C++编译器会警告：<cite>deprecated conversion
+from string constant to ‘char*’</cite></p>
+<p>另外如果将上面的变量<cite>pchar</cite>声明为: <cite>char pchar[] = &#8220;abc&#8221;;</cite>则表示<cite>pchar</cite>是一个字符数组。</p>
+</div>
+<div class="section" id="id3">
+<h2>例二 对返回值的影响</h2>
+<p>对例一进行一下扩展延伸，定义下面这样一个类及其成员函数：</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">cTestConstChar</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">GetChar</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="kt">char</span><span class="o">*</span> <span class="n">pChar</span> <span class="o">=</span> <span class="s">&quot;hello world!&quot;</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">pChar</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="nf">testConst</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">cTestConstChar</span> <span class="n">c</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">c</span><span class="p">.</span><span class="n">GetChar</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>上面的函数运行结果是怎么样的？为什么？</strong></p>
+<p>一眼看去<span class="docutils literal"><span class="pre">cTestConstChar::GetChar()</span></span>返回了一个局部指针变量，将引发未知结果。</p>
+<p>回想一下<em>例一</em>，可以知道，局部变量<cite>pChar</cite>实际类型是: <span class="docutils literal"><span class="pre">const</span> <span class="pre">static</span>
+<span class="pre">char*</span></span>，即：它指向的内存区域不会因为函数返回而被释放，所以<span class="docutils literal"><span class="pre">cTestConstChar::GetChar()</span></span>将会返回一个正确可用的，指向字符串&#8221;hello world!&#8221;的地址。将会正常输出&#8221;hello world!&#8221;。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">再推广一下：函数可以返回局部的<span class="docutils literal"><span class="pre">static</span></span>变量的地址或引用。（但是好像没有
+人推荐这种用法:)）</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>例三 修改<span class="docutils literal"><span class="pre">const</span></span>变量值</h2>
+<p><span class="docutils literal"><span class="pre">const</span></span>修饰的变量，其值是不可以修改的，但是可以通过方法去掉<span class="docutils literal"><span class="pre">const</span></span>属
+性，这样就可以修改了，看看下面这个例子的：</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="kt">void</span> <span class="nf">testChangeConstValue</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">nValue</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+    <span class="kt">int</span><span class="o">*</span> <span class="n">pInt</span> <span class="o">=</span> <span class="k">const_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">nValue</span><span class="p">);</span>
+
+    <span class="o">*</span><span class="n">pInt</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">pInt</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">nValue</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>函数``testChangeConstValue``的输出会是什么？为什么？</strong></p>
+<div class="line-block">
+<div class="line">结果：100, 10</div>
+</div>
+<p>为什么？
+1.   常量的值不可改变？那么const_cast是干什么用的？
+2.   const_cast分配的一块新的内存空间来保存nValue的值？
+3.   ...</p>
+<p>通过断点逐步调试看看</p>
+<p>调试会发现: <span class="docutils literal"><span class="pre">pInt</span></span>确实指向了<em>nValue</em>的内存地址，而且修改了内存值，那么
+为什么<em>nValue</em>的输入结果依然是10呢？</p>
+<p>推测应该是编译器在编译时直接将nValue替换为了10, 在调用cout时没有去读内存值。查看
+汇编代码可以确认。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">非绝对必要，还要修改<span class="docutils literal"><span class="pre">const</span></span>变量的值，即使修改也要仔细考虑，调整代码，
+注意编译器的优化。</p>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>例四 类的<span class="docutils literal"><span class="pre">const</span></span>成员函数</h2>
+<p>类的<span class="docutils literal"><span class="pre">const成员函数</span></span>不能修改类的成员变量，看一下下面这个例子：</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">cTestConstMember</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">cTestConstMember</span><span class="p">();</span>
+    <span class="o">~</span><span class="n">cTestConstMember</span><span class="p">();</span>
+
+    <span class="kt">void</span> <span class="nf">DoThings</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+<span class="k">private</span><span class="o">:</span>
+    <span class="kt">int</span>         <span class="n">m_nCount</span><span class="p">;</span>
+    <span class="k">mutable</span> <span class="kt">int</span> <span class="n">m_nMutable</span><span class="p">;</span>
+    <span class="kt">int</span><span class="o">*</span>        <span class="n">m_pInt</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">cTestConstMember</span><span class="o">::</span><span class="n">cTestConstMember</span><span class="p">()</span>
+<span class="o">:</span> <span class="n">m_nCount</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="p">,</span> <span class="n">m_nMutable</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">,</span> <span class="n">m_pInt</span><span class="p">(</span><span class="k">nullptr</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">m_pInt</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">cTestConstMember</span><span class="o">::~</span><span class="n">cTestConstMember</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">nullptr</span> <span class="o">!=</span> <span class="n">m_pInt</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">delete</span> <span class="n">m_pInt</span><span class="p">;</span>
+        <span class="n">m_pInt</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">cTestConstMember</span><span class="o">::</span><span class="n">DoThings</span><span class="p">()</span> <span class="k">const</span>
+<span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Test Class Const Member Function&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">m_nCount</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">m_nMutable</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">m_pInt</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+    <span class="c1">// 妄图修改类成员变量，编译都无法通过</span>
+    <span class="c1">// m_nCount = 100;</span>
+    <span class="n">m_nMutable</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span>
+    <span class="o">*</span><span class="n">m_pInt</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">m_nCount</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">m_nMutable</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">m_pInt</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">TestConstMember</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="cm">/*const */</span><span class="n">cTestConstMember</span> <span class="n">c</span><span class="p">;</span>
+    <span class="n">c</span><span class="p">.</span><span class="n">DoThings</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>这个例子就不细说了，在上面使用了关键字<span class="docutils literal"><span class="pre">mutable</span></span>，<cite>mutable</cite>修饰的变量
+不受对象的<span class="docutils literal"><span class="pre">const</span></span>修饰符的影响，可以被修改。</p>
+</div>
+<div class="section" id="id6">
+<h2>参考资料</h2>
+<table class="docutils footnote" frame="void" id="id7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://en.cppreference.com/w/cpp/language/cv">cv (const and volatile) type qualifiers</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id8" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><a class="reference external" href="https://msdn.microsoft.com/en-us/library/07x6b05d.aspx">const (C++)</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/c_c.html">c/c++</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/c_c.html">c/c++</a>, <a href="../../../tags/program.html">program</a></span>
+        </div>
+        </div><ul class="related clearfix">
+            <li class="left"></li>
+            <li class="right"><a href="../04/function_program_in_python.html">function program in python</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/02/15/const_modifier";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="#">const修饰符</a>
+        </li><li>
+            <a href="../04/function_program_in_python.html">function program in python</a>
+        </li><li>
+            <a href="../../01/19/bash.html">Learning Bash</a>
+        </li><li>
+            <a href="../../01/19/code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="../../01/19/comm_pipe.html">命令行管道编程</a>
+        </li><li>
+            <a href="../../01/19/datamining.html">学习数据挖掘</a>
+        </li><li>
+            <a href="../../01/19/disk_quota.html">磁盘配额管理</a>
+        </li><li>
+            <a href="../../01/19/docker.html">docker使用小记</a>
+        </li><li>
+            <a href="../../01/19/economy.html">经济指标</a>
+        </li><li>
+            <a href="../../01/19/epoll_man.html">epoll(7)</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (8)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (8), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/function_program.html">function program</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (11), <a href="../../../tags/python.html">python</a> (11), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/function_program.html" style="font-size: 8pt">function program</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 12pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 12pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

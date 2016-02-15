@@ -4,6 +4,8 @@ Sitemap
 .. toctree::
    :maxdepth: 1
 
+   2016/02/15/const_modifier
+   2016/02/04/function_program_in_python
    2016/01/19/bash
    2016/01/19/code_evolution
    2016/01/19/comm_pipe
@@ -90,6 +92,5 @@ Sitemap
    2015/12/20/children
    2015/12/20/travel_wuyi
 
-   pages/database
    pages/about
 
