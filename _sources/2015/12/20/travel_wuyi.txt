@@ -5,7 +5,7 @@
 
 .. author:: default
 .. categories:: life
-.. tags:: 
+.. tags:: none
 .. comments::
 .. more::
 

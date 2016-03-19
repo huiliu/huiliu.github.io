@@ -6,7 +6,7 @@
 
 .. author:: default
 .. categories:: learn
-.. tags:: 
+.. tags:: none
 .. comments::
 .. more::
 

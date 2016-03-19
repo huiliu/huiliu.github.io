@@ -1,0 +1,345 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>this指针与const &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="const修饰符" href="../../02/15/const_modifier.html" /><link rel="prev" title="shadowsocks源码分析：ssserver" href="shadowsocks.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>March 19, 2016</span>
+        </div>
+    <div class="section" id="thisconst">
+<h1>this指针与const</h1>
+<p><span class="docutils literal"><span class="pre">this</span></span>指针与<span class="docutils literal"><span class="pre">const</span></span>修饰符的关系。</p>
+<div id="more"> </div><div class="section" id="const">
+<h2><span class="docutils literal"><span class="pre">const</span></span>与指针结合</h2>
+<p>先看一下<span class="docutils literal"><span class="pre">const</span></span>指针：</p>
+<ul class="simple">
+<li><em>T* const val;</em>        不能改变指针的值，可以改变指针指向对象的值</li>
+<li><em>const T* val;</em>        不能改变指针指向对象的值，可以改变指针的值（即将指针指向另一个对象）</li>
+<li><em>const T* const val;</em>  什么都不能做（实际还是可以做的）</li>
+</ul>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="kt">void</span> <span class="nf">list_const</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">val1</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">val2</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+
+    <span class="c1">// 1. 指针指向的对象是常量，指针可变。即使指向的变量不是常量，指针亦会将</span>
+    <span class="c1">// 其看作常量</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="o">*</span><span class="n">p1</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">val1</span><span class="p">;</span>
+
+    <span class="c1">// *p1 = 101; // failed</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">val2</span><span class="p">;</span>
+
+    <span class="c1">// 2. 指针是常量，指针指向的对象可变</span>
+    <span class="kt">int</span> <span class="o">*</span> <span class="k">const</span> <span class="n">p2</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">val1</span><span class="p">;</span>
+
+    <span class="c1">// p2 = &amp;val2; // failed</span>
+    <span class="o">*</span><span class="n">p2</span> <span class="o">=</span> <span class="n">val2</span><span class="p">;</span>
+
+    <span class="c1">// 3. 指针和其指向的变量老师常量</span>
+    <span class="k">const</span> <span class="kt">int</span><span class="o">*</span> <span class="k">const</span> <span class="n">p3</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">val1</span><span class="p">;</span>
+
+    <span class="cm">/* failed</span>
+<span class="cm">    p3 = &amp;val2;</span>
+<span class="cm">    *p3 = val2;</span>
+<span class="cm">    */</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="this">
+<h2><span class="docutils literal"><span class="pre">this</span></span>指针</h2>
+<p>当调用一个类的非静态成员函数时，底层实现会隐式的添加一个指向类实例的指针作为参
+数，即<span class="docutils literal"><span class="pre">this</span></span>指针，<span class="docutils literal"><span class="pre">this</span></span>指针是一个指针常量（指针的值不可变，其指向的对象可变）。</p>
+<p>在类（非静态）成员函数中对类的成员变量的访问就是通过<span class="docutils literal"><span class="pre">this</span></span>指针来完成的，
+所以<span class="docutils literal"><span class="pre">this</span></span>指针的类型影响着对成员变量的操作。</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CConst</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">CConst</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">str</span><span class="p">)</span> <span class="o">:</span> <span class="n">m_banner</span><span class="p">(</span><span class="n">str</span><span class="p">)</span> <span class="p">{}</span>
+    <span class="o">~</span><span class="n">CConst</span><span class="p">()</span> <span class="p">{}</span>
+
+    <span class="cm">/*</span>
+<span class="cm">     *</span>
+<span class="cm">     * 对于非const成员函数，其this指针类型为T* const，即可以改变成员变量值</span>
+<span class="cm">     * 对于const成员函数，其this指针类型为const T* const，所以不能改变成员变量的值</span>
+<span class="cm">     *</span>
+<span class="cm">     */</span>
+    <span class="kt">void</span> <span class="n">Print</span><span class="p">()</span> <span class="k">const</span>
+    <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;const member function: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">m_banner</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="n">Show</span><span class="p">(</span><span class="cm">/* CConst* const this */</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">m_banner</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 对于const成员函数,底层调用时,向其传递的this指针类型为const CConst* const this</span>
+    <span class="c1">// 所以同名的const成员函数与非const成员函数其实是一种重载</span>
+    <span class="kt">void</span> <span class="n">Show</span><span class="p">(</span><span class="cm">/* const CConst* const this */</span><span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;const member function: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">m_banner</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="k">private</span><span class="o">:</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">m_banner</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="constconst">
+<h2><span class="docutils literal"><span class="pre">const</span></span>对象和非<span class="docutils literal"><span class="pre">const</span></span>对象</h2>
+<p>下面两个对象的<span class="docutils literal"><span class="pre">this</span></span>指针类型是？</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">CConst</span><span class="o">*</span> <span class="n">pObj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CConst</span><span class="p">();</span>    <span class="c1">// 非const对象</span>
+<span class="k">const</span> <span class="n">CConst</span><span class="o">*</span> <span class="n">pConstObj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CConst</span><span class="p">();</span>    <span class="c1">// 非const对象</span>
+</pre></div>
+</div>
+<p>如上一节所说，C++底层在调用类的成员函数时会隐式传递一个<span class="docutils literal"><span class="pre">this</span></span>指针，其类型为：<span class="docutils literal"><span class="pre">T</span> <span class="pre">*</span> <span class="pre">const</span></span>。所以:</p>
+<ol class="arabic simple">
+<li><span class="docutils literal"><span class="pre">pObj</span></span>的<span class="docutils literal"><span class="pre">this</span></span>指针类型为：<span class="docutils literal"><span class="pre">CConst</span> <span class="pre">*</span> <span class="pre">const</span></span></li>
+<li><span class="docutils literal"><span class="pre">pConstObj</span></span>的<span class="docutils literal"><span class="pre">this</span></span>指针类型为：<span class="docutils literal"><span class="pre">const</span> <span class="pre">CConst</span> <span class="pre">*</span> <span class="pre">const</span></span></li>
+</ol>
+<p>所以：<span class="docutils literal"><span class="pre">this</span></span>指针是隐式作为参数传递给了成员函数的，而<span class="docutils literal"><span class="pre">const</span></span>对象与非<span class="docutils literal"><span class="pre">const</span></span>对象的<span class="docutils literal"><span class="pre">this</span></span>指针类型是不一样的。所以<span class="docutils literal"><span class="pre">const</span></span>成员函数是一种重载。</p>
+<p>联想一下<span class="docutils literal"><span class="pre">const</span></span>类型的转换规则：</p>
+<ol class="arabic simple">
+<li>非<span class="docutils literal"><span class="pre">const</span></span>类型可以转换为<span class="docutils literal"><span class="pre">const</span></span>类型，反之不行</li>
+<li><span class="docutils literal"><span class="pre">const</span></span>指针可以指向非<span class="docutils literal"><span class="pre">const</span></span>对象，反之不行</li>
+</ol>
+<p>所以：<span class="docutils literal"><span class="pre">const</span></span>对象只能调用const成员函数。</p>
+<p><strong>const成员函数是一种重载；const对象只能调用const成员函数。</strong></p>
+</div>
+<div class="section" id="id1">
+<h2><span class="docutils literal"><span class="pre">this</span></span>指针的验证</h2>
+<p>定义下面一个类：</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">T</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">T</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="o">:</span> <span class="n">m_data</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">{}</span>
+    <span class="o">~</span><span class="n">T</span><span class="p">()</span> <span class="p">{}</span>
+
+    <span class="kt">void</span> <span class="n">hello</span><span class="p">()</span> <span class="p">{</span> <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;hello world!&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">print</span><span class="p">()</span> <span class="p">{</span> <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">m_data</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="p">}</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">m_data</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="nf">test</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">T</span> <span class="o">*</span> <span class="n">pt</span> <span class="o">=</span> <span class="k">new</span> <span class="n">T</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+    <span class="n">pt</span><span class="o">-&gt;</span><span class="n">hello</span><span class="p">();</span>
+    <span class="n">pt</span><span class="o">-&gt;</span><span class="n">print</span><span class="p">();</span>    <span class="c1">// 打印 100</span>
+
+    <span class="k">delete</span> <span class="n">pt</span><span class="p">;</span>
+    <span class="n">pt</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+    <span class="n">pt</span><span class="o">-&gt;</span><span class="n">hello</span><span class="p">();</span>    <span class="c1">// 可以正常输出，因为它没有使用this指针，所以</span>
+    <span class="n">pt</span><span class="o">-&gt;</span><span class="n">print</span><span class="p">();</span>    <span class="c1">// segment fault</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>上面可以看到：一个对象的<span class="docutils literal"><span class="pre">nullptr</span></span>指针居然可以正常调用成员函数。
+如果不将指针删除后的指针设为<span class="docutils literal"><span class="pre">nullptr</span></span>会发现什么呢？（我用gcc/vc试了好几次，都没有出错，多么恐怖的事啊，一个删除的对象还可以被使用，执行结果是未知的啊，出现segment fault是你走大运了，如果正常执行了才麻烦）</p>
+</div>
+<div class="section" id="c">
+<h2>C++的对象模型</h2>
+<p><strong>为什么需要this指针呢？</strong></p>
+</div>
+<div class="section" id="acknowledgment">
+<h2>ACKNOWLEDGMENT</h2>
+<p>感谢强哥的指导！</p>
+</div>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/c_c.html">c/c++</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/c_c.html">c/c++</a>, <a href="../../../tags/program.html">program</a></span>
+        </div>
+        </div><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="shadowsocks.html">shadowsocks源码分析：ssserver</a></li>
+            <li class="right"><a href="../../02/15/const_modifier.html">const修饰符</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/03/19/const_and_this";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section>
+<div class='widget'>
+  <h3>Table Of Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">this指针与const</a><ul>
+<li><a class="reference internal" href="#const"><span class="docutils literal"><span class="pre">const</span></span>与指针结合</a></li>
+<li><a class="reference internal" href="#this"><span class="docutils literal"><span class="pre">this</span></span>指针</a></li>
+<li><a class="reference internal" href="#constconst"><span class="docutils literal"><span class="pre">const</span></span>对象和非<span class="docutils literal"><span class="pre">const</span></span>对象</a></li>
+<li><a class="reference internal" href="#id1"><span class="docutils literal"><span class="pre">this</span></span>指针的验证</a></li>
+<li><a class="reference internal" href="#c">C++的对象模型</a></li>
+<li><a class="reference internal" href="#acknowledgment">ACKNOWLEDGMENT</a></li>
+</ul>
+</li>
+</ul>
+
+</div></section><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="shadowsocks.html">shadowsocks源码分析：ssserver</a>
+        </li><li>
+            <a href="#">this指针与const</a>
+        </li><li>
+            <a href="../../02/15/const_modifier.html">const修饰符</a>
+        </li><li>
+            <a href="../../02/04/function_program_in_python.html">function program in python</a>
+        </li><li>
+            <a href="../../01/19/bash.html">Learning Bash</a>
+        </li><li>
+            <a href="../../01/19/code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="../../01/19/comm_pipe.html">命令行管道编程</a>
+        </li><li>
+            <a href="../../01/19/datamining.html">学习数据挖掘</a>
+        </li><li>
+            <a href="../../01/19/disk_quota.html">磁盘配额管理</a>
+        </li><li>
+            <a href="../../01/19/docker.html">docker使用小记</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (9)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (6)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 11pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/function_program.html" style="font-size: 8pt">function program</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 9pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 12pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 12pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

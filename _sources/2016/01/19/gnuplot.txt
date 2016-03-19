@@ -56,7 +56,7 @@ GNUPlot的功能强大，控制灵活。目前我只用到\ ``plot``\ 命令以�
 ）。如果图上有好几条曲线，图例就是必须的了。gnuplot提供的相应的设定参数来控制它\
 的行为：
 
-.. sourcecode:: gnuplot
+.. sourcecode:: text
 
     # 关闭图例
     unset key  

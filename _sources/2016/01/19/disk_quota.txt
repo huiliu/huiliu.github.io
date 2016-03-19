@@ -195,11 +195,11 @@ Easy吧。
 
 .. sourcecode:: bash
 
-    $ dd if=/dev/zero of=test bs=1M count=30M
-    dd: writing `test': Disk quota exceeded
-    14+0 records in
-    13+0 records out
-    14581760 bytes (15 MB) copied, 0.0170676 s, 854 MB/s
+    dd if=/dev/zero of=test bs=1M count=30M
+    # dd: writing `test': Disk quota exceeded
+    # 14+0 records in
+    # 13+0 records out
+    # 14581760 bytes (15 MB) copied, 0.0170676 s, 854 MB/s
 
 ``dd``\ 命令提示“\ *Disk quota exceeded*\ ，再看本来计划写入30M数据，结果只写入\
 了15M，写入数据不完整的，超出部分的数据将会丢失。

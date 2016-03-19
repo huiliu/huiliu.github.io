@@ -137,3 +137,5 @@ Comprehensions in Python
 ..  [4]    `函数式编程初探
             <http://www.ruanyifeng.com/blog/2012/04/functional_programming.html>`_
 
+..  [5]     `Using lambda Functions
+    <http://www.diveintopython.net/power_of_introspection/lambda_functions.html>`_

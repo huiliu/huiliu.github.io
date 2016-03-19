@@ -151,7 +151,7 @@
 <h3>group</h3>
 <p>在大多数平台上只能创建组，对于添加组成员由用户属性来控制。<strong>group</strong>类型包含以下一些常用的属性：</p>
 <p class="graphviz">
-digraph group {
+<img src="../../../_images/graphviz-dc2dc3bbff1fc8955c6133e5704e1a1ae12bab6d.png" alt="digraph group {
     edge [labeldistance=0.1];
     group -&gt; provider;
     group -&gt; ensure;
@@ -169,13 +169,14 @@ digraph group {
     provider -&gt; ldap;
     provider -&gt; pw;
     provider -&gt; windows_adsi;
-}</p>
+}" />
+</p>
 </div>
 <div class="section" id="host">
 <h3>host</h3>
 <p>用来管理<strong>/etc/hosts</strong>中的host条目。对于MacOS X略有不同。</p>
 <p class="graphviz">
-digraph host {
+<img src="../../../_images/graphviz-e0a433fcea718abd2f949f771696c501a85fcaac.png" alt="digraph host {
     rankdir=LR;
 
     host -&gt; name;
@@ -191,13 +192,14 @@ digraph host {
     provider -&gt; parsed;
 
     target -&gt; &quot;/etc/hosts&quot;;
-}</p>
+}" />
+</p>
 </div>
 <div class="section" id="user">
 <h3>user</h3>
 <p>通常用来管理系统用户，缺少一些管理普通用户的特性。<strong>user</strong>类型包含以下一些常见的属性：</p>
 <p class="graphviz">
-digraph user {
+<img src="../../../_images/graphviz-acc3891d5c8c94169ed338fc82a4313be35fa671.png" alt="digraph user {
     user -&gt; provider;
     user -&gt; ensure;
     user -&gt; name;
@@ -208,14 +210,15 @@ digraph user {
     user -&gt; password;
     user -&gt; shell;
     user -&gt; system;
-}</p>
+}" />
+</p>
 <p>例如</p>
 </div>
 <div class="section" id="file">
 <h3>file</h3>
 <p>管理文件（目录）和它们的属性。<strong>file</strong>类型具有以下常用属性：</p>
 <p class="graphviz">
-digraph file {
+<img src="../../../_images/graphviz-15a3e204695dd486b45ae4e238ea10ac61bf4d96.png" alt="digraph file {
     file -&gt; path;
     file -&gt; ensure;
     file -&gt; owner;
@@ -233,7 +236,8 @@ digraph file {
 
     content -&gt; &quot;a file&quot;;
     content -&gt; &quot;a string&quot;;
-}</p>
+}" />
+</p>
 </div>
 </div>
 <div class="section" id="id1">
@@ -350,9 +354,36 @@ On the agent:
         </div><ul class="related clearfix">
             <li class="left"> &laquo; <a href="proverb.html">箴言</a></li>
             <li class="right"><a href="pxe.html">通过PXE安装Linux</a> &raquo; </li>
-        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/puppet";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/puppet";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section>
+<div class='widget'>
+  <h3>Table Of Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">配置管理工具-Puppet</a><ul>
+<li><a class="reference internal" href="#resource-ordering">Resource Ordering</a></li>
+<li><a class="reference internal" href="#type">Type</a><ul>
+<li><a class="reference internal" href="#group">group</a></li>
+<li><a class="reference internal" href="#host">host</a></li>
+<li><a class="reference internal" href="#user">user</a></li>
+<li><a class="reference internal" href="#file">file</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id1">问题解答</a></li>
+<li><a class="reference internal" href="#id5">问题</a><ul>
+<li><a class="reference internal" href="#id6">如何将<span class="docutils literal"><span class="pre">puppet</span></span>中的变量值传递给命令行</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id7">参考资料</a></li>
+</ul>
+</li>
+</ul>
+
+</div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../03/19/shadowsocks.html">shadowsocks源码分析：ssserver</a>
+        </li><li>
+            <a href="../../03/19/const_and_this.html">this指针与const</a>
+        </li><li>
             <a href="../../02/15/const_modifier.html">const修饰符</a>
         </li><li>
             <a href="../../02/04/function_program_in_python.html">function program in python</a>
@@ -368,22 +399,17 @@ On the agent:
             <a href="disk_quota.html">磁盘配额管理</a>
         </li><li>
             <a href="docker.html">docker使用小记</a>
-        </li><li>
-            <a href="economy.html">经济指标</a>
-        </li><li>
-            <a href="epoll_man.html">epoll(7)</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (8)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (9)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (6)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
-    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (8), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/function_program.html">function program</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (11), <a href="../../../tags/python.html">python</a> (11), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
       <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
       <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
-      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 11pt">c/c++</a>&nbsp;&nbsp;
       <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
       <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
       <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
@@ -403,7 +429,7 @@ On the agent:
       <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
       <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
       <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
-      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 9pt">life</a>&nbsp;&nbsp;
       <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
       <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
       <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;

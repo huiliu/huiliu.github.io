@@ -4,6 +4,8 @@ Sitemap
 .. toctree::
    :maxdepth: 1
 
+   2016/03/19/shadowsocks
+   2016/03/19/const_and_this
    2016/02/15/const_modifier
    2016/02/04/function_program_in_python
    2016/01/19/bash

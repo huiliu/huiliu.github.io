@@ -69,6 +69,8 @@
         </div>
     <div class="section" id="mysql">
 <h1>MySQL日志相关服务器变量</h1>
+<p>MySQL Server参数中与日志相关的选项。如：<span class="docutils literal"><span class="pre">Error</span> <span class="pre">Log</span></span>, <span class="docutils literal"><span class="pre">General</span> <span class="pre">query</span>
+<span class="pre">log</span></span>, <span class="docutils literal"><span class="pre">Binary</span> <span class="pre">log</span></span>, <span class="docutils literal"><span class="pre">Relay</span> <span class="pre">log</span></span>, <span class="docutils literal"><span class="pre">Slow</span> <span class="pre">query</span> <span class="pre">log</span></span>。</p>
 <div id="more"> </div><p>MySQL Server可以生成的日志分为：</p>
 <ol class="arabic simple">
 <li><span class="docutils literal"><span class="pre">Error</span> <span class="pre">log</span></span>用于保存服务器的启动，停止，运行及出错信息；</li>
@@ -120,9 +122,8 @@ binglog中，如果需要记录来自master的binlog，需要将<span class="doc
 </li>
 <li><p class="first"><span class="docutils literal"><span class="pre">RESET</span> <span class="pre">MASTER</span></span></p>
 </li>
-<li><p class="first"><span class="docutils literal"><span class="pre">PURGE</span> <span class="pre">BINARY</span> <span class="pre">LOGS</span></span>
-PURGE语句可以指定log名或者日期。相应的语法：</p>
-<div class="highlight-sql"><div class="highlight"><pre>PURGE { BINARY | MASTER } LOGS { TO &#39;log_name&#39; | BEFORE &#39;datetime&#39; }
+<li><p class="first"><span class="docutils literal"><span class="pre">PURGE</span> <span class="pre">BINARY</span> <span class="pre">LOGS</span></span>PURGE语句可以指定log名或者日期。相应的语法：</p>
+<div class="highlight-text"><div class="highlight"><pre>PURGE { BINARY | MASTER } LOGS { TO &#39;log_name&#39; | BEFORE &#39;datetime&#39; }
 </pre></div>
 </div>
 </li>
@@ -175,28 +176,34 @@ Server会先将事务写入到binlog，然后再提交给innoDB引擎。如果�
 </div>
 </div>
 <div class="section" id="slow-query-log">
-<h2>Slow query log</h2>
+<h2>慢查询日志(Slow query log)</h2>
 <p>与慢查询相关的重要系统变量有：</p>
 <ol class="arabic simple">
 <li><span class="docutils literal"><span class="pre">slow_query_log</span> <span class="pre">=</span> <span class="pre">OFF|ON</span></span> 慢查询日志是否开启的开关</li>
 <li><span class="docutils literal"><span class="pre">long_query_time</span> <span class="pre">=</span> <span class="pre">N</span></span> 判断是否属于慢查询的阀值。单位microsecond</li>
 <li><span class="docutils literal"><span class="pre">min_examined_row_limit</span> <span class="pre">=</span> <span class="pre">0</span></span>  被影响的最小行数</li>
-<li><span class="docutils literal"><span class="pre">log_queries_not_using_indxes</span> <span class="pre">=</span> <span class="pre">OFF|ON</span></span>  是否记录未使用索引的查询</li>
+<li><span class="docutils literal"><span class="pre">log_queries_not_using_indexes</span> <span class="pre">=</span> <span class="pre">OFF|ON</span></span>  是否记录未使用索引的查询。如果一个经常执行的SQL操作没有使用索引，开启此选项，可以导致慢查询日志文件快速增长。MySQL 5.6.5引入了一个新的参数<span class="docutils literal"><span class="pre">log_throttle_queries_not_using_indexes</span></span>用于设定每分钟记录（非索引操作）的最大次数。</li>
 <li><span class="docutils literal"><span class="pre">log_slow_admin_statements</span> <span class="pre">=</span> <span class="pre">OFF|ON</span></span> 是否记录执行较慢的admin操作</li>
 <li><span class="docutils literal"><span class="pre">slow_query_log_file</span> <span class="pre">=</span> <span class="pre">file_name</span></span> 慢查询日志文件名</li>
 </ol>
 <p>决定一个请求是否被记录至慢查询日志的步骤：</p>
 <ol class="arabic simple">
-<li>选项<span class="docutils literal"><span class="pre">log_slow_admin_statements</span></span>开启或查询为非admin操作</li>
-<li>执行时间超过<span class="docutils literal"><span class="pre">long_query_time</span></span>阀值或查询未使用索引且选项<span class="docutils literal"><span class="pre">log_queries_not_using_indxes</span></span>开启</li>
-<li>操作影响力的行数超过<span class="docutils literal"><span class="pre">min_examined_row_limit</span></span>设定值</li>
+<li>选项<span class="docutils literal"><span class="pre">log_slow_admin_statements</span></span>开启或查询为非administrative
+statement</li>
+<li>执行时间超过<span class="docutils literal"><span class="pre">long_query_time</span></span>阀值或查询未使用索引且选项<span class="docutils literal"><span class="pre">log_queries_not_using_indexes</span></span>开启</li>
+<li>操作影响的行数超过<span class="docutils literal"><span class="pre">min_examined_row_limit</span></span>设定值</li>
+<li>满足变量<span class="docutils literal"><span class="pre">log_throttle_queries_not_using_indexes</span></span>(MySQL 5.6.5引入)的限制</li>
 </ol>
+<div class="section" id="id6">
+<h3>分析慢查询日志文件</h3>
+<p>使用命令<span class="docutils literal"><span class="pre">mysqldumpslow</span></span>来统计分析慢查询日志。</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">需要注意慢查询日志的访问安全，因为其中可能会记录包含密码之类的敏感信息</p>
 </div>
 </div>
-<div class="section" id="id6">
+</div>
+<div class="section" id="id7">
 <h2>参考资料</h2>
 <ol class="arabic simple">
 <li>MySQL Reference Manual 5.2</li>
@@ -221,9 +228,37 @@ Server会先将事务写入到binlog，然后再提交给innoDB引擎。如果�
         </div><ul class="related clearfix">
             <li class="left"> &laquo; <a href="mysql_key.html">MySQL中的索引-读书笔记</a></li>
             <li class="right"><a href="mysql_master_slave.html">MySQL配置Master-Slave</a> &raquo; </li>
-        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/mysql_logs";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/01/19/mysql_logs";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section>
+<div class='widget'>
+  <h3>Table Of Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">MySQL日志相关服务器变量</a><ul>
+<li><a class="reference internal" href="#error-log">Error Log</a></li>
+<li><a class="reference internal" href="#general-query-log">General query log</a></li>
+<li><a class="reference internal" href="#binlog">Binlog</a><ul>
+<li><a class="reference internal" href="#id1">过滤器</a></li>
+<li><a class="reference internal" href="#id2">binlog的清除</a></li>
+<li><a class="reference internal" href="#id3">磁盘缓存问题</a></li>
+<li><a class="reference internal" href="#id4">缓存调优问题</a></li>
+<li><a class="reference internal" href="#id5">binlog的格式</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#slow-query-log">慢查询日志(Slow query log)</a><ul>
+<li><a class="reference internal" href="#id6">分析慢查询日志文件</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id7">参考资料</a></li>
+</ul>
+</li>
+</ul>
+
+</div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../03/19/shadowsocks.html">shadowsocks源码分析：ssserver</a>
+        </li><li>
+            <a href="../../03/19/const_and_this.html">this指针与const</a>
+        </li><li>
             <a href="../../02/15/const_modifier.html">const修饰符</a>
         </li><li>
             <a href="../../02/04/function_program_in_python.html">function program in python</a>
@@ -239,22 +274,17 @@ Server会先将事务写入到binlog，然后再提交给innoDB引擎。如果�
             <a href="disk_quota.html">磁盘配额管理</a>
         </li><li>
             <a href="docker.html">docker使用小记</a>
-        </li><li>
-            <a href="economy.html">经济指标</a>
-        </li><li>
-            <a href="epoll_man.html">epoll(7)</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (8)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (5)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (9)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (6)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
-    <h1>Tags</h1><a href="../../../tags/big_data.html">big data</a> (1), <a href="../../../tags/bsd.html">bsd</a> (1), <a href="../../../tags/c.html">c</a> (1), <a href="../../../tags/c_c.html">c/c++</a> (8), <a href="../../../tags/ci.html">ci</a> (1), <a href="../../../tags/cloud.html">cloud</a> (1), <a href="../../../tags/database.html">database</a> (13), <a href="../../../tags/dba.html">dba</a> (11), <a href="../../../tags/debug.html">debug</a> (1), <a href="../../../tags/deploy.html">deploy</a> (18), <a href="../../../tags/devops.html">devops</a> (30), <a href="../../../tags/disk.html">disk</a> (2), <a href="../../../tags/docker.html">docker</a> (1), <a href="../../../tags/firefox.html">firefox</a> (1), <a href="../../../tags/forman.html">forman</a> (1), <a href="../../../tags/function_program.html">function program</a> (1), <a href="../../../tags/gentoo.html">gentoo</a> (1), <a href="../../../tags/github.html">github</a> (1), <a href="../../../tags/gnuplot.html">gnuplot</a> (1), <a href="../../../tags/http.html">http</a> (2), <a href="../../../tags/jenkins.html">jenkins</a> (1), <a href="../../../tags/kernel.html">kernel</a> (2), <a href="../../../tags/learn.html">learn</a> (10), <a href="../../../tags/life.html">life</a> (3), <a href="../../../tags/linux.html">linux</a> (1), <a href="../../../tags/mail.html">mail</a> (1), <a href="../../../tags/math.html">math</a> (1), <a href="../../../tags/matplot.html">matplot</a> (1), <a href="../../../tags/mongodb.html">mongodb</a> (1), <a href="../../../tags/mysql.html">mysql</a> (12), <a href="../../../tags/network.html">network</a> (11), <a href="../../../tags/php.html">php</a> (1), <a href="../../../tags/proc.html">proc</a> (1), <a href="../../../tags/program.html">program</a> (11), <a href="../../../tags/python.html">python</a> (11), <a href="../../../tags/qa.html">QA</a> (1), <a href="../../../tags/reading.html">reading</a> (3), <a href="../../../tags/security.html">security</a> (9), <a href="../../../tags/selinux.html">selinux</a> (1), <a href="../../../tags/shell.html">shell</a> (2), <a href="../../../tags/software.html">software</a> (7), <a href="../../../tags/spider.html">spider</a> (1), <a href="../../../tags/think.html">think</a> (1), <a href="../../../tags/tips.html">tips</a> (10), <a href="../../../tags/tmux.html">tmux</a> (1), <a href="../../../tags/urllib.html">urllib</a> (1), <a href="../../../tags/utf8.html">utf8</a> (1), <a href="../../../tags/vim.html">vim</a> (1), <a href="../../../tags/vpn.html">vpn</a> (1), <a href="../../../tags/web.html">web</a> (3), <a href="../../../tags/优化.html">优化</a> (3), <a href="../../../tags/潮流.html">潮流</a> (2), <a href="../../../tags/监控.html">监控</a> (1), <a href="../../../tags/瞎想.html">瞎想</a> (1), <a href="../../../tags/系统编程.html">系统编程</a> (1), <a href="../../../tags/翻译.html">翻译</a> (2)</div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
       <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
       <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
-      <a href="../../../tags/c_c.html" style="font-size: 10pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 11pt">c/c++</a>&nbsp;&nbsp;
       <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
       <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
       <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
@@ -274,7 +304,7 @@ Server会先将事务写入到binlog，然后再提交给innoDB引擎。如果�
       <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
       <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
       <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
-      <a href="../../../tags/life.html" style="font-size: 8pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 9pt">life</a>&nbsp;&nbsp;
       <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
       <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
       <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;

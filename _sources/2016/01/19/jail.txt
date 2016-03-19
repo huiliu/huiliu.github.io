@@ -154,10 +154,9 @@ chroot。\ ::
 .. code-block:: bash
 
     ssh tester@localhost
-    tester@localhost's password: 
-    bash-4.2$ ls
-    bin  lib  lib64  usr
-    bash-4.2$
+    # tester@localhost's password: 
+    ls
+    # bin  lib  lib64  usr
 
 结束语
 ==========
