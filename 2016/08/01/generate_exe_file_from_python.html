@@ -1,0 +1,433 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>Generate exe file from python &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="在应用程序中嵌入Python" href="../../06/27/extending_embedded_python.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>August 01, 2016</span>
+        </div>
+    <div class="section" id="generate-exe-file-from-python">
+<h1>Generate exe file from python</h1>
+<p>如何使用py2exe将python脚本转换为Windows下的exe文件。</p>
+<div id="more"> </div><p>根据<a class="reference external" href="http://www.py2exe.org">py2exe</a>官网介绍，<cite>py2exe</cite>是将python库<span class="docutils literal"><span class="pre">distutils</span></span>进行了扩展，使得python脚本可以转换为可直接运行于Windows上的exe文件。</p>
+<p>使用py2exe将一个python脚本转换为exe文件的关键是&#8221;<strong>setup.py</strong>&#8220;文件的书写。</p>
+</div>
+<div class="section" id="id1">
+<h1>安装py2exe</h1>
+<p>到<a class="reference external" href="http://www.py2exe.org">py2exe</a>官网<a class="reference external" href="https://sourceforge.net/projects/py2exe/files/py2exe/">下载</a>与Python版本匹配的安装包安装即可。</p>
+<p>然后打开python的shell，执行<span class="docutils literal"><span class="pre">import</span> <span class="pre">py2exe</span></span>，没有出错即说明安装成功。</p>
+</div>
+<div class="section" id="id4">
+<h1>一个简单的例子</h1>
+<p>先看一下例子的目录结构：</p>
+<div class="highlight-text"><div class="highlight"><pre>.
+├── abc.xml
+├── config.ini
+├── README.rst
+├── setup.py
+└── update_match_schedule.py
+</pre></div>
+</div>
+<p>其中：</p>
+<ol class="arabic">
+<li><p class="first"><cite>abc.xml</cite>为xml数据文件</p>
+</li>
+<li><p class="first"><cite>config.ini</cite>为配置文件</p>
+</li>
+<li><p class="first"><cite>README.rst</cite></p>
+</li>
+<li><p class="first"><cite>setup.py</cite>py2exe/distutils所需的配置文件，后面将详细介绍此文件。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">distutils.core</span> <span class="kn">import</span> <span class="n">setup</span>
+<span class="kn">import</span> <span class="nn">py2exe</span>
+
+<span class="n">setup</span><span class="p">(</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;py2exe&#39;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s1">&#39;compressed&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                        <span class="s1">&#39;optimize&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                        <span class="s1">&#39;bundle_files&#39;</span><span class="p">:</span> <span class="mi">1</span>
+                    <span class="p">}</span>
+            <span class="p">},</span>
+        <span class="n">zipfile</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+        <span class="n">console</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;update_match_schedule.py&#39;</span><span class="p">],</span>
+        <span class="n">data_files</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;config.ini&#39;</span><span class="p">]),</span>
+                <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;README.rst&#39;</span><span class="p">]),</span>
+            <span class="p">]</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<ol class="arabic" start="4">
+<li><p class="first"><cite>update_match_schedule.py</cite>是期望转换为Windows exe的python脚本文件，将xml数据导入到指定的数据库中。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">MySQLdb</span>
+<span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">as</span> <span class="nn">ET</span>
+<span class="kn">import</span> <span class="nn">ConfigParser</span>
+<span class="kn">import</span> <span class="nn">codecs</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">DB_TBL_NAME</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+<span class="k">def</span> <span class="nf">load_config</span><span class="p">(</span><span class="n">cfgfile</span><span class="o">=</span><span class="s2">&quot;config.ini&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    结节略去</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">cfg_dict</span>
+
+<span class="k">def</span> <span class="nf">generate_sql</span><span class="p">(</span><span class="n">xmlfile</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    结节略去</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<span class="k">if</span> <span class="s1">&#39;__main__&#39;</span><span class="o">==</span> <span class="n">__name__</span><span class="p">:</span>
+
+    <span class="n">cfg</span> <span class="o">=</span> <span class="n">load_config</span><span class="p">()</span>
+
+    <span class="n">DB_TBL_NAME</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;db_tbl_name&#39;</span><span class="p">]</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;db_host&#39;</span><span class="p">],</span>
+            <span class="n">port</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;db_port&#39;</span><span class="p">]),</span>
+            <span class="n">user</span><span class="o">=</span><span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;db_user&#39;</span><span class="p">],</span>
+            <span class="n">passwd</span><span class="o">=</span><span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;db_passwd&#39;</span><span class="p">],</span>
+            <span class="n">db</span><span class="o">=</span><span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;db_name&#39;</span><span class="p">],</span>
+            <span class="n">charset</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">conn</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">generate_sql</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>在Windows CMD下运行命令：&#8221;<span class="docutils literal"><span class="pre">setup.py</span> <span class="pre">py2exe</span></span>&#8220;。就会balabala的输出一堆，将执行脚本&#8221;<strong>update_match_schedule.py</strong>&#8220;所需的相关文件打包，并根据<strong>setup.py</strong>的设置来处理这些文件并输出exe文件&#8221;<strong>update_match_schedule.exe</strong>&#8220;。正确完成后会生成两个目录：&#8221;<em>build</em>&#8220;和&#8221;<em>dist</em>&#8220;，&#8221;<em>build</em>&#8220;中是一些中间文件；&#8221;<em>dist</em>&#8220;为包含生成的exe文件和其它一些文件（依赖于配置设定）。</p>
+<p>通常可以将命令&#8221;<span class="docutils literal"><span class="pre">setup.py</span> <span class="pre">py2exe</span></span>&#8220;写入到一个batch文件中，可以不用每次打开CMD输入命令。</p>
+<div class="highlight-batch"><div class="highlight"><pre>c<span class="p">:</span><span class="nl">\Python27\python.exe</span><span class="c1"> setup.py py2exe</span>
+<span class="k">pause</span>
+
+<span class="k">move</span> dist\* ..\
+<span class="k">pause</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">如果在Windows CMD执行命令：&#8221;<span class="docutils literal"><span class="pre">setup.py</span> <span class="pre">py2exe</span></span>&#8220;，没有执行文件而是提示打开文件，确认已经将Python可执行文件加入到PATH中。或者直接指定python.exe的路径执行。</p>
+</div>
+</div>
+<div class="section" id="setup-py">
+<h1>配置文件&#8221;<strong>setup.py</strong></h1>
+<p>首先，<cite>py2exe</cite>是对<cite>distutils</cite>的扩展，所以<cite>distutils</cite>的&#8221;<strong>setup</strong>&#8220;选项，在这里仍然可以使用。再看看上面的&#8221;<strong>setup.py</strong>&#8220;文件的含义，</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">distutils.core</span> <span class="kn">import</span> <span class="n">setup</span>
+<span class="kn">import</span> <span class="nn">py2exe</span>
+
+<span class="n">setup</span><span class="p">(</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;py2exe&#39;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s1">&#39;compressed&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                        <span class="s1">&#39;optimize&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                        <span class="s1">&#39;bundle_files&#39;</span><span class="p">:</span> <span class="mi">1</span>
+                    <span class="p">}</span>
+            <span class="p">},</span>
+        <span class="n">zipfile</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+        <span class="n">console</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;update_match_schedule.py&#39;</span><span class="p">],</span>
+        <span class="n">data_files</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;config.ini&#39;</span><span class="p">]),</span>
+                <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;README.rst&#39;</span><span class="p">]),</span>
+            <span class="p">]</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic">
+<li><p class="first"><strong>options</strong>中的&#8221;<strong>py2exe</strong>&#8220;是py2exe对distutils的一些<a class="reference external" href="http://www.py2exe.org/index.cgi/ListOfOptions">扩展</a>，主要有：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="77%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Key</td>
+<td>Value</td>
+</tr>
+<tr class="row-even"><td>compressed</td>
+<td>(boolean) 是否创建一个压缩过的zipfile</td>
+</tr>
+<tr class="row-odd"><td>optimize</td>
+<td>(int) 0=不优化(不生成.pyc);1=正常优化;2=额外优化</td>
+</tr>
+<tr class="row-even"><td>bundle_files</td>
+<td>打包文件。1=打包所有,包括python解释器;2=打包除python解
+释器外的外有;3=不打包（默认）</td>
+</tr>
+<tr class="row-odd"><td>includes</td>
+<td>包含的模块名</td>
+</tr>
+<tr class="row-even"><td>packages</td>
+<td>list of packages to include with subpackages</td>
+</tr>
+<tr class="row-odd"><td>excludes</td>
+<td>被排除的模块名</td>
+</tr>
+<tr class="row-even"><td>dll_excludes</td>
+<td>被排除的dll文件</td>
+</tr>
+<tr class="row-odd"><td>ignores</td>
+<td>如果未打到则忽略</td>
+</tr>
+<tr class="row-even"><td>dist_dir</td>
+<td>存放最终输出文件的目录</td>
+</tr>
+<tr class="row-odd"><td>ascii</td>
+<td>(boolean) 是否自动包含encodings和codecs模块</td>
+</tr>
+<tr class="row-even"><td>skip_archive</td>
+<td>(boolean) do not place Python bytecode files in an
+archive, put them directly in the file system</td>
+</tr>
+<tr class="row-odd"><td>unbuffered</td>
+<td>如果为true,则不缓存stdout和stderr</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first">&#8220;<strong>zipfile</strong>&#8220;和&#8221;<strong>console</strong>&#8220;是重用distutils的参数，还包括一些其它的：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="77%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Keyword</td>
+<td>Description</td>
+</tr>
+<tr class="row-even"><td>console</td>
+<td>将被转换为命令行执行的脚本名</td>
+</tr>
+<tr class="row-odd"><td>windows</td>
+<td>将被转换为GUI程序的脚本名</td>
+</tr>
+<tr class="row-even"><td>service</td>
+<td>包含WIN32 服务类的模块名</td>
+</tr>
+<tr class="row-odd"><td>com_server</td>
+<td>包含Win32服务类的模块名</td>
+</tr>
+<tr class="row-even"><td>zipfile</td>
+<td>生成的共享zip文件名，可以是一个子目录。默认library.zip
+如果设定None，则相应的文件被打包的exe文件中</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>字典：{&#8216;py2exe&#8217;: {&#8216;opt1&#8217;: &#8216;val1&#8217;, &#8216;opt2&#8217;: &#8216;val2&#8217;}}</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first">&#8220;<strong>data_files</strong>&#8220;用于指定需要发布的文件。<a class="footnote-reference" href="#data-files" id="id6">[1]</a></p>
+</li>
+</ol>
+</div>
+<div class="section" id="id7">
+<h1>参考资料</h1>
+<table class="docutils footnote" frame="void" id="data-files" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[1]</a></td><td><a class="reference external" href="https://docs.python.org/2.7/distutils/setupscript.html#distutils-additional-files">Installing Additional Files</a></td></tr>
+</tbody>
+</table>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/python.html">python</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/python.html">python</a></span>
+        </div>
+        </div><ul class="related clearfix">
+            <li class="left"></li>
+            <li class="right"><a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/08/01/generate_exe_file_from_python";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section>
+<div class='widget'>
+  <h3>Table Of Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">Generate exe file from python</a></li>
+<li><a class="reference internal" href="#id1">安装py2exe</a></li>
+<li><a class="reference internal" href="#id4">一个简单的例子</a></li>
+<li><a class="reference internal" href="#setup-py">配置文件&#8221;<strong>setup.py</strong></a></li>
+<li><a class="reference internal" href="#id7">参考资料</a></li>
+</ul>
+
+</div></section><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="#">Generate exe file from python</a>
+        </li><li>
+            <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
+        </li><li>
+            <a href="../../03/24/new_operator.html">operator new与placement new</a>
+        </li><li>
+            <a href="../../03/19/shadowsocks.html">shadowsocks源码分析：ssserver</a>
+        </li><li>
+            <a href="../../03/19/const_and_this.html">this指针与const</a>
+        </li><li>
+            <a href="../../02/15/const_modifier.html">const修饰符</a>
+        </li><li>
+            <a href="../../02/04/function_program_in_python.html">function program in python</a>
+        </li><li>
+            <a href="../../01/19/bash.html">Learning Bash</a>
+        </li><li>
+            <a href="../../01/19/code_evolution.html">Code Evolution</a>
+        </li><li>
+            <a href="../../01/19/comm_pipe.html">命令行管道编程</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 12pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/function_program.html" style="font-size: 8pt">function program</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 9pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>
