@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="Python网络库的使用" href="python_network.html" /><link rel="prev" title="通过PXE安装Linux" href="pxe.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Python网络库的使用" href="python_network.html" /><link rel="prev" title="通过PXE安装Linux" href="pxe.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -78,14 +78,14 @@
 <div class="section" id="id1">
 <h2>如何读入数据</h2>
 <p>最简单的方法是直接读入每行数据，然后分割为列表。代码如下：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">GetData</span><span class="p">(</span><span class="n">FileName</span><span class="p">):</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">GetData</span><span class="p">(</span><span class="n">FileName</span><span class="p">):</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">FileName</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">data</span>
 </pre></div>
 </div>
 <p>另外一种方法是利用生成器（<strong>generator</strong>）<a class="footnote-reference" href="#id11" id="id2">[1]</a>更加高效完成这个任务。代码如下：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">GetData</span><span class="p">(</span><span class="n">FileName</span><span class="p">):</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">GetData</span><span class="p">(</span><span class="n">FileName</span><span class="p">):</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">FileName</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
         <span class="k">yield</span> <span class="n">line</span>
@@ -95,7 +95,7 @@
 <div class="section" id="id3">
 <h2>如何连接数据库</h2>
 <p>按照Python数据库API规范（PEP 249）规定<span class="docutils literal"><span class="pre">MySQLdb</span></span>包含一个标准的方法<span class="docutils literal"><span class="pre">connect</span></span>用来连接数据库。如：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">MySQLdb</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">MySQLdb</span>
 
 <span class="n">conn</span> <span class="o">=</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s1">&#39;root&#39;</span><span class="p">,</span> <span class="n">passwd</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
 </pre></div>
@@ -103,8 +103,8 @@
 <div class="section" id="id4">
 <h3>字符编码的问题</h3>
 <p><span class="docutils literal"><span class="pre">MySQLdb</span></span>建立与数据库的连接时可以通过额外的参数来指定字符集：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">MySQLdb</span>
-<span class="n">conn</span> <span class="o">=</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="o">......</span><span class="p">,</span> <span class="n">charset</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">,</span> <span class="n">useunicode</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">MySQLdb</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="o">......</span><span class="p">,</span> <span class="n">charset</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">,</span> <span class="n">useunicode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -115,7 +115,7 @@
 <h3>如何防止SQL注入</h3>
 <p><span class="docutils literal"><span class="pre">MySQLdb.escape_string()</span></span>可以将用户的输入进行转义，防止SQL注入。</p>
 <p>如果字段中有中文，<span class="docutils literal"><span class="pre">MySQLdb.escape_string()</span></span>可能会出错：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
   <span class="n">File</span> <span class="s2">&quot;parse.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">218</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
     <span class="n">insert</span><span class="p">(</span><span class="n">path_name</span><span class="p">,</span> <span class="n">tbl_name</span><span class="p">)</span>
   <span class="n">File</span> <span class="s2">&quot;parse.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">171</span><span class="p">,</span> <span class="ow">in</span> <span class="n">insert</span>
@@ -124,7 +124,7 @@
 </pre></div>
 </div>
 <p>从上面的提示可以看到，是因为变量v使用的是<cite>ascii</cite>编码，由此联想到python默认使用的是<cite>ascii</cite>，只需要将其调整一下应该就可以了：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c1"># 将其插入到上面代码的前面再运行，就不会出错了</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># 将其插入到上面代码的前面再运行，就不会出错了</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="nb">reload</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">setdefaultencoding</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
@@ -242,6 +242,8 @@
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -259,13 +261,11 @@
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -301,7 +301,7 @@
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

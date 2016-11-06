@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="Nginx+Foreman+Passenger" href="foreman.html" /><link rel="prev" title="epoll API" href="epoll.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Nginx+Foreman+Passenger" href="foreman.html" /><link rel="prev" title="epoll API" href="epoll.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -79,7 +79,7 @@
 <div class="section" id="id1">
 <h2>系统启动时将文件拷入内存</h2>
 <p>在目录 <em>/etc/local.d</em> 下添加一个文件，命名为“<strong>firefox.start</strong>”：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="ch">#!/bin/bash</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># move the temp file of firefox into the RAM(/tmp)</span>
 
@@ -87,15 +87,15 @@
 
 <span class="nv">USERNAME</span><span class="o">=</span>liuhui
 <span class="nv">FIREFOX_DIR</span><span class="o">=</span><span class="s2">&quot;/home/</span><span class="si">${</span><span class="nv">USERNAME</span><span class="si">}</span><span class="s2">/.mozilla&quot;</span>
-<span class="nv">FIREFOX_BACKUP</span><span class="o">=</span>/home/$USERNAME/.mozilla-backup
+<span class="nv">FIREFOX_BACKUP</span><span class="o">=</span>/home/<span class="nv">$USERNAME</span>/.mozilla-backup
 
 <span class="o">[</span> -f /usr/bin/mktemp <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nv">TEMP</span><span class="o">=</span><span class="sb">`</span>mktemp -d --tmpdir<span class="o">=</span>/tmp --suffix<span class="o">=</span>.firefox<span class="sb">`</span> <span class="o">||</span> <span class="se">\</span>
     <span class="sb">`</span>logger -p user.error <span class="s1">&#39;Failed to find the command mktemp&#39;</span><span class="p">;</span> <span class="nb">exit</span> 0<span class="sb">`</span>
-cp -r <span class="si">${</span><span class="nv">FIREFOX_BACKUP</span><span class="si">}</span>/* $TEMP
-chown -R <span class="s2">&quot;</span><span class="si">${</span><span class="nv">USERNAME</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">USERNAME</span><span class="si">}</span><span class="s2">&quot;</span> $TEMP
+cp -r <span class="si">${</span><span class="nv">FIREFOX_BACKUP</span><span class="si">}</span>/* <span class="nv">$TEMP</span>
+chown -R <span class="s2">&quot;</span><span class="si">${</span><span class="nv">USERNAME</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">USERNAME</span><span class="si">}</span><span class="s2">&quot;</span> <span class="nv">$TEMP</span>
 
-<span class="o">[</span> -L <span class="nv">$F</span>IREFOX_DIR <span class="o">]</span> <span class="o">&amp;&amp;</span> rm -f <span class="nv">$F</span>IREFOX_DIR
-ln -s $TEMP <span class="nv">$F</span>IREFOX_DIR
+<span class="o">[</span> -L <span class="nv">$FIREFOX_DIR</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> rm -f <span class="nv">$FIREFOX_DIR</span>
+ln -s <span class="nv">$TEMP</span> <span class="nv">$FIREFOX_DIR</span>
 
 <span class="c1">#set +x</span>
 </pre></div>
@@ -104,7 +104,7 @@ ln -s $TEMP <span class="nv">$F</span>IREFOX_DIR
 <div class="section" id="id2">
 <h2>系统关闭时从内存拷贝数据至硬盘</h2>
 <p>在目录 <em>/etc/local.d</em> 下添加一个文件，命名为&#8221;firefox.<strong>stop</strong>&#8220;：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="ch">#!/bin/bash</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># COPY THE CONFIGURATION FILE FROM MEMORY TO $HOME</span>
 
@@ -112,13 +112,13 @@ ln -s $TEMP <span class="nv">$F</span>IREFOX_DIR
 
 <span class="nv">USERNAME</span><span class="o">=</span>liuhui
 <span class="nv">FIREFOX_DIR</span><span class="o">=</span><span class="s2">&quot;/home/</span><span class="si">${</span><span class="nv">USERNAME</span><span class="si">}</span><span class="s2">/.mozilla&quot;</span>
-<span class="nv">FIREFOX_BACKUP</span><span class="o">=</span>/home/$USERNAME/.mozilla-backup
+<span class="nv">FIREFOX_BACKUP</span><span class="o">=</span>/home/<span class="nv">$USERNAME</span>/.mozilla-backup
 
 <span class="nv">TEMP</span><span class="o">=</span><span class="sb">`</span>ls -d /tmp/tmp.*.firefox<span class="sb">`</span>
-rm -rf <span class="nv">$F</span>IREFOX_BACKUP
-rm -rf $TEMP/firefox/8vhei1ze.default/Cache/*
-mv $TEMP <span class="nv">$F</span>IREFOX_BACKUP
-rm -f <span class="nv">$F</span>IREFOX_DIR
+rm -rf <span class="nv">$FIREFOX_BACKUP</span>
+rm -rf <span class="nv">$TEMP</span>/firefox/8vhei1ze.default/Cache/*
+mv <span class="nv">$TEMP</span> <span class="nv">$FIREFOX_BACKUP</span>
+rm -f <span class="nv">$FIREFOX_DIR</span>
 
 <span class="c1">#set +x</span>
 </pre></div>
@@ -127,7 +127,7 @@ rm -f <span class="nv">$F</span>IREFOX_DIR
 <div class="section" id="profile-sync-daemon">
 <h2>安装软件包&#8221;<strong>profile-sync-daemon</strong>&#8220;</h2>
 <p>软件包&#8221;<strong>profile-sync-daemon</strong>&#8220;是用Perl写的一套脚本，功能与上面的脚本类似，不过更为强大。它支持多种不同的浏览器，而且设计为服务的形式，更加方便用户使用。在Gentoo下可以直接安装：</p>
-<div class="highlight-bash"><div class="highlight"><pre>emerge -qv www-misc/profile-sync-daemon
+<div class="highlight-bash"><div class="highlight"><pre><span></span>emerge -qv www-misc/profile-sync-daemon
 </pre></div>
 </div>
 <p>其它系统类似，也可以直接<a class="reference external" href="https://wiki.archlinux.org/index.php/Profile-sync-daemon">下载</a>安装。</p>
@@ -178,6 +178,8 @@ rm -f <span class="nv">$F</span>IREFOX_DIR
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -195,13 +197,11 @@ rm -f <span class="nv">$F</span>IREFOX_DIR
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -237,7 +237,7 @@ rm -f <span class="nv">$F</span>IREFOX_DIR
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

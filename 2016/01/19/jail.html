@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="赤兔项目持续集成系统－Jenkins CI部署" href="jenkins.html" /><link rel="prev" title="入侵检测与响应" href="intrusion.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="赤兔项目持续集成系统－Jenkins CI部署" href="jenkins.html" /><link rel="prev" title="入侵检测与响应" href="intrusion.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -81,11 +81,11 @@
 <div class="section" id="chroot">
 <h2>建立基本的chroot环境</h2>
 <p>首先我们建立一个简单的<span class="docutils literal"><span class="pre">chroot</span></span>环境，其中只包含<span class="docutils literal"><span class="pre">bash</span></span>一个可执行程序。为了达到这一目标，先创建一个chroot目录：</p>
-<div class="highlight-bash"><div class="highlight"><pre>mkdir   /home/jail
+<div class="highlight-bash"><div class="highlight"><pre><span></span>mkdir   /home/jail
 </pre></div>
 </div>
 <p>接下来我们需要将应用“<strong>/bin/bash</strong>”和其依赖的动态链接库拷贝至<span class="docutils literal"><span class="pre">/home/jail</span></span>下。使用命令<span class="docutils literal"><span class="pre">ldd</span></span>可以查看<span class="docutils literal"><span class="pre">bash</span></span>依赖那些动态库。</p>
-<div class="highlight-bash"><div class="highlight"><pre>ldd /bin/bash
+<div class="highlight-bash"><div class="highlight"><pre><span></span>ldd /bin/bash
     linux-gate.so.1 <span class="o">=</span>&gt;  <span class="o">(</span>0x001e7000<span class="o">)</span>
     libtinfo.so.5 <span class="o">=</span>&gt; /lib/libtinfo.so.5 <span class="o">(</span>0x00820000<span class="o">)</span>
     libdl.so.2 <span class="o">=</span>&gt; /lib/libdl.so.2 <span class="o">(</span>0x0034b000<span class="o">)</span>
@@ -94,7 +94,7 @@
 </pre></div>
 </div>
 <p>我们手动创建必须的目录，并将<span class="docutils literal"><span class="pre">/bin/bash</span></span>及其依赖库拷贝到<span class="docutils literal"><span class="pre">/home/jail</span></span>下相应的位置。</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> /var/chroot/
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> /var/chroot/
 mkdir bin/ lib64/ lib/
 cp /lib/x86_64-linux-gnu/libtinfo.so.5 lib/
 cp /lib/x86_64-linux-gnu/libdl.so.2 lib/
@@ -104,13 +104,13 @@ cp /bin/bash bin/
 </pre></div>
 </div>
 <p>此时，一个最简单的chroot环境准备好了，我们可以看看chroot的效果：</p>
-<div class="highlight-bash"><div class="highlight"><pre>chroot /vat/chroot
+<div class="highlight-bash"><div class="highlight"><pre><span></span>chroot /vat/chroot
 bash-4.2# ls /
 bash: ls: <span class="nb">command</span> not found
 </pre></div>
 </div>
 <p>从上面你可以看到<span class="docutils literal"><span class="pre">bash</span></span>(shell)已经准备就绪，但是什么也不能做，甚至连<span class="docutils literal"><span class="pre">ls</span></span>命令都没有。不同于上面手动拷贝所有命令和依赖文件，下面提供了一个简单的shell脚本来完成：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="ch">#!/bin/bash</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 <span class="c1"># This script can be used to create simple chroot environment</span>
 <span class="c1"># Written by LinuxCareer.com &lt;http://linuxcareer.com/&gt;</span>
 <span class="c1"># (c) 2013 LinuxCareer under GNU GPL v3.0+</span>
@@ -118,33 +118,33 @@ bash: ls: <span class="nb">command</span> not found
 <span class="c1">#!/bin/bash</span>
 
 <span class="nv">CHROOT</span><span class="o">=</span><span class="s1">&#39;/home/jail&#39;</span>
-mkdir <span class="nv">$C</span>HROOT
+mkdir <span class="nv">$CHROOT</span>
 
 <span class="k">for</span> i in <span class="k">$(</span> ldd <span class="nv">$*</span> <span class="p">|</span> grep -v dynamic <span class="p">|</span> cut -d <span class="s2">&quot; &quot;</span> -f <span class="m">3</span> <span class="p">|</span> sed <span class="s1">&#39;s/://&#39;</span> <span class="p">|</span> sort <span class="p">|</span> uniq <span class="k">)</span>
   <span class="k">do</span>
-    cp --parents $i <span class="nv">$C</span>HROOT
+    cp --parents <span class="nv">$i</span> <span class="nv">$CHROOT</span>
   <span class="k">done</span>
 
 <span class="c1"># ARCH amd64</span>
 <span class="k">if</span> <span class="o">[</span> -f /lib64/ld-linux-x86-64.so.2 <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-   cp --parents /lib64/ld-linux-x86-64.so.2 /<span class="nv">$C</span>HROOT
+   cp --parents /lib64/ld-linux-x86-64.so.2 /<span class="nv">$CHROOT</span>
 <span class="k">fi</span>
 
 <span class="c1"># ARCH i386</span>
 <span class="k">if</span> <span class="o">[</span> -f  /lib/ld-linux.so.2 <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-   cp --parents /lib/ld-linux.so.2 /<span class="nv">$C</span>HROOT
+   cp --parents /lib/ld-linux.so.2 /<span class="nv">$CHROOT</span>
 <span class="k">fi</span>
 
-<span class="nb">echo</span> <span class="s2">&quot;Chroot jail is ready. To access it execute: chroot </span><span class="nv">$C</span><span class="s2">HROOT&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;Chroot jail is ready. To access it execute: chroot </span><span class="nv">$CHROOT</span><span class="s2">&quot;</span>
 </pre></div>
 </div>
 <p>上面的脚本中通过变量<span class="docutils literal"><span class="pre">$CHROOT</span></span>来设定chroot目录的路径，当前为：<span class="docutils literal"><span class="pre">/home/jail</span></span>。你可以根据需要自行设定。准备好之后，使得脚本具有可执行权限，以你所期望添加的程序和文件名作为命令行参数运行脚本。例如：你需要运行命令<span class="docutils literal"><span class="pre">ls,</span> <span class="pre">cat,</span> <span class="pre">echo,</span> <span class="pre">rm,</span> <span class="pre">bash,</span> <span class="pre">vi</span></span>，使用命令<span class="docutils literal"><span class="pre">which</span></span>找到它们的完整路径，并作为脚本chroot.sh的参数运行。</p>
-<div class="highlight-bash"><div class="highlight"><pre>./chroot.sh /bin/<span class="o">{</span>ls,cat,echo,rm,bash<span class="o">}</span> /usr/bin/vi /etc/hosts
+<div class="highlight-bash"><div class="highlight"><pre><span></span>./chroot.sh /bin/<span class="o">{</span>ls,cat,echo,rm,bash<span class="o">}</span> /usr/bin/vi /etc/hosts
 Chroot jail is ready. To access it execute: chroot /var/chroot
 </pre></div>
 </div>
 <p>新的chroot环境准备好了，进行看看：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># chroot /var/chroot</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># chroot /var/chroot</span>
 bash-4.2# <span class="nb">echo</span> linuxcareer.com &gt; file
 bash-4.2# cat file
 linuxcareer.com
@@ -157,11 +157,11 @@ VIM - Vi IMproved 7.3 <span class="o">(</span><span class="m">2010</span> Aug 15
 <div class="section" id="id2">
 <h2>创建一个chroot用户组</h2>
 <p>建立一个用户组<span class="docutils literal"><span class="pre">chrootjail</span></span>，属于该组的用户通过ssh登陆系统时将被自动chroot。</p>
-<div class="highlight-python"><div class="highlight"><pre>sudo groupadd chrootjail
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">groupadd</span> <span class="n">chrootjail</span>
 </pre></div>
 </div>
 <p>添加用户到<span class="docutils literal"><span class="pre">chrootjail</span></span>组中：</p>
-<div class="highlight-python"><div class="highlight"><pre>sudo adduser tester chrootjail
+<div class="highlight-default"><div class="highlight"><pre><span></span>sudo adduser tester chrootjail
 Adding user `tester&#39; to group `chrootjail&#39; ...
 Adding user tester to group chrootjail
 Done.
@@ -171,18 +171,18 @@ Done.
 <div class="section" id="sshd">
 <h2>配置sshd</h2>
 <p>为了让<span class="docutils literal"><span class="pre">chrootjail</span></span>用户组中的用户通过ssh登陆时自动chroot到目录<span class="docutils literal"><span class="pre">/home/jail</span></span>中，需要在sshd的配置文件<span class="docutils literal"><span class="pre">/etc/ssh/sshd_config</span></span>中添加配置：</p>
-<div class="highlight-text"><div class="highlight"><pre>Match group chrootjail
+<div class="highlight-text"><div class="highlight"><pre><span></span>Match group chrootjail
     ChrootDirectory /var/chroot/
 </pre></div>
 </div>
 <p>重启sshd服务：</p>
-<div class="highlight-bash"><div class="highlight"><pre>sudo service ssh restart
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo service ssh restart
 </pre></div>
 </div>
 </div>
 <div class="section" id="ssh">
 <h2>通过ssh登陆测试</h2>
-<div class="highlight-bash"><div class="highlight"><pre>ssh tester@localhost
+<div class="highlight-bash"><div class="highlight"><pre><span></span>ssh tester@localhost
 <span class="c1"># tester@localhost&#39;s password:</span>
 ls
 <span class="c1"># bin  lib  lib64  usr</span>
@@ -230,6 +230,8 @@ ls
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -247,13 +249,11 @@ ls
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -289,7 +289,7 @@ ls
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

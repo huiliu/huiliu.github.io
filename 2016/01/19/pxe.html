@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="Python-MySQL使用心得" href="pymysql.html" /><link rel="prev" title="配置管理工具-Puppet" href="puppet.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Python-MySQL使用心得" href="pymysql.html" /><link rel="prev" title="配置管理工具-Puppet" href="puppet.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -94,7 +94,7 @@
 <div class="section" id="dhcpd">
 <h3>单独的dhcpd服务</h3>
 <p>如果使用的是独立的DHCP服务器，请参考鸟哥及其它说明。<a class="footnote-reference" href="#dhcp-setup1" id="id3">[3]</a><a class="footnote-reference" href="#dhcp-setup2" id="id4">[4]</a>  。其中关键是在DHCP服务器上指明tftp服务器的地址和读取的文件名。</p>
-<div class="highlight-linux-config"><div class="highlight"><pre><span class="c1"># cat /etc/dhcp/dhcpd.conf</span>
+<div class="highlight-linux-config"><div class="highlight"><pre><span></span><span class="c1"># cat /etc/dhcp/dhcpd.conf</span>
 subnet <span class="mi">192</span>.168.122.0 netmask <span class="mi">255</span>.255.255.0 {
     <span class="k">range</span> <span class="mi">192</span>.168.122.2 <span class="mi">192</span>.168.122.254;
     <span class="k">default</span>-lease-time <span class="mi">600</span>;
@@ -131,7 +131,7 @@ subnet <span class="mi">192</span>.168.122.0 netmask <span class="mi">255</span>
 <li><p class="first">将CentOS的光盘镜像文件挂载至ftp下：<span class="docutils literal"><span class="pre">mount</span> <span class="pre">-o</span> <span class="pre">loop</span> <span class="pre">xxx.iso</span> <span class="pre">/home/ftp</span></span></p>
 </li>
 <li><p class="first">准备需tftp提供的文件：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> /usr/share/syslinux
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> /usr/share/syslinux
 <span class="c1"># 其中menu.c32, vesamenu.c32提供菜单介面；pxelinux.0是开机管理程序</span>
 cp pxelinux.0 menu.c32 vesamenu.c32 /tmp/tftpboot
 
@@ -151,7 +151,7 @@ cp initrd.img isolinux.cfg vmlinuz /tmp/tftproot/kernel/centos64
 <ul class="simple">
 <li>文件<cite>/tmp/tftproot/pxelinux.cfg/default</cite></li>
 </ul>
-<div class="highlight-text"><div class="highlight"><pre># cat /tmp/tftproot/pxelinux.cfg/default
+<div class="highlight-text"><div class="highlight"><pre><span></span># cat /tmp/tftproot/pxelinux.cfg/default
 
 UI vesamenu.c32         # 使用vesamenu.c32界面模式
 TIMEOUT 300             # 等待时间，单位0.1s
@@ -172,14 +172,14 @@ LABEL CentOS 6.4
 <ul class="simple">
 <li>欢迎提示内容</li>
 </ul>
-<div class="highlight-text"><div class="highlight"><pre># cat /tmp/tftproot/boot.msg
+<div class="highlight-text"><div class="highlight"><pre><span></span># cat /tmp/tftproot/boot.msg
 
 Welcome to PXE Server System
 </pre></div>
 </div>
 </li>
 <li><p class="first">启动tftp, ftp服务并确认:</p>
-<div class="highlight-bash"><div class="highlight"><pre>systemctl start atftp
+<div class="highlight-bash"><div class="highlight"><pre><span></span>systemctl start atftp
 systemctl start vsftpd
 
 <span class="c1"># 检查相应端口已打开：tftp服务器侦听UDP 69端口，FTP侦听TCP 21</span>
@@ -288,6 +288,8 @@ netstat -ltunp
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -305,13 +307,11 @@ netstat -ltunp
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -347,7 +347,7 @@ netstat -ltunp
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

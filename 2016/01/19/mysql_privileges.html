@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="MySQL复制" href="mysql_replication.html" /><link rel="prev" title="MySQL优化-《高性能MySQL》笔记" href="mysql_optimize.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="MySQL复制" href="mysql_replication.html" /><link rel="prev" title="MySQL优化-《高性能MySQL》笔记" href="mysql_optimize.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -164,7 +164,7 @@
 <div class="section" id="id6">
 <h3>增加新用户</h3>
 <p>一般可以通过<span class="docutils literal"><span class="pre">GRANT,</span> <span class="pre">INSERT</span> <span class="pre">INTO</span></span>语句来建立一个新账户并授予相应的权限。如：</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="n">test</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;user&#39;</span><span class="o">@</span><span class="s1">&#39;host&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;password&#39;</span> <span class="p">[</span><span class="k">WITH</span> <span class="k">OPTIONS</span><span class="p">];</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="n">test</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;user&#39;</span><span class="o">@</span><span class="s1">&#39;host&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;password&#39;</span> <span class="p">[</span><span class="k">WITH</span> <span class="k">OPTIONS</span><span class="p">];</span>
 <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">mysql</span><span class="p">.</span><span class="k">user</span> <span class="p">(</span><span class="k">Host</span><span class="p">,</span> <span class="k">User</span><span class="p">,</span> <span class="n">Password</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="s1">&#39;host&#39;</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
 <span class="n">FLUSH</span> <span class="k">PRIVILEGES</span><span class="p">;</span>
 </pre></div>
@@ -173,7 +173,7 @@
 <div class="section" id="id7">
 <h3>更改密码</h3>
 <p>正常情况下，使用拥有相应权限的用户登陆MySQL Server，执行下面的操作：</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="c1">-- 方法一</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="c1">-- 方法一</span>
 <span class="k">UPDATE</span> <span class="n">mysql</span><span class="p">.</span><span class="k">user</span> <span class="k">SET</span> <span class="n">Password</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">(</span><span class="s1">&#39;newpassword&#39;</span><span class="p">)</span> <span class="k">WHERE</span> <span class="k">User</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">;</span>
 <span class="c1">-- 方法二</span>
 <span class="k">SET</span> <span class="n">PASSWORD</span> <span class="k">FOR</span> <span class="s1">&#39;user&#39;</span><span class="o">@</span><span class="s1">&#39;host&#39;</span> <span class="o">=</span> <span class="n">PASSWORD</span><span class="p">(</span><span class="s1">&#39;newpassword&#39;</span><span class="p">)</span>
@@ -199,7 +199,7 @@
 <li><span class="docutils literal"><span class="pre">max_user_connections</span></span></li>
 </ul>
 <p>可以在对用户授权时指定：</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">ON</span> <span class="n">customer</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;francis&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;frank&#39;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">ON</span> <span class="n">customer</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;francis&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;frank&#39;</span>
     <span class="k">WITH</span> <span class="n">MAX_QUERIES_PER_HOUR</span> <span class="mi">20</span>
         <span class="n">MAX_UPDATES_PER_HOUR</span> <span class="mi">10</span>
         <span class="n">MAX_CONNECTIONS_PER_HOUR</span> <span class="mi">5</span>
@@ -207,7 +207,7 @@
 </pre></div>
 </div>
 <p>修改用户账户限制：</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">GRANT</span> <span class="k">USAGE</span> <span class="k">ON</span> <span class="o">*</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;francis&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="k">WITH</span> <span class="n">MAX_QUERIES_PER_HOUR</span> <span class="mi">100</span><span class="p">;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">GRANT</span> <span class="k">USAGE</span> <span class="k">ON</span> <span class="o">*</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;francis&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="k">WITH</span> <span class="n">MAX_QUERIES_PER_HOUR</span> <span class="mi">100</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>该语句没有改变账户的已有权限，只修改了指定的限制值。</p>
@@ -267,6 +267,8 @@
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -284,13 +286,11 @@
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -326,7 +326,7 @@
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

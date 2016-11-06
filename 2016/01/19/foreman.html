@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="FreeBSD点滴" href="freebsd.html" /><link rel="prev" title="Speed Up Firefox" href="firefox.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="FreeBSD点滴" href="freebsd.html" /><link rel="prev" title="Speed Up Firefox" href="firefox.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -79,11 +79,11 @@
 </ul>
 <p>由于系统为最小安装的CentOS，所以基本的编译环境都没有，需要安装<strong>gcc, gcc-c++,
 make, automake</strong>等基本开发工具。</p>
-<div class="highlight-bash"><div class="highlight"><pre>yum install gcc gcc-c++ boost make automake
+<div class="highlight-bash"><div class="highlight"><pre><span></span>yum install gcc gcc-c++ boost make automake
 </pre></div>
 </div>
 <p>安装Nginx, Passenger和Foreman时还需要安装一些软件包：</p>
-<div class="highlight-bash"><div class="highlight"><pre>yum install libcurl-devel zlib-devel ruby-devel pcre-devel openssl-devel libatomic_ops-devel
+<div class="highlight-bash"><div class="highlight"><pre><span></span>yum install libcurl-devel zlib-devel ruby-devel pcre-devel openssl-devel libatomic_ops-devel
 gem install rake
 gem install bundle
 
@@ -99,7 +99,7 @@ yum install libxml-devel libxslt-devel libvirt-devel mysql-devel postgresql-deve
 <h3>安装Nginx和Passenger</h3>
 <ul>
 <li><p class="first">使用的Nginx编译选项为:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># 需要建立用户nginx</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># 需要建立用户nginx</span>
 useradd -r nginx
 
 <span class="c1"># 需要特别注意的是--add-module选项，需要指向passenger源码包中的Nginx扩展</span>
@@ -114,7 +114,7 @@ make <span class="o">&amp;&amp;</span> make install
 <li><p class="first">验证安装：</p>
 <ul>
 <li><p class="first">安装完成后，在<em>/usr/local/nginx/html</em>下创建一个简单的例子，测试一下安装是否正确。<a class="footnote-reference" href="#ref1" id="id3">[1]</a></p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> /usr/local/nginx/html
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> /usr/local/nginx/html
 mkdir -p webapp/<span class="o">{</span>public,tmp<span class="o">}</span>
 
 <span class="c1"># 创建一个文件passenger_wsgi.py，并写入：</span>
@@ -126,7 +126,7 @@ def application<span class="o">(</span>environ, start_response<span class="o">)<
 </div>
 </li>
 <li><p class="first">编辑Nginx的配置文件</p>
-<div class="highlight-nginx"><div class="highlight"><pre><span class="k">passenger_root</span>  <span class="s">/usr/lib/ruby/gems/1.8/gems/passenger-4.0.14</span><span class="p">;</span>
+<div class="highlight-nginx"><div class="highlight"><pre><span></span><span class="k">passenger_root</span>  <span class="s">/usr/lib/ruby/gems/1.8/gems/passenger-4.0.14</span><span class="p">;</span>
 <span class="k">passenger_ruby</span>  <span class="s">/usr/bin/ruby</span><span class="p">;</span>
 
 <span class="k">index</span>  <span class="s">index.html</span> <span class="s">index.htm</span> <span class="s">index.php</span><span class="p">;</span>
@@ -163,7 +163,7 @@ def application<span class="o">(</span>environ, start_response<span class="o">)<
 <h3>安装Foreman</h3>
 <p>上一步Nginx和Foreman成功安装以后，Foreman的安装相对简单，按照文档说明就可以完成
 <a class="footnote-reference" href="#ref2" id="id5">[2]</a> 。只需要注意将依赖的软件包安装好，如果出错仔细出错说明，再解决。</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> foreman-1.2-stable
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> foreman-1.2-stable
 bundle install --without mysql mysql2  sqlite <span class="nb">test</span> --path vendor <span class="c1"># or postgresql</span>
 cp config/settings.yaml.example config/settings.yaml
 cp config/database.yml.example config/database.yml
@@ -176,7 +176,7 @@ cp config/database.yml.example config/database.yml
 <p>然后就可以在浏览器中打开<cite>http://localhost:3000</cite>了。当然也可能出错，比如：
 <strong>ActionView::Template::Error (couldn&#8217;t find file &#8216;jquery.ui.autocomplete&#8217;</strong>。
 google到此问题的解决方法：<a class="footnote-reference" href="#ref3" id="id6">[3]</a></p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># 请耐心等待此命令执行完，虽然不太明白其意思</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># 请耐心等待此命令执行完，虽然不太明白其意思</span>
 <span class="nv">RAILS_ENV</span><span class="o">=</span>production bundle <span class="nb">exec</span> rake assets:precompile
 </pre></div>
 </div>
@@ -185,7 +185,7 @@ google到此问题的解决方法：<a class="footnote-reference" href="#ref3" i
 <div class="section" id="nginx-passenger-foreman">
 <h2>Nginx+Passenger+Foreman</h2>
 <p>Nginx, Passenger和Foreman成功安装运行后，只需在给Nginx添加一小段配置就可以通过Nginx来访问Foreman了。</p>
-<div class="highlight-nginx"><div class="highlight"><pre><span class="c1"># 已经设定好passenger_root和passenger_ruby等</span>
+<div class="highlight-nginx"><div class="highlight"><pre><span></span><span class="c1"># 已经设定好passenger_root和passenger_ruby等</span>
 <span class="k">server</span> <span class="p">{</span>
     <span class="kn">listen</span> <span class="mi">3000</span><span class="p">;</span>
     <span class="kn">root</span> <span class="s">/opt/foreman/public</span><span class="p">;</span>
@@ -198,7 +198,7 @@ google到此问题的解决方法：<a class="footnote-reference" href="#ref3" i
 </pre></div>
 </div>
 <p>另外还有官方文档说明<a class="footnote-reference" href="#ref4" id="id7">[4]</a>和<a class="reference external" href="https://github.com">GitHub</a>上关于Nginx和foreman的配置：<a class="footnote-reference" href="#ref5" id="id8">[5]</a></p>
-<div class="highlight-nginx"><div class="highlight"><pre><span class="c1">## Puppet Foreman</span>
+<div class="highlight-nginx"><div class="highlight"><pre><span></span><span class="c1">## Puppet Foreman</span>
 <span class="k">server</span> <span class="p">{</span>
     <span class="kn">listen</span> <span class="mi">443</span> <span class="s">ssl</span><span class="p">;</span>
     <span class="kn">ssl_certificate</span> <span class="s">ssl/foreman.xxx.com.crt</span><span class="p">;</span>
@@ -309,6 +309,8 @@ google到此问题的解决方法：<a class="footnote-reference" href="#ref3" i
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -326,13 +328,11 @@ google到此问题的解决方法：<a class="footnote-reference" href="#ref3" i
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -368,7 +368,7 @@ google到此问题的解决方法：<a class="footnote-reference" href="#ref3" i
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

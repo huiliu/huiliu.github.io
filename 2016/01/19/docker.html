@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="经济指标" href="economy.html" /><link rel="prev" title="磁盘配额管理" href="disk_quota.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="经济指标" href="economy.html" /><link rel="prev" title="磁盘配额管理" href="disk_quota.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -74,7 +74,7 @@
 <h2>错误说明</h2>
 <ol class="arabic">
 <li><p class="first">运行命令<span class="docutils literal"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">centos</span> <span class="pre">echo</span> <span class="pre">'hello</span> <span class="pre">world'</span></span>结果提示出错：</p>
-<div class="highlight-text"><div class="highlight"><pre>lxc-start: Device or resource busy - failed to mount a new instance of
+<div class="highlight-text"><div class="highlight"><pre><span></span>lxc-start: Device or resource busy - failed to mount a new instance of
 &#39;/dev/pts&#39;
 lxc-start: failed to setup the new pts instance
 lxc-start: failed to setup the container
@@ -82,7 +82,7 @@ lxc-start: invalid sequence number 1. expected 2
 </pre></div>
 </div>
 <p>根据错误提示应该是使用<em>/dev/pts</em>失败，检查一下<span class="docutils literal"><span class="pre">lxc</span></span>的配置文件，结果发现<em>/etc/lxc</em>目录下为空，也就是说<span class="docutils literal"><span class="pre">lxc</span></span>使用的默认配置。再检查一下发现有一个命令<span class="docutils literal"><span class="pre">lxc-checkconfig</span></span>可以检查<span class="docutils literal"><span class="pre">lxc</span></span>的配置，运行一下得到：</p>
-<div class="highlight-text"><div class="highlight"><pre>--- Namespaces ---
+<div class="highlight-text"><div class="highlight"><pre><span></span>--- Namespaces ---
 Namespaces: enabled
 Utsname namespace: enabled
 Ipc namespace: enabled
@@ -112,7 +112,7 @@ usage : CONFIG=/path/to/config /usr/sbin/lxc-checkconfig
 </div>
 <p>从配置文件检查可以发现<strong>Multiple /dev/pts</strong>和<strong>Cgroup memory
 controller</strong>两功能不支持，经google，应该是内核配置的问题。<a class="footnote-reference" href="#id6" id="id3">[2]</a>重新配置相应内核选项，并编译即可。</p>
-<div class="highlight-text"><div class="highlight"><pre><span class="hll">│ Symbol: DEVPTS_MULTIPLE_INSTANCES [=y]
+<div class="highlight-text"><div class="highlight"><pre><span></span><span class="hll">│ Symbol: DEVPTS_MULTIPLE_INSTANCES [=y]
 </span>│ Type  : boolean
 │ Prompt: Support multiple instances of devpts
 │   Location:
@@ -175,6 +175,8 @@ controller</strong>两功能不支持，经google，应该是内核配置的问�
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -192,13 +194,11 @@ controller</strong>两功能不支持，经google，应该是内核配置的问�
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -234,7 +234,7 @@ controller</strong>两功能不支持，经google，应该是内核配置的问�
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

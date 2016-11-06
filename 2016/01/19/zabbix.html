@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="引导，迎合" href="../../../2015/12/20/bigdata_trend.html" /><link rel="prev" title="Best Practices for Speeding Up Your Web Site" href="yslow.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="引导，迎合" href="../../../2015/12/20/bigdata_trend.html" /><link rel="prev" title="Best Practices for Speeding Up Your Web Site" href="yslow.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -77,7 +77,7 @@
 <div class="section" id="php">
 <h3>配置PHP</h3>
 <p>需要修改PHP的默认参数</p>
-<div class="highlight-ini"><div class="highlight"><pre><span class="na">max_execution_time</span> <span class="o">=</span> <span class="s">300</span>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">max_execution_time</span> <span class="o">=</span> <span class="s">300</span>
 <span class="na">memory_limit</span> <span class="o">=</span> <span class="s">128M</span>
 <span class="na">post_max_size</span> <span class="o">=</span> <span class="s">16M</span>
 <span class="na">upload_max_filesize</span> <span class="o">=</span> <span class="s">2M</span>
@@ -96,16 +96,16 @@
 <p>从官方网站上下载Windows的软件包，32位和64位打包在一起。然后按照文档中执行就可以了：</p>
 <ol class="arabic">
 <li><p class="first">将<span class="docutils literal"><span class="pre">agent</span></span>安装为Windows服务。</p>
-<div class="highlight-bat"><div class="highlight"><pre>zabbix_agentd.exe --install
+<div class="highlight-bat"><div class="highlight"><pre><span></span>zabbix_agentd.exe --install
 </pre></div>
 </div>
 <p>默认配置文件为：<span class="docutils literal"><span class="pre">c:\zabbix_agentd.conf</span></span>。也可以自由设定：</p>
-<div class="highlight-bat"><div class="highlight"><pre>zabbix_agentd.exe --config &#39;c:\zabbix\config\zabbix_agentd.conf&#39; --install
+<div class="highlight-bat"><div class="highlight"><pre><span></span>zabbix_agentd.exe --config &#39;c:\zabbix\config\zabbix_agentd.conf&#39; --install
 </pre></div>
 </div>
 </li>
 <li><p class="first">启动zabbix Agent</p>
-<div class="highlight-bat"><div class="highlight"><pre>zabbix_agentd.exe [--config &#39;c:\zabbix\config\zabbix_agentd.conf&#39;] --start
+<div class="highlight-bat"><div class="highlight"><pre><span></span>zabbix_agentd.exe [--config &#39;c:\zabbix\config\zabbix_agentd.conf&#39;] --start
 </pre></div>
 </div>
 </li>
@@ -215,7 +215,7 @@
 *   第一个为接收者
 *   第二个为主题
 *   第三个消息内容</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="ch">#!/bin/bash</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="nv">to</span><span class="o">=</span><span class="nv">$1</span>
 <span class="nv">subject</span><span class="o">=</span><span class="nv">$2</span>
@@ -227,7 +227,7 @@ cat <span class="s">&lt;&lt;EOF | mail -s &quot;$subject&quot; &quot;$to&quot;</
 </pre></div>
 </div>
 <p>在脚本中可以充分利用这三个参数。下面是利用IP Message进行告警的python脚本。</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="ch">#!/bin/env python</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="ch">#!/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 
 <span class="c1"># 关于ip messager的协议，请百度</span>
@@ -276,7 +276,7 @@ cat <span class="s">&lt;&lt;EOF | mail -s &quot;$subject&quot; &quot;$to&quot;</
 <div class="section" id="log-file-monitoringzbx-notsupport">
 <h3>Log File Monitoring时ZBX_NOTSUPPORT错误</h3>
 <p>配置日志文件监控时一直出错，经过在Zabbix Forums上的提醒<a class="footnote-reference" href="#r1" id="id10">[1]</a>，仔细查看了agent的调试日志，在其中发现：</p>
-<div class="highlight-text"><div class="highlight"><pre># ACTIVE CHECK 主机上没有查询时，返回的data为空。
+<div class="highlight-text"><div class="highlight"><pre><span></span># ACTIVE CHECK 主机上没有查询时，返回的data为空。
 
 
 2526:20130418:020747.866 refresh_active_checks(&#39;lab.liuhui.xmu&#39;,10051)
@@ -390,7 +390,7 @@ bbix 2.0.5 (revision 33558).&#39;
 <p>如果确认上面两处设置正确，请继续：</p>
 <ol class="arabic">
 <li><p class="first">检查是否开启了SELinux功能：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="o">[</span>root@puppet ~<span class="o">]</span><span class="c1"># sestatus</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">[</span>root@puppet ~<span class="o">]</span><span class="c1"># sestatus</span>
 SELinux status:                 enabled     <span class="c1"># enabled说明开启了SELinux</span>
 SELinuxfs mount:                /selinux
 Current mode:                   enforcing
@@ -402,7 +402,7 @@ Policy from config file:        targeted
 </li>
 <li><p class="first">请查看日志文件<span class="docutils literal"><span class="pre">/var/log/audit/audit.log</span></span>中是否有拒绝http操作的记录。
 如：（如果没有安装<span class="docutils literal"><span class="pre">audit</span></span>或启用<span class="docutils literal"><span class="pre">auditd</span></span>服务，则没有日志）</p>
-<div class="highlight-text"><div class="highlight"><pre>type=AVC msg=audit(1403973943.600:949): avc:  denied  { name_connect }
+<div class="highlight-text"><div class="highlight"><pre><span></span>type=AVC msg=audit(1403973943.600:949): avc:  denied  { name_connect }
 for  pid=2702 comm=&quot;httpd&quot; dest=10051
 scontext=unconfined_u:system_r:httpd_t:s0
 tcontext=system_u:object_r:port_t:s0 tclass=tcp_socket
@@ -415,7 +415,7 @@ exe=&quot;/usr/sbin/httpd&quot; subj=unconfined_u:system_r:httpd_t:s0 key=(null)
 </div>
 </li>
 <li><p class="first">接下来请查看SELinux策略是否允许http服务连接数据库：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="o">[</span>root@puppet ~<span class="o">]</span><span class="c1"># getsebool -a | grep http</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">[</span>root@puppet ~<span class="o">]</span><span class="c1"># getsebool -a | grep http</span>
 allow_httpd_anon_write --&gt; off
 allow_httpd_mod_auth_ntlm_winbind --&gt; off
 allow_httpd_mod_auth_pam --&gt; off
@@ -525,6 +525,8 @@ httpd_can_network_connect_db --&gt; off
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -542,13 +544,11 @@ httpd_can_network_connect_db --&gt; off
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -584,7 +584,7 @@ httpd_can_network_connect_db --&gt; off
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

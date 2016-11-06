@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="MySQL通用调优原则" href="mysql_tuning.html" /><link rel="prev" title="MySQL复制" href="mysql_replication.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="MySQL通用调优原则" href="mysql_tuning.html" /><link rel="prev" title="MySQL复制" href="mysql_replication.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -91,7 +91,7 @@
 </div>
 <div class="section" id="id4">
 <h2>临时文件和表</h2>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SHOW</span> <span class="k">GLOBAL</span> <span class="n">STATUS</span> <span class="k">LIKE</span> <span class="s1">&#39;created_tmp%&#39;</span><span class="p">;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">SHOW</span> <span class="k">GLOBAL</span> <span class="n">STATUS</span> <span class="k">LIKE</span> <span class="s1">&#39;created_tmp%&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
@@ -99,37 +99,37 @@
 <h2>Handler操作</h2>
 <p>Handler API是MySQL与存储引擎之间的接口。观察<span class="docutils literal"><span class="pre">Handler_*</span></span>变量能让你了解服务
 器做的最多的是哪些工作。</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SHOW</span> <span class="k">GLOBAL</span> <span class="n">STATUS</span> <span class="k">LIKE</span> <span class="s1">&#39;Handler%&#39;</span><span class="p">;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">SHOW</span> <span class="k">GLOBAL</span> <span class="n">STATUS</span> <span class="k">LIKE</span> <span class="s1">&#39;Handler%&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="myisam">
 <h2>MyISAM键缓冲</h2>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SHOW</span> <span class="k">GLOBAL</span> <span class="n">STATUS</span> <span class="k">LIKE</span> <span class="s1">&#39;KEY%&#39;</span><span class="p">;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">SHOW</span> <span class="k">GLOBAL</span> <span class="n">STATUS</span> <span class="k">LIKE</span> <span class="s1">&#39;KEY%&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="id5">
 <h2>查询缓存</h2>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SHOW</span> <span class="k">GLOBAL</span> <span class="n">STATUS</span> <span class="k">LIKE</span> <span class="s1">&#39;Qcache_%&#39;</span><span class="p">;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">SHOW</span> <span class="k">GLOBAL</span> <span class="n">STATUS</span> <span class="k">LIKE</span> <span class="s1">&#39;Qcache_%&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="id6">
 <h2>文件描述符</h2>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SHOW</span> <span class="k">GLOBAL</span> <span class="n">STATUS</span> <span class="k">LIKE</span> <span class="s1">&#39;open_%&#39;</span><span class="p">;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">SHOW</span> <span class="k">GLOBAL</span> <span class="n">STATUS</span> <span class="k">LIKE</span> <span class="s1">&#39;open_%&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="select">
 <h2>各种类型的SELECT</h2>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SHOW</span> <span class="k">GLOBAL</span> <span class="n">STATUS</span> <span class="k">LIKE</span> <span class="s1">&#39;select%&#39;</span><span class="p">;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">SHOW</span> <span class="k">GLOBAL</span> <span class="n">STATUS</span> <span class="k">LIKE</span> <span class="s1">&#39;select%&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="id7">
 <h2>排序</h2>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SHOW</span> <span class="k">GLOBAL</span> <span class="n">STATUS</span> <span class="k">LIKE</span> <span class="s1">&#39;sort%&#39;</span><span class="p">;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">SHOW</span> <span class="k">GLOBAL</span> <span class="n">STATUS</span> <span class="k">LIKE</span> <span class="s1">&#39;sort%&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
@@ -139,7 +139,7 @@
 </div>
 <div class="section" id="innodb-status">
 <h2>InnoDB STATUS</h2>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SHOW</span> <span class="n">ENGINE</span> <span class="n">INNODB</span> <span class="n">STATUS</span><span class="p">;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">SHOW</span> <span class="n">ENGINE</span> <span class="n">INNODB</span> <span class="n">STATUS</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
@@ -147,7 +147,7 @@
 <h2>其它</h2>
 <div class="section" id="id10">
 <h3>进程列表</h3>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SHOW</span> <span class="n">PROCESSLIST</span><span class="p">;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">SHOW</span> <span class="n">PROCESSLIST</span><span class="p">;</span>
 
 <span class="k">SHOW</span> <span class="k">ALL</span> <span class="n">PROCESSLIST</span><span class="p">;</span>
 </pre></div>
@@ -155,7 +155,7 @@
 </div>
 <div class="section" id="id11">
 <h3>互斥量</h3>
-<div class="highlight-sql"><div class="highlight"><pre><span class="c1">-- 貌似5.5不太一样</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="c1">-- 貌似5.5不太一样</span>
 <span class="k">SHOW</span> <span class="n">MUTEX</span> <span class="n">STATUS</span><span class="p">;</span>
 </pre></div>
 </div>
@@ -163,7 +163,7 @@
 </div>
 <div class="section" id="id12">
 <h2>复制状态</h2>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SHOW</span> <span class="n">MASTER</span> <span class="n">STATUS</span><span class="p">;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">SHOW</span> <span class="n">MASTER</span> <span class="n">STATUS</span><span class="p">;</span>
 
 <span class="k">SHOW</span> <span class="nb">BINARY</span> <span class="n">LOGS</span><span class="p">;</span>
 </pre></div>
@@ -227,6 +227,8 @@
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -244,13 +246,11 @@
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -286,7 +286,7 @@
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

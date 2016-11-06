@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="通过PXE安装Linux" href="pxe.html" /><link rel="prev" title="箴言" href="proverb.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="通过PXE安装Linux" href="pxe.html" /><link rel="prev" title="箴言" href="proverb.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -78,7 +78,7 @@
 <li>启动<span class="docutils literal"><span class="pre">httpd</span></span>服务</li>
 </ol>
 <p>那么使用<span class="docutils literal"><span class="pre">puppet</span></span>进行配置管理时，应该定义三个相应的资源来执行：</p>
-<div class="highlight-puppet"><div class="highlight"><pre><span class="c"># install httpd</span>
+<div class="highlight-puppet"><div class="highlight"><pre><span></span><span class="c"># install httpd</span>
 <span class="k">package</span> <span class="p">{</span><span class="s">&quot;httpd&quot;</span><span class="p">:</span>
     <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="k">present</span><span class="p">,</span>
 <span class="p">}</span>
@@ -106,7 +106,7 @@
 </ol>
 <p>前面四个关键字在<span class="docutils literal"><span class="pre">puppet</span></span>中称之为元参数（<a class="reference external" href="http://docs.puppetlabs.com/references/stable/metaparameter.html">metaparameters</a>），它们可以接受引用资源（<a class="reference external" href="http://docs.puppetlabs.com/puppet/latest/reference/lang_datatypes.html#resource-references">resource reference</a>）作为其值。</p>
 <p>用<span class="docutils literal"><span class="pre">before</span></span>和<span class="docutils literal"><span class="pre">require</span></span>改写上面的<span class="docutils literal"><span class="pre">manifests</span></span>以按照手动顺序完成：</p>
-<div class="highlight-puppet"><div class="highlight"><pre><span class="c"># install httpd</span>
+<div class="highlight-puppet"><div class="highlight"><pre><span></span><span class="c"># install httpd</span>
 <span class="k">package</span> <span class="p">{</span><span class="s">&quot;httpd&quot;</span><span class="p">:</span>
     <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="k">present</span><span class="p">,</span>
     <span class="k">before</span> <span class="o">=&gt;</span> <span class="k">File</span><span class="p">[</span><span class="s">&#39;/etc/httpd/conf/httpd.conf&#39;</span><span class="p">],</span>
@@ -126,7 +126,7 @@
 </div>
 <p><span class="docutils literal"><span class="pre">notify</span></span>是增强版式的<span class="docutils literal"><span class="pre">before</span></span>，当使用了<span class="docutils literal"><span class="pre">notify</span></span>的资源发生变化就会主动通知<span class="docutils literal"><span class="pre">notify</span></span>指向的资源；而<span class="docutils literal"><span class="pre">subscribe</span></span>是增强版的<span class="docutils literal"><span class="pre">require</span></span>,当<span class="docutils literal"><span class="pre">subscribe</span></span>指向的资源发生的变更，当前资源就会收到通知。</p>
 <p><span class="docutils literal"><span class="pre">-&gt;</span></span>和<span class="docutils literal"><span class="pre">~&gt;</span></span>意思犹如流程图，从前往后一步一步完成：</p>
-<div class="highlight-puppet"><div class="highlight"><pre><span class="c"># install httpd</span>
+<div class="highlight-puppet"><div class="highlight"><pre><span></span><span class="c"># install httpd</span>
 <span class="k">package</span> <span class="p">{</span><span class="s">&quot;httpd&quot;</span><span class="p">:</span>
     <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="k">present</span><span class="p">,</span>
 <span class="p">}</span>
@@ -150,8 +150,7 @@
 <div class="section" id="group">
 <h3>group</h3>
 <p>在大多数平台上只能创建组，对于添加组成员由用户属性来控制。<strong>group</strong>类型包含以下一些常用的属性：</p>
-<p class="graphviz">
-<img src="../../../_images/graphviz-dc2dc3bbff1fc8955c6133e5704e1a1ae12bab6d.png" alt="digraph group {
+<img src="../../../_images/graphviz-7c3a511673eee7c7fdb12767e573614f396b6d85.png" alt="digraph group {
     edge [labeldistance=0.1];
     group -&gt; provider;
     group -&gt; ensure;
@@ -170,13 +169,11 @@
     provider -&gt; pw;
     provider -&gt; windows_adsi;
 }" />
-</p>
 </div>
 <div class="section" id="host">
 <h3>host</h3>
 <p>用来管理<strong>/etc/hosts</strong>中的host条目。对于MacOS X略有不同。</p>
-<p class="graphviz">
-<img src="../../../_images/graphviz-e0a433fcea718abd2f949f771696c501a85fcaac.png" alt="digraph host {
+<img src="../../../_images/graphviz-f9e274474a33c5889d21dd8918bf1362474e8dce.png" alt="digraph host {
     rankdir=LR;
 
     host -&gt; name;
@@ -193,13 +190,11 @@
 
     target -&gt; &quot;/etc/hosts&quot;;
 }" />
-</p>
 </div>
 <div class="section" id="user">
 <h3>user</h3>
 <p>通常用来管理系统用户，缺少一些管理普通用户的特性。<strong>user</strong>类型包含以下一些常见的属性：</p>
-<p class="graphviz">
-<img src="../../../_images/graphviz-acc3891d5c8c94169ed338fc82a4313be35fa671.png" alt="digraph user {
+<img src="../../../_images/graphviz-d1e32d11d0f7ae88234db6db01b854e23e96c4d6.png" alt="digraph user {
     user -&gt; provider;
     user -&gt; ensure;
     user -&gt; name;
@@ -211,14 +206,12 @@
     user -&gt; shell;
     user -&gt; system;
 }" />
-</p>
 <p>例如</p>
 </div>
 <div class="section" id="file">
 <h3>file</h3>
 <p>管理文件（目录）和它们的属性。<strong>file</strong>类型具有以下常用属性：</p>
-<p class="graphviz">
-<img src="../../../_images/graphviz-15a3e204695dd486b45ae4e238ea10ac61bf4d96.png" alt="digraph file {
+<img src="../../../_images/graphviz-b95f8ca9c99e24b8fe16d2e3ad451b02ce972a25.png" alt="digraph file {
     file -&gt; path;
     file -&gt; ensure;
     file -&gt; owner;
@@ -237,7 +230,6 @@
     content -&gt; &quot;a file&quot;;
     content -&gt; &quot;a string&quot;;
 }" />
-</p>
 </div>
 </div>
 <div class="section" id="id1">
@@ -246,7 +238,7 @@
 <li><dl class="first docutils">
 <dt>&#8220;<strong>certificate B: certificate verify failed: [certificate revoked for</strong>&#8220;</dt>
 <dd><p class="first">从下面的错误中，可以发现&#8221;<strong>certificate revoked for ......</strong>&#8220;，由此可以判断应该是证书过期的原因。</p>
-<div class="highlight-text"><div class="highlight"><pre>Notice: Starting Puppet client version 3.2.4
+<div class="highlight-text"><div class="highlight"><pre><span></span>Notice: Starting Puppet client version 3.2.4
 Info: Caching certificate_revocation_list for ca
 Warning: Unable to fetch my node definition, but the agent run will continue:
 Warning: SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed: [certificate revoked for /CN=puppet.virt.liuhui]
@@ -257,14 +249,14 @@ Error: Could not retrieve catalog from remote server: SSL_connect returned=1 err
 </pre></div>
 </div>
 <p>但是，在实际操作时，我几乎是同时进行的，前后不差三分钟。还是按照官方文档<a class="footnote-reference" href="#ref1" id="id2">[1]</a>中的提示检查了证书有效期：</p>
-<div class="highlight-bash"><div class="highlight"><pre>openssl x509 -text -noout -in /var/lib/puppet/ssl/certs/hostname.tld.pem <span class="p">|</span> grep -A2 Validity
+<div class="highlight-bash"><div class="highlight"><pre><span></span>openssl x509 -text -noout -in /var/lib/puppet/ssl/certs/hostname.tld.pem <span class="p">|</span> grep -A2 Validity
 </pre></div>
 </div>
 <p>最后发现确实有点问题，日期不是当前日期，而且与&#8221;<cite>puppet master</cite>&#8220;的日期亦不同步。由此可以推断可能是&#8221;<cite>agent</cite>&#8220;和&#8221;<cite>master</cite>&#8220;的时间不同步，而&#8221;<cite>agent</cite>&#8220;的系统刚好不在&#8221;<cite>master</cite>&#8220;签发的有效时间内，导致证书无效。由此得到教训：“<strong>使用Puppet时一定要保证&#8221;master&#8221;和&#8221;slave&#8221;的时间同步</strong>”。</p>
 <p>修正时间同步的问题后，此问题仍然存在，又google了一些讨论<a class="footnote-reference" href="#ref2" id="id3">[2]</a><a class="footnote-reference" href="#ref3" id="id4">[3]</a>
 ：有人提到是&#8221;<strong>.ssh</strong>&#8220;目录的问题，经查没有此目录，故排除。</p>
 <p>经常反复尝试，发现问题所在，因为使用了三台虚拟机，一个作为Master，两个Slave。发现有一个Slave一直都可以用，不会出上面的错误。但是当先将Master的自管理建立好，然后就再去设定Slave时，这个一直没有问题的Slave也出现相同问题。联想到在Master上运行&#8221;<cite>puppet agent &#8211;server=host &#8211;test</cite>&#8220;，总是提示：</p>
-<div class="highlight-text"><div class="highlight"><pre>On the master:
+<div class="highlight-text"><div class="highlight"><pre><span></span>On the master:
     puppet cert clean puppet.virt.liuhui
 On the agent:
     rm -f /etc/puppet/ssl/certs/puppet.virt.liuhui.pem
@@ -273,7 +265,7 @@ On the agent:
 </div>
 <p>相当于重新生成一个证书，而在<cite>puppet master</cite>启动时也生成了一套证书的。猜想是不是因为再次的证书混乱导致<cite>puppet master</cite>上证书管理混乱？最后发现<cite>puppet master</cite>生成的证书位于&#8221;/var/lib/puppet/ssl&#8221;下，而<cite>puppet agent</cite>生成的证书在&#8221;/etc/puppet/ssl&#8221;下，但是两次证书的名字一样，使用的CA一样，所以导致<cite>puppet master</cite>分不清，搞乱了。</p>
 <p>为什么<cite>puppet master</cite>和<cite>puppet agent</cite>的证书存放目录不一样呢？检查配置文件&#8221;/etc/puppet/puppet.conf&#8221;发现，其中只有关于<cite>master</cite>的配置，没有<cite>agent</cite>的信息，应该是<cite>agent</cite>的默认路径就是在&#8221;/etc/puppet/ssl&#8221;，而<cite>master</cite>的证书信息则在&#8221;/var/lib/puppet/ssl&#8221;。怎么解决呢？在配置文件&#8221;<cite>/etc/puppet/puppet.conf</cite>&#8220;中添加上关于<cite>agent</cite>的配置信息就好了。</p>
-<div class="last highlight-ini"><div class="highlight"><pre><span class="k">[agent]</span>
+<div class="last highlight-ini"><div class="highlight"><pre><span></span><span class="k">[agent]</span>
     <span class="na">ssldir</span> <span class="o">=</span> <span class="s">/var/lib/puppet/ssl</span>
 </pre></div>
 </div>
@@ -287,7 +279,7 @@ On the agent:
 <div class="section" id="id6">
 <h3>如何将<span class="docutils literal"><span class="pre">puppet</span></span>中的变量值传递给命令行</h3>
 <p>写了一个module来执行一个编译任务，目录结果如下：</p>
-<div class="highlight-text"><div class="highlight"><pre>stackless/
+<div class="highlight-text"><div class="highlight"><pre><span></span>stackless/
         manifests/
                 init.pp
                 install.pp
@@ -295,14 +287,14 @@ On the agent:
 </pre></div>
 </div>
 <p>其中文件<span class="docutils literal"><span class="pre">params.pp</span></span>定义了一些变量，如：</p>
-<div class="highlight-puppet"><div class="highlight"><pre><span class="k">class</span> <span class="na">stackless</span><span class="p">::</span><span class="na">params</span> <span class="p">{</span>
+<div class="highlight-puppet"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="na">stackless</span><span class="p">::</span><span class="na">params</span> <span class="p">{</span>
     <span class="nv">$srcPath</span> <span class="o">=</span> <span class="s">&quot;/home/builder/stackless&quot;</span>
     <span class="nv">$installPath</span> <span class="o">=</span> <span class="s">&quot;/home/builder/local&quot;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>在<span class="docutils literal"><span class="pre">install.pp</span></span>中执行相关的编译工作，如：</p>
-<div class="highlight-puppet"><div class="highlight"><pre><span class="k">class</span> <span class="na">stackless</span><span class="p">::</span><span class="na">install</span> <span class="p">{</span>
+<div class="highlight-puppet"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="na">stackless</span><span class="p">::</span><span class="na">install</span> <span class="p">{</span>
     <span class="k">exec</span> <span class="p">{</span><span class="s">&quot;configure&quot;</span><span class="p">:</span>
         <span class="na">cwd</span> <span class="o">=&gt;</span> <span class="nv">$stackless::params::srcPath,</span>
         <span class="na">path</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s">&quot;/bin&quot;</span><span class="p">,</span> <span class="s">&quot;/usr/bin&quot;</span><span class="p">],</span>
@@ -380,6 +372,8 @@ On the agent:
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -397,13 +391,11 @@ On the agent:
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -439,7 +431,7 @@ On the agent:
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

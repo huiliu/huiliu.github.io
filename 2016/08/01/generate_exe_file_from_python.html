@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="在应用程序中嵌入Python" href="../../06/27/extending_embedded_python.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="在应用程序中嵌入Python" href="../../06/27/extending_embedded_python.html" /><link rel="prev" title="DLL与LIB的创建与使用" href="../../11/06/dll与lib的创建与使用.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -81,7 +81,7 @@
 <div class="section" id="id4">
 <h1>一个简单的例子</h1>
 <p>先看一下例子的目录结构：</p>
-<div class="highlight-text"><div class="highlight"><pre>.
+<div class="highlight-text"><div class="highlight"><pre><span></span>.
 ├── abc.xml
 ├── config.ini
 ├── README.rst
@@ -98,7 +98,7 @@
 <li><p class="first"><cite>README.rst</cite></p>
 </li>
 <li><p class="first"><cite>setup.py</cite>py2exe/distutils所需的配置文件，后面将详细介绍此文件。</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">distutils.core</span> <span class="kn">import</span> <span class="n">setup</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">distutils.core</span> <span class="kn">import</span> <span class="n">setup</span>
 <span class="kn">import</span> <span class="nn">py2exe</span>
 
 <span class="n">setup</span><span class="p">(</span>
@@ -122,7 +122,7 @@
 </ol>
 <ol class="arabic" start="4">
 <li><p class="first"><cite>update_match_schedule.py</cite>是期望转换为Windows exe的python脚本文件，将xml数据导入到指定的数据库中。</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">MySQLdb</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">MySQLdb</span>
 <span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">as</span> <span class="nn">ET</span>
 <span class="kn">import</span> <span class="nn">ConfigParser</span>
 <span class="kn">import</span> <span class="nn">codecs</span>
@@ -169,7 +169,7 @@
 </ol>
 <p>在Windows CMD下运行命令：&#8221;<span class="docutils literal"><span class="pre">setup.py</span> <span class="pre">py2exe</span></span>&#8220;。就会balabala的输出一堆，将执行脚本&#8221;<strong>update_match_schedule.py</strong>&#8220;所需的相关文件打包，并根据<strong>setup.py</strong>的设置来处理这些文件并输出exe文件&#8221;<strong>update_match_schedule.exe</strong>&#8220;。正确完成后会生成两个目录：&#8221;<em>build</em>&#8220;和&#8221;<em>dist</em>&#8220;，&#8221;<em>build</em>&#8220;中是一些中间文件；&#8221;<em>dist</em>&#8220;为包含生成的exe文件和其它一些文件（依赖于配置设定）。</p>
 <p>通常可以将命令&#8221;<span class="docutils literal"><span class="pre">setup.py</span> <span class="pre">py2exe</span></span>&#8220;写入到一个batch文件中，可以不用每次打开CMD输入命令。</p>
-<div class="highlight-batch"><div class="highlight"><pre>c<span class="p">:</span><span class="nl">\Python27\python.exe</span><span class="c1"> setup.py py2exe</span>
+<div class="highlight-batch"><div class="highlight"><pre><span></span>c<span class="p">:</span><span class="nl">\Python27\python.exe</span><span class="c1"> setup.py py2exe</span>
 <span class="k">pause</span>
 
 <span class="k">move</span> dist\* ..\
@@ -184,7 +184,7 @@
 <div class="section" id="setup-py">
 <h1>配置文件&#8221;<strong>setup.py</strong></h1>
 <p>首先，<cite>py2exe</cite>是对<cite>distutils</cite>的扩展，所以<cite>distutils</cite>的&#8221;<strong>setup</strong>&#8220;选项，在这里仍然可以使用。再看看上面的&#8221;<strong>setup.py</strong>&#8220;文件的含义，</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">distutils.core</span> <span class="kn">import</span> <span class="n">setup</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">distutils.core</span> <span class="kn">import</span> <span class="n">setup</span>
 <span class="kn">import</span> <span class="nn">py2exe</span>
 
 <span class="n">setup</span><span class="p">(</span>
@@ -317,7 +317,7 @@ archive, put them directly in the file system</td>
                 <a href="../../../tags/python.html">python</a></span>
         </div>
         </div><ul class="related clearfix">
-            <li class="left"></li>
+            <li class="left"> &laquo; <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a></li>
             <li class="right"><a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a> &raquo; </li>
         </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/08/01/generate_exe_file_from_python";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section>
 <div class='widget'>
@@ -333,6 +333,8 @@ archive, put them directly in the file system</td>
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="#">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -350,13 +352,11 @@ archive, put them directly in the file system</td>
             <a href="../../01/19/bash.html">Learning Bash</a>
         </li><li>
             <a href="../../01/19/code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="../../01/19/comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -392,7 +392,7 @@ archive, put them directly in the file system</td>
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="operator new与placement new" href="../../03/24/new_operator.html" /><link rel="prev" title="Generate exe file from python" href="../../08/01/generate_exe_file_from_python.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="operator new与placement new" href="../../03/24/new_operator.html" /><link rel="prev" title="Generate exe file from python" href="../../08/01/generate_exe_file_from_python.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -89,7 +89,7 @@
 <div class="section" id="id1">
 <h1>一个简单的例子</h1>
 <p>C程序：</p>
-<div class="highlight-c"><div class="highlight"><pre><span class="c1">// file: main.c</span>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// file: main.c</span>
 <span class="cp">#include</span> <span class="cpf">&lt;Python.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
@@ -135,7 +135,7 @@
 </div>
 <p>编译：<cite>gcc main.c -o main `pkg-config &#8211;libs &#8211;cflags python2`</cite></p>
 <p>python文件：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c1"># file: example.py</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># file: example.py</span>
 <span class="k">def</span> <span class="nf">echo</span><span class="p">():</span>
     <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Hello World!&quot;</span><span class="p">)</span>
 </pre></div>
@@ -146,7 +146,7 @@
 <div class="section" id="id2">
 <h1>Python库搜索路径</h1>
 <p>应用程序加载python脚本模块，有一个模块的搜索路径问题，<cite>python</cite>库的默认搜索路径与Python的安装路径有关，可以通过下面的代码查看：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="k">print</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span>
 </pre></div>
@@ -163,14 +163,14 @@
 <p>调整python解释器的搜索路径，其实就是修改<cite>PYTHONHOME</cite>和<cite>PYTHONPATH</cite>两个环境变量。方法有：</p>
 <ol class="arabic">
 <li><p class="first">使用<cite>setenv</cite>来修改<cite>PYTHONHOME</cite>和<cite>PYTHONPATH</cite>。如上面的代码</p>
-<div class="highlight-c"><div class="highlight"><pre><span class="n">setenv</span><span class="p">(</span><span class="s">&quot;PYTHONPATH&quot;</span><span class="p">,</span> <span class="s">&quot;./&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">setenv</span><span class="p">(</span><span class="s">&quot;PYTHONPATH&quot;</span><span class="p">,</span> <span class="s">&quot;./&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first">在命令行修改环境变量</p>
 </li>
 <li><p class="first">Python API函数<cite>PySys_SetPath(char*)</cite></p>
-<div class="highlight-c"><div class="highlight"><pre><span class="c1">// ......</span>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// ......</span>
 <span class="n">Py_Initialize</span><span class="p">();</span>
 <span class="n">PySys_SetPath</span><span class="p">(</span><span class="s">&quot;./&quot;</span><span class="p">);</span>
 <span class="c1">// ......</span>
@@ -190,7 +190,7 @@
 </li>
 <li><p class="first">PyObject* PyImport_Import(PyObject *name)
 参数<em>name</em>应该是一个<cite>PyObject</cite>对象，如：</p>
-<div class="highlight-c"><div class="highlight"><pre><span class="n">PyObject</span><span class="o">*</span> <span class="n">pFileName</span> <span class="o">=</span> <span class="n">PyString_FromString</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">PyObject</span><span class="o">*</span> <span class="n">pFileName</span> <span class="o">=</span> <span class="n">PyString_FromString</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
 <span class="n">PyObject</span><span class="o">*</span> <span class="n">pModule</span> <span class="o">=</span> <span class="n">PyImport_Import</span><span class="p">(</span><span class="n">pFileName</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -218,7 +218,7 @@ int PyObject_DelAttrString(PyObject* o, const char* attr_name);</p>
 <ol class="arabic">
 <li><p class="first">PyObject* Py_BuildValue(const char* format, ...);    可以将各种C数据类型，转换为python数据类型。</p>
 <p>如：</p>
-<div class="highlight-text"><div class="highlight"><pre>Py_BuildValue(&quot;&quot;)                               None
+<div class="highlight-text"><div class="highlight"><pre><span></span>Py_BuildValue(&quot;&quot;)                               None
 Py_BuildValue(&quot;i&quot;, 37)                          37
 Py_BuildValue(&quot;ids&quot;, 37, 3.4, &quot;hello&quot;)          (37, 3.4, &quot;hello&quot;)元组
 Py_BuildValue(&quot;[ii]&quot;, 37, 3)                    [37, 3]
@@ -265,7 +265,7 @@ Py_BuildValue(&quot;{s:i,s:i}&quot;, &quot;x&quot;, 3, &quot;y&quot;, 2)      {&
 <p>通过Python C API可以将标准的Python解释器嵌入到应用程序中，但是如何扩展这个解释
 器呢？即在解释器中内置一些模块。</p>
 <p>首先看一下，Python文档中的例子：</p>
-<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&lt;Python.h&gt;</span><span class="cp"></span>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;Python.h&gt;</span><span class="cp"></span>
 
 <span class="k">static</span> <span class="kt">int</span> <span class="n">numargs</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
 
@@ -305,7 +305,7 @@ Py_BuildValue(&quot;{s:i,s:i}&quot;, &quot;x&quot;, 3, &quot;y&quot;, 2)      {&
 </pre></div>
 </div>
 <p>上面的代码中，内置的Python解释中扩展了一个模块&#8221;<cite>emb</cite>&#8220;，即应用程序提供了一个API可供脚本使用，在下面的python脚本中导入模块，并执行其中的功能。python脚本为：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">emb</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">emb</span>
 
 <span class="k">def</span> <span class="nf">echo</span><span class="p">():</span>
     <span class="k">print</span><span class="p">(</span><span class="k">print</span> <span class="s2">&quot;Number of arguments&quot;</span><span class="p">,</span> <span class="n">emb</span><span class="o">.</span><span class="n">numargs</span><span class="p">())</span>
@@ -319,7 +319,7 @@ Py_BuildValue(&quot;{s:i,s:i}&quot;, &quot;x&quot;, 3, &quot;y&quot;, 2)      {&
 <p>我们建立一个小工程：</p>
 <ol class="arabic">
 <li><p class="first">foo.h</p>
-<div class="highlight-c"><div class="highlight"><pre>
+<div class="highlight-c"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>#ifndef __FOO_H__
@@ -328,7 +328,7 @@ Py_BuildValue(&quot;{s:i,s:i}&quot;, &quot;x&quot;, 3, &quot;y&quot;, 2)      {&
 #endif</p>
 </li>
 <li><p class="first">foo.c</p>
-<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&quot;foo.h&quot;</span><span class="cp"></span>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;foo.h&quot;</span><span class="cp"></span>
 
 <span class="kt">int</span> <span class="nf">fib</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
 <span class="p">{</span>
@@ -345,7 +345,7 @@ Py_BuildValue(&quot;{s:i,s:i}&quot;, &quot;x&quot;, 3, &quot;y&quot;, 2)      {&
 </div>
 </li>
 <li><p class="first">foo.i</p>
-<div class="highlight-swig"><div class="highlight"><pre><span class="nf">%module</span> <span class="n">fool</span>
+<div class="highlight-swig"><div class="highlight"><pre><span></span><span class="nf">%module</span> <span class="n">fool</span>
 
 <span class="o">%</span><span class="p">{</span>
 <span class="cp">#include</span> <span class="cpf">&quot;foo.h&quot;</span><span class="cp"></span>
@@ -356,7 +356,7 @@ Py_BuildValue(&quot;{s:i,s:i}&quot;, &quot;x&quot;, 3, &quot;y&quot;, 2)      {&
 </div>
 </li>
 <li><p class="first">test.py</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">foo</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">foo</span>
 
 <span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">foo</span><span class="o">.</span><span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
@@ -364,7 +364,7 @@ Py_BuildValue(&quot;{s:i,s:i}&quot;, &quot;x&quot;, 3, &quot;y&quot;, 2)      {&
 </div>
 </li>
 <li><p class="first">main.c</p>
-<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&lt;Python.h&gt;</span><span class="cp"></span>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;Python.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
 
@@ -411,7 +411,7 @@ Py_BuildValue(&quot;{s:i,s:i}&quot;, &quot;x&quot;, 3, &quot;y&quot;, 2)      {&
 </div>
 </li>
 <li><p class="first">Makefile</p>
-<div class="highlight-makefile"><div class="highlight"><pre><span class="nv">CFLAGS</span> <span class="o">=</span> -Wall -g <span class="sb">`</span>pkg-config --libs --cflags python2<span class="sb">`</span>
+<div class="highlight-makefile"><div class="highlight"><pre><span></span><span class="nv">CFLAGS</span> <span class="o">=</span> -Wall -g <span class="sb">`</span>pkg-config --libs --cflags python2<span class="sb">`</span>
 
 <span class="nf">all</span><span class="o">:</span> <span class="n">main</span>
 
@@ -484,6 +484,8 @@ Py_BuildValue(&quot;{s:i,s:i}&quot;, &quot;x&quot;, 3, &quot;y&quot;, 2)      {&
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="#">在应用程序中嵌入Python</a>
@@ -501,13 +503,11 @@ Py_BuildValue(&quot;{s:i,s:i}&quot;, &quot;x&quot;, 3, &quot;y&quot;, 2)      {&
             <a href="../../01/19/bash.html">Learning Bash</a>
         </li><li>
             <a href="../../01/19/code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="../../01/19/comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -543,7 +543,7 @@ Py_BuildValue(&quot;{s:i,s:i}&quot;, &quot;x&quot;, 3, &quot;y&quot;, 2)      {&
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

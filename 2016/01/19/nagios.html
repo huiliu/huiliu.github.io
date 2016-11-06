@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="Net-SNMP使用心得" href="net-snmp.html" /><link rel="prev" title="MySQL通用调优原则" href="mysql_tuning.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Net-SNMP使用心得" href="net-snmp.html" /><link rel="prev" title="MySQL通用调优原则" href="mysql_tuning.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -74,12 +74,12 @@
 <ol class="arabic">
 <li><p class="first">当某个服务出现故障，准备重新安装执行时，发生错误<span class="docutils literal"><span class="pre">Could</span> <span class="pre">not</span> <span class="pre">open</span> <span class="pre">command</span> <span class="pre">file</span> <span class="pre">'/usr/local/nagios/var/rw/nagios.cmd'</span> <span class="pre">for</span> <span class="pre">update!</span></span></p>
 <p>查看<span class="docutils literal"><span class="pre">/usr/local/nagios/var/rw/nagios.cmd</span></span>的权限为：</p>
-<div class="highlight-python"><div class="highlight"><pre>ll /usr/local/nagios/var/rw/nagios.cmd
-prw-rw----. 1 nagios nagios 0 Dec 22 20:01 nagios.cmd
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ll</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">nagios</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">rw</span><span class="o">/</span><span class="n">nagios</span><span class="o">.</span><span class="n">cmd</span>
+<span class="n">prw</span><span class="o">-</span><span class="n">rw</span><span class="o">----.</span> <span class="mi">1</span> <span class="n">nagios</span> <span class="n">nagios</span> <span class="mi">0</span> <span class="n">Dec</span> <span class="mi">22</span> <span class="mi">20</span><span class="p">:</span><span class="mi">01</span> <span class="n">nagios</span><span class="o">.</span><span class="n">cmd</span>
 </pre></div>
 </div>
 <p>再查看Nagios的配置文件“<span class="docutils literal"><span class="pre">/etc/local/nagios/etc/nagios.cfg</span></span>”，可以发现:</p>
-<div class="highlight-text"><div class="highlight"><pre># EXTERNAL COMMAND FILE
+<div class="highlight-text"><div class="highlight"><pre><span></span># EXTERNAL COMMAND FILE
 # This is the file that Nagios checks for external command requests.
 # It is also where the command CGI will write commands that are submitted
 # by users, so it must be writeable by the user that the web server
@@ -91,7 +91,7 @@ command_file=/usr/local/nagios/var/rw/nagios.cmd
 </pre></div>
 </div>
 <p>即要求管道文件<span class="docutils literal"><span class="pre">/usr/local/nagios/var/rw/nagios.cmd</span></span>可以被Web服务器读写，显然Web服务器不是以用户nagios的身份来运行的，（一般是apache）。所以将此目录所属的工作组改为apache。</p>
-<div class="highlight-bash"><div class="highlight"><pre>chown :apache /usr/local/nagios/var/rw/nagios.cmd
+<div class="highlight-bash"><div class="highlight"><pre><span></span>chown :apache /usr/local/nagios/var/rw/nagios.cmd
 </pre></div>
 </div>
 <p>即可。重新操作可以正常完成。</p>
@@ -130,6 +130,8 @@ command_file=/usr/local/nagios/var/rw/nagios.cmd
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -147,13 +149,11 @@ command_file=/usr/local/nagios/var/rw/nagios.cmd
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -189,7 +189,7 @@ command_file=/usr/local/nagios/var/rw/nagios.cmd
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

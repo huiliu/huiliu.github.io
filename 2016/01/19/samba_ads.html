@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="Samba" href="samba_basic.html" /><link rel="prev" title="RPM软件包" href="rpm.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Samba" href="samba_basic.html" /><link rel="prev" title="RPM软件包" href="rpm.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -89,7 +89,7 @@
 <div class="section" id="sambaldapkerberos">
 <h3>确认samba支持LDAP和kerberos</h3>
 <p>执行命令<span class="docutils literal"><span class="pre">smbd</span> <span class="pre">-b</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">KRB</span></span>和<span class="docutils literal"><span class="pre">smbd</span> <span class="pre">-b</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">LDAP</span></span>观察是否有类似下面的信息输出。</p>
-<div class="highlight-bash"><div class="highlight"><pre>$ smbd -b <span class="p">|</span> grep KRB
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ smbd -b <span class="p">|</span> grep KRB
     HAVE_KRB5_H
     HAVE_KRB5_LOCATE_PLUGIN_H
     HAVE_ADDRTYPE_IN_KRB5_ADDRESS
@@ -126,7 +126,7 @@ $ smbd -b <span class="p">|</span> grep LDAP
 <div class="section" id="sambakerberos">
 <h3>samba和kerberos</h3>
 <p>samba可以通过<span class="docutils literal"><span class="pre">kerberos</span></span>与AD域服务器通讯，对域用户进行验证。配置samba，需要编辑配置文件<span class="docutils literal"><span class="pre">/etc/krb5.conf</span></span></p>
-<div class="highlight-text"><div class="highlight"><pre>[logging]
+<div class="highlight-text"><div class="highlight"><pre><span></span>[logging]
  default = FILE:/var/log/krb5libs.log
  kdc = FILE:/var/log/krb5kdc.log
  admin_server = FILE:/var/log/kadmind.log
@@ -170,7 +170,7 @@ $ smbd -b <span class="p">|</span> grep LDAP
 <p>守护进程<span class="docutils literal"><span class="pre">winbindd</span></span>将与AD域进行通讯并为Linux提供帐户验证。<span class="docutils literal"><span class="pre">winbindd</span></span>是通过PAM(Pluggable Authentication Modules)来实现此功能的。</p>
 <p>确认存在模块<span class="docutils literal"><span class="pre">/lib64/security/pam_winbind.so</span></span>，如果是手动编译安装的请将<span class="docutils literal"><span class="pre">pam_winbind.so</span></span>链接至前面的位置。</p>
 <p>配置系统使用<span class="docutils literal"><span class="pre">pam_winbind</span></span>模块：在<span class="docutils literal"><span class="pre">/etc/pam.d</span></span>目录下建立文件<span class="docutils literal"><span class="pre">system-auth-winbind</span></span>，并将其链接至<span class="docutils literal"><span class="pre">system-auth</span></span>。注意备份好原文件。</p>
-<div class="highlight-text"><div class="highlight"><pre># /etc/pam.d/system-auth -&gt; /etc/pam.d/system-auth-winbind
+<div class="highlight-text"><div class="highlight"><pre><span></span># /etc/pam.d/system-auth -&gt; /etc/pam.d/system-auth-winbind
 # 关于PAM模块的配置请查看相关文档
 auth required pam_env.so
 auth sufficient pam_unix.so likeauth nullok
@@ -194,7 +194,7 @@ session required pam_winbind.so use_first_pass
 </pre></div>
 </div>
 <p>另外模块<span class="docutils literal"><span class="pre">pam_winbind</span></span>的配置文件为：<span class="docutils literal"><span class="pre">/etc/security/pam_winbind.conf</span></span>可以编辑：</p>
-<div class="highlight-ini"><div class="highlight"><pre><span class="c1">#</span>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="c1">#</span>
 <span class="c1"># pam_winbind configuration file</span>
 <span class="c1">#</span>
 <span class="c1"># /etc/security/pam_winbind.conf</span>
@@ -229,13 +229,13 @@ session required pam_winbind.so use_first_pass
 <h3>Name Service Switch</h3>
 <p><span class="docutils literal"><span class="pre">Name</span> <span class="pre">Service</span> <span class="pre">Switch</span></span>提供了一种标准机制，在该机制中，Linux计算机可以与常见服务进行交互，其中一个服务是身份验证。在使用这些服务时，Linux会查询 <span class="docutils literal"><span class="pre">/etc/nsswitch.conf</span></span>文件。请根据下列方法修改该文件，以便允许 Linux使用 Winbind 进行用户身份验证。</p>
 <p>下面的代码突出了使用Winbind添加Winbind支持，以便允许用户参照AD DS Kerberos 5数据库，使用Winbind进行身份验证：</p>
-<div class="highlight-text"><div class="highlight"><pre>passwd: files winbind
+<div class="highlight-text"><div class="highlight"><pre><span></span>passwd: files winbind
 group:   files winbind
 </pre></div>
 </div>
 <p>完成上面的配置后，启动守护进程<span class="docutils literal"><span class="pre">winbindd</span></span>，当前Linux服务器就可以与域服务器通讯了。 smb.conf &#8212;&#8212;&#8212;
 为了让samba加入到AD域中工作，当然要配置<span class="docutils literal"><span class="pre">smb.conf</span></span>：</p>
-<div class="highlight-ini"><div class="highlight"><pre><span class="k">[global]</span>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[global]</span>
     <span class="na">unix charset</span> <span class="o">=</span> <span class="s">utf8</span>
 <span class="s">    display charset = utf8</span>
 <span class="s">    dos charset = cp936</span>
@@ -270,7 +270,7 @@ group:   files winbind
 <div class="section" id="net">
 <h2><span class="docutils literal"><span class="pre">net</span></span>命令</h2>
 <p>完成上面的配置操作后，可以通过<span class="docutils literal"><span class="pre">net</span></span>命令加入到AD域：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># 根据提示输入密码。加入成功命令行会有提示</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># 根据提示输入密码。加入成功命令行会有提示</span>
 sudo net ads join -U Administrator
 
 <span class="c1"># 使用下面命令测试加入成功</span>
@@ -279,7 +279,7 @@ sudo net ads tesjoin
 </div>
 <p><span class="docutils literal"><span class="pre">net</span></span>命令是一个非常强大完善的管理工具，其它详细信息请查看帮助<span class="docutils literal"><span class="pre">net</span> <span class="pre">help</span> <span class="pre">subcrommand</span></span></p>
 <p>另外也可以通过winbindd提供的工具<span class="docutils literal"><span class="pre">wbinfo</span></span>来查询AD域的信息、资源等</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># 检查winbindd是否在运行</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># 检查winbindd是否在运行</span>
 wbinfo -p
 
 <span class="c1"># 列出域中的用户</span>
@@ -346,6 +346,8 @@ wbinfo -t
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -363,13 +365,11 @@ wbinfo -t
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -405,7 +405,7 @@ wbinfo -t
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

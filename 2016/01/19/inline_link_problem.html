@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="入侵检测与响应" href="intrusion.html" /><link rel="prev" title="程序人生" href="iamprogramer.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="入侵检测与响应" href="intrusion.html" /><link rel="prev" title="程序人生" href="iamprogramer.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -90,7 +90,7 @@
 17
 18
 19
-20</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#ifndef __INLINE_H__</span>
+20</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#ifndef __INLINE_H__</span>
 <span class="cp">#define __INLINE_H__</span>
 <span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
 
@@ -133,7 +133,7 @@
 18
 19
 20
-21</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&quot;inline.h&quot;</span><span class="cp"></span>
+21</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;inline.h&quot;</span><span class="cp"></span>
 
 <span class="n">CPeople</span><span class="o">::</span><span class="n">CPeople</span><span class="p">(</span><span class="kt">int</span> <span class="n">age</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">bHouse</span><span class="p">,</span> <span class="kt">int</span><span class="o">*</span> <span class="n">p</span><span class="p">)</span>
 <span class="o">:</span> <span class="n">m_age</span><span class="p">(</span><span class="n">age</span><span class="p">)</span>
@@ -166,7 +166,7 @@
  7
  8
  9
-10</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&quot;inline.h&quot;</span><span class="cp"></span>
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;inline.h&quot;</span><span class="cp"></span>
 
 <span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
 <span class="p">{</span>
@@ -193,7 +193,7 @@
 12
 13
 14
-15</pre></div></td><td class="code"><div class="highlight"><pre><span class="c">#CXXFLAGS = -g -std=c++11</span>
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c">#CXXFLAGS = -g -std=c++11</span>
 <span class="nv">CXXFLAGS</span> <span class="o">=</span> -std<span class="o">=</span>c++11
 <span class="nv">LIBS</span> <span class="o">=</span> inline.o main.o
 <span class="nv">TARGETS</span> <span class="o">=</span> main
@@ -214,7 +214,7 @@
 <div class="highlight-shell"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
-4</pre></div></td><td class="code"><div class="highlight"><pre>make
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span>make
 g++ -g -std<span class="o">=</span>c++11 inline.cpp -c -o inline.o
 g++ -g -std<span class="o">=</span>c++11   -c -o main.o main.cpp
 g++ -g -std<span class="o">=</span>c++11 inline.o main.o -o main
@@ -224,7 +224,7 @@ g++ -g -std<span class="o">=</span>c++11 inline.o main.o -o main
 到<cite>main</cite>。</p>
 <p>运行<cite>main</cite>在&#8221;<span class="docutils literal"><span class="pre">inline.cpp</span></span>&#8220;的20行放置断点，那么成员变量的值分别为？用GDB
 看一下实际输出：</p>
-<div class="highlight-text"><div class="highlight"><pre>(gdb) p \*this
+<div class="highlight-text"><div class="highlight"><pre><span></span>(gdb) p \*this
 $1 = {m_age = 10, m_hasHouse = true, m_pNull = 0x0}
 </pre></div>
 </div>
@@ -232,7 +232,7 @@ $1 = {m_age = 10, m_hasHouse = true, m_pNull = 0x0}
 <p>接下来，将类CPeople中的变量<span class="docutils literal"><span class="pre">m_hasCar</span></span>注释去掉，再编译：</p>
 <div class="highlight-shell"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
-3</pre></div></td><td class="code"><div class="highlight"><pre>make
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span>make
 g++ -g -std<span class="o">=</span>c++11 inline.cpp -c -o inline.o
 g++ -g -std<span class="o">=</span>c++11 inline.o main.o -o main
 </pre></div>
@@ -240,7 +240,7 @@ g++ -g -std<span class="o">=</span>c++11 inline.o main.o -o main
 <p>看仔细了，<span class="docutils literal"><span class="pre">make</span></span>的输出有什么问题吗？</p>
 <p>再用<span class="docutils literal"><span class="pre">GDB</span></span>调试main，同样在<span class="docutils literal"><span class="pre">inline.cpp</span></span>的第20行放置断点，看看此时的
 成员变量值：</p>
-<div class="highlight-text"><div class="highlight"><pre>(gdb) p \*this
+<div class="highlight-text"><div class="highlight"><pre><span></span>(gdb) p \*this
 $1 = {m_age = 10, m_hasCar = true, m_hasHouse = false, m_pNull = 0x0}
 </pre></div>
 </div>
@@ -271,6 +271,8 @@ $1 = {m_age = 10, m_hasCar = true, m_hasHouse = false, m_pNull = 0x0}
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -288,13 +290,11 @@ $1 = {m_age = 10, m_hasCar = true, m_hasHouse = false, m_pNull = 0x0}
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -330,7 +330,7 @@ $1 = {m_age = 10, m_hasCar = true, m_hasHouse = false, m_pNull = 0x0}
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

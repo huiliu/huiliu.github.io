@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="Code Evolution" href="code_evolution.html" /><link rel="prev" title="function program in python" href="../../02/04/function_program_in_python.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Code Evolution" href="code_evolution.html" /><link rel="prev" title="function program in python" href="../../02/04/function_program_in_python.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -74,20 +74,20 @@
 <h2>Tips 1 <strong>&amp;&amp;</strong>和<strong>||</strong></h2>
 <p><strong>&amp;&amp;</strong>和<strong>||</strong>在条件判断时分别表示“逻辑与”和“逻辑或”，等同于在c中的功能。</p>
 <p>另外，它们还可以直接用于命令后面，如：</p>
-<div class="highlight-bash"><div class="highlight"><pre>command1 <span class="o">&amp;&amp;</span> command2 <span class="o">||</span>command3
+<div class="highlight-bash"><div class="highlight"><pre><span></span>command1 <span class="o">&amp;&amp;</span> command2 <span class="o">||</span>command3
 </pre></div>
 </div>
 <p>上面的意思为：如果命令<span class="docutils literal"><span class="pre">command1</span></span>正常完成（返回0），则执行<span class="docutils literal"><span class="pre">command2</span></span>
 如果<span class="docutils literal"><span class="pre">command2</span></span>执行时发生错误（返回非0），则执行<span class="docutils literal"><span class="pre">command3</span></span>。</p>
 <p>如果<span class="docutils literal"><span class="pre">commandn</span></span>执行多条语句，可以写为<span class="docutils literal"><span class="pre">command1;</span> <span class="pre">command2;</span> <span class="pre">......</span></span>，如果代码为下面的形式：</p>
-<div class="highlight-bash"><div class="highlight"><pre>command1<span class="p">;</span> command2 <span class="o">&amp;&amp;</span> command3<span class="p">;</span> command4 <span class="o">||</span> command5<span class="p">;</span> command6
+<div class="highlight-bash"><div class="highlight"><pre><span></span>command1<span class="p">;</span> command2 <span class="o">&amp;&amp;</span> command3<span class="p">;</span> command4 <span class="o">||</span> command5<span class="p">;</span> command6
 </pre></div>
 </div>
 <p>如果期待<span class="docutils literal"><span class="pre">command2</span></span>正常完成后执行<span class="docutils literal"><span class="pre">command3</span></span>和<span class="docutils literal"><span class="pre">command4</span></span>，出错时执行命令<span class="docutils literal"><span class="pre">command5</span></span>和<span class="docutils literal"><span class="pre">command6</span></span>。那就错了。上面的写法中，命令
 <span class="docutils literal"><span class="pre">command1</span></span>, <span class="docutils literal"><span class="pre">command2</span></span>, <span class="docutils literal"><span class="pre">command4</span></span>, <span class="docutils literal"><span class="pre">command6</span></span>一定会被执行，
 <span class="docutils literal"><span class="pre">command3</span></span>，<span class="docutils literal"><span class="pre">command5</span></span>则依情况而定。如果期待如前所述，则必须将
 <span class="docutils literal"><span class="pre">command3;</span> <span class="pre">command4</span></span>和 <span class="docutils literal"><span class="pre">command5;</span> <span class="pre">command6</span></span>用&#8221;<strong>`</strong>&#8220;括起来，如：</p>
-<div class="highlight-bash"><div class="highlight"><pre>command1<span class="p">;</span> command2 <span class="o">&amp;&amp;</span> <span class="sb">`</span>command3<span class="p">;</span> command4<span class="sb">`</span> <span class="o">||</span> <span class="sb">`</span>command5<span class="p">;</span> command6<span class="sb">`</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>command1<span class="p">;</span> command2 <span class="o">&amp;&amp;</span> <span class="sb">`</span>command3<span class="p">;</span> command4<span class="sb">`</span> <span class="o">||</span> <span class="sb">`</span>command5<span class="p">;</span> command6<span class="sb">`</span>
 </pre></div>
 </div>
 </div>
@@ -107,7 +107,7 @@
 <div class="line">2 directories, 1 file</div>
 </div>
 <p>目标是将目录<em>abc</em>清空。看看下面两个命令，你认为它们的效果是一样么？</p>
-<div class="highlight-bash"><div class="highlight"><pre>rm -rf <span class="s2">&quot;abc/*&quot;</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>rm -rf <span class="s2">&quot;abc/*&quot;</span>
 rm -rf abc/*
 </pre></div>
 </div>
@@ -116,7 +116,7 @@ rm -rf abc/*
 <div class="section" id="tips-3">
 <h2>Tips 3 防御型代码</h2>
 <p>今天看《Shell脚本学习指南》p307页时，发现一段代码：</p>
-<div class="highlight-bash"><div class="highlight"><pre>grep POSTX_OPEN_MAX /dev/null <span class="k">$(</span>find /usr/include -type f <span class="p">|</span> sort<span class="k">)</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>grep POSTX_OPEN_MAX /dev/null <span class="k">$(</span>find /usr/include -type f <span class="p">|</span> sort<span class="k">)</span>
 </pre></div>
 </div>
 <p>就觉得奇怪，为什么要加一个<cite>/dev/null</cite>在<cite>grep</cite>后面。</p>
@@ -126,11 +126,11 @@ rm -rf abc/*
 <div class="section" id="tips-4">
 <h2>Tips 4 终端打印彩色文字</h2>
 <p>使用Shell在终端打印彩色文字：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">echo</span> -e <span class="s2">&quot;\e[32mHello World!\e[0m&quot;</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">echo</span> -e <span class="s2">&quot;\e[32mHello World!\e[0m&quot;</span>
 </pre></div>
 </div>
 <p>Python的<span class="docutils literal"><span class="pre">print</span></span>语句也可以利用相似的语法在终端打开彩色文字：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\x1B</span><span class="s2">[32mHello World</span><span class="se">\x1B</span><span class="s2">[0m&quot;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\x1B</span><span class="s2">[32mHello World</span><span class="se">\x1B</span><span class="s2">[0m&quot;</span><span class="p">)</span>
 
 <span class="c1"># Python彩色文字</span>
 <span class="n">green</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">string</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\x1B</span><span class="s1">[32m</span><span class="si">%s</span><span class="se">\x1B</span><span class="s1">[0m&#39;</span> <span class="o">%</span> <span class="n">string</span>
@@ -163,7 +163,7 @@ string consists of one or more of the following numeric codes:</p>
 <li>存在闫年情况，二月份有29天</li>
 </ul>
 <p>所以用Shell内置的功能偷了一下懒<a class="footnote-reference" href="#ref1" id="id1">[1]</a>：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="ch">#!/bin/bash</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># Author: Liu Hui</span>
 <span class="c1"># </span>
@@ -175,13 +175,13 @@ string consists of one or more of the following numeric codes:</p>
 
 <span class="nv">INTERVAL</span><span class="o">=</span>7
 
-<span class="nv">SEQ</span><span class="o">=</span><span class="sb">`</span>seq $INTERVAL<span class="sb">`</span>
+<span class="nv">SEQ</span><span class="o">=</span><span class="sb">`</span>seq <span class="nv">$INTERVAL</span><span class="sb">`</span>
 
 <span class="c1">#set -x</span>
-<span class="k">for</span> i in $SEQ
+<span class="k">for</span> i in <span class="nv">$SEQ</span>
 <span class="k">do</span>
-    <span class="nv">DATE</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s2">&quot;</span>$<span class="s2">SECOND_TODAY - </span>$<span class="s2">SECOND_PER_DAY * </span><span class="si">${</span><span class="nv">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">|</span> bc<span class="sb">`</span>
-    <span class="nb">echo</span> <span class="sb">`</span>date --date<span class="o">=</span><span class="s2">&quot;@</span><span class="nv">$DA</span><span class="s2">TE&quot;</span> +%Y%m%d<span class="sb">`</span>
+    <span class="nv">DATE</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$SECOND_TODAY</span><span class="s2"> - </span><span class="nv">$SECOND_PER_DAY</span><span class="s2"> * </span><span class="si">${</span><span class="nv">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">|</span> bc<span class="sb">`</span>
+    <span class="nb">echo</span> <span class="sb">`</span>date --date<span class="o">=</span><span class="s2">&quot;@</span><span class="nv">$DATE</span><span class="s2">&quot;</span> +%Y%m%d<span class="sb">`</span>
 <span class="k">done</span>
 <span class="c1">#set +x</span>
 </pre></div>
@@ -189,7 +189,7 @@ string consists of one or more of the following numeric codes:</p>
 <ul class="simple">
 <li>利用<span class="docutils literal"><span class="pre">date</span></span>命令自身功能更加简单方便：</li>
 </ul>
-<div class="highlight-bash"><div class="highlight"><pre>date -d <span class="s1">&#39;-2 day&#39;</span> <span class="s1">&#39;+%Y%m%d&#39;</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>date -d <span class="s1">&#39;-2 day&#39;</span> <span class="s1">&#39;+%Y%m%d&#39;</span>
 <span class="c1"># output:   20140118</span>
 </pre></div>
 </div>
@@ -240,6 +240,8 @@ string consists of one or more of the following numeric codes:</p>
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -257,13 +259,11 @@ string consists of one or more of the following numeric codes:</p>
             <a href="#">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -299,7 +299,7 @@ string consists of one or more of the following numeric codes:</p>
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

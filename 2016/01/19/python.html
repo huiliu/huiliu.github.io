@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="Pyhton中变量的作用域" href="python_var.html" /><link rel="prev" title="Python网络库的使用" href="python_network.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Pyhton中变量的作用域" href="python_var.html" /><link rel="prev" title="Python网络库的使用" href="python_network.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -84,7 +84,7 @@
 <div class="section" id="id3">
 <h2>三元运算</h2>
 <p>类似于C和其它语言中的三元运算<span class="docutils literal"><span class="pre">(condition)</span> <span class="pre">?</span> <span class="pre">a</span> <span class="pre">:</span> <span class="pre">b</span></span>。Python中也提供了一个类似的三元运算：<a class="footnote-reference" href="#id14" id="id4">[1]</a></p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c1"># 如果y &gt; 0, x = a；反之x = b</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># 如果y &gt; 0, x = a；反之x = b</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">a</span> <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">b</span>
 </pre></div>
 </div>
@@ -93,20 +93,20 @@
 <div class="section" id="id5">
 <h2>嵌套函数的调试</h2>
 <p>在写scrapy爬虫时用于嵌套函数，但怎么都不输出期望的结果，再结果，用<span class="docutils literal"><span class="pre">pdb</span></span>来进行调试，调试进程却怎么也进入不了嵌套函数内部。代码大概如下：</p>
-<div class="highlight-python"><div class="highlight"><pre>def parse(self, response):
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
 
-    def News(hxs, xpath, pri):
-        for tmp in hxs.xpath(xpath):
-            item[..] = ..
+    <span class="k">def</span> <span class="nf">News</span><span class="p">(</span><span class="n">hxs</span><span class="p">,</span> <span class="n">xpath</span><span class="p">,</span> <span class="n">pri</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">tmp</span> <span class="ow">in</span> <span class="n">hxs</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="n">xpath</span><span class="p">):</span>
+            <span class="n">item</span><span class="p">[</span><span class="o">..</span><span class="p">]</span> <span class="o">=</span> <span class="o">..</span>
 
-            request = Request(url, callback=...)
-            request.meta[&#39;item&#39;] = item
+            <span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">callback</span><span class="o">=...</span><span class="p">)</span>
+            <span class="n">request</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;item&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
 
-            yield request
+            <span class="k">yield</span> <span class="n">request</span>
 
-    hxs = Selector()
-    xpath1 = &#39;...&#39;
-    News(hxs, xpath1, 1)
+    <span class="n">hxs</span> <span class="o">=</span> <span class="n">Selector</span><span class="p">()</span>
+    <span class="n">xpath1</span> <span class="o">=</span> <span class="s1">&#39;...&#39;</span>
+    <span class="n">News</span><span class="p">(</span><span class="n">hxs</span><span class="p">,</span> <span class="n">xpath1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><span class="docutils literal"><span class="pre">pdb</span></span>调试进程进行到<span class="docutils literal"><span class="pre">def</span> <span class="pre">News(hxs,</span> <span class="pre">xpath,</span> <span class="pre">pri)</span></span>就退出了，提示：“<strong>Generator exit</strong>”之类的什么。</p>
@@ -118,7 +118,7 @@
 <div class="section" id="id7">
 <h2>脚本中获取其所在路径</h2>
 <p>为了保证路径的正确，在脚本中需要获取其所在的路径，有多种不同的方法可以得到此值，不过它们确有不同的适用范围：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
 <span class="c1"># 使用py2exe，无法使用变量__file__，而且sys.argv[0]取得的值也可能不正确</span>
@@ -132,10 +132,10 @@
 <div class="section" id="id8">
 <h2>函数参数部分求值</h2>
 <p><strong>currying</strong><a class="footnote-reference" href="#book" id="id9">[2]</a></p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span>
 
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
 <span class="n">f</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>          <span class="c1"># 为foo的参数x, y提供值</span>
 <span class="n">f</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>                            <span class="c1"># 调用foo(1, 2, 3), 结果为6</span>
 </pre></div>
@@ -144,7 +144,7 @@
 <div class="section" id="enumeratezip">
 <h2>enumerate函数和zip函数</h2>
 <p>请看下面的代码：<a class="footnote-reference" href="#book" id="id10">[2]</a></p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c1"># Part 1</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Part 1</span>
 <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
     <span class="c1"># ......</span>
@@ -173,7 +173,7 @@
 <div class="section" id="str-ltrip-bug">
 <h2><span class="docutils literal"><span class="pre">str.ltrip()</span></span>的BUG么？</h2>
 <p>如下代码：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="s1">&#39;Nmap scan report for prog-xxxx.devel.xxx.xxx (10.1.2.245)&#39;</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="s1">&#39;Nmap scan report for prog-xxxx.devel.xxx.xxx (10.1.2.245)&#39;</span>
 <span class="n">a</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;Nmap scan report for &#39;</span><span class="p">)</span>
 <span class="c1"># 得到的结果：&#39;g-xxxx.devel.xxx.xxx (10.1.2.245)&#39;</span>
 </pre></div>
@@ -183,7 +183,7 @@
 <div class="section" id="id11">
 <h2>时间测量</h2>
 <p>测量一段代码的运行时间的基本思想：在代码运行前取一下系统时间，运行结束时取一下系统时间，两者之差就是。<cite>Python</cite>中的实现：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">time</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
 <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">cpu_start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">clock</span>
 <span class="c1"># blabla ......</span>
@@ -200,13 +200,13 @@
 <div class="section" id="id12">
 <h2>获得系统配置信息</h2>
 <p><span class="docutils literal"><span class="pre">sysconfig</span></span>可以用来获取当前python的配置信息。</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">sysconfig</span><span class="o">.</span><span class="n">get_config_var</span><span class="p">(</span><span class="s1">&#39;LIBDIR&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sysconfig</span><span class="o">.</span><span class="n">get_config_var</span><span class="p">(</span><span class="s1">&#39;LIBDIR&#39;</span><span class="p">)</span>
 <span class="go">&#39;/usr/local/lib&#39;</span>
 </pre></div>
 </div>
 <p>如果要获得系统变量信息呢？比如一个进程可以打开的最大文件数（<span class="docutils literal"><span class="pre">_SC_OPEN_MAX</span></span>），节拍数（<span class="docutils literal"><span class="pre">_SC_CLK_TCK</span></span>）。模块<span class="docutils literal"><span class="pre">os</span></span>中的函数<span class="docutils literal"><span class="pre">sysconf</span></span>可以完成
 相应的任务：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">sysconf</span><span class="p">(</span><span class="s1">&#39;SC_CLK_TCK&#39;</span><span class="p">)</span>
 <span class="go">100</span>
 <span class="go"># 需要注意的是：不需要变量前的下划线</span>
@@ -277,6 +277,8 @@
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -294,13 +296,11 @@
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -336,7 +336,7 @@
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

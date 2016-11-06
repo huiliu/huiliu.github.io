@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="SVN Q/A" href="svn.html" /><link rel="prev" title="一个字符引发的问题 - sscanf" href="sscanf.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="SVN Q/A" href="svn.html" /><link rel="prev" title="一个字符引发的问题 - sscanf" href="sscanf.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -85,7 +85,7 @@
 <p>使用命令<span class="docutils literal"><span class="pre">svnadmin</span> <span class="pre">create</span></span>可以方便建立SVN仓库，然后在Apache的配置文件中设定好URL访问路径，客户端就可以通过HTTP访问SVN服务器。</p>
 <ul>
 <li><p class="first">建立仓库</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> /repos
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> /repos
 svnadmin create hello
 chown -R apache:apache hello
 
@@ -95,7 +95,7 @@ chcon -R -t httpd_sys_content_t repos
 </div>
 </li>
 <li><p class="first">设定Apache</p>
-<div class="highlight-apache"><div class="highlight"><pre><span class="nb">LimitXMLRequestBody</span> <span class="m">0</span>
+<div class="highlight-apache"><div class="highlight"><pre><span></span><span class="nb">LimitXMLRequestBody</span> <span class="m">0</span>
 <span class="nb">LimitRequestBody</span>    <span class="m">0</span>
 
 <span class="nt">&lt;Location</span> <span class="s">/repos</span><span class="nt">&gt;</span>
@@ -108,7 +108,7 @@ chcon -R -t httpd_sys_content_t repos
 </div>
 </li>
 <li><p class="first">重新加载Apache配置</p>
-<div class="highlight-bash"><div class="highlight"><pre>/etc/init.d/httpd reload
+<div class="highlight-bash"><div class="highlight"><pre><span></span>/etc/init.d/httpd reload
 </pre></div>
 </div>
 </li>
@@ -119,7 +119,7 @@ chcon -R -t httpd_sys_content_t repos
 <div class="section" id="svn-mirror">
 <h2>建立主SVN仓库的镜像(Mirror)</h2>
 <p>建议镜像仓库的前期步骤与主仓库一致，当建立好镜像仓库后需要使用命令<span class="docutils literal"><span class="pre">svnsync</span></span>将镜像仓库与主仓库同步、建立连接。假定镜像仓库的路径为：<em>/backup/hello</em>，访问URL为：<a class="reference external" href="http://devhome/backup/hello">http://devhome/backup/hello</a>。镜像仓库必须是一个全新的SVN仓库，没有进行任何提交。</p>
-<div class="highlight-bash"><div class="highlight"><pre>svnsync init http://devhome/backup/hello http://devhome/repos/hello
+<div class="highlight-bash"><div class="highlight"><pre><span></span>svnsync init http://devhome/backup/hello http://devhome/repos/hello
 svnsync sync http://devhome/backup/hello
 </pre></div>
 </div>
@@ -127,14 +127,14 @@ svnsync sync http://devhome/backup/hello
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p>运行<span class="docutils literal"><span class="pre">svnsync</span> <span class="pre">init</span> <span class="pre">...</span> <span class="pre">...</span></span>时可能会出现如下错误：</p>
-<div class="highlight-text"><div class="highlight"><pre>svnsync: DAV request failed; it&#39;s possible that the repository&#39;s pre-revprop-change hook either failed or is non-existent
+<div class="highlight-text"><div class="highlight"><pre><span></span>svnsync: DAV request failed; it&#39;s possible that the repository&#39;s pre-revprop-change hook either failed or is non-existent
 svnsync: At least one property change failed; repository is unchanged
 svnsync: Error setting property &#39;sync-lock&#39;:
 could not remove a property
 </pre></div>
 </div>
 <p>这个错误说明缺少<em>hook</em>“pre-revprop-change”。只需要镜像仓库的hook目录下创建一个可执行脚本文件<span class="docutils literal"><span class="pre">pre-revprop-change</span></span>返回0即可，如果此脚本返回值不为0会出现下面的提示：</p>
-<div class="last highlight-text"><div class="highlight"><pre>svnsync: DAV request failed; it&#39;s possible that the repository&#39;s pre-revprop-change hook either failed or is non-existent
+<div class="last highlight-text"><div class="highlight"><pre><span></span>svnsync: DAV request failed; it&#39;s possible that the repository&#39;s pre-revprop-change hook either failed or is non-existent
 svnsync: At least one property change failed; repository is unchanged
 svnsync: Error setting property &#39;sync-lock&#39;:
 版本属性改变 被 pre-revprop-change 钩子阻塞(退出代码 1) 输出：
@@ -148,7 +148,7 @@ Changing revision properties other than svn:log is prohibited
 <p>完成上面两步后，就可以手动通过<span class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span></span>来同步主库我镜像仓库的数据，使其保持一致。更为方便的是在主仓库中安装一个post-commit的hook，（关于钩子hook的使用请查看其它资料）当客户端向主仓库完成一次提交后，自动将数据同步到镜像仓库。</p>
 <ul>
 <li><p class="first">在“<em>/repos/hello/hooks</em>”目录下建立一个文件“<strong>post-commit</strong>”并将其设为可执行。这个文件可以是任何形式的可执行文件，在此处使用Shell，最简单的文件内容为：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="ch">#!/bin/bash</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 svnsync sync http://devhome/backup/hello --non-interactive --no-auth-cache --username usersync --password passwd
 </pre></div>
@@ -166,12 +166,12 @@ svnsync sync http://devhome/backup/hello --non-interactive --no-auth-cache --use
 <p>尽量不要向镜像仓库提交数据，不得不使用镜像仓库时，先对镜像仓库进行一个完整备份，
 以备再次建立镜像备份。因为镜像仓库本来就是设计为只读仓库的，从镜像恢复主仓库可能会出现各种意外，后续将介绍一些实际经验。</p>
 <p>将镜像仓库作为主仓库接收用户提交数据时，还需要将镜像仓库的<span class="docutils literal"><span class="pre">UUID</span></span>修改为主仓库的<span class="docutils literal"><span class="pre">UUID</span></span>。</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># UUID文件位于文件repos_name/db/uuid中</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># UUID文件位于文件repos_name/db/uuid中</span>
 <span class="nv">REPOS_PATH</span><span class="o">=</span>/repos
-<span class="k">for</span> dir in <span class="sb">`</span>ls $REPOS_PATH<span class="sb">`</span>
+<span class="k">for</span> dir in <span class="sb">`</span>ls <span class="nv">$REPOS_PATH</span><span class="sb">`</span>
 <span class="k">do</span>
     <span class="nv">file</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">REPOS_PATH</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">dir</span><span class="si">}</span><span class="s2">/db/uuid&quot;</span>
-    cat <span class="nv">$f</span>ile
+    cat <span class="nv">$file</span>
 <span class="k">done</span>
 </pre></div>
 </div>
@@ -180,16 +180,16 @@ svnsync sync http://devhome/backup/hello --non-interactive --no-auth-cache --use
 <h2>从镜像仓库恢复主仓库</h2>
 <p>由于故障时将镜像仓库用作主仓库接受客户端的数据提交，所以当修复的主仓库重新上线时，镜像仓库的数据比主仓库的更新一些，所以必须将提交到镜像仓库的数据重新导回主仓库才能重新恢复主－镜像备份功能。</p>
 <p>首先我们尝试使用<span class="docutils literal"><span class="pre">svnsync</span></span>命令来同步：</p>
-<div class="highlight-bash"><div class="highlight"><pre>svnsync sync http://devhome/repos/hello
+<div class="highlight-bash"><div class="highlight"><pre><span></span>svnsync sync http://devhome/repos/hello
 </pre></div>
 </div>
 <p>使用上面的命令会收到下面的错误：</p>
-<div class="highlight-text"><div class="highlight"><pre>svnsync: Destination HEAD xxx is not the last merged revision; have you\
+<div class="highlight-text"><div class="highlight"><pre><span></span>svnsync: Destination HEAD xxx is not the last merged revision; have you\
 committed to the destination without using svnsync
 </pre></div>
 </div>
 <p>上面就是说没有使用<span class="docutils literal"><span class="pre">svnsync</span></span>向镜像仓库提交了数据，导致镜像仓库的数据比主仓库的数据要新。所以需要将镜像仓库中的新数据<strong>dump</strong>出来导入到主仓库。</p>
-<div class="highlight-bash"><div class="highlight"><pre>svnadmin dump /repos_backup/hello -r 主库revisionNumber+1 --incremental <span class="p">|</span> svnadmin load /repos/hello
+<div class="highlight-bash"><div class="highlight"><pre><span></span>svnadmin dump /repos_backup/hello -r 主库revisionNumber+1 --incremental <span class="p">|</span> svnadmin load /repos/hello
 </pre></div>
 </div>
 <p>运行上面的命令导出导入数据时，可能会出错中断操作。<a class="footnote-reference" href="#id11" id="id6">[1]</a></p>
@@ -197,14 +197,14 @@ committed to the destination without using svnsync
 <div class="section" id="id7">
 <h2>重新恢复主－镜像功能</h2>
 <p>镜像仓库数据导入回主仓库后，主仓库和镜像仓库的数据就完全一致（请确认）。此时运行命令<span class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span> <span class="pre">http://devhome/backup/hello</span></span>会收到错误：</p>
-<div class="highlight-text"><div class="highlight"><pre>svnsync: Destination HEAD (11295) is not the last merged revision (11297);
+<div class="highlight-text"><div class="highlight"><pre><span></span>svnsync: Destination HEAD (11295) is not the last merged revision (11297);
 have you committed to the destination without using svnsync?
 </pre></div>
 </div>
 <p>从错误推断，镜像仓库应该是不允许提交数据，向镜像仓库提交数据会导致主－镜像无法同步，所以需要重新恢复同步信息。有以下几个欺骗SVN的方法：</p>
 <ul>
 <li><p class="first">修改<em>/backup/hello/db/current</em>的值为同步中断时的值，然后重新运行命令<span class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span> <span class="pre">http://devhome/backup/hello</span></span>。运气好的话可以重新同步成功。也有可能会出错：</p>
-<div class="highlight-text"><div class="highlight"><pre>Transmitting file data .svnsync: Corrupt representation &#39;25773 0 20806
+<div class="highlight-text"><div class="highlight"><pre><span></span>Transmitting file data .svnsync: Corrupt representation &#39;25773 0 20806
 212480 0a6b7637ee622c6f0b2cb8fd8ecb9f48
 b5c5091ce33b04b5b7cb747b046d0e1114c7a7cc 25772-jwm/_6&#39;
 </pre></div>
@@ -212,7 +212,7 @@ b5c5091ce33b04b5b7cb747b046d0e1114c7a7cc 25772-jwm/_6&#39;
 <p>如果出现上面的错误，请使用命令<span class="docutils literal"><span class="pre">svnadmin</span> <span class="pre">verify</span> <span class="pre">/backup/hello</span> <span class="pre">-r</span> <span class="pre">revNum</span></span>检查修订号为<em>revNum</em>的提交数据是否正常，极有可能有问题。</p>
 </li>
 <li><p class="first">使用命令<span class="docutils literal"><span class="pre">svnadmin</span> <span class="pre">recover</span> <span class="pre">/backup/hello</span></span>恢复SVN信息，查看打开“<em>/backup/hello/db/revprop/0/0</em>”如下：</p>
-<div class="highlight-text"><div class="highlight"><pre>K 8
+<div class="highlight-text"><div class="highlight"><pre><span></span>K 8
 svn:date
 V 27
 2009-09-02T04:01:29.647149Z
@@ -246,7 +246,7 @@ END
 <p>在实际运行过程中会出现各种奇怪的问题，集结如下：</p>
 <ol class="arabic">
 <li><p class="first">运行命令<span class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span> <span class="pre">http://xxx.xxx.xxx/backup/xxxx</span></span>提示错误：</p>
-<div class="highlight-text"><div class="highlight"><pre>Transmitting file data .svnsync: Corrupt representation &#39;9890 0 12903 ..
+<div class="highlight-text"><div class="highlight"><pre><span></span>Transmitting file data .svnsync: Corrupt representation &#39;9890 0 12903 ..
 </pre></div>
 </div>
 <p>猜想应该是revision 9890有问题，将镜像仓库的相当修订号改为小于9890，再运行同步命令成功。</p>
@@ -256,13 +256,13 @@ END
 </div>
 </li>
 <li><p class="first">运行同步命令<span class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span> <span class="pre">http://xxxx/backup/xxx</span></span>时，提示错误：</p>
-<div class="highlight-text"><div class="highlight"><pre>Transmitting file data ....svnsync: Server sent unexpected return value (423 Locked) in response to PUT request for &#39;/backup/
+<div class="highlight-text"><div class="highlight"><pre><span></span>Transmitting file data ....svnsync: Server sent unexpected return value (423 Locked) in response to PUT request for &#39;/backup/
 </pre></div>
 </div>
 <p>提示无法获取锁，将镜像仓库目录<span class="docutils literal"><span class="pre">db/locks</span></span>下的文件删除，再同步即可。</p>
 </li>
 <li><p class="first">运行命令<span class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span> <span class="pre">http://xxxx/backup/xxx</span></span>出现下面的错误：</p>
-<div class="highlight-text"><div class="highlight"><pre>Failed to get lock on destination repos, currently held by &#39;devhome:8b8d326b-34b1-4fe1-8a81-a33e841d5047&#39;
+<div class="highlight-text"><div class="highlight"><pre><span></span>Failed to get lock on destination repos, currently held by &#39;devhome:8b8d326b-34b1-4fe1-8a81-a33e841d5047&#39;
 Failed to get lock on destination repos, currently held by &#39;devhome:8b8d326b-34b1-4fe1-8a81-a33e841d5047&#39;
 Failed to get lock on destination repos, currently held by &#39;devhome:8b8d326b-34b1-4fe1-8a81-a33e841d5047&#39;
 Failed to get lock on destination repos, currently held by &#39;devhome:8b8d326b-34b1-4fe1-8a81-a33e841d5047&#39;
@@ -277,7 +277,7 @@ svnsync: Couldn&#39;t get lock on destination repos after 10 attempts
 </div>
 <p>打开SVN仓库中的文件<span class="docutils literal"><span class="pre">db/revprops/0/0</span></span>你会发现最后几行有<span class="docutils literal"><span class="pre">sync-lock</span></span>和上面的UUID值，所以只要将此lock删除掉就可以。比较安全的方法是使用命令删除：
 <a class="footnote-reference" href="#ref-lock" id="id9">[2]</a></p>
-<div class="highlight-bash"><div class="highlight"><pre>svn propdel --revprop -r0 svn:sync-lock file:///path/to/the/repository
+<div class="highlight-bash"><div class="highlight"><pre><span></span>svn propdel --revprop -r0 svn:sync-lock file:///path/to/the/repository
 </pre></div>
 </div>
 </li>
@@ -289,11 +289,11 @@ svnsync: Couldn&#39;t get lock on destination repos after 10 attempts
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id6">[1]</a></td><td><p class="first">运行<span class="docutils literal"><span class="pre">svnadmin</span> <span class="pre">load</span></span>时，如果主仓库（“<em>/repos/hello</em>”）中的文件有加锁，会出错并中断当前操作。如：</p>
-<div class="highlight-text"><div class="highlight"><pre>svnadmin: Cannot verify lock on path &#39;... ...&#39;; no username available
+<div class="highlight-text"><div class="highlight"><pre><span></span>svnadmin: Cannot verify lock on path &#39;... ...&#39;; no username available
 </pre></div>
 </div>
 <p>需要删除仓库中的锁才能继续。</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># 删除SVN仓库中的锁</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># 删除SVN仓库中的锁</span>
 svnadmin lslock /repos/hello &gt; helloLocks
 <span class="k">for</span> f in <span class="sb">`</span>grep Path hellolocks <span class="p">|</span> awk <span class="s1">&#39;{print $2}&#39;</span><span class="sb">`</span>
 <span class="k">do</span>
@@ -353,6 +353,8 @@ svnadmin lslock /repos/hello &gt; helloLocks
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -370,13 +372,11 @@ svnadmin lslock /repos/hello &gt; helloLocks
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -412,7 +412,7 @@ svnadmin lslock /repos/hello &gt; helloLocks
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

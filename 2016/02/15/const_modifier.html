@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="function program in python" href="../04/function_program_in_python.html" /><link rel="prev" title="this指针与const" href="../../03/19/const_and_this.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="function program in python" href="../04/function_program_in_python.html" /><link rel="prev" title="this指针与const" href="../../03/19/const_and_this.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -73,7 +73,7 @@
 <div id="more"> </div><div class="section" id="char-pchar-xxx">
 <h2>例一 经典的<span class="docutils literal"><span class="pre">char*</span> <span class="pre">pchar</span> <span class="pre">=</span> <span class="pre">&quot;xxx&quot;</span></span></h2>
 <p>C中最常见的一个问题-<span class="docutils literal"><span class="pre">char*</span> <span class="pre">pchar</span> <span class="pre">=</span> <span class="pre">&quot;xxx&quot;</span></span>的隐含了什么，算是C语言的一个坑，也算是语法要求不严谨。如下：</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="kt">void</span> <span class="nf">testConstChar</span><span class="p">()</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">testConstChar</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="kt">char</span><span class="o">*</span> <span class="n">pchar</span> <span class="o">=</span> <span class="s">&quot;abc&quot;</span><span class="p">;</span>
     <span class="n">pchar</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;a&#39;</span><span class="p">;</span>
@@ -91,7 +91,7 @@ from string constant to ‘char*’</cite></p>
 <div class="section" id="id3">
 <h2>例二 对返回值的影响</h2>
 <p>对例一进行一下扩展延伸，定义下面这样一个类及其成员函数：</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">cTestConstChar</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">cTestConstChar</span>
 <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
     <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">GetChar</span><span class="p">()</span>
@@ -122,7 +122,7 @@ from string constant to ‘char*’</cite></p>
 <h2>例三 修改<span class="docutils literal"><span class="pre">const</span></span>变量值</h2>
 <p><span class="docutils literal"><span class="pre">const</span></span>修饰的变量，其值是不可以修改的，但是可以通过方法去掉<span class="docutils literal"><span class="pre">const</span></span>属
 性，这样就可以修改了，看看下面这个例子的：</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="kt">void</span> <span class="nf">testChangeConstValue</span><span class="p">()</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">testChangeConstValue</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="k">const</span> <span class="kt">int</span> <span class="n">nValue</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
     <span class="kt">int</span><span class="o">*</span> <span class="n">pInt</span> <span class="o">=</span> <span class="k">const_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">nValue</span><span class="p">);</span>
@@ -155,7 +155,7 @@ from string constant to ‘char*’</cite></p>
 <div class="section" id="id5">
 <h2>例四 类的<span class="docutils literal"><span class="pre">const</span></span>成员函数</h2>
 <p>类的<span class="docutils literal"><span class="pre">const成员函数</span></span>不能修改类的成员变量，看一下下面这个例子：</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">cTestConstMember</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">cTestConstMember</span>
 <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
     <span class="n">cTestConstMember</span><span class="p">();</span>
@@ -259,6 +259,8 @@ from string constant to ‘char*’</cite></p>
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -276,13 +278,11 @@ from string constant to ‘char*’</cite></p>
             <a href="../../01/19/bash.html">Learning Bash</a>
         </li><li>
             <a href="../../01/19/code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="../../01/19/comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -318,7 +318,7 @@ from string constant to ‘char*’</cite></p>
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

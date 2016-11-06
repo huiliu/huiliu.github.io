@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="Gentoo点滴" href="gentoo.html" /><link rel="prev" title="Nginx+Foreman+Passenger" href="foreman.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Gentoo点滴" href="gentoo.html" /><link rel="prev" title="Nginx+Foreman+Passenger" href="foreman.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -81,20 +81,20 @@
 <ol class="arabic">
 <li><p class="first">系统级设定<span class="docutils literal"><span class="pre">/etc/login.conf</span></span>
 修改<span class="docutils literal"><span class="pre">/etc/login.conf</span></span>中的设定，将对所有用户生效。如：</p>
-<div class="highlight-text"><div class="highlight"><pre>language_name|account_type_description:\
+<div class="highlight-text"><div class="highlight"><pre><span></span>language_name|account_type_description:\
     :charset=MIME_charset:\
     :lang=locale_name:\
     :tc=default:
 </pre></div>
 </div>
 <p>修改<span class="docutils literal"><span class="pre">/etc/login.conf</span></span>后，需要运行<span class="docutils literal"><span class="pre">cap_mkdb</span></span>来更新数据库：</p>
-<div class="highlight-bash"><div class="highlight"><pre>cap_mkdb /etc/login.conf
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cap_mkdb /etc/login.conf
 </pre></div>
 </div>
 </li>
 <li><p class="first">用户级设定<span class="docutils literal"><span class="pre">~/.login.conf</span></span></p>
 <p>与系统级设定语法相同，每个用户可以自定义相应的环境参数。</p>
-<div class="highlight-text"><div class="highlight"><pre>me:\
+<div class="highlight-text"><div class="highlight"><pre><span></span>me:\
     :charset=utf-8:\
     :lang=en_US.UTF-8:
 </pre></div>
@@ -106,7 +106,7 @@
 <p>另外还有一些常用命令可以用来调整Locale设定：</p>
 <ul>
 <li><p class="first"><span class="docutils literal"><span class="pre">vipw</span></span>(root)将会打开一个类似<span class="docutils literal"><span class="pre">/etc/passwd</span></span>的文件，对于普通用户，<span class="docutils literal"><span class="pre">vipw</span></span>打开的文件比<span class="docutils literal"><span class="pre">/etc/passwd</span></span>多三个分隔符“:”，其中有一个位置是用来设定Language。如下：</p>
-<div class="highlight-text"><div class="highlight"><pre># /etc/passwd
+<div class="highlight-text"><div class="highlight"><pre><span></span># /etc/passwd
 xxxxxx:\*:1002:1002:xxxxxx:/home/xxxxxx:/usr/local/bin/bash
 
 # vipw打开的文件
@@ -118,12 +118,12 @@ xxxxxx:passwd:1002:1002:language:0:0:xxxxxx:/home/xxxxxx:/usr/local/bin/bash
 <ul>
 <li><p class="first">修改添加用户时的配置文件<span class="docutils literal"><span class="pre">/etc/adduser.conf</span></span>，再其中设定添加用户时使用的Language－<span class="docutils literal"><span class="pre">defaultclass</span> <span class="pre">=</span> <span class="pre">language</span></span>，<span class="docutils literal"><span class="pre">/etc/adduser.conf</span></span>
 的详细配置查看Man手册。</p>
-<div class="highlight-ini"><div class="highlight"><pre><span class="na">defaultclass</span> <span class="o">=</span> <span class="s">zh_CN.UTF-8</span>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">defaultclass</span> <span class="o">=</span> <span class="s">zh_CN.UTF-8</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first">命令提示时输入：</p>
-<div class="highlight-bash"><div class="highlight"><pre>adduser
+<div class="highlight-bash"><div class="highlight"><pre><span></span>adduser
 ... ...
 Enter login class: default<span class="o">[]</span>:
 </pre></div>
@@ -134,7 +134,7 @@ Enter login class: default<span class="o">[]</span>:
 </ul>
 </li>
 <li><p class="first"><span class="docutils literal"><span class="pre">pw</span></span> 当<span class="docutils literal"><span class="pre">pw</span></span>用于创建新用户时，可以通过命令行参数来指定Language。如：</p>
-<div class="highlight-bash"><div class="highlight"><pre>pw useradd userName -L language
+<div class="highlight-bash"><div class="highlight"><pre><span></span>pw useradd userName -L language
 </pre></div>
 </div>
 </li>
@@ -144,13 +144,13 @@ Enter login class: default<span class="o">[]</span>:
 <h4>设定Shell启动文件</h4>
 <ol class="arabic">
 <li><p class="first">文件<span class="docutils literal"><span class="pre">/etc/profile</span></span></p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">export</span>  <span class="nv">LANG</span><span class="o">=</span>en_US.UTF-8
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">export</span>  <span class="nv">LANG</span><span class="o">=</span>en_US.UTF-8
 <span class="nb">export</span>  <span class="nv">MM_CHARSET</span><span class="o">=</span>UTF-8
 </pre></div>
 </div>
 </li>
 <li><p class="first">文件<span class="docutils literal"><span class="pre">/etc/csh.login</span></span></p>
-<div class="highlight-csh"><div class="highlight"><pre><span class="nb">setenv  </span>LANG        en_US.UTF-8
+<div class="highlight-csh"><div class="highlight"><pre><span></span><span class="nb">setenv  </span>LANG        en_US.UTF-8
 <span class="nb">setenv  </span>MM_CHARSET  UTF-8
 </pre></div>
 </div>
@@ -236,6 +236,8 @@ edited by a separate sed instance.</p>
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -253,13 +255,11 @@ edited by a separate sed instance.</p>
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -295,7 +295,7 @@ edited by a separate sed instance.</p>
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

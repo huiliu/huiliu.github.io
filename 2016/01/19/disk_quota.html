@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="docker使用小记" href="docker.html" /><link rel="prev" title="学习数据挖掘" href="datamining.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="docker使用小记" href="docker.html" /><link rel="prev" title="学习数据挖掘" href="datamining.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -97,7 +97,7 @@
 <div class="section" id="id3">
 <h2>简单举例</h2>
 <p>首先使用LVM创建了一个500M的实验分区scale</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># lvs</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># lvs</span>
 LV     VG   Attr   LSize   Origin Snap%  Move Log         Copy%  Convert
 scale  vg   -wi-ao 500.00m
 </pre></div>
@@ -110,7 +110,7 @@ scale  vg   -wi-ao 500.00m
 <div class="section" id="id5">
 <h3>开启和关闭quota功能</h3>
 <p>使用命令<span class="docutils literal"><span class="pre">quotaon,</span> <span class="pre">quotaoff</span></span>来手动开启或关闭磁盘配额功能。如果你想开机自动运行，应该将quota服务设定为开机自运行。</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># 开启磁盘配额管理功能</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># 开启磁盘配额管理功能</span>
 quotaon -vug filesystem
 quotaon -avug
 <span class="c1"># 关闭磁盘配额管理功能</span>
@@ -123,7 +123,7 @@ quotaoff -avug
 <div class="section" id="id6">
 <h3>为用户设定配额值</h3>
 <p>最为激动的一个环节到了，怎么来为用户，工作组来设定配额呢？命令``edquota``将为您服务。</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># 对sheldon进行配额限制</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># 对sheldon进行配额限制</span>
 edquota -u sheldon
 <span class="c1"># 将会打开如下格式的一个文件：</span>
 Disk quotas <span class="k">for</span> user sheldon <span class="o">(</span>uid 1000<span class="o">)</span>:
@@ -149,7 +149,7 @@ Disk quotas <span class="k">for</span> user sheldon <span class="o">(</span>uid 
 <p class="last">使用命令<span class="docutils literal"><span class="pre">edquota</span></span>编辑配额时，<span class="docutils literal"><span class="pre">数字必须与列名右对齐</span></span>，否则会提示格式错误而设置失败。</p>
 </div>
 <p>同样<span class="docutils literal"><span class="pre">quota</span></span>也支持对工作组磁盘用量的限额，只需要使用选项<span class="docutils literal"><span class="pre">-g</span></span>替代<span class="docutils literal"><span class="pre">-u</span></span>就可以了。例如：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># 对bigbang小组进行限制</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># 对bigbang小组进行限制</span>
 edquota -g bigbang
 Disk quotas <span class="k">for</span> group bigbang <span class="o">(</span>gid 1000<span class="o">)</span>:
   Filesystem                   blocks       soft       hard     inodes     soft     hard
@@ -158,7 +158,7 @@ Disk quotas <span class="k">for</span> group bigbang <span class="o">(</span>gid
 </div>
 <p>其格式与作用与对user的设定完全一致。</p>
 <p>如果运行一个文件服务器，可能对很多用户的配额是完成一样的，比较说sheldon，harwod与leonard都只可以使用100M空间，你设定好sheldon的，然后再设定leonard的，再……如果有N个人一样，你一个一个的去设定那不得麻烦S啊。你一定要相信Linux一定有&#8221;偷懒&#8221;的方法。下面就是一个：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># 将sheldon的配额设定copy一份给leonard，这样他们的就完全一样了，也不用再编辑</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># 将sheldon的配额设定copy一份给leonard，这样他们的就完全一样了，也不用再编辑</span>
 edquota -p sheldon -u leonard
 </pre></div>
 </div>
@@ -169,7 +169,7 @@ edquota -p sheldon -u leonard
 <p>前面我们知道配额有一个<span class="docutils literal"><span class="pre">soft</span></span>，一个<span class="docutils literal"><span class="pre">hard</span></span>限制，这两者有什么区别呢？</p>
 <p>当用户磁盘用量超过<span class="docutils literal"><span class="pre">soft</span></span>限制之后，会触发一个宽限期（grace-time），如果在宽限期内用户占用磁盘量没有下降到soft设定值下，soft将变为hard。超出的数据会被怎么样还不清楚，正在实验。</p>
 <p>下面的命令用于设定grace-period（宽限期）：</p>
-<div class="highlight-bash"><div class="highlight"><pre>   <span class="c1"># 默认是设定针对用户的宽限期</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>   <span class="c1"># 默认是设定针对用户的宽限期</span>
    edquota -t
    <span class="c1"># 加上参数``-g``可以设定工作的宽限期</span>
 edquota -t -g
@@ -183,7 +183,7 @@ edquota -t -g
 <div class="section" id="id8">
 <h3>批量设定磁盘配额</h3>
 <p>命令<span class="docutils literal"><span class="pre">setquota</span></span>不同于<span class="docutils literal"><span class="pre">edquota</span></span>通过编辑方式设定配额，<span class="docutils literal"><span class="pre">setquota</span></span>可以方便的使用命令／参数模式来批量的设定用户的磁盘配额。请看命令说明：</p>
-<div class="highlight-bash"><div class="highlight"><pre>setquota <span class="o">[</span> -rm <span class="o">]</span> <span class="o">[</span> -u <span class="p">|</span> -g <span class="o">]</span> <span class="o">[</span> -F quotaformat <span class="o">]</span> name block-softlimit block-hardlimit inode-softlimit inode-hardlimit -a <span class="p">|</span> filesystem
+<div class="highlight-bash"><div class="highlight"><pre><span></span>setquota <span class="o">[</span> -rm <span class="o">]</span> <span class="o">[</span> -u <span class="p">|</span> -g <span class="o">]</span> <span class="o">[</span> -F quotaformat <span class="o">]</span> name block-softlimit block-hardlimit inode-softlimit inode-hardlimit -a <span class="p">|</span> filesystem
 setquota <span class="o">[</span> -rm <span class="o">]</span> <span class="o">[</span> -u <span class="p">|</span> -g <span class="o">]</span> <span class="o">[</span> -F quotaformat <span class="o">]</span> <span class="o">[</span> -p protoname <span class="o">]</span> name -a <span class="p">|</span> filesystem
 setquota -b <span class="o">[</span> -rm <span class="o">]</span> <span class="o">[</span> -u <span class="p">|</span> -g <span class="o">]</span> <span class="o">[</span> -F quotaformat <span class="o">]</span> -a <span class="p">|</span> filesystem
 setquota -t <span class="o">[</span> -m <span class="o">]</span> <span class="o">[</span> -u <span class="p">|</span> -g <span class="o">]</span> <span class="o">[</span> -F quotaformat <span class="o">]</span> block-grace inode-grace -a <span class="p">|</span> filesystem
@@ -191,11 +191,11 @@ setquota -T <span class="o">[</span> -m <span class="o">]</span> <span class="o"
 </pre></div>
 </div>
 <p>例如，设定sheldon只能使用/home文件系统100M，上限为200M，可以如此设定：</p>
-<div class="highlight-bash"><div class="highlight"><pre>setquota -u sheldon <span class="m">100000</span> <span class="m">200000</span> <span class="m">0</span> <span class="m">0</span> /home
+<div class="highlight-bash"><div class="highlight"><pre><span></span>setquota -u sheldon <span class="m">100000</span> <span class="m">200000</span> <span class="m">0</span> <span class="m">0</span> /home
 </pre></div>
 </div>
 <p>同样可以设定宽限期：</p>
-<div class="highlight-bash"><div class="highlight"><pre>setquota -t -u sheldon <span class="m">7</span> <span class="m">0</span> /home
+<div class="highlight-bash"><div class="highlight"><pre><span></span>setquota -t -u sheldon <span class="m">7</span> <span class="m">0</span> /home
 </pre></div>
 </div>
 </div>
@@ -203,7 +203,7 @@ setquota -T <span class="o">[</span> -m <span class="o">]</span> <span class="o"
 <h3>警告提示</h3>
 <p>如果仅仅是限额而没有提示，这很可能会造成用户数据溢出丢失，Linux怎么会允许这样情况发现了。为了方便提醒用户，<span class="docutils literal"><span class="pre">qutoa</span></span>提供了一个命令<span class="docutils literal"><span class="pre">warnquota</span></span>用户提醒用户。</p>
 <p>如果你写入的文件直接超出了hard限定，程序会提示你写入错误，磁盘配额超出，你所写入的数据将是不完整的，切记！</p>
-<div class="highlight-bash"><div class="highlight"><pre>dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span><span class="nb">test</span> <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span>30M
+<div class="highlight-bash"><div class="highlight"><pre><span></span>dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span><span class="nb">test</span> <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span>30M
 <span class="c1"># dd: writing `test&#39;: Disk quota exceeded</span>
 <span class="c1"># 14+0 records in</span>
 <span class="c1"># 13+0 records out</span>
@@ -213,7 +213,7 @@ setquota -T <span class="o">[</span> -m <span class="o">]</span> <span class="o"
 <p><span class="docutils literal"><span class="pre">dd</span></span>命令提示“<em>Disk quota exceeded</em>，再看本来计划写入30M数据，结果只写入了15M，写入数据不完整的，超出部分的数据将会丢失。</p>
 <p>命令<span class="docutils literal"><span class="pre">warnquota</span></span>的作用是：检查所有文件系统中的配额控制，如果有用户的磁盘用户达到的<span class="docutils literal"><span class="pre">soft</span></span>的限制，就会给用户发送一封邮件提醒。注意<span class="docutils literal"><span class="pre">warnquota</span></span>不会自动执行，如果你想定期检查，请用<span class="docutils literal"><span class="pre">cron</span></span>功能。</p>
 <p><span class="docutils literal"><span class="pre">warnquota</span></span>需要一个配置文件<span class="docutils literal"><span class="pre">/etc/warnquota.conf</span></span>。内容摘要如下，在配置文件中，定义邮件的相关信息，如：邮件主题、内容，发送者，签名等等</p>
-<div class="highlight-text"><div class="highlight"><pre>MAIL_CMD        = &quot;/usr/sbin/sendmail -t&quot;
+<div class="highlight-text"><div class="highlight"><pre><span></span>MAIL_CMD        = &quot;/usr/sbin/sendmail -t&quot;
 FROM            = &quot;root@CCTV&quot;
 # but they don&#39;t have to be:
 SUBJECT         = Hey, user, clean up your account!
@@ -249,7 +249,7 @@ GROUP_MESSAGE   = Hello, a group &#39;%i&#39; you&#39;re member of use too much 
 <div class="section" id="id11">
 <h3>查看配额设定</h3>
 <p><span class="docutils literal"><span class="pre">quota</span></span>可以用于查看对某个用户或工作组的磁盘配额设定情况。如：查看sheldon的配额设定值。</p>
-<div class="highlight-bash"><div class="highlight"><pre>quota -su sheldon
+<div class="highlight-bash"><div class="highlight"><pre><span></span>quota -su sheldon
 <span class="c1"># 选项-s使得输出值便于阅读</span>
 <span class="c1"># 命令输出值：</span>
 Disk quotas <span class="k">for</span> user sheldon <span class="o">(</span>uid 1000<span class="o">)</span>:
@@ -259,7 +259,7 @@ Disk quotas <span class="k">for</span> user sheldon <span class="o">(</span>uid 
 </pre></div>
 </div>
 <p>查看某个工作组的配额设定，使用选项<span class="docutils literal"><span class="pre">-g</span></span>即可。</p>
-<div class="highlight-bash"><div class="highlight"><pre>quota -sg bigbang
+<div class="highlight-bash"><div class="highlight"><pre><span></span>quota -sg bigbang
 <span class="c1"># 命令行输出值：</span>
 Disk quotas <span class="k">for</span> group liuhui <span class="o">(</span>gid 1000<span class="o">)</span>:
     Filesystem   space   quota   limit   grace   files   quota   limit   grace
@@ -273,7 +273,7 @@ Disk quotas <span class="k">for</span> group liuhui <span class="o">(</span>gid 
 <p><span class="docutils literal"><span class="pre">repquota</span></span>命令用于查看某个文件系统上所有用户，工作组的磁盘配额使用情况。例如：
 *   查看用户报告使用选项<span class="docutils literal"><span class="pre">-u</span></span>:</p>
 <blockquote>
-<div><div class="highlight-bash"><div class="highlight"><pre>repquota -su .
+<div><div class="highlight-bash"><div class="highlight"><pre><span></span>repquota -su .
 *** Report <span class="k">for</span> user quotas on device /dev/mapper/vg-scale
 Block grace time: 7days<span class="p">;</span> Inode grace time: 7days
                         Space limits                File limits
@@ -342,6 +342,8 @@ sheldon   +-  30720K  10240K  30720K  6days       <span class="m">2</span>     <
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -359,13 +361,11 @@ sheldon   +-  30720K  10240K  30720K  6days       <span class="m">2</span>     <
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -401,7 +401,7 @@ sheldon   +-  30720K  10240K  30720K  6days       <span class="m">2</span>     <
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="Learning Python" href="python.html" /><link rel="prev" title="Python-MySQL使用心得" href="pymysql.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Learning Python" href="python.html" /><link rel="prev" title="Python-MySQL使用心得" href="pymysql.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -74,14 +74,14 @@
 <p>HTTP常用于向服务端发送数据的方法是：<span class="docutils literal"><span class="pre">POST</span></span>和<span class="docutils literal"><span class="pre">GET</span></span>模拟表单提交数据，Python库<span class="docutils literal"><span class="pre">urllib</span></span>中已经有现成的函数可以直接调用。<a class="footnote-reference" href="#id3" id="id1">[1]</a></p>
 <ul>
 <li><p class="first">利用<span class="docutils literal"><span class="pre">GET</span></span>方法发送数据：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">urllib</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">urllib</span>
 <span class="n">params</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;passwd&#39;</span><span class="p">:</span><span class="s1">&#39;world&#39;</span><span class="p">})</span>
 <span class="n">html</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s1">&#39;http://www.example.com/login?</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">read</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first">使用<span class="docutils literal"><span class="pre">POST</span></span>方法发送数据：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">urllib</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">urllib</span>
 <span class="n">params</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;passwd&#39;</span><span class="p">:</span><span class="s1">&#39;world&#39;</span><span class="p">})</span>
 <span class="n">html</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s1">&#39;http://www.example.com/login?</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">read</span>
 </pre></div>
@@ -91,7 +91,7 @@
 <p>上面几乎完成一样，只是调用<span class="docutils literal"><span class="pre">urllib.urlopen</span></span>时使用的参数不一样而已。</p>
 <p>下面是一个QQ帐号的钓鱼网站，使用循环POST不断向其发送伪造的数据：</p>
 <blockquote>
-<div><div class="highlight-python"><div class="highlight"><pre><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="mf">23.80</span><span class="o">.</span><span class="mf">192.20</span><span class="o">/</span><span class="mi">37</span><span class="o">/</span><span class="n">qq</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="mi">4</span><span class="o">/</span>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="mf">23.80</span><span class="o">.</span><span class="mf">192.20</span><span class="o">/</span><span class="mi">37</span><span class="o">/</span><span class="n">qq</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="mi">4</span><span class="o">/</span>
 
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">urllib</span>
@@ -160,6 +160,8 @@
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -177,13 +179,11 @@
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -219,7 +219,7 @@
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

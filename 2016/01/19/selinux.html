@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="shadowsocks源码分析：ssserver" href="shadowsocks.html" /><link rel="prev" title="运维常用工具" href="secure_task.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="shadowsocks源码分析：ssserver" href="shadowsocks.html" /><link rel="prev" title="运维常用工具" href="secure_task.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -74,7 +74,7 @@
 <h2>问题</h2>
 <p>昨天想把物理机上的WEB服务迁移到虚拟机上，一切准备就绪后，却发现BLOG连接上不上物理机上的数据库。</p>
 <p>写了一小段代码在命令行测试php连接物理机上的数据库：</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="cp">&lt;?php</span>
+<div class="highlight-php"><div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
 <span class="c1">// Usage without mysql_list_dbs()</span>
 <span class="nv">$link</span> <span class="o">=</span> <span class="nb">mysql_connect</span><span class="p">(</span><span class="s1">&#39;ctc225&#39;</span><span class="p">,</span> <span class="s1">&#39;wiki&#39;</span><span class="p">,</span> <span class="s1">&#39;wiki&#39;</span><span class="p">);</span>
 <span class="nv">$res</span> <span class="o">=</span> <span class="nb">mysql_query</span><span class="p">(</span><span class="s2">&quot;SHOW DATABASES&quot;</span><span class="p">);</span>
@@ -96,7 +96,7 @@
 <div class="section" id="id2">
 <h2>解决方法</h2>
 <p>如果对SELinu熟悉应该很快就知道怎么解决了，可以偶不熟悉啊，又找啊找……</p>
-<div class="highlight-bash"><div class="highlight"><pre>getsebool -a <span class="p">|</span> grep http
+<div class="highlight-bash"><div class="highlight"><pre><span></span>getsebool -a <span class="p">|</span> grep http
 </pre></div>
 </div>
 <p>可以查看关于http服务的SELinux配置参数，发现：</p>
@@ -104,15 +104,15 @@
 <div><em>httpd_can_network_connect_db =&gt; off</em></div></blockquote>
 <p>从字面判断，将上面的变量设定为on应该就可以了</p>
 <p>运行命令：</p>
-<div class="highlight-bash"><div class="highlight"><pre>setsebool <span class="nv">httpd_can_network_connect_db</span><span class="o">=</span>on
+<div class="highlight-bash"><div class="highlight"><pre><span></span>setsebool <span class="nv">httpd_can_network_connect_db</span><span class="o">=</span>on
 </pre></div>
 </div>
 <p>或者:</p>
-<div class="highlight-bash"><div class="highlight"><pre>togglesebool httpd_can_network_connect_db
+<div class="highlight-bash"><div class="highlight"><pre><span></span>togglesebool httpd_can_network_connect_db
 </pre></div>
 </div>
 <p>就可以完成这个任务。 但是，系统重启之后，httpd_can_network_connect_db的值将再次变为&#8221;<em>off</em>&#8220;，即上面命令只是临时修改了SELinux的策略值。如果要修改默认值，需要在命令<span class="docutils literal"><span class="pre">setsebool</span></span>后面加上参数<em>-P</em>:<a class="footnote-reference" href="#ref1" id="id3">[1]</a></p>
-<div class="highlight-bash"><div class="highlight"><pre>setsebool -P <span class="nv">httpd_can_network_connect_db</span><span class="o">=</span>on
+<div class="highlight-bash"><div class="highlight"><pre><span></span>setsebool -P <span class="nv">httpd_can_network_connect_db</span><span class="o">=</span>on
 </pre></div>
 </div>
 </div>
@@ -121,7 +121,7 @@
 <p>出现问题先看看SELinux的日志，没有问题再去检查其它的，因为SELinux的问题相当隐秘，我都想了一天才想到的。</p>
 <div class="section" id="id5">
 <h3>相关命令：</h3>
-<div class="highlight-bash"><div class="highlight"><pre>getsebool -a
+<div class="highlight-bash"><div class="highlight"><pre><span></span>getsebool -a
 setsebool <span class="o">[</span>-P<span class="o">]</span> <span class="nv">item</span><span class="o">=</span>value
 togglesebool item
 semanage boolean -l
@@ -182,6 +182,8 @@ semanage boolean -l
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -199,13 +201,11 @@ semanage boolean -l
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -241,7 +241,7 @@ semanage boolean -l
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

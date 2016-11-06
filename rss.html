@@ -5,8 +5,25 @@
         <link>http://127.0.0.1/blog/html/</link>
         <description>Learning, Promotion</description>
         <language>en-us</language>
-        <pubDate>Mon, 01 Aug 2016 00:00:00 +0800</pubDate>
+        <pubDate>Sun, 06 Nov 2016 00:00:00 +0800</pubDate>
         
+        <item>
+            <link>http://127.0.0.1/blog/html/2016/11/06/dll与lib的创建与使用.html</link>
+            <guid>http://127.0.0.1/blog/html/2016/11/06/dll与lib的创建与使用.html</guid>
+            <title><![CDATA[DLL与LIB的创建与使用]]></title>
+            <description><![CDATA[<h1>DLL与LIB的创建与使用</h1>
+<p>记录分别Visuall Studio 2015和GCC创建和使用动态库与静态库的方法。</p>
+<p class="readmorewrapper"><a class="readmore" href="http://127.0.0.1/blog/html/2016/11/06/dll与lib的创建与使用.html#more">Read more...</a></p> 
+ 
+ 
+ 
+ 
+ 
+]]></description>
+            <category><![CDATA[ c/c++ ]]></category>
+             <pubDate>Sun, 06 Nov 2016 00:00:00 +0800</pubDate>
+        </item>
+    
         <item>
             <link>http://127.0.0.1/blog/html/2016/08/01/generate_exe_file_from_python.html</link>
             <guid>http://127.0.0.1/blog/html/2016/08/01/generate_exe_file_from_python.html</guid>
@@ -907,7 +924,7 @@
 <h2>Proxy_cache相关指令</h2>
 <div class="section" id="id3">
 <h3>proxy_cache</h3>
-<div class="highlight-nginx"><div class="highlight"><pre><span class="k">prox_cache</span> <span class="s">zone_name</span> <span class="s">|</span> <span class="no">off</span><span class="p">;</span>
+<div class="highlight-nginx"><div class="highlight"><pre><span/><span class="k">prox_cache</span> <span class="s">zone_name</span> <span class="s">|</span> <span class="no">off</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>为cache指定一个共享存储区。相同的存储区可以在不同的地方使用。如果设定为<em>off</em>可以关闭从上级配置中继承的cache定义。</p>
@@ -915,13 +932,13 @@
 </div>
 <div class="section" id="proxy-cache-path">
 <h3>proxy_cache_path</h3>
-<div class="highlight-nginx"><div class="highlight"><pre><span class="k">proxy_cache_path</span>  <span class="s">path</span> <span class="s">[levels=levels]</span> <span class="s">keys_zone=name:size</span>
+<div class="highlight-nginx"><div class="highlight"><pre><span/><span class="k">proxy_cache_path</span>  <span class="s">path</span> <span class="s">[levels=levels]</span> <span class="s">keys_zone=name:size</span>
                     <span class="s">[inactive=time]</span> <span class="s">[max_size=size]</span> <span class="s">[loader_files=number]</span>
                     <span class="s">[loader_sleep=time]</span> <span class="s">[loader_threshold=time]</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>设定缓存的存储路径和其他一些参数。被缓存的数据都存储在文件中。存储在缓存区的key和文件名是通过被代理的URL的MD5值处理后得到的。参数`levels`用于定义缓存的存放级别的。例如：下面的指令：</p>
-<div class="highlight-nginx"><div class="highlight"><pre><span class="k">proxy_cache_path</span> <span class="s">/data/nginx/cache</span> <span class="s">*levels*=1:2</span> <span class="s">keys_zone=one:10m</span><span class="p">;</span>
+<div class="highlight-nginx"><div class="highlight"><pre><span/><span class="k">proxy_cache_path</span> <span class="s">/data/nginx/cache</span> <span class="s">*levels*=1:2</span> <span class="s">keys_zone=one:10m</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>被缓存的文件在缓存区中是这样存放的:</p>
@@ -935,7 +952,7 @@
 </div>
 <div class="section" id="proxy-cache-bypass">
 <h3>proxy_cache_bypass</h3>
-<div class="highlight-nginx"><div class="highlight"><pre><span class="k">proxy_cache_bypass</span> <span class="s">string</span> <span class="s">...</span><span class="p">;</span>
+<div class="highlight-nginx"><div class="highlight"><pre><span/><span class="k">proxy_cache_bypass</span> <span class="s">string</span> <span class="s">...</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>定义在哪些情况下，响应数据不从缓存中取得。当至少有一个字符参数不为空(“”)且不等于”0”，响应就不会从缓存中提取。</p>
@@ -943,20 +960,20 @@
 </div>
 <div class="section" id="proxy-no-cache">
 <h3>proxy_no_cache</h3>
-<div class="highlight-nginx"><div class="highlight"><pre><span class="k">proxy_no_cache</span> <span class="s">string</span> <span class="s">...</span><span class="p">;</span>
+<div class="highlight-nginx"><div class="highlight"><pre><span/><span class="k">proxy_no_cache</span> <span class="s">string</span> <span class="s">...</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>与<span class="docutils literal"><span class="pre">proxy_cache_bypass</span></span>相同。</p>
 </div>
 <div class="section" id="proxy-cache-key">
 <h3>proxy_cache_key</h3>
-<div class="highlight-nginx"><div class="highlight"><pre><span class="k">proxy_cacke_key</span> <span class="nv">$scheme$proxy_host$request_uri</span><span class="p">;</span>
+<div class="highlight-nginx"><div class="highlight"><pre><span/><span class="k">proxy_cacke_key</span> <span class="nv">$scheme$proxy_host$request_uri</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="proxy-cache-valid">
 <h3>proxy_cache_valid</h3>
-<div class="highlight-nginx"><div class="highlight"><pre><span class="k">proxy_cache_valid</span> <span class="mi">200</span> <span class="mi">302</span> <span class="mi">10m</span><span class="p">;</span>
+<div class="highlight-nginx"><div class="highlight"><pre><span/><span class="k">proxy_cache_valid</span> <span class="mi">200</span> <span class="mi">302</span> <span class="mi">10m</span><span class="p">;</span>
 <span class="k">proxy_cache_valid</span> <span class="mi">404</span> <span class="mi">1m</span><span class="p">;</span>
 <span class="k">proxy_cache_valid</span> <span class="s">any</span> <span class="mi">1m</span><span class="p">;</span>
 </pre></div>
@@ -964,32 +981,32 @@
 </div>
 <div class="section" id="proxy-cache-lock">
 <h3>proxy_cache_lock</h3>
-<div class="highlight-nginx"><div class="highlight"><pre><span class="k">proxy_cache_lock</span> <span class="no">on</span> <span class="s">|</span> <span class="no">off</span>
+<div class="highlight-nginx"><div class="highlight"><pre><span/><span class="k">proxy_cache_lock</span> <span class="no">on</span> <span class="s">|</span> <span class="no">off</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="proxy-cache-lock-timeout">
 <h3>proxy_cache_lock_timeout</h3>
-<div class="highlight-nginx"><div class="highlight"><pre><span class="k">proxy_cache_lock_timeout</span> <span class="s">5s</span>
+<div class="highlight-nginx"><div class="highlight"><pre><span/><span class="k">proxy_cache_lock_timeout</span> <span class="s">5s</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="proxy-cache-min-uses">
 <h3>proxy_cache_min_uses</h3>
-<div class="highlight-nginx"><div class="highlight"><pre><span class="k">proxy_cache_min_uses</span> <span class="mi">1</span><span class="p">;</span>
+<div class="highlight-nginx"><div class="highlight"><pre><span/><span class="k">proxy_cache_min_uses</span> <span class="mi">1</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="proxy-cache-use-stale">
 <h3>proxy_cache_use_stale</h3>
-<div class="highlight-nginx"><div class="highlight"><pre><span class="k">proxy_cache_use_stale</span> <span class="s">error</span> <span class="s">|</span> <span class="s">timeout</span> <span class="s">|</span> <span class="s">invalid_header</span> <span class="s">|</span> <span class="s">updating</span> <span class="s">|</span> <span class="s">http_500</span>
+<div class="highlight-nginx"><div class="highlight"><pre><span/><span class="k">proxy_cache_use_stale</span> <span class="s">error</span> <span class="s">|</span> <span class="s">timeout</span> <span class="s">|</span> <span class="s">invalid_header</span> <span class="s">|</span> <span class="s">updating</span> <span class="s">|</span> <span class="s">http_500</span>
                         <span class="s">|</span> <span class="s">http_502</span> <span class="s">|</span> <span class="s">http_503</span> <span class="s">|</span> <span class="s">http_504</span> <span class="s">|</span> <span class="s">http_404</span> <span class="s">|</span> <span class="no">off</span> <span class="s">...</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="proxy-cache-methods">
 <h3>proxy_cache_methods</h3>
-<div class="highlight-nginx"><div class="highlight"><pre><span class="k">proxy_cache_methods</span> <span class="s">GET</span> <span class="s">|</span> <span class="s">HEAD</span> <span class="s">|</span> <span class="s">POST</span> <span class="s">...</span><span class="p">;</span>
+<div class="highlight-nginx"><div class="highlight"><pre><span/><span class="k">proxy_cache_methods</span> <span class="s">GET</span> <span class="s">|</span> <span class="s">HEAD</span> <span class="s">|</span> <span class="s">POST</span> <span class="s">...</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
@@ -1399,15 +1416,15 @@
 <div class="section" id="create-table">
 <h3>CREATE TABLE</h3>
 <p>标准语法定义：</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">CREATE</span> <span class="p">[</span><span class="k">TEMPORARY</span><span class="p">]</span> <span class="k">TABLE</span> <span class="p">[</span><span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span><span class="p">]</span> <span class="n">tbl_name</span>
+<div class="highlight-sql"><div class="highlight"><pre><span/><span class="k">CREATE</span> <span class="p">[</span><span class="k">TEMPORARY</span><span class="p">]</span> <span class="k">TABLE</span> <span class="p">[</span><span class="k">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span><span class="p">]</span> <span class="n">tbl_name</span>
 <span class="p">[(</span><span class="n">create_definition</span><span class="p">,...)]</span> <span class="p">[</span><span class="n">table_options</span><span class="p">]</span> <span class="p">[</span><span class="n">select_statement</span><span class="p">]</span>
 <span class="c1">-- 或:</span>
-<span class="k">CREATE</span> <span class="p">[</span><span class="k">TEMPORARY</span><span class="p">]</span> <span class="k">TABLE</span> <span class="p">[</span><span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span><span class="p">]</span> <span class="n">tbl_name</span> <span class="p">[(]</span> <span class="k">LIKE</span> <span class="n">old_tbl_name</span> <span class="p">[)];</span>
+<span class="k">CREATE</span> <span class="p">[</span><span class="k">TEMPORARY</span><span class="p">]</span> <span class="k">TABLE</span> <span class="p">[</span><span class="k">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span><span class="p">]</span> <span class="n">tbl_name</span> <span class="p">[(]</span> <span class="k">LIKE</span> <span class="n">old_tbl_name</span> <span class="p">[)];</span>
 </pre></div>
 </div>
 <ul>
 <li><p class="first">使用<span class="docutils literal"><span class="pre">IF</span> <span class="pre">NOT</span> <span class="pre">EXISTS</span></span>判断表是否存在：</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">tbl_name</span> <span class="p">......</span>
+<div class="highlight-sql"><div class="highlight"><pre><span/><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="k">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">tbl_name</span> <span class="p">......</span>
 </pre></div>
 </div>
 </li>
@@ -1416,23 +1433,23 @@
 <div class="section" id="alter-table">
 <h3>ALTER TABLE</h3>
 <p>SQL格式：</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">tbl_name</span> <span class="k">ADD</span> <span class="p">(</span><span class="n">col_name1</span><span class="p">,</span> <span class="n">col_name2</span><span class="p">);</span>
+<div class="highlight-sql"><div class="highlight"><pre><span/><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">tbl_name</span> <span class="k">ADD</span> <span class="p">(</span><span class="n">col_name1</span><span class="p">,</span> <span class="n">col_name2</span><span class="p">);</span>
 <span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">tbl_name</span> <span class="k">DROP</span> <span class="k">COLUMN</span> <span class="n">col_name</span><span class="p">;</span>
 </pre></div>
 </div>
 <ul>
 <li><p class="first">调整列的数据类型（在MariaDB 5.5.32上测试）<a class="footnote-reference" href="#id22" id="id3">[2]</a></p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">tbl_name</span> <span class="k">MODIFY</span> <span class="p">[</span><span class="k">COLUMN</span><span class="p">]</span> <span class="n">col_name</span> <span class="n">col_definition</span>
+<div class="highlight-sql"><div class="highlight"><pre><span/><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">tbl_name</span> <span class="k">MODIFY</span> <span class="p">[</span><span class="k">COLUMN</span><span class="p">]</span> <span class="n">col_name</span> <span class="n">col_definition</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first">创建一个主键（在MariaDB 5.5.32上测试）</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">tbl_name</span> <span class="k">ADD</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">index_col_name</span><span class="p">)</span>
+<div class="highlight-sql"><div class="highlight"><pre><span/><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">tbl_name</span> <span class="k">ADD</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">index_col_name</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first">删除列</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">tbl_name</span> <span class="k">DROP</span> <span class="k">COLUMN</span> <span class="n">col_name</span><span class="p">;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span/><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">tbl_name</span> <span class="k">DROP</span> <span class="k">COLUMN</span> <span class="n">col_name</span><span class="p">;</span>
 </pre></div>
 </div>
 </li>
@@ -1448,7 +1465,7 @@
 <div class="section" id="between">
 <h3>范围条件-<strong>BETWEEN</strong></h3>
 <p>即：<span class="docutils literal"><span class="pre">a</span> <span class="pre">&gt;</span> <span class="pre">0</span> <span class="pre">and</span> <span class="pre">a</span> <span class="pre">&lt;</span> <span class="pre">10</span></span>等同于<span class="docutils literal"><span class="pre">a</span> <span class="pre">BETWEEN</span> <span class="pre">0</span> <span class="pre">10</span></span>。例如下列两条SQL语句等同。</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">start_time</span> <span class="o">&lt;</span> <span class="s1">'2007-01-01'</span> <span class="k">AND</span> <span class="n">start_time</span> <span class="o">&lt;</span> <span class="s1">'2005-01-01'</span>
+<div class="highlight-sql"><div class="highlight"><pre><span/><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">start_time</span> <span class="o">&lt;</span> <span class="s1">'2007-01-01'</span> <span class="k">AND</span> <span class="n">start_time</span> <span class="o">&lt;</span> <span class="s1">'2005-01-01'</span>
 
 <span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">start_time</span> <span class="k">BETWEEN</span> <span class="s1">'2005-01-01'</span> <span class="s1">'2007-01-01'</span>
 </pre></div>
@@ -1457,26 +1474,26 @@
 <div class="section" id="in">
 <h3>成员条件-<strong>IN</strong></h3>
 <p>当对某个值的限制为一个有限集合时，SQL可以写为：</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">district</span> <span class="o">=</span> <span class="s1">'CHN'</span> <span class="k">OR</span> <span class="n">district</span> <span class="o">=</span> <span class="s1">'CHK'</span> <span class="k">OR</span> <span class="n">district</span> <span class="o">=</span> <span class="s1">'CD'</span> <span class="k">OR</span> <span class="n">district</span> <span class="o">=</span> <span class="s1">'SAV'</span>
+<div class="highlight-sql"><div class="highlight"><pre><span/><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">district</span> <span class="o">=</span> <span class="s1">'CHN'</span> <span class="k">OR</span> <span class="n">district</span> <span class="o">=</span> <span class="s1">'CHK'</span> <span class="k">OR</span> <span class="n">district</span> <span class="o">=</span> <span class="s1">'CD'</span> <span class="k">OR</span> <span class="n">district</span> <span class="o">=</span> <span class="s1">'SAV'</span>
 </pre></div>
 </div>
 <p>使用<strong>IN</strong>可以写的更为简洁，如：</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">district</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">'CHN'</span><span class="p">,</span> <span class="s1">'CHK'</span><span class="p">,</span> <span class="s1">'CD'</span><span class="p">,</span> <span class="s1">'SAV'</span><span class="p">)</span>
+<div class="highlight-sql"><div class="highlight"><pre><span/><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">district</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">'CHN'</span><span class="p">,</span> <span class="s1">'CHK'</span><span class="p">,</span> <span class="s1">'CD'</span><span class="p">,</span> <span class="s1">'SAV'</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>除了自定义集合，也可以使用子查询产生的集合。如：</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">district</span> <span class="k">IN</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">district_code</span> <span class="k">IN</span> <span class="n">district</span> <span class="k">WHERE</span> <span class="n">people_count</span> <span class="o">&lt;</span> <span class="mi">1000000</span><span class="p">)</span>
+<div class="highlight-sql"><div class="highlight"><pre><span/><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">district</span> <span class="k">IN</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">district_code</span> <span class="k">IN</span> <span class="n">district</span> <span class="k">WHERE</span> <span class="n">people_count</span> <span class="o">&lt;</span> <span class="mi">1000000</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>对于<strong>IN</strong>也可以使用“非”操作，即表示不在集合内。关键字为：<strong>NOT IN</strong>。</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">district</span> <span class="k">NOT</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">'CHN'</span><span class="p">,</span> <span class="s1">'CHK'</span><span class="p">,</span> <span class="s1">'CD'</span><span class="p">,</span> <span class="s1">'SAV'</span><span class="p">)</span>
+<div class="highlight-sql"><div class="highlight"><pre><span/><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">district</span> <span class="k">NOT</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">'CHN'</span><span class="p">,</span> <span class="s1">'CHK'</span><span class="p">,</span> <span class="s1">'CD'</span><span class="p">,</span> <span class="s1">'SAV'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="like">
 <h3>匹配条件-<strong>LIKE</strong>， 通配符，正则表达式</h3>
 <p>在各种匹配条件中，也可以使用内置函数。如：</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="k">LEFT</span><span class="p">(</span><span class="n">lname</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s1">'T'</span>
+<div class="highlight-sql"><div class="highlight"><pre><span/><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="k">LEFT</span><span class="p">(</span><span class="n">lname</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="s1">'T'</span>
 </pre></div>
 </div>
 <p>上面使用内置函数<span class="docutils literal"><span class="pre">LEFT</span></span>提取<em>lname</em>的首字母，然后与字母“T”进行比较。</p>
@@ -1511,7 +1528,7 @@
 <ul class="simple">
 <li>另外可以使用函数<span class="docutils literal"><span class="pre">REGEXP</span></span>来使用正则表达式来进行匹配。如：</li>
 </ul>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">lname</span> <span class="n">REGEXP</span> <span class="s1">'^[FG]'</span>
+<div class="highlight-sql"><div class="highlight"><pre><span/><span class="k">SELECT</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">lname</span> <span class="n">REGEXP</span> <span class="s1">'^[FG]'</span>
 </pre></div>
 </div>
 <p>在Oracle中使用函数<span class="docutils literal"><span class="pre">regexp_like</span></span>代替<span class="docutils literal"><span class="pre">REGEXP</span></span>，而在MS SQL SERVER中可以直接在<span class="docutils literal"><span class="pre">LIKE</span></span>中使用正则表达式。</p>
@@ -1524,7 +1541,7 @@
 <li>两个“<span class="docutils literal"><span class="pre">NULL</span></span>”不能判断为相等。如果利用“<span class="docutils literal"><span class="pre">=</span></span>”来判断两个“<span class="docutils literal"><span class="pre">NULL</span></span>”值，将不会得到正确的结果，而且服务器也不会发出出错提示，这是相当危险的。</li>
 <li>判断两个“<span class="docutils literal"><span class="pre">NULL</span></span> ”相等，需要用到操作符“<span class="docutils literal"><span class="pre">IS</span></span>”。如下：</li>
 </ul>
-<div class="highlight-sql"><div class="highlight"><pre><span class="cm">/* 假定superior_emp_id存在NULL值 */</span>
+<div class="highlight-sql"><div class="highlight"><pre><span/><span class="cm">/* 假定superior_emp_id存在NULL值 */</span>
 <span class="cm">/* 错误的做法 */</span>
 <span class="k">SELECT</span> <span class="n">emp_id</span><span class="p">,</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">WHERE</span> <span class="n">superior_emp_id</span> <span class="o">=</span> <span class="k">NULL</span>
 <span class="cm">/* 正确的做法 */</span>
@@ -1546,7 +1563,7 @@
 <div class="section" id="group-by">
 <span id="avg"/><span id="count"/><span id="sum"/><span id="min"/><span id="max"/><h3><span class="docutils literal"><span class="pre">GROUP</span> <span class="pre">BY</span></span></h3>
 <p>SQL：</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">tbl_name</span> <span class="k">WHERE</span> <span class="n">conditions</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">col_names</span><span class="p">;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span/><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">tbl_name</span> <span class="k">WHERE</span> <span class="n">conditions</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">col_names</span><span class="p">;</span>
 </pre></div>
 </div>
 <p><strong>SQL的执行顺序：</strong>（不同软件实现可能不同）</p>
@@ -1555,7 +1572,7 @@
 </div>
 <p>关于<span class="docutils literal"><span class="pre">GROUP</span> <span class="pre">BY</span></span>需要注意的：<em>``SELECT``字句中只能包含常数、聚合函数、``GROUP BY``子句中的列（聚合键）</em></p>
 <p>思考：</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="c1">-- 执行一下下面的语句，看看结果如何？分析一下？</span>
+<div class="highlight-sql"><div class="highlight"><pre><span/><span class="c1">-- 执行一下下面的语句，看看结果如何？分析一下？</span>
 <span class="k">SELECT</span> <span class="n">col_name</span> <span class="k">AS</span> <span class="n">COL_NAME</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">tbl_name</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">COL_NAME</span><span class="p">;</span>
 </pre></div>
 </div>
@@ -1564,7 +1581,7 @@
 <h3><span class="docutils literal"><span class="pre">HAVING</span></span></h3>
 <p><span class="docutils literal"><span class="pre">HAVING</span></span>子句类似于<span class="docutils literal"><span class="pre">WHERE</span></span>，为指定条件的语句。但是<span class="docutils literal"><span class="pre">HAVING</span></span>的条件主要是针对聚合结果进行判断。所以，<span class="docutils literal"><span class="pre">HAVING</span></span>子句的条件可以是什么？不能是什么？</p>
 <p>SQL格式：</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">tbl_name</span> <span class="k">WHERE</span> <span class="n">conditions</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">col_names</span> <span class="k">HAVING</span> <span class="n">conditions</span><span class="p">;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span/><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">tbl_name</span> <span class="k">WHERE</span> <span class="n">conditions</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">col_names</span> <span class="k">HAVING</span> <span class="n">conditions</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>思考：</p>
@@ -1587,7 +1604,7 @@
 <li>如果子查询返回值为单行单列（即，仅为一个值），可以直接用于运算操作。如：</li>
 <li>如果子查询返回值为多行单列（即，为一个集合），不能用于相等操作，不过可以使用其它用于集合的操作符。如：<span class="docutils literal"><span class="pre">IN,</span> <span class="pre">NOT</span> <span class="pre">IN,</span> <span class="pre">ALL,</span> <span class="pre">ANY</span></span>。也可以使用聚集函数进行统计。</li>
 </ul>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">FROM</span> <span class="p">(</span>
+<div class="highlight-sql"><div class="highlight"><pre><span/><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">FROM</span> <span class="p">(</span>
                         <span class="k">SELECT</span> <span class="mi">1</span> <span class="k">FROM</span> <span class="n">City</span>
                         <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">district</span>
                      <span class="p">)</span> <span class="k">AS</span> <span class="n">d</span><span class="p">;</span>
@@ -1615,7 +1632,7 @@
 <li><span class="docutils literal"><span class="pre">UNION</span> <span class="pre">ALL</span></span>仅仅将两个数据集并在一起，无其它操作，相对于<span class="docutils literal"><span class="pre">UNION</span></span>快一些</li>
 </ul>
 <p>一个简单的例子：</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="mi">1</span> <span class="n">NUM</span><span class="p">,</span> <span class="s1">'abc'</span> <span class="n">STR</span>
+<div class="highlight-sql"><div class="highlight"><pre><span/><span class="k">SELECT</span> <span class="mi">1</span> <span class="n">NUM</span><span class="p">,</span> <span class="s1">'abc'</span> <span class="n">STR</span>
 <span class="k">UNION</span>
 <span class="k">SELECT</span> <span class="mi">9</span> <span class="n">NUM</span><span class="p">,</span> <span class="s1">'xyz'</span> <span class="n">STR</span>
 </pre></div>
@@ -1636,7 +1653,7 @@
 <h4>指定排序</h4>
 <p>如果使用<span class="docutils literal"><span class="pre">ORDER</span> <span class="pre">BY</span></span>指定按某一列进行排序，此列名只能是第一个查询的列名。</p>
 <p>如：</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span> <span class="n">num</span><span class="p">,</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span>
+<div class="highlight-sql"><div class="highlight"><pre><span/><span class="k">SELECT</span> <span class="n">num</span><span class="p">,</span> <span class="n">name</span> <span class="k">FROM</span> <span class="n">employee</span>
 <span class="k">UNION</span>
 <span class="k">SELECT</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">open_b_id</span> <span class="k">FROM</span> <span class="n">account</span>
 <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">num</span>

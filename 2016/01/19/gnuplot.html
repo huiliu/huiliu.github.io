@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="保持团队稳定" href="holdteam.html" /><link rel="prev" title="使用GitHub" href="github.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="保持团队稳定" href="holdteam.html" /><link rel="prev" title="使用GitHub" href="github.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -74,11 +74,11 @@
 <div class="section" id="id2">
 <h2>使用帮助</h2>
 <p>安装好<a class="reference external" href="http://en.wikipedia.org/wiki/Gnuplot">GnuPlot</a>后，运行<span class="docutils literal"><span class="pre">gnuplot</span></span>即进入命令模式，可以使用命令<span class="docutils literal"><span class="pre">help</span></span>查看帮助信息:</p>
-<div class="highlight-bash"><div class="highlight"><pre>gnuplot&gt; <span class="nb">help</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>gnuplot&gt; <span class="nb">help</span>
 </pre></div>
 </div>
 <p>会出现一段说明文字，操作与用less查看文件一样。用&#8217;<strong>q</strong>&#8216;退出后会提示相关Topic，与绘制2D图形相关的是&#8221;<strong>plotting</strong>&#8220;，输入&#8221;<strong>plotting</strong>&#8220;即可看到相关的帮助信息，同样，退出后，你会看到更多的Command或Topic信息，输入相应项就可以查看帮助了。如果想要返回上一级帮助主题，连续再次回车即可，不过不会再出现对应的信息列表了（比较麻烦，也有可以是我还不熟悉）。</p>
-<div class="highlight-bash"><div class="highlight"><pre>Help topic:plotting
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Help topic:plotting
 </pre></div>
 </div>
 </div>
@@ -88,13 +88,13 @@
 <div class="section" id="id3">
 <h3>绘制一个简单的函数</h3>
 <p>绘制<em>sin(x)</em>曲线：</p>
-<div class="highlight-gnuplot"><div class="highlight"><pre><span class="c"># 文件模式。也可以直接在GNUPlot Shell中运行</span>
+<div class="highlight-gnuplot"><div class="highlight"><pre><span></span><span class="c"># 文件模式。也可以直接在GNUPlot Shell中运行</span>
 <span class="k">plot</span> <span class="nf">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>执行上面的命令后，会弹出绘制好<em>sin(x)</em>曲线的窗口。X轴方向范围为[-10,10]，这个默认范围。</p>
 <p>在图形的右上角有一个碍眼的图例（害的我作点状图时想了好久，图上为什么多了一个点）。如果图上有好几条曲线，图例就是必须的了。gnuplot提供的相应的设定参数来控制它的行为：</p>
-<div class="highlight-text"><div class="highlight"><pre># 关闭图例
+<div class="highlight-text"><div class="highlight"><pre><span></span># 关闭图例
 unset key
 # 关闭默认图例title
 set noautotitle
@@ -133,11 +133,11 @@ help set
 <div class="line">10.0   -0.01    -0.02</div>
 </div>
 <p>执行命令：</p>
-<div class="highlight-gnuplot"><div class="highlight"><pre><span class="k">plot</span> <span class="s">&quot;summary&quot;</span> <span class="nb">using</span> <span class="mi">1</span><span class="o">:</span><span class="mi">2</span>
+<div class="highlight-gnuplot"><div class="highlight"><pre><span></span><span class="k">plot</span> <span class="s">&quot;summary&quot;</span> <span class="nb">using</span> <span class="mi">1</span><span class="o">:</span><span class="mi">2</span>
 </pre></div>
 </div>
 <p>上面的命令即：利用文件&#8221;summary&#8221;的第一列作为<em>x</em>, 第二列作为*y*作图，默认为点状图，可以利用选项<span class="docutils literal"><span class="pre">with</span> <span class="pre">lines</span></span>来作出线状图，如：</p>
-<div class="highlight-gnuplot"><div class="highlight"><pre><span class="k">plot</span> <span class="s">&quot;summary&quot;</span> <span class="nb">using</span> <span class="mi">1</span><span class="o">:</span><span class="mi">2</span> <span class="nb">with</span> <span class="n">lines</span>
+<div class="highlight-gnuplot"><div class="highlight"><pre><span></span><span class="k">plot</span> <span class="s">&quot;summary&quot;</span> <span class="nb">using</span> <span class="mi">1</span><span class="o">:</span><span class="mi">2</span> <span class="nb">with</span> <span class="n">lines</span>
 </pre></div>
 </div>
 <p>可是<span class="docutils literal"><span class="pre">gnuplot</span></span>就会简单的将图上的点用直线连接起来，图形极可能不光滑。</p>
@@ -146,7 +146,7 @@ help set
 <h3>绘制光滑的曲线</h3>
 <p>如果你有一系列坐标，如果用<span class="docutils literal"><span class="pre">gnuplot</span></span>直接绘制，曲线是不光滑的，数学上有一系列方法根据已知数据来拟合光滑曲线的方法，如插值法，外推法等，<span class="docutils literal"><span class="pre">gnuplot</span></span>也提供一些简单的功能来光滑我们的曲线。</p>
 <p>利用<span class="docutils literal"><span class="pre">plot</span></span>命令中的&#8221;<span class="docutils literal"><span class="pre">smooth</span></span>&#8220;属性来设定一些参数就可以实现，如：</p>
-<div class="highlight-gnuplot"><div class="highlight"><pre><span class="k">plot</span> <span class="s">&quot;summary&quot;</span> <span class="nb">using</span> <span class="mi">1</span><span class="o">:</span><span class="mi">2</span> <span class="nb">smooth</span> <span class="n">csplines</span>
+<div class="highlight-gnuplot"><div class="highlight"><pre><span></span><span class="k">plot</span> <span class="s">&quot;summary&quot;</span> <span class="nb">using</span> <span class="mi">1</span><span class="o">:</span><span class="mi">2</span> <span class="nb">smooth</span> <span class="n">csplines</span>
 </pre></div>
 </div>
 <p>你会发现你的图形已经变得光滑，关于&#8221;<span class="docutils literal"><span class="pre">smooth</span></span>&#8220;的详细参数，请查看帮助信息</p>
@@ -154,7 +154,7 @@ help set
 <div class="section" id="id6">
 <h3>设定坐标轴信息</h3>
 <p>自定义坐标的范围，标签等</p>
-<div class="highlight-gnuplot"><div class="highlight"><pre><span class="k">set</span> <span class="nb">xrange</span> <span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mf">10.5</span><span class="p">]</span>
+<div class="highlight-gnuplot"><div class="highlight"><pre><span></span><span class="k">set</span> <span class="nb">xrange</span> <span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mf">10.5</span><span class="p">]</span>
 <span class="k">set</span> <span class="nb">yrange</span> <span class="p">[</span><span class="mi">-13</span><span class="o">:</span><span class="mf">0.2</span><span class="p">]</span>
 <span class="k">set</span> <span class="nb">xlabel</span> <span class="s">&quot;X label&quot;</span>
 <span class="k">set</span> <span class="nb">ylabel</span> <span class="s">&quot;Y label&quot;</span>
@@ -162,7 +162,7 @@ help set
 </pre></div>
 </div>
 <p>其它对标签还有其它很多属性,如字体等：</p>
-<div class="highlight-gnuplot"><div class="highlight"><pre><span class="k">set</span> <span class="nb">xlabel</span> <span class="s">&quot;X label&quot;</span> <span class="n">font</span> <span class="s">&quot;Monospace,16&quot;</span>
+<div class="highlight-gnuplot"><div class="highlight"><pre><span></span><span class="k">set</span> <span class="nb">xlabel</span> <span class="s">&quot;X label&quot;</span> <span class="n">font</span> <span class="s">&quot;Monospace,16&quot;</span>
 </pre></div>
 </div>
 <p>将x轴的标签文本字体设定为&#8221;<em>Monospace</em>&#8221;, 大小为16</p>
@@ -174,7 +174,7 @@ help set
 <div class="section" id="id8">
 <h3>设定字符集</h3>
 <p>首先设定一下字符集，推荐使用<strong>utf8</strong>，它可以兼容所有字符。</p>
-<div class="highlight-gnuplot"><div class="highlight"><pre><span class="k">set</span> <span class="nb">encoding</span> <span class="n">utf8</span>
+<div class="highlight-gnuplot"><div class="highlight"><pre><span></span><span class="k">set</span> <span class="nb">encoding</span> <span class="n">utf8</span>
 </pre></div>
 </div>
 </div>
@@ -182,7 +182,7 @@ help set
 <h3>设定输出文件格式</h3>
 <p><span class="docutils literal"><span class="pre">gnuplot</span></span>支持N多种输出文件格式，如图形(png, jpg, tiff, emf等）, latex,
 epslatex等，有好些我都不知道。下面的命令将输出emf矢量图片:</p>
-<div class="highlight-gnuplot"><div class="highlight"><pre><span class="c"># enhanced属性允许你在标签中使用类latex格式的文本</span>
+<div class="highlight-gnuplot"><div class="highlight"><pre><span></span><span class="c"># enhanced属性允许你在标签中使用类latex格式的文本</span>
 <span class="k">set</span> <span class="nb">term</span> <span class="n">emf</span> <span class="n">enhanced</span>
 <span class="k">set</span> <span class="nb">output</span> <span class="s">&quot;summary.emf&quot;</span>
 <span class="k">plot</span> <span class="s">&#39;summary&#39;</span> <span class="nb">using</span> <span class="mi">1</span><span class="o">:</span><span class="mi">2</span> <span class="n">linewidth</span> <span class="mi">2</span> <span class="nb">smooth</span> <span class="n">csplines</span>
@@ -246,6 +246,8 @@ epslatex等，有好些我都不知道。下面的命令将输出emf矢量图片
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -263,13 +265,11 @@ epslatex等，有好些我都不知道。下面的命令将输出emf矢量图片
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -305,7 +305,7 @@ epslatex等，有好些我都不知道。下面的命令将输出emf矢量图片
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

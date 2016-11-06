@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="MySQL优化-《高性能MySQL》笔记" href="mysql_optimize.html" /><link rel="prev" title="MySQL日志相关服务器变量" href="mysql_logs.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="MySQL优化-《高性能MySQL》笔记" href="mysql_optimize.html" /><link rel="prev" title="MySQL日志相关服务器变量" href="mysql_logs.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -77,7 +77,7 @@
 <li><p class="first">配置一个Master服务器</p>
 <ol class="arabic">
 <li><p class="first">开启<span class="docutils literal"><span class="pre">binlog</span></span>，设置一个唯一的服务器ID。配置文件</p>
-<div class="highlight-ini"><div class="highlight"><pre><span class="k">[mysqld]</span>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[mysqld]</span>
 <span class="c1"># ......</span>
 <span class="na">log-bin</span>         <span class="o">=</span>   <span class="s">master-bin</span>
 <span class="na">log-bin-index</span>   <span class="o">=</span>   <span class="s">master-bin.index</span>
@@ -86,7 +86,7 @@
 </div>
 </li>
 <li><p class="first">创建用于复制的帐户</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">GRANT</span> <span class="n">REPLICATION</span> <span class="n">SLAVE</span> <span class="k">ON</span> <span class="o">*</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;replication&#39;</span><span class="o">@</span><span class="s1">&#39;192.168.%.%&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;replication&#39;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">GRANT</span> <span class="n">REPLICATION</span> <span class="n">SLAVE</span> <span class="k">ON</span> <span class="o">*</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;replication&#39;</span><span class="o">@</span><span class="s1">&#39;192.168.%.%&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;replication&#39;</span>
 </pre></div>
 </div>
 </li>
@@ -95,7 +95,7 @@
 <li><p class="first">配置一个Slave服务器</p>
 <ol class="arabic">
 <li><p class="first">配置文件</p>
-<div class="highlight-ini"><div class="highlight"><pre><span class="k">[mysqld]</span>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[mysqld]</span>
 <span class="c1"># ......</span>
 
 <span class="na">server-id</span>       <span class="o">=</span>   <span class="s">2</span>
@@ -109,7 +109,7 @@
 <li><p class="first">将Slave连接到Master</p>
 <ol class="arabic">
 <li><p class="first">在命令配置</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="n">CHANGE</span> <span class="n">MASTER</span> <span class="k">TO</span> <span class="n">MASTER_HOST</span><span class="o">=</span><span class="s1">&#39;master&#39;</span><span class="p">,</span> <span class="n">MASTER_PORT</span><span class="o">=</span><span class="mi">3306</span><span class="p">,</span> <span class="n">MASTER_USER</span><span class="o">=</span><span class="s1">&#39;replication&#39;</span><span class="p">,</span> <span class="n">MASTER_PASSWORD</span><span class="o">=</span><span class="s1">&#39;replication&#39;</span><span class="p">;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="n">CHANGE</span> <span class="n">MASTER</span> <span class="k">TO</span> <span class="n">MASTER_HOST</span><span class="o">=</span><span class="s1">&#39;master&#39;</span><span class="p">,</span> <span class="n">MASTER_PORT</span><span class="o">=</span><span class="mi">3306</span><span class="p">,</span> <span class="n">MASTER_USER</span><span class="o">=</span><span class="s1">&#39;replication&#39;</span><span class="p">,</span> <span class="n">MASTER_PASSWORD</span><span class="o">=</span><span class="s1">&#39;replication&#39;</span><span class="p">;</span>
 
 <span class="k">START</span> <span class="n">SLAVE</span><span class="p">;</span>
 </pre></div>
@@ -128,13 +128,13 @@ master库进行snapshot有多种方法：</p>
 <p>使用<cite>mysqldump</cite>可以将Master中的数据完整的导出，并在Slave上恢复，操作简单。但是此方法存在严重的问题，因为<cite>mysqldump</cite>操作需要锁定数据的写操作，会导致数据库一定时间内无法写入数据，相关服务可能会受到影响。</p>
 <ol class="arabic">
 <li><p class="first">刷新并锁定数据库写操作，防止再导出数据时数据库发生变化</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="c1">-- 在终端1执行</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="c1">-- 在终端1执行</span>
 <span class="n">FLUSH</span> <span class="n">TABLES</span> <span class="k">WITH</span> <span class="k">READ</span> <span class="k">LOCK</span><span class="p">;</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first">记录Master上binlog的位置。如下面bin-log文件为: “<em>mysql-bin.000015</em>”，position为: “<em>245</em>”</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="c1">-- 在终端2执行</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="c1">-- 在终端2执行</span>
 <span class="k">SHOW</span> <span class="n">MASTER</span> <span class="n">STATUS</span><span class="p">;</span>
 <span class="c1">-- *************************** 1. row ***************************</span>
 <span class="c1">--                        File: mysqld-bin.000015</span>
@@ -146,15 +146,15 @@ master库进行snapshot有多种方法：</p>
 </div>
 </li>
 <li><p class="first">利用命令<cite>mysqldump</cite>导出Master上的数据，完成后解锁Master</p>
-<div class="highlight-python"><div class="highlight"><pre>mysqldump --all-databases; --host=master-1 &gt; backup-2013xxxx.sql
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mysqldump</span> <span class="o">--</span><span class="nb">all</span><span class="o">-</span><span class="n">databases</span><span class="p">;</span> <span class="o">--</span><span class="n">host</span><span class="o">=</span><span class="n">master</span><span class="o">-</span><span class="mi">1</span> <span class="o">&gt;</span> <span class="n">backup</span><span class="o">-</span><span class="mi">2013</span><span class="n">xxxx</span><span class="o">.</span><span class="n">sql</span>
 </pre></div>
 </div>
-<div class="highlight-sql"><div class="highlight"><pre><span class="n">UNLOCK</span> <span class="n">TABLES</span><span class="p">;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="n">UNLOCK</span> <span class="n">TABLES</span><span class="p">;</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first">在Slave上恢复Master的数据</p>
-<div class="highlight-python"><div class="highlight"><pre>mysql --host=slave-1 -u root -p &lt; backup-2013xxxx.sql
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mysql</span> <span class="o">--</span><span class="n">host</span><span class="o">=</span><span class="n">slave</span><span class="o">-</span><span class="mi">1</span> <span class="o">-</span><span class="n">u</span> <span class="n">root</span> <span class="o">-</span><span class="n">p</span> <span class="o">&lt;</span> <span class="n">backup</span><span class="o">-</span><span class="mi">2013</span><span class="n">xxxx</span><span class="o">.</span><span class="n">sql</span>
 </pre></div>
 </div>
 </li>
@@ -163,7 +163,7 @@ master库进行snapshot有多种方法：</p>
 <div class="section" id="id1">
 <h3>方法二: 更简单的<span class="docutils literal"><span class="pre">mysqldump</span></span></h3>
 <p>在slave库的服务器上运行：</p>
-<div class="highlight-shell"><div class="highlight"><pre>mysqlpdump --all-databases --master-data <span class="p">|</span> mysql
+<div class="highlight-shell"><div class="highlight"><pre><span></span>mysqlpdump --all-databases --master-data <span class="p">|</span> mysql
 </pre></div>
 </div>
 <p>选项<span class="docutils literal"><span class="pre">--master-data</span></span>将会锁定所有表，不允许写操作；同时插入<span class="docutils literal"><span class="pre">CHANGE</span>
@@ -179,7 +179,7 @@ master库进行snapshot有多种方法：</p>
 <p>如果本来就存在着一个Master-Slave关系，就可以方便的在不影响任何服务的情况下建立一个新的Slave——从Slave上复制数据至新的Slave。操作类似于从Master复制数据。</p>
 <ol class="arabic">
 <li><p class="first">停止Slave并刷新锁定数据库</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="n">STOP</span> <span class="n">SLAVE</span><span class="p">;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="n">STOP</span> <span class="n">SLAVE</span><span class="p">;</span>
 <span class="k">SHOW</span> <span class="n">SLAVE</span> <span class="n">STATUS</span><span class="p">;</span>
 <span class="c1">-- *************************** 1. row ***************************</span>
 <span class="c1">--                Slave_IO_State: Waiting for master to send event</span>
@@ -213,7 +213,7 @@ master库进行snapshot有多种方法：</p>
 <li><p class="first">同方法一中复制Slave中的数据并在新的Slave上恢复。</p>
 </li>
 <li><p class="first">将新的Slave连接到Master。其中“<strong>MASTER_LOG_FILE</strong>”和“<strong>MASTER_LOG_POS</strong>”的值为第二步所记录的值。</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="n">CHANGE</span> <span class="n">MASTER</span> <span class="k">TO</span> <span class="n">MASTER_HOST</span><span class="o">=</span><span class="s1">&#39;master&#39;</span><span class="p">,</span> <span class="n">MASTER_PORT</span><span class="o">=</span><span class="mi">3306</span><span class="p">,</span> <span class="n">MASTER_USER</span><span class="o">=</span><span class="s1">&#39;replication&#39;</span><span class="p">,</span> <span class="n">MASTER_PASSWORD</span><span class="o">=</span><span class="s1">&#39;replication&#39;</span><span class="p">,</span> <span class="n">MASTER_LOG_FILE</span><span class="o">=</span><span class="s1">&#39;mysql-bin.000015&#39;</span><span class="p">,</span> <span class="n">MASTER_LOG_POS</span><span class="o">=</span><span class="mi">245</span><span class="p">;</span>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="n">CHANGE</span> <span class="n">MASTER</span> <span class="k">TO</span> <span class="n">MASTER_HOST</span><span class="o">=</span><span class="s1">&#39;master&#39;</span><span class="p">,</span> <span class="n">MASTER_PORT</span><span class="o">=</span><span class="mi">3306</span><span class="p">,</span> <span class="n">MASTER_USER</span><span class="o">=</span><span class="s1">&#39;replication&#39;</span><span class="p">,</span> <span class="n">MASTER_PASSWORD</span><span class="o">=</span><span class="s1">&#39;replication&#39;</span><span class="p">,</span> <span class="n">MASTER_LOG_FILE</span><span class="o">=</span><span class="s1">&#39;mysql-bin.000015&#39;</span><span class="p">,</span> <span class="n">MASTER_LOG_POS</span><span class="o">=</span><span class="mi">245</span><span class="p">;</span>
 
 <span class="k">START</span> <span class="n">SLAVE</span><span class="p">;</span>
 </pre></div>
@@ -250,7 +250,7 @@ master库进行snapshot有多种方法：</p>
 <h2>故障说明</h2>
 <ol class="arabic">
 <li><p class="first">运行主从同步时，出现如下情况：</p>
-<div class="highlight-text"><div class="highlight"><pre>Slave_IO_Running: Connecting
+<div class="highlight-text"><div class="highlight"><pre><span></span>Slave_IO_Running: Connecting
 Slave_SQL_Running: Yes
 </pre></div>
 </div>
@@ -315,6 +315,8 @@ Slave_SQL_Running: Yes
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -332,13 +334,11 @@ Slave_SQL_Running: Yes
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -374,7 +374,7 @@ Slave_SQL_Running: Yes
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

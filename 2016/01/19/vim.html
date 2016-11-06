@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="Best Practices for Speeding Up Your Web Site" href="yslow.html" /><link rel="prev" title="折磨人的字符编码问题" href="unicode.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Best Practices for Speeding Up Your Web Site" href="yslow.html" /><link rel="prev" title="折磨人的字符编码问题" href="unicode.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -72,7 +72,7 @@
 <div id="more"> </div><div class="section" id="tab">
 <h2>TAB的问题</h2>
 <p>众所周知<cite>Python</cite>使用缩进来控制代码的块，在PEP8中建议使用4个空格来替换TAB，须使用TAB，即“<strong>t</strong>”。So，在<strong>~/.vimrc</strong>需要使用<cite>autocmd</cite> <a class="footnote-reference" href="#id7" id="id1">[1]</a> <a class="footnote-reference" href="#id8" id="id2">[2]</a>命令来达到这一目的。</p>
-<div class="highlight-vim"><div class="highlight"><pre><span class="nb">syntax</span> <span class="k">on</span>
+<div class="highlight-vim"><div class="highlight"><pre><span></span><span class="nb">syntax</span> <span class="k">on</span>
 <span class="k">set</span> <span class="nb">expandtab</span>
 <span class="k">set</span> <span class="nb">tabstop</span><span class="p">=</span><span class="m">4</span>
 <span class="k">set</span> <span class="nb">shiftwidth</span><span class="p">=</span><span class="m">4</span>
@@ -89,7 +89,7 @@ autocmd <span class="nb">FileType</span> <span class="k">make</span> <span class
 <h2>排版</h2>
 <p>可以在VIM的配置文件中添加<span class="docutils literal"><span class="pre">set</span> <span class="pre">textwidth=70</span></span>设置vim每行的长度为70，遇到空
 格时会自动折行，对于中文，需要添加额外的两个选项：<a class="footnote-reference" href="#id9" id="id5">[3]</a></p>
-<div class="highlight-vim"><div class="highlight"><pre><span class="c">&quot; 如遇Unicode值大于255的文本，不必等到空格再折行</span>
+<div class="highlight-vim"><div class="highlight"><pre><span></span><span class="c">&quot; 如遇Unicode值大于255的文本，不必等到空格再折行</span>
 <span class="k">set</span> <span class="nb">formatoptions</span><span class="p">+=</span><span class="k">m</span>
 <span class="c">&quot; 合并两行中文时不在中间加空格</span>
 <span class="k">set</span> <span class="nb">formatoptions</span><span class="p">+=</span>B
@@ -152,6 +152,8 @@ autocmd <span class="nb">FileType</span> <span class="k">make</span> <span class
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -169,13 +171,11 @@ autocmd <span class="nb">FileType</span> <span class="k">make</span> <span class
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -211,7 +211,7 @@ autocmd <span class="nb">FileType</span> <span class="k">make</span> <span class
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="sphinx用法测试" href="test.html" /><link rel="prev" title="台湾" href="taiwan.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="sphinx用法测试" href="test.html" /><link rel="prev" title="台湾" href="taiwan.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -88,7 +88,7 @@ read.</li>
 optional:</li>
 <li>所有其它行为匹配规则，应该满足下面的格式：（其中<strong>[]</strong>表示其中内容为可选）</li>
 </ul>
-<div class="highlight-bash"><div class="highlight"><pre>daemon_list : client_list <span class="o">[</span> : shell_command <span class="o">]</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>daemon_list : client_list <span class="o">[</span> : shell_command <span class="o">]</span>
 </pre></div>
 </div>
 <dl class="docutils">
@@ -291,7 +291,7 @@ If the first-matched access control rule contains a shell command, that command 
 <p>In order to distinguish clients by the network address that they connect to, use
 patterns of the form:</p>
 <p>为了区分来自不同网段的客户，可以使用下面的匹配模式：</p>
-<div class="highlight-bash"><div class="highlight"><pre>process_name@host_pattern : client_list ...
+<div class="highlight-bash"><div class="highlight"><pre><span></span>process_name@host_pattern : client_list ...
 </pre></div>
 </div>
 <p>Patterns like these can be used when the machine has different internet
@@ -315,7 +315,7 @@ with connection-oriented services.</p>
 about the owner of a connection. Client username information, when available,
 is logged together with the client host name, and can be used to match patterns
 like:</p>
-<div class="highlight-bash"><div class="highlight"><pre>daemon_list : ... user_pattern@host_pattern ...
+<div class="highlight-bash"><div class="highlight"><pre><span></span>daemon_list : ... user_pattern@host_pattern ...
 </pre></div>
 </div>
 <p>当客户端主机支持RFC931协议或其它衍生协议（TAP, IDENT, RFC1413），wrapper程序就可以取得关于连接所属用户等信息。当客户主机名，用户信息可以取得时，可以使用上面的匹配模式：</p>
@@ -333,12 +333,12 @@ like:</p>
 <li>一个有名的UNIX内核BUG可能在用户查找被防火墙阻挡时导致服务丢失，请仔细阅读相关文档确认是否包含此BUG</li>
 </ul>
 <p>选择时的用户名查找可以减少这个问题的影响，例如，下面这样一条规则：</p>
-<div class="highlight-bash"><div class="highlight"><pre>daemon_list : @pcnetgroup ALL@ALL
+<div class="highlight-bash"><div class="highlight"><pre><span></span>daemon_list : @pcnetgroup ALL@ALL
 </pre></div>
 </div>
 <p>将不进行用户查找直接匹配所有pcnetgroup上的用户，但是对所有其它系统会进行用户名查找。（意思是保证主机pcnetgroup上用户正常访问，其它系统则不保证，可能会因为内核BUG出现问题？）</p>
 <p>Selective username lookups can alleviate the last problem. For example, a rule like:</p>
-<div class="highlight-bash"><div class="highlight"><pre>daemon_list : @pcnetgroup ALL@ALL
+<div class="highlight-bash"><div class="highlight"><pre><span></span>daemon_list : @pcnetgroup ALL@ALL
 </pre></div>
 </div>
 <p>would match members of the pc netgroup without doing username lookups, but would perform username lookups with all other systems.</p>
@@ -379,7 +379,7 @@ The language is flexible enough that different types of access control policy ca
 <p>在此情况下，访问是被默认拒绝的，只有被显式授权的主机才被允许访问。</p>
 <p>The default policy (no access) is implemented with a trivial deny file:</p>
 <p>默认策略在/etc/hosts.deny中声明：</p>
-<div class="highlight-bash"><div class="highlight"><pre>/etc/hosts.deny:
+<div class="highlight-bash"><div class="highlight"><pre><span></span>/etc/hosts.deny:
 ALL: ALL
 </pre></div>
 </div>
@@ -387,7 +387,7 @@ ALL: ALL
 * 拒绝所有的主机访问任何服务，除非在/etc/hosts.allow中它被显式的允许访问。
 * 显式允许的主机写入在/etc/hosts.allow中，如：</p>
 <p>The explicitly authorized hosts are listed in the allow file. For example:</p>
-<div class="highlight-bash"><div class="highlight"><pre>/etc/hosts.allow:
+<div class="highlight-bash"><div class="highlight"><pre><span></span>/etc/hosts.allow:
 ALL: LOCAL @some_netgroup
 ALL: .foobar.edu EXCEPT terminalserver.foobar.edu
 </pre></div>
@@ -406,7 +406,7 @@ ALL: .foobar.edu EXCEPT terminalserver.foobar.edu
 这种情况下，允许访问是默认的，只有被显式声明的才会被拒绝。</p>
 <p>The default policy (access granted) makes the allow file redundant so that it can be omitted. The explicitly non-authorized hosts are listed in the deny file. For example:</p>
 <p>/etc/hosts.allow为空时，即默认允许访问。显式拒绝规则写入在/etc/hosts.deny中，如：</p>
-<div class="highlight-bash"><div class="highlight"><pre>/etc/hosts.deny:
+<div class="highlight-bash"><div class="highlight"><pre><span></span>/etc/hosts.deny:
 ALL: some.host.name, .some.domain
 ALL EXCEPT in.fingerd: other.host.name, .other.domain
 </pre></div>
@@ -419,7 +419,7 @@ ALL EXCEPT in.fingerd: other.host.name, .other.domain
 <p>BOOBY TRAPS</p>
 <p>The next example permits tftp requests from hosts in the local domain (notice the leading dot). Requests from any other hosts are denied. Instead of the requested file, a finger probe is sent to the offending host. The result is mailed to the superuser.</p>
 <p>接下来的例子中允许来自本地域的主机访问tftp服务，任何来自其它主机的请求都将被拒绝。Instead of the requested file, a finger probe is sent to the offending host. The result is mailed to the superuser.</p>
-<div class="highlight-bash"><div class="highlight"><pre>/etc/hosts.allow:
+<div class="highlight-bash"><div class="highlight"><pre><span></span>/etc/hosts.allow:
 in.tftpd: LOCAL, .my.domain
 
 /etc/hosts.deny:
@@ -492,6 +492,8 @@ in.tftpd: ALL: <span class="o">(</span>/usr/sbin/safe_finger -l @%h <span class=
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -509,13 +511,11 @@ in.tftpd: ALL: <span class="o">(</span>/usr/sbin/safe_finger -l @%h <span class=
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -551,7 +551,7 @@ in.tftpd: ALL: <span class="o">(</span>/usr/sbin/safe_finger -l @%h <span class=
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="LVM基础知识" href="lvm.html" /><link rel="prev" title="Apache日志过滤－是否可以用来预防DDOS" href="logfilter.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="LVM基础知识" href="lvm.html" /><link rel="prev" title="Apache日志过滤－是否可以用来预防DDOS" href="logfilter.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -82,19 +82,19 @@
 <p>C库提供了一些函数对<span class="docutils literal"><span class="pre">errno</span></span>进行包装，可以方便的显示错误文本：
 1.  <span class="docutils literal"><span class="pre">perror()</span></span>函数原型为：</p>
 <blockquote>
-<div><div class="highlight-c"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<div><div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
 <span class="kt">void</span> <span class="nf">perror</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">);</span>
 </pre></div>
 </div>
 <p><span class="docutils literal"><span class="pre">perror</span></span>向stderr打印提示：“<strong>str:</strong> <em>errno所描述的错误信息</em>”。如：</p>
-<div class="highlight-c"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">perror</span><span class="p">(</span><span class="s">&quot;close&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div></blockquote>
 <ol class="arabic" start="2">
 <li><p class="first"><span class="docutils literal"><span class="pre">strerror()</span></span>和<span class="docutils literal"><span class="pre">strerror_r()</span></span>其原型如下：</p>
-<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp"></span>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp"></span>
 <span class="kt">char</span> <span class="o">*</span><span class="nf">strerror</span> <span class="p">(</span><span class="kt">int</span> <span class="n">errnum</span><span class="p">);</span>
 <span class="kt">int</span> <span class="nf">strerror_r</span> <span class="p">(</span><span class="kt">int</span> <span class="n">errnum</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">len</span><span class="p">);</span>
 </pre></div>
@@ -107,7 +107,7 @@
 <h3>Tips</h3>
 <ol class="arabic">
 <li><p class="first">对于一些函数，在返回类型的范围内的值都是合法的返回值，在这种情况下使用<span class="docutils literal"><span class="pre">errno</span></span>时，在使用前应该清零，在调用后进行检测。如：</p>
-<div class="highlight-c"><div class="highlight"><pre><span class="n">errno</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">errno</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="n">arg</span> <span class="o">=</span> <span class="n">strtoul</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
 <span class="k">if</span> <span class="p">(</span><span class="n">errno</span><span class="p">)</span>
     <span class="n">perror</span><span class="p">(</span><span class="s">&quot;strtoul&quot;</span><span class="p">);</span>
@@ -115,7 +115,7 @@
 </div>
 </li>
 <li><p class="first">库函数和系统调用都会修改<span class="docutils literal"><span class="pre">errno</span></span>的值，如果要跨函数来使用保存的<span class="docutils literal"><span class="pre">errno</span></span>值，需要先保存该值至变量。如下面的代码就是有问题的：</p>
-<div class="highlight-c"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">fsync</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">fsync</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">printf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;fsync failed!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">errno</span> <span class="o">==</span> <span class="n">EIO</span><span class="p">)</span>
         <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;I/O error on %d!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">fd</span><span class="p">);</span>
@@ -123,7 +123,7 @@
 </pre></div>
 </div>
 <p>正确的做法是，先保存<span class="docutils literal"><span class="pre">error</span></span>值：</p>
-<div class="highlight-c"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">fsync</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">fsync</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
     <span class="kt">int</span> <span class="n">err</span> <span class="o">=</span> <span class="n">errno</span>
     <span class="n">printf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;fsync failed: %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">strerror</span><span class="p">(</span><span class="n">errno</span><span class="p">));</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">err</span> <span class="o">==</span> <span class="n">EIO</span><span class="p">)</span> <span class="p">{</span>
@@ -241,6 +241,8 @@
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -258,13 +260,11 @@
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -300,7 +300,7 @@
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

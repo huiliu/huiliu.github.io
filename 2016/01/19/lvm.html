@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="邮件系统-Postfix, Dovecot, MySQL和Postfixadmin" href="mail.html" /><link rel="prev" title="Linux系统编程（一） IO基础" href="lsp01.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="邮件系统-Postfix, Dovecot, MySQL和Postfixadmin" href="mail.html" /><link rel="prev" title="Linux系统编程（一） IO基础" href="lsp01.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -106,7 +106,7 @@ pvck       pvdisplay  pvremove   pvs</dd>
 <div class="section" id="id3">
 <h3>创建</h3>
 <p>使用命令<span class="docutils literal"><span class="pre">pvcreate</span></span>创建PE，<span class="docutils literal"><span class="pre">pvcreate</span></span>的操作会破坏原分区（文件系统）中的数据。</p>
-<div class="highlight-bash"><div class="highlight"><pre>pvcreate /dev/sda1 /dev/sda2 /dev/sda3
+<div class="highlight-bash"><div class="highlight"><pre><span></span>pvcreate /dev/sda1 /dev/sda2 /dev/sda3
 <span class="c1"># pvcreate后接分区，即可在分区上创建PE</span>
 </pre></div>
 </div>
@@ -117,7 +117,7 @@ pvck       pvdisplay  pvremove   pvs</dd>
 <ol class="arabic simple">
 <li>默认使用选项-v，显示详细信息</li>
 </ol>
-<div class="highlight-bash"><div class="highlight"><pre>pvdisplay <span class="o">[</span>-v<span class="o">]</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>pvdisplay <span class="o">[</span>-v<span class="o">]</span>
 <span class="c1">#   Scanning for physical volume names</span>
 <span class="c1"># --- Physical volume ---</span>
 <span class="c1"># PV Name               /dev/sda10</span>
@@ -157,7 +157,7 @@ pvck       pvdisplay  pvremove   pvs</dd>
 <ol class="arabic simple" start="2">
 <li>也可以使用选项“ <span class="docutils literal"><span class="pre">-s|--short</span></span>“显示精简信息。如：</li>
 </ol>
-<div class="highlight-bash"><div class="highlight"><pre>pvdisplay -s
+<div class="highlight-bash"><div class="highlight"><pre><span></span>pvdisplay -s
 <span class="c1"># Device &quot;/dev/sda10&quot; has a capacity of 244.00 MiB</span>
 <span class="c1"># Device &quot;/dev/sda11&quot; has a capacity of 892.00 MiB</span>
 <span class="c1"># Device &quot;/dev/sda9&quot; has a capacity of 972.65 MiB</span>
@@ -166,7 +166,7 @@ pvck       pvdisplay  pvremove   pvs</dd>
 <ol class="arabic simple" start="3">
 <li>也显示指定分区的信息。</li>
 </ol>
-<div class="highlight-bash"><div class="highlight"><pre>pvdisplay <span class="o">[</span>option<span class="o">]</span> &lt;pv_path&gt;
+<div class="highlight-bash"><div class="highlight"><pre><span></span>pvdisplay <span class="o">[</span>option<span class="o">]</span> &lt;pv_path&gt;
 </pre></div>
 </div>
 </div>
@@ -192,7 +192,7 @@ vgmerge, vgsplit等等</dd>
 <div class="section" id="id6">
 <h3>创建VG</h3>
 <p>当完成创建PE之后就可以在相应的分区上建立VG了。使用命令<span class="docutils literal"><span class="pre">vgcreate</span></span>来创建VG，如：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c1"># 创建一个VG，其名字为vgName。</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># 创建一个VG，其名字为vgName。</span>
 vgcreate vg-test /dev/sda9
 <span class="c1"># Volume group &quot;vg-test&quot; successfully created</span>
 </pre></div>
@@ -207,7 +207,7 @@ vgcreate vg-test /dev/sda9
 <div class="section" id="id7">
 <h3>查看VG信息</h3>
 <p>与查看PV/PE信息一样，使用命令<span class="docutils literal"><span class="pre">vgdisplay</span></span>来查看VG的信息。例如：</p>
-<div class="highlight-bash"><div class="highlight"><pre>vgdisplay
+<div class="highlight-bash"><div class="highlight"><pre><span></span>vgdisplay
 <span class="c1">#  --- Volume group ---</span>
 <span class="c1">#  VG Name               vg</span>
 <span class="c1">#  System ID</span>
@@ -247,7 +247,7 @@ vgcreate vg-test /dev/sda9
 <div class="section" id="id9">
 <h3>创建LV</h3>
 <p>与创建PE，VG类似，创建LV使用命令<span class="docutils literal"><span class="pre">lvcreate</span></span>来创建LV。创建一个分区当然要指明这个分区的大小了，还要给一个名字便于查找使用。</p>
-<div class="highlight-bash"><div class="highlight"><pre>lvcreate -L +200M -n lv-test vg-test
+<div class="highlight-bash"><div class="highlight"><pre><span></span>lvcreate -L +200M -n lv-test vg-test
 </pre></div>
 </div>
 <p>上面的命令将在卷组vg-test中创建一个名为lv-test，200M大小的LV。选项*-L*后接LV的大小，单位可以是K(b), M(b), T(b), P(b), E(b)；选项*-n*后接LV的名称，最后为已存在的 VG名称（即要在哪个VG上建立LV）。</p>
@@ -255,7 +255,7 @@ vgcreate vg-test /dev/sda9
 <div class="section" id="id10">
 <h3>查看LV属性</h3>
 <p>使用命令<span class="docutils literal"><span class="pre">lvdisplay</span></span>来查看LV的相关信息。用法与<span class="docutils literal"><span class="pre">pvdisplay,</span> <span class="pre">vgdisplay</span></span>类似。如：</p>
-<div class="highlight-bash"><div class="highlight"><pre>lvdisplay /dev/vg/vg-test
+<div class="highlight-bash"><div class="highlight"><pre><span></span>lvdisplay /dev/vg/vg-test
 <span class="c1">#  --- Logical volume ---</span>
 <span class="c1">#  LV Name                /dev/vg/vg-test</span>
 <span class="c1">#  VG Name                vg</span>
@@ -300,13 +300,13 @@ vgcreate vg-test /dev/sda9
 多的LV，也可以增加新磁盘</p>
 </li>
 <li><p class="first">使用命令<span class="docutils literal"><span class="pre">lvresize</span></span>增加<em>lv_usr</em>空间</p>
-<div class="highlight-bash"><div class="highlight"><pre>lvresize -L +increaseNumber /dev/VolGroup/lv_usr
+<div class="highlight-bash"><div class="highlight"><pre><span></span>lvresize -L +increaseNumber /dev/VolGroup/lv_usr
 </pre></div>
 </div>
 </li>
 <li><p class="first">使用命令<span class="docutils literal"><span class="pre">resize2fs</span></span>扩大逻辑分区<em>lv_usr</em>上的文件系统，使其与分区大
 小一致。此时系统可能提示你要先运行<span class="docutils literal"><span class="pre">fsck</span></span>检查一下文件系统</p>
-<div class="highlight-bash"><div class="highlight"><pre>e2fsck -f /dev/VolGroup/lv_usr
+<div class="highlight-bash"><div class="highlight"><pre><span></span>e2fsck -f /dev/VolGroup/lv_usr
 resize2fs /dev/VolGroup/lv_usr
 </pre></div>
 </div>
@@ -330,27 +330,27 @@ resize2fs /dev/VolGroup/lv_usr
 <li><p class="first">将新的硬盘经测试后安装到系统上并进行分区（此处我们假定新磁盘为/dev/sdb1）</p>
 </li>
 <li><p class="first">使用命令<span class="docutils literal"><span class="pre">pvcreate</span></span>将新的磁盘加入到PV（物理卷）</p>
-<div class="highlight-bash"><div class="highlight"><pre>pvcreate /dev/sdb1
+<div class="highlight-bash"><div class="highlight"><pre><span></span>pvcreate /dev/sdb1
 </pre></div>
 </div>
 </li>
 <li><p class="first">使用命令<span class="docutils literal"><span class="pre">vgextend</span></span>将/dev/sdb1加入到卷组VGroup中</p>
-<div class="highlight-bash"><div class="highlight"><pre>vgextend VGroup /dev/sdb1
+<div class="highlight-bash"><div class="highlight"><pre><span></span>vgextend VGroup /dev/sdb1
 </pre></div>
 </div>
 </li>
 <li><p class="first">在线使用命令<span class="docutils literal"><span class="pre">pvmove</span></span>将/dev/sda1上的数据转移/dev/sdb1</p>
-<div class="highlight-bash"><div class="highlight"><pre>pvmove /dev/sda1 /dev/sdb1
+<div class="highlight-bash"><div class="highlight"><pre><span></span>pvmove /dev/sda1 /dev/sdb1
 </pre></div>
 </div>
 </li>
 <li><p class="first">使用命令<span class="docutils literal"><span class="pre">vgreduce</span></span>将磁盘/dev/sda1从卷组VGroup中移除</p>
-<div class="highlight-bash"><div class="highlight"><pre>vgreduce VGroup /dev/sda1
+<div class="highlight-bash"><div class="highlight"><pre><span></span>vgreduce VGroup /dev/sda1
 </pre></div>
 </div>
 </li>
 <li><p class="first">使用命令<span class="docutils literal"><span class="pre">pvremove</span></span>将磁盘/dev/sda1从PV中移除</p>
-<div class="highlight-bash"><div class="highlight"><pre>pvremove /dev/sda1
+<div class="highlight-bash"><div class="highlight"><pre><span></span>pvremove /dev/sda1
 </pre></div>
 </div>
 </li>
@@ -432,6 +432,8 @@ resize2fs /dev/VolGroup/lv_usr
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -449,13 +451,11 @@ resize2fs /dev/VolGroup/lv_usr
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -491,7 +491,7 @@ resize2fs /dev/VolGroup/lv_usr
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

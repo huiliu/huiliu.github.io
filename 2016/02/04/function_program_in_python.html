@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="Learning Bash" href="../../01/19/bash.html" /><link rel="prev" title="const修饰符" href="../15/const_modifier.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="Learning Bash" href="../../01/19/bash.html" /><link rel="prev" title="const修饰符" href="../15/const_modifier.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -87,7 +87,7 @@
 <p>假定你有一个整数列表，你想取出其中的偶数项。</p>
 <ol class="arabic">
 <li><p class="first">可以使用<span class="docutils literal"><span class="pre">for循环</span></span> 来完成：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">integers</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">integers</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 
 <span class="n">even</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">integers</span><span class="p">:</span>
@@ -100,12 +100,12 @@
 </div>
 </li>
 <li><p class="first">使用<span class="docutils literal"><span class="pre">filter</span></span>函数加<span class="docutils literal"><span class="pre">高阶函数</span></span>可以更简洁的完成：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">even</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">integers</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">even</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">integers</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>上面只用一行代码就可以了，而<span class="docutils literal"><span class="pre">for循环</span></span>的方法需要4行代码。在这里使用了
 匿名函数<span class="docutils literal"><span class="pre">lambda</span></span> <a class="footnote-reference" href="#id14" id="id6">[5]</a>。如果用普通函数将<span class="docutils literal"><span class="pre">lambda</span></span>函数展开，则：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">is_event</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">is_event</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
 
 <span class="n">even</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="n">is_event</span><span class="p">,</span> <span class="n">integers</span><span class="p">)</span>
@@ -113,7 +113,7 @@
 </div>
 </li>
 <li><p class="first">也可以用<span class="docutils literal"><span class="pre">列表解析(list</span> <span class="pre">comprehension)</span></span>的方法:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">even</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">integers</span> <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">even</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">integers</span> <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>列表解析的方法更加简洁，没有任何函数调用。</p>
@@ -126,12 +126,12 @@
 <div class="section" id="map">
 <h2><span class="docutils literal"><span class="pre">map</span></span></h2>
 <p><span class="docutils literal"><span class="pre">map</span></span>函数将函数作用于列表中的每个元素，并将结果返回形成一个新列表。如：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">integers</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">integers</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">81</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>同样，可以使用<span class="docutils literal"><span class="pre">列表解析</span></span>来达成此任务。</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">square_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">integers</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">square_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">integers</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -166,9 +166,9 @@
 </dd></dl>
 
 <p><span class="docutils literal"><span class="pre">reduce</span></span>函数等同于</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">reduce</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">iterable</span><span class="p">,</span> <span class="n">initializer</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">reduce</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">iterable</span><span class="p">,</span> <span class="n">initializer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">initializer</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">initializer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">value</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">initializer</span>
@@ -250,6 +250,8 @@ Comprehensions in Python</a></p>
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -267,13 +269,11 @@ Comprehensions in Python</a></p>
             <a href="../../01/19/bash.html">Learning Bash</a>
         </li><li>
             <a href="../../01/19/code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="../../01/19/comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -309,7 +309,7 @@ Comprehensions in Python</a></p>
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

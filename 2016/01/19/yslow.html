@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="配置Zabbix" href="zabbix.html" /><link rel="prev" title="VIM Tips" href="vim.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="配置Zabbix" href="zabbix.html" /><link rel="prev" title="VIM Tips" href="vim.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -103,11 +103,11 @@ Technologies, EdgeCast, level3。对于初创公司和个人站点，CDN的价�
 <p>现在网页被设计得越来越丰富，这意味着页面中包含更多的脚本、样式表，图片，动画等。
 用户第一次访问量不得不进行大量的HTTP请求，通过使用<span class="docutils literal"><span class="pre">Expires</span></span>头，可以让这些内容被客户端缓存，如此一来，用户接下来的访问就可以避免一些不必要的HTTP请求。<span class="docutils literal"><span class="pre">Expires</span></span>头大量应用于图片资源，但是实际上它可以被应用于所有的页面内容，包括脚本，样式表，动画等。</p>
 <p>浏览器（代理）使用缓存来减少HTTP请求数和大小，使用网页加载更快。WEB服务器通过在HTTP响应头中加入<span class="docutils literal"><span class="pre">Expires</span></span>头来告诉客户端（程序）当前内容可以缓存多久。下面是一个Expires时间设定较远的HTTP<span class="docutils literal"><span class="pre">Expires</span></span>头，它告诉浏览器直到2010年4月15号当前返回的内容都是有效的。</p>
-<div class="highlight-python"><div class="highlight"><pre>Expires: Thu, 15 Apr 2010 20:00:00 GMT
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Expires</span><span class="p">:</span> <span class="n">Thu</span><span class="p">,</span> <span class="mi">15</span> <span class="n">Apr</span> <span class="mi">2010</span> <span class="mi">20</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span> <span class="n">GMT</span>
 </pre></div>
 </div>
 <p>如果你使用的是Apache，使用指令<span class="docutils literal"><span class="pre">ExpiresDefault</span></span>来设定一个相对当前的过期时间。下面的例子使用<span class="docutils literal"><span class="pre">ExpiresDefault</span></span>指令将过期时间设定为请求时间10年后。（译者注：<span class="docutils literal"><span class="pre">Expires</span></span>的设定值与WEB服务器时间有关，如果客户端与服务器时间不一致可能引起问题。详细请阅读<span class="target" id="index-0"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc2616.html"><strong>RFC 2616</strong></a>）</p>
-<div class="highlight-python"><div class="highlight"><pre>ExpiresDefault &quot;access plus 10 years&quot;
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ExpiresDefault</span> <span class="s2">&quot;access plus 10 years&quot;</span>
 </pre></div>
 </div>
 <p>请注意：如果使用<span class="docutils literal"><span class="pre">Expires</span></span>将内容设置为永不过期，无论什么时间你对某内容进行了更新，都必须更换此资源的文件名。在Yahoo，我们通常在构建步骤中加入这样一步：将版本号加入到文件名中。例如：<em>yahoo_2.0.6.js</em></p>
@@ -117,13 +117,13 @@ Technologies, EdgeCast, level3。对于初创公司和个人站点，CDN的价�
 <span id="section-gzip"></span><h2>压缩页面内容(Gzip Components)</h2>
 <p>通过前端工程师的调优，可以显著的减少HTTP请求和响应在网络上的传输时间。另一方面，用户的访问带宽速度，ISP，proximity to peering exchange points等都超出了开发团队的控制范围。但是这些都会影响到响应时间，压缩可以减小HTTP响应内容的大小进而减少响应时间。</p>
 <p>从HTTP/1.1开始，WEB客户端在发起HTTP请求时，在请求头中添加字段<span class="docutils literal"><span class="pre">Accept-Encoding</span></span>来说明客户端支持压缩：</p>
-<div class="highlight-python"><div class="highlight"><pre>Accept-Encoding: gzip,deflate
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Accept</span><span class="o">-</span><span class="n">Encoding</span><span class="p">:</span> <span class="n">gzip</span><span class="p">,</span><span class="n">deflate</span>
 </pre></div>
 </div>
 <p>当WEB服务器从请求头文件中发现了上面内容后，就会对响应内容使用一种由<span class="docutils literal"><span class="pre">Accept-Encoding</span></span>指定的压缩方法进行压缩再返回给客户端。同样WEB服务器会在响应
 头也会添加字段<span class="docutils literal"><span class="pre">Accept-Encoding</span></span>来告诉客户端返回内容使用了什么方法进行压缩
 ，如：</p>
-<div class="highlight-python"><div class="highlight"><pre>Accept-Encoding: gzip
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Accept</span><span class="o">-</span><span class="n">Encoding</span><span class="p">:</span> <span class="n">gzip</span>
 </pre></div>
 </div>
 <p>Gzip是由GNU项目开发的当前最为有效和流行压缩方法，在<span class="target" id="index-1"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc1952.html"><strong>RFC 1952</strong></a>中进行了标准化，另一种可以看到的压缩方法是<span class="docutils literal"><span class="pre">deflate</span></span>，它并不那么的高效和流行。</p>
@@ -151,7 +151,7 @@ Technologies, EdgeCast, level3。对于初创公司和个人站点，CDN的价�
 <div class="section" id="css">
 <h2>不要使用CSS表达式</h2>
 <p>CSS表达式是动态设定CSS属性的一种有力方法，同时也一种危险的方法。它们从IE 5开始被支持，但是从IE8开始被废弃。下面的例子中，通过使用CSS表达式，将每个小时改变背景颜色一次。</p>
-<div class="highlight-css"><div class="highlight"><pre><span class="nt">background-color</span><span class="o">:</span> <span class="nt">expression</span><span class="o">(</span> <span class="o">(</span><span class="nt">new</span> <span class="nt">Date</span><span class="o">())</span><span class="nc">.getHours</span><span class="o">()%</span><span class="nt">2</span> <span class="o">?</span> <span class="s2">&quot;#B8D4FF&quot;</span> <span class="o">:</span> <span class="s2">&quot;#F08A00&quot;</span> <span class="o">);</span>
+<div class="highlight-css"><div class="highlight"><pre><span></span><span class="nt">background-color</span><span class="o">:</span> <span class="nt">expression</span><span class="o">(</span> <span class="o">(</span><span class="nt">new</span> <span class="nt">Date</span><span class="o">())</span><span class="nc">.getHours</span><span class="o">()%</span><span class="nt">2</span> <span class="o">?</span> <span class="s2">&quot;#B8D4FF&quot;</span> <span class="o">:</span> <span class="s2">&quot;#F08A00&quot;</span> <span class="o">);</span>
 </pre></div>
 </div>
 <p>正如上面展示的，<span class="docutils literal"><span class="pre">expression</span></span>方法可以接受JavaScript表达式。通过计算JavaScript表达式的结果来设定CSS属性值。需要注意的是除IE外的其它浏览器并不支持<span class="docutils literal"><span class="pre">expression</span></span>方法，在IE浏览器中设置CSS属性是非常有用的，对于跨浏览器则需要提供相应一致性的体验。</p>
@@ -230,7 +230,7 @@ CSS。</p>
 <p>标签：内容</p>
 <p>通过返回状态码<em>301, 302</em>可以实现重定向。下面是一个WEB服务器响应<em>301</em>的
 HTTP头：</p>
-<div class="highlight-text"><div class="highlight"><pre>HTTP/1.1 301 Moved Permanently
+<div class="highlight-text"><div class="highlight"><pre><span></span>HTTP/1.1 301 Moved Permanently
 Location: http://example.com/newuri
 Content-Type: text/html
 </pre></div>
@@ -272,11 +272,11 @@ Content-Type: text/html
 使脚本可以被缓存，当用户重新加载页面时也会进行额外HTTP请求。</p>
 <p>避免将同一个脚本加载两次的一种方法是：在你的模板系统中声明一个脚本管理模型。通常
 的做法是在HTML页面中通过<span class="docutils literal"><span class="pre">script</span></span>标签来包含一个外部脚本：</p>
-<div class="highlight-html"><div class="highlight"><pre><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;menu_1.0.17.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;menu_1.0.17.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 </pre></div>
 </div>
 <p>在PHP中可以通过一个自定义函数（如下面的<span class="docutils literal"><span class="pre">insertScript</span></span>）来实现类似功能：</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="cp">&lt;?php</span> <span class="nx">insertScript</span><span class="p">(</span><span class="s2">&quot;menu.js&quot;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+<div class="highlight-php"><div class="highlight"><pre><span></span><span class="cp">&lt;?php</span> <span class="nx">insertScript</span><span class="p">(</span><span class="s2">&quot;menu.js&quot;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
 </pre></div>
 </div>
 <p>为了阻止同一脚本被插入多次，这个函数可以处理一些关于脚本的其它问题，如依赖检查，
@@ -294,7 +294,7 @@ Content-Type: text/html
 images, scripts, stylesheets, etc.）通过添加实体标签来验证内容是否有效比起<span class="docutils literal"><span class="pre">Last-Modified</span></span>日期更加灵活。实体标签对某一特定版本的组件内容是一个唯一字符
 串标识。（实体标签内容的）唯一格式要求是<em>字符串必须包含在引号中</em>。WEB服务器
 在响应头中为特定组件添加<span class="docutils literal"><span class="pre">ETag</span></span>字段。</p>
-<div class="highlight-text"><div class="highlight"><pre>HTTP/1.1 200 OK
+<div class="highlight-text"><div class="highlight"><pre><span></span>HTTP/1.1 200 OK
 Last-Modified: Tue, 12 Dec 2006 03:03:59 GMT
 ETag: &quot;10c24bc-4ab-457e1c1f&quot;
 Content-Length: 12195
@@ -303,7 +303,7 @@ Content-Length: 12195
 <p>随后浏览时，如果浏览器必须验证某个内容组件，它会在HTTP请求头中添加<span class="docutils literal"><span class="pre">If-None-Match</span></span>并将<span class="docutils literal"><span class="pre">ETag</span></span>的值返回给WEB服务器。如果实体标签（与WEB服务
 器上文件的）匹配，WEB服务器就会返回一个304状态码（而不返回文件数据），针对上面的
 例子，HTTP响应可以减小12195个字节。</p>
-<div class="highlight-text"><div class="highlight"><pre>GET /i/yahoo.gif HTTP/1.1
+<div class="highlight-text"><div class="highlight"><pre><span></span>GET /i/yahoo.gif HTTP/1.1
 Host: us.yimg.com
 If-Modified-Since: Tue, 12 Dec 2006 03:03:59 GMT
 If-None-Match: &quot;10c24bc-4ab-457e1c1f&quot;
@@ -329,7 +329,7 @@ Apache或IIS的默认ETag配置，你的用户访问页面将比较慢，而且�
 <p>如果你没有从实体标签提供的验证模型中受益，最好的做法是将其从HTTP响应头中移除。<span class="docutils literal"><span class="pre">Last-Modified</span></span>头提供了基于文件时间戳的验证。从HTTP响应头中移除<span class="docutils literal"><span class="pre">ETag</span></span>段可以减小HTTP响应头的大小和后续请求头的大小。此篇文章中介绍了<a class="reference external" href="http://support.microsoft.com/?id=922733">IIS服务器</a>如
 果移除<span class="docutils literal"><span class="pre">ETag</span></span>。对于Apache服务器，只需要将下面的内容添加到配置文件中就可以了
 。</p>
-<div class="highlight-apache"><div class="highlight"><pre><span class="nb">FileETag</span> <span class="k">none</span>
+<div class="highlight-apache"><div class="highlight"><pre><span></span><span class="nb">FileETag</span> <span class="k">none</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -344,13 +344,13 @@ Apache或IIS的默认ETag配置，你的用户访问页面将比较慢，而且�
 <p>标签：内容</p>
 <p>由于使用Ajax可以异步地向后台WEB服务器请求数据，使用Ajax的一个优势是可以向用户即时的提供反馈。然而使用Ajax并不能保证用户会等待JavaScript异步请求和返回XML数据。在大多数应用中，用户是否等待取决于如何使用Ajax。例如，在基于WEB的EMail客户端应用中，用户通常会等待Ajax返回所有符合他们搜索条件的结果。请铭记：<span class="docutils literal"><span class="pre">“异步“并不\</span>
 <span class="pre">意味着“瞬间”</span></span>。</p>
-<p>为了改进性能，优化Ajax响应（时间）至关重要。提高Ajax性能的最重要方法是使得Ajax的响应内容可缓存。正如前面讨论过的<a class="reference internal" href="#section-expires"><span>添加一个Expires或Cache-Control HTTP头</span></a>，一些其它规则也可以用于Ajax：</p>
+<p>为了改进性能，优化Ajax响应（时间）至关重要。提高Ajax性能的最重要方法是使得Ajax的响应内容可缓存。正如前面讨论过的<a class="reference internal" href="#section-expires"><span class="std std-ref">添加一个Expires或Cache-Control HTTP头</span></a>，一些其它规则也可以用于Ajax：</p>
 <ul class="simple">
-<li><a class="reference internal" href="#section-gzip"><span>使用Gzip压缩页面内容</span></a></li>
-<li><a class="reference internal" href="#section-dns"><span>减少DNS查找次数</span></a></li>
-<li><a class="reference internal" href="#section-minify"><span>减小JavaScript代码大小</span></a></li>
-<li><a class="reference internal" href="#section-redirect"><span>避免重定向</span></a></li>
-<li><a class="reference internal" href="#section-etags"><span>配置实体标签</span></a></li>
+<li><a class="reference internal" href="#section-gzip"><span class="std std-ref">使用Gzip压缩页面内容</span></a></li>
+<li><a class="reference internal" href="#section-dns"><span class="std std-ref">减少DNS查找次数</span></a></li>
+<li><a class="reference internal" href="#section-minify"><span class="std std-ref">减小JavaScript代码大小</span></a></li>
+<li><a class="reference internal" href="#section-redirect"><span class="std std-ref">避免重定向</span></a></li>
+<li><a class="reference internal" href="#section-etags"><span class="std std-ref">配置实体标签</span></a></li>
 </ul>
 <p>让我们看一个例子，一个WEB 2.0的电子邮件客户端可能会使用Ajax下载用户的地址来实现自动实例。如果用户从上次使用电子邮件Wep APP后没有修改更新地址薄，且Ajax的响应内容通过<span class="docutils literal"><span class="pre">Expires</span></span>或<span class="docutils literal"><span class="pre">Cache-Control</span></span>进行了缓存，Ajax请求可以直接从缓存中读取数据。浏览器必须告知什么时候使用缓存，什么发起一个新的请求。这可以通过在通过 Ajax请求地址薄时的URL中添加一个时间戳，用于标示地址薄的最后修改时间，例如：
 <em>&amp;t=1190241612</em>。如果地址薄自从上次下载之后没有发生变化，那么（请求时的）时间戳应该相同，并且可以从浏览器缓存中读取数据，这样就可以减少额外的HTTP请求操作；如果用户修改了她的地址薄，时间戳将保证新的URL不会匹配已缓存的响应内容，浏览器将会请求更新地址薄条目。</p>
@@ -371,7 +371,7 @@ the head is usually easier to produce and it allows you to include any CSS and
 JavaScript files for the browser to start fetching in parallel while the backend
 is still processing.</p>
 <p>例如：</p>
-<div class="highlight-html"><div class="highlight"><pre>... <span class="c">&lt;!-- css, js --&gt;</span>
+<div class="highlight-html"><div class="highlight"><pre><span></span>... <span class="c">&lt;!-- css, js --&gt;</span>
 <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
 <span class="cp">&lt;?php flush(); ?&gt;</span>
 <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
@@ -554,7 +554,7 @@ utility, which has an onAvailable method</p>
 当图片使用了四色和256色调色板时，图片大小就有很大的压缩空间。</p>
 </li>
 <li><p class="first">试着将GIF转换为PNG格式，看看图片大小是否会减小，通常会减小一些。由于（以前）浏览器对PNG图片的支持有限，不过这已经成为过去时了。（在此过程中）唯一的问题是真彩色PNG中的alpha透明，但是GIF不支持真彩色，也不支持可变的透明度，因为GIF 可以做到的，PNG（PNG8）调色板都可以做到（除了动画之外）。<span class="docutils literal"><span class="pre">imagemagick</span></span>中只需要输入下面的命令就可以安全的将GIF转换为PNG：</p>
-<div class="highlight-text"><div class="highlight"><pre>convert image.gif image.png
+<div class="highlight-text"><div class="highlight"><pre><span></span>convert image.gif image.png
 </pre></div>
 </div>
 <p>我们只需要说：给PNG一个机会。</p>
@@ -566,7 +566,7 @@ utility, which has an onAvailable method</p>
 </div></blockquote>
 </li>
 <li><p class="first">使用JPEGs优化工具<em>jpegtran</em>优化你的JPEG图片。它可以对JPEG进行一些无损操作，如：旋转，另外也可以优化和删除图片中的注释和其它无用信息（如EXIF信息）。</p>
-<div class="highlight-text"><div class="highlight"><pre>jpegtran -copy none -optimize -perfect src.jpeg dest.jpeg
+<div class="highlight-text"><div class="highlight"><pre><span></span>jpegtran -copy none -optimize -perfect src.jpeg dest.jpeg
 </pre></div>
 </div>
 </li>
@@ -621,7 +621,7 @@ sufficient.</p>
 <li><p class="first">HTML文档中：<span class="docutils literal"><span class="pre">&lt;img</span> <span class="pre">src=''&gt;</span></span></p>
 </li>
 <li><p class="first">JavaScript：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">img</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">img</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">();</span>
 <span class="nx">img</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
@@ -727,6 +727,8 @@ href=&#8217;&#8216;</em>。也许还有时间进行调整确保浏览器不会�
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -744,13 +746,11 @@ href=&#8217;&#8216;</em>。也许还有时间进行调整确保浏览器不会�
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -786,7 +786,7 @@ href=&#8217;&#8216;</em>。也许还有时间进行调整确保浏览器不会�
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;

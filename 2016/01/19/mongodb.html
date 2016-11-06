@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="多线程开发" href="multiprocess.html" /><link rel="prev" title="MediaWiki点滴" href="mediawiki.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="多线程开发" href="multiprocess.html" /><link rel="prev" title="MediaWiki点滴" href="mediawiki.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -76,7 +76,7 @@
 <div class="section" id="id2">
 <h3>连接MongoDB服务器</h3>
 <p><span class="docutils literal"><span class="pre">MongoDB</span></span>服务器默认是侦听TCP 27017这个端口，等待用户连接：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pymongo</span> <span class="k">import</span> <span class="n">MongoClient</span>
 
 <span class="n">client</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">(</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="mi">27017</span><span class="p">)</span>
 </pre></div>
@@ -85,7 +85,7 @@
 <div class="section" id="id3">
 <h3>建立一个数据库</h3>
 <p>通过<span class="docutils literal"><span class="pre">MongoClient</span></span>对象的属性的形式来获取或建立一个数据库，如：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">db</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">dbName</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">db</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">dbName</span>
 <span class="c1"># or</span>
 <span class="n">db</span> <span class="o">=</span> <span class="n">client</span><span class="p">[</span><span class="n">dbName</span><span class="p">]</span>
 </pre></div>
@@ -94,7 +94,7 @@
 <div class="section" id="collection">
 <h3>建立一个集合（Collection, 类似于表）</h3>
 <p><span class="docutils literal"><span class="pre">Collection</span></span>的获取和建立的方法与数据库一样：</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">collection</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">dbName</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">collection</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">dbName</span>
 <span class="c1"># OR</span>
 <span class="n">collection</span> <span class="o">=</span> <span class="n">db</span><span class="p">[</span><span class="n">dbName</span><span class="p">]</span>
 </pre></div>
@@ -103,7 +103,7 @@
 <div class="section" id="document">
 <h3>插入一条记录（Document）</h3>
 <p><span class="docutils literal"><span class="pre">MongoDB</span></span>的数据是以json格式存储，而这刚好与Python中的字典的形式一致，所以处理起来非常的方便。</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Mike&quot;</span><span class="p">,</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Mike&quot;</span><span class="p">,</span>
         <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;My first blog post!&quot;</span><span class="p">,</span>
         <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;mongodb&quot;</span><span class="p">,</span> <span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="s2">&quot;pymongo&quot;</span><span class="p">],</span>
         <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()}</span>
@@ -155,6 +155,8 @@
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+        </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
             <a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
@@ -172,13 +174,11 @@
             <a href="bash.html">Learning Bash</a>
         </li><li>
             <a href="code_evolution.html">Code Evolution</a>
-        </li><li>
-            <a href="comm_pipe.html">命令行管道编程</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
     <h1>Categories</h1>
-    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (11)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
 </div></section><section><div class="widget">
     <h1>Tags Cloud</h1>
       <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
@@ -214,7 +214,7 @@
       <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
       <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
       <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
-      <a href="../../../tags/program.html" style="font-size: 13pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
       <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
       <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
       <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
