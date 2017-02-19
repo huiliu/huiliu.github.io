@@ -68,7 +68,7 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="id1">
-<h1>命令行管道编程<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h1>
+<h1>命令行管道编程<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <div id="more"> </div><p>在Shell命令中“<cite>grep</cite>, <cite>sed</cite>, <cite>awk</cite>, <cite>cat</cite>, <cite>cut</cite>, <cite>uniq</cite>, <cite>sort</cite>, ...”等都可以使用管道，即，直接使用上一个命令的输出作为当前命令的输入，而不使用中间文件。如：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># 使用一长串命令，可以直接得到当前哪个IP访问最多</span>
 awk <span class="s1">&#39;{print $1}&#39;</span> /var/log/httpd/access_log <span class="p">|</span> sort <span class="p">|</span> uniq -c <span class="p">|</span> sort <span class="p">|</span> head -10
@@ -76,7 +76,7 @@ awk <span class="s1">&#39;{print $1}&#39;</span> /var/log/httpd/access_log <span
 </div>
 <p>那么如何写这样一个可以使用管道功能的程序呢？简单看一下<cite>head</cite>等的源码就可以得到结果。</p>
 <div class="section" id="c">
-<h2>C中的实现<a class="headerlink" href="#c" title="Permalink to this headline">UTF-8</a></h2>
+<h2>C中的实现<a class="headerlink" href="#c" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
 
@@ -93,7 +93,7 @@ awk <span class="s1">&#39;{print $1}&#39;</span> /var/log/httpd/access_log <span
 </div>
 </div>
 <div class="section" id="shell">
-<h2>Shell中的实现<a class="headerlink" href="#shell" title="Permalink to this headline">UTF-8</a></h2>
+<h2>Shell中的实现<a class="headerlink" href="#shell" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1">#tr &#39;[:lower:]&#39; &#39;[:upper:]&#39; &lt; /dev/stdin</span>
@@ -103,7 +103,7 @@ awk <span class="s1">&#39;{print $1}&#39;</span> /var/log/httpd/access_log <span
 </div>
 </div>
 <div class="section" id="python">
-<h2>Python中的实现<a class="headerlink" href="#python" title="Permalink to this headline">UTF-8</a></h2>
+<h2>Python中的实现<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="ch">#!/bin/env python</span>
 
 <span class="kn">import</span> <span class="nn">sys</span>

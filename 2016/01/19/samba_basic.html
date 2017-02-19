@@ -68,14 +68,14 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="samba">
-<h1>Samba<a class="headerlink" href="#samba" title="Permalink to this headline">UTF-8</a></h1>
+<h1>Samba<a class="headerlink" href="#samba" title="Permalink to this headline">¶</a></h1>
 <div id="more"> </div><p>用Linux连接Samba服务器：
 {{Cmd|``smbclient`` //192.168.6.3/ <span class="docutils literal"><span class="pre">-U</span></span> test}}</p>
 <div class="section" id="id1">
-<h2>配置文件<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h2>
+<h2>配置文件<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>关于samba的配置文件，请查看man手册<a class="footnote-reference" href="#man" id="id2">[1]</a></p>
 <div class="section" id="id3">
-<h3>配置日志<a class="headerlink" href="#id3" title="Permalink to this headline">UTF-8</a></h3>
+<h3>配置日志<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p><span class="docutils literal"><span class="pre">Samba</span></span>有自己的一套日志机制<a class="footnote-reference" href="#ref" id="id4">[2]</a>，既可自己(Samba)定义存储日志文件，也可以将日志交由系统日志系统处理，也可以选择同时发送给两者。在配置文件
 <span class="docutils literal"><span class="pre">/etc/samba/smb.conf</span></span>中与日志相关的配置选项有：&#8221;<span class="docutils literal"><span class="pre">log</span> <span class="pre">level</span></span>&#8221;,&#8221;<span class="docutils literal"><span class="pre">debuglevel</span></span>&#8221;,&#8221;<span class="docutils literal"><span class="pre">syslog</span></span>&#8220;，&#8221;<span class="docutils literal"><span class="pre">syslog</span> <span class="pre">only</span></span>&#8220;等。</p>
 <p>日志级别可以设定为0-10的一个整数，值越大，日志越详细。官方文档中推荐3及以上的级别只适用于开发人员，对一般系统管理员没有必要。使用日志级别 0 将避开除一些启动消息和关键错误之外的任何消息。</p>
@@ -114,10 +114,10 @@ registry。Windows 注册表的模仿。
 <p>如此，samba的日志文件将被分割为一些小部分，</p>
 </div>
 <div class="section" id="id5">
-<h3>安全考量<a class="headerlink" href="#id5" title="Permalink to this headline">UTF-8</a></h3>
+<h3>安全考量<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p><span class="docutils literal"><span class="pre">Samba</span></span>中提供了很多与安全控制相关的参数。</p>
 <div class="section" id="ip">
-<h4>只允许特定IP范围的用户访问<a class="headerlink" href="#ip" title="Permalink to this headline">UTF-8</a></h4>
+<h4>只允许特定IP范围的用户访问<a class="headerlink" href="#ip" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first"><span class="docutils literal"><span class="pre">hosts</span> <span class="pre">allow</span></span>可以实现对服务访问进行控制，限制访问客户的来源，可以指定主机名，IP地址，网段等；此指令可以用于<span class="docutils literal"><span class="pre">[global]</span></span>，也可以用于单个共享项目。如：</p>
 <div class="highlight-ini"><div class="highlight"><pre><span></span><span class="c1"># 配置文件/etc/samba/smb.conf</span>
@@ -158,7 +158,7 @@ registry。Windows 注册表的模仿。
 </ul>
 </div>
 <div class="section" id="id6">
-<h4>限制特定用户访问<a class="headerlink" href="#id6" title="Permalink to this headline">UTF-8</a></h4>
+<h4>限制特定用户访问<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li>选项&#8221;<span class="docutils literal"><span class="pre">invalid</span> <span class="pre">users</span></span>&#8220;列出不允许访问当前共享资源的用户。This is really a
 paranoid check to absolutely ensure an improper setting does not breach your
@@ -178,7 +178,7 @@ security. 用于保证共享资源的绝对安全。</li>
 </div>
 </div>
 <div class="section" id="id7">
-<h4>匿名共享<a class="headerlink" href="#id7" title="Permalink to this headline">UTF-8</a></h4>
+<h4>匿名共享<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li>匿名共享有多种方式进行：<ul>
 <li>最简单的是全局匿名共享，将[global]中的<span class="docutils literal"><span class="pre">security</span></span>设置为<span class="docutils literal"><span class="pre">share</span></span>即可，这种方式一般用于打印机共享；</li>
@@ -210,7 +210,7 @@ security. 用于保证共享资源的绝对安全。</li>
 </div></blockquote>
 </div>
 <div class="section" id="id8">
-<h4>读写控制<a class="headerlink" href="#id8" title="Permalink to this headline">UTF-8</a></h4>
+<h4>读写控制<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li>只读相关<ul>
 <li>选项&#8221;<span class="docutils literal"><span class="pre">read</span> <span class="pre">only</span></span>&#8220;</li>
@@ -235,24 +235,24 @@ security. 用于保证共享资源的绝对安全。</li>
 </div>
 </div>
 <div class="section" id="id9">
-<h4>符号连接的问题<a class="headerlink" href="#id9" title="Permalink to this headline">UTF-8</a></h4>
+<h4>符号连接的问题<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
 <p>默认禁止打开连接到共享区域之外的符号链接，这也是安全的做法。</p>
 <p>相关选项有&#8221;<span class="docutils literal"><span class="pre">allow</span> <span class="pre">insecure</span> <span class="pre">wide</span> <span class="pre">links</span></span>&#8221;, &#8220;<span class="docutils literal"><span class="pre">wide</span> <span class="pre">links</span></span>&#8220;，&#8221;<span class="docutils literal"><span class="pre">follow</span>
 <span class="pre">symlinks</span></span>&#8220;，但我并没有成功连接到共享区域之外，可以还有地方没有设定正确。</p>
 </div>
 <div class="section" id="windows-linux">
-<h4>Windows, Linux混合使用问题<a class="headerlink" href="#windows-linux" title="Permalink to this headline">UTF-8</a></h4>
+<h4>Windows, Linux混合使用问题<a class="headerlink" href="#windows-linux" title="Permalink to this headline">¶</a></h4>
 </div>
 <div class="section" id="id10">
-<h4>文件名大小写<a class="headerlink" href="#id10" title="Permalink to this headline">UTF-8</a></h4>
+<h4>文件名大小写<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
 <p>因为Windows系统不区分大小写，而Linux(Unix)系统是区分大小。为了消除可能带来的问题，Samba中也有相应的选项设定。&#8221;<span class="docutils literal"><span class="pre">case</span> <span class="pre">sensitive</span></span>&#8220;，&#8221;<span class="docutils literal"><span class="pre">default</span> <span class="pre">case</span></span>&#8220;，
 &#8220;<span class="docutils literal"><span class="pre">preserve</span> <span class="pre">case</span></span>&#8220;</p>
 </div>
 <div class="section" id="id11">
-<h4>编码问题<a class="headerlink" href="#id11" title="Permalink to this headline">UTF-8</a></h4>
+<h4>编码问题<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
 </div>
 <div class="section" id="id12">
-<h4>隐藏文件问题<a class="headerlink" href="#id12" title="Permalink to this headline">UTF-8</a></h4>
+<h4>隐藏文件问题<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li>&#8220;<span class="docutils literal"><span class="pre">hide</span> <span class="pre">dot</span> <span class="pre">files</span> <span class="pre">=</span> <span class="pre">yes</span></span>&#8220;将隐藏dot文件。Windows中打开文件夹选项中的查看系统隐藏文件即可查看dot文件</li>
 <li>选项&#8221;<span class="docutils literal"><span class="pre">hide</span> <span class="pre">files</span></span>&#8220;的内容为一个文件和目录列表。其中的文件或目录被隐藏但是可以被访问。这个选项会影响到samba服务器的性能，因为当导出共享资源时，samba服务器将强制检查每个文件和目录。值的字符串可以使用通配符，详细请查看<span class="docutils literal"><span class="pre">man</span> <span class="pre">smb.conf</span></span></li>
@@ -262,7 +262,7 @@ security. 用于保证共享资源的绝对安全。</li>
 </div>
 </div>
 <div class="section" id="id13">
-<h2>帐户问题<a class="headerlink" href="#id13" title="Permalink to this headline">UTF-8</a></h2>
+<h2>帐户问题<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
 <p>通常，访问Linux(Unix)服务器上的Samba服务需要用户在服务器上拥有一个帐户。当Windows用户（在Linux服务器上没有帐户的用户）首次访问时，需要创建一个帐户才可以访问。此时，{{Highlight|smb.conf}}中有一系列相关的选项可以完成这些任务：&#8221;<span class="docutils literal"><span class="pre">add</span>
 <span class="pre">user</span> <span class="pre">script</span></span>&#8220;，&#8221;<span class="docutils literal"><span class="pre">add</span> <span class="pre">user</span> <span class="pre">to</span> <span class="pre">group</span> <span class="pre">script</span> <span class="pre">``&quot;，&quot;``add</span> <span class="pre">group</span> <span class="pre">script</span></span>&#8220;，&#8221;<span class="docutils literal"><span class="pre">add</span>
 <span class="pre">machine</span> <span class="pre">script</span></span>&#8220;，&#8221;<span class="docutils literal"><span class="pre">delete</span> <span class="pre">user</span> <span class="pre">script</span></span>&#8220;等等，同时``security``不能设定为
@@ -270,7 +270,7 @@ security. 用于保证共享资源的绝对安全。</li>
 <p>当Windows用户首次登陆Samba服务器时，samba向password server请求授权，如果授权通过但是Linux服务器上没有相应的用户，samba就会以root权限运行上面选项列出的命令或脚本创建相应用户。这样Linux Samba服务器就可以动态的为windows用户创建共享帐号。</p>
 <p>更好的方法应该是使用LDAP认证机制。</p>
 <div class="section" id="id14">
-<h3>创建samba用户<a class="headerlink" href="#id14" title="Permalink to this headline">UTF-8</a></h3>
+<h3>创建samba用户<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <p>samba用户必须时系统中的用户，即其用户名必须在<em>/etc/passpwd</em>中，但是仅此是不够的，samba服务器使用独立的授权数据库，即：samba用户的密码与访问系统的密码没有关系。如果想让一个系统用户可以访问samba共享资源（非share资源），需要将其加入到samba中：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>smbpasswd -a username
 <span class="c1"># New SMB password:</span>
@@ -285,12 +285,12 @@ security. 用于保证共享资源的绝对安全。</li>
 </div>
 </div>
 <div class="section" id="id15">
-<h2>客户端<a class="headerlink" href="#id15" title="Permalink to this headline">UTF-8</a></h2>
+<h2>客户端<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>阅读IBM Developworks上关于samba的文章</li>
 </ul>
 <div class="section" id="linux-samba">
-<h3>Linux下浏览，挂载Samba共享文件<a class="headerlink" href="#linux-samba" title="Permalink to this headline">UTF-8</a></h3>
+<h3>Linux下浏览，挂载Samba共享文件<a class="headerlink" href="#linux-samba" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">使用&#8221;<span class="docutils literal"><span class="pre">smbclient</span></span>&#8220;可以像浏览FTP一样浏览Samba服务器的共享资源。具体命令如下：
 <span class="docutils literal"><span class="pre">smbclient</span> <span class="pre">//ShareName_OR_IP/ShareDir</span> <span class="pre">[-U</span> <span class="pre">username]</span></span></p>
@@ -323,7 +323,7 @@ mount.cifs //192.168.6.3/test ./tmp -o <span class="nv">user</span><span class="
 </ul>
 </div>
 <div class="section" id="id16">
-<h3>开机自动挂载<a class="headerlink" href="#id16" title="Permalink to this headline">UTF-8</a></h3>
+<h3>开机自动挂载<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <p>对于需要密码才能访问的Samba共享，挂载时会提示要求输入密码，当然不能将用户名和密码作为参数写在<em>/etc/fstab</em>中。此时需要另外一个挂载参数<span class="docutils literal"><span class="pre">credentials</span></span>来<em>指定一个密码授权文件</em>。如：</p>
 <div class="highlight-text"><div class="highlight"><pre><span></span># /etc/fstab 开机自动挂载samba共享内容
 //192.168.6.3/user1 /mnt/user1  cifs    credentials=/etc/samba/smbcred  0 0
@@ -342,7 +342,7 @@ password=password
 </div>
 </div>
 <div class="section" id="id17">
-<h2>常见问题<a class="headerlink" href="#id17" title="Permalink to this headline">UTF-8</a></h2>
+<h2>常见问题<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic">
 <li><p class="first">登陆时提示<span class="docutils literal"><span class="pre">session</span> <span class="pre">setup</span> <span class="pre">failed:</span> <span class="pre">NT_STATUS_LOGON_FAILURE</span></span></p>
 <p>提示帐户不存在。</p>
@@ -367,7 +367,7 @@ password=password
 </ol>
 </div>
 <div class="section" id="id18">
-<h2>参考资料<a class="headerlink" href="#id18" title="Permalink to this headline">UTF-8</a></h2>
+<h2>参考资料<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h2>
 <table class="docutils footnote" frame="void" id="man" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">

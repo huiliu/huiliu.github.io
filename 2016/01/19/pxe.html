@@ -68,7 +68,7 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="pxelinux">
-<h1>通过PXE安装Linux<a class="headerlink" href="#pxelinux" title="Permalink to this headline">UTF-8</a></h1>
+<h1>通过PXE安装Linux<a class="headerlink" href="#pxelinux" title="Permalink to this headline">¶</a></h1>
 <div id="more"> </div><p>本文描述的操作在Gentoo x86_64上，利用KVM虚拟机完成。</p>
 <p>所需软件包有：
 *   虚拟机管理软件：app-emulation/libvirt</p>
@@ -81,18 +81,18 @@
 </ul>
 <p>其中DHCP, tftp, ftp服务器是<strong>必须</strong>的。</p>
 <div class="section" id="dhcp">
-<h2>配置DHCP服务器<a class="headerlink" href="#dhcp" title="Permalink to this headline">UTF-8</a></h2>
+<h2>配置DHCP服务器<a class="headerlink" href="#dhcp" title="Permalink to this headline">¶</a></h2>
 <p>由于使用的是livirt的默认配置，所以此外关于DHCP的配置与标准DHCP服务器的配置有所
 不同。<a class="footnote-reference" href="#libvirt-dhcp-bootp" id="id1">[1]</a></p>
 <div class="section" id="libvirtd">
-<h3>libvirtd虚拟机<a class="headerlink" href="#libvirtd" title="Permalink to this headline">UTF-8</a></h3>
+<h3>libvirtd虚拟机<a class="headerlink" href="#libvirtd" title="Permalink to this headline">¶</a></h3>
 <p>运行命令<span class="docutils literal"><span class="pre">virsh</span> <span class="pre">net-edit</span> <span class="pre">default</span></span>，上面的命令会用vim打开defautl网络的配置文件，请在&lt;dhcp&gt;&lt;/dhcp&gt;中增加：<span class="docutils literal"><span class="pre">&lt;bootp</span> <span class="pre">file='pxelinux.0'</span> <span class="pre">server='192.168.122.1'/&gt;</span></span>，以指明tftp服务器地址
 为：<span class="docutils literal"><span class="pre">192.168.122.1</span></span>。关于<span class="docutils literal"><span class="pre">bootp</span></span>的意义请查看libvirt的网络配置文件
 说明。<a class="footnote-reference" href="#libvirt-network-xml" id="id2">[2]</a></p>
 <p>然后（重新）启动libvirtd服务器：<span class="docutils literal"><span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">libvirtd</span></span></p>
 </div>
 <div class="section" id="dhcpd">
-<h3>单独的dhcpd服务<a class="headerlink" href="#dhcpd" title="Permalink to this headline">UTF-8</a></h3>
+<h3>单独的dhcpd服务<a class="headerlink" href="#dhcpd" title="Permalink to this headline">¶</a></h3>
 <p>如果使用的是独立的DHCP服务器，请参考鸟哥及其它说明。<a class="footnote-reference" href="#dhcp-setup1" id="id3">[3]</a><a class="footnote-reference" href="#dhcp-setup2" id="id4">[4]</a>  。其中关键是在DHCP服务器上指明tftp服务器的地址和读取的文件名。</p>
 <div class="highlight-linux-config"><div class="highlight"><pre><span></span><span class="c1"># cat /etc/dhcp/dhcpd.conf</span>
 subnet <span class="mi">192</span>.168.122.0 netmask <span class="mi">255</span>.255.255.0 {
@@ -106,7 +106,7 @@ subnet <span class="mi">192</span>.168.122.0 netmask <span class="mi">255</span>
 </div>
 </div>
 <div class="section" id="windows-dhcp">
-<h3>windows DHCP服务器<a class="headerlink" href="#windows-dhcp" title="Permalink to this headline">UTF-8</a></h3>
+<h3>windows DHCP服务器<a class="headerlink" href="#windows-dhcp" title="Permalink to this headline">¶</a></h3>
 <p>如果使用的是windows DHCP服务器，请按以下步骤设定<span class="docutils literal"><span class="pre">next-server</span></span>（启动服务器主机名，启动文件名）值：<a class="footnote-reference" href="#win-dhcpd1" id="id5">[5]</a><a class="footnote-reference" href="#win-dhcpd2" id="id6">[6]</a></p>
 <ul class="simple">
 <li>打开DHCP管理界面</li>
@@ -121,7 +121,7 @@ subnet <span class="mi">192</span>.168.122.0 netmask <span class="mi">255</span>
 </div>
 </div>
 <div class="section" id="tftp">
-<h2>配置tftp服务器及安装相关文件<a class="headerlink" href="#tftp" title="Permalink to this headline">UTF-8</a></h2>
+<h2>配置tftp服务器及安装相关文件<a class="headerlink" href="#tftp" title="Permalink to this headline">¶</a></h2>
 <ul>
 <li><p class="first">确认已安装<cite>net-ftp/atftp, net-ftp/vsftpd, sys-boot/syslinux</cite>。</p>
 </li>
@@ -190,7 +190,7 @@ netstat -ltunp
 </ul>
 </div>
 <div class="section" id="id7">
-<h2>安装系统<a class="headerlink" href="#id7" title="Permalink to this headline">UTF-8</a></h2>
+<h2>安装系统<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <p>打开<span class="docutils literal"><span class="pre">virt-manager</span></span>创建一个新虚拟机，并选择从PXE安装系统，正常情况下很快
 会进入default提供的菜单介面。如果没有，请确认DHCP服务正常，tftp文件可以正常访
 问。另外，请确认虚拟网卡接到了正常的位置（我因为虚拟了好几个，结果接错了接口，
@@ -198,7 +198,7 @@ netstat -ltunp
 <p>顺利进行安装介面后选择通过网络安装，将地址指向FTP服务器即可。</p>
 </div>
 <div class="section" id="id8">
-<h2>涉及的知识<a class="headerlink" href="#id8" title="Permalink to this headline">UTF-8</a></h2>
+<h2>涉及的知识<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>PXE, 网卡上的<a class="reference external" href="http://ipxe.org/">ipxe</a>固件命令</li>
 <li>tftp服务（如果是CentOS系统，使用的是xinetd服务，进一步可以有hosts.allow等
@@ -209,7 +209,7 @@ netstat -ltunp
 </ul>
 </div>
 <div class="section" id="id9">
-<h2>参考资料<a class="headerlink" href="#id9" title="Permalink to this headline">UTF-8</a></h2>
+<h2>参考资料<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <table class="docutils footnote" frame="void" id="libvirt-dhcp-bootp" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">

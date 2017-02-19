@@ -68,10 +68,10 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="selinux">
-<h1>探索SELinux<a class="headerlink" href="#selinux" title="Permalink to this headline">UTF-8</a></h1>
+<h1>探索SELinux<a class="headerlink" href="#selinux" title="Permalink to this headline">¶</a></h1>
 <p>学习NSA的开源工具<strong>SELinux</strong></p>
 <div id="more"> </div><div class="section" id="id1">
-<h2>问题<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h2>
+<h2>问题<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>昨天想把物理机上的WEB服务迁移到虚拟机上，一切准备就绪后，却发现BLOG连接上不上物理机上的数据库。</p>
 <p>写了一小段代码在命令行测试php连接物理机上的数据库：</p>
 <div class="highlight-php"><div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
@@ -94,7 +94,7 @@
 <p>上面的日志说明<em>SELinux拦截了httpd进程连接远程数据库</em>。问题原因找到了，解决办法呢？</p>
 </div>
 <div class="section" id="id2">
-<h2>解决方法<a class="headerlink" href="#id2" title="Permalink to this headline">UTF-8</a></h2>
+<h2>解决方法<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>如果对SELinu熟悉应该很快就知道怎么解决了，可以偶不熟悉啊，又找啊找……</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>getsebool -a <span class="p">|</span> grep http
 </pre></div>
@@ -117,10 +117,10 @@
 </div>
 </div>
 <div class="section" id="id4">
-<h2>总结<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h2>
+<h2>总结<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p>出现问题先看看SELinux的日志，没有问题再去检查其它的，因为SELinux的问题相当隐秘，我都想了一天才想到的。</p>
 <div class="section" id="id5">
-<h3>相关命令：<a class="headerlink" href="#id5" title="Permalink to this headline">UTF-8</a></h3>
+<h3>相关命令：<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>getsebool -a
 setsebool <span class="o">[</span>-P<span class="o">]</span> <span class="nv">item</span><span class="o">=</span>value
 togglesebool item
@@ -130,12 +130,12 @@ semanage boolean -l
 </div>
 </div>
 <div class="section" id="id6">
-<h2>工具<a class="headerlink" href="#id6" title="Permalink to this headline">UTF-8</a></h2>
+<h2>工具<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <p>软件包<span class="docutils literal"><span class="pre">policycoreutils-python</span></span>(CentOS 6), <span class="docutils literal"><span class="pre">policycoreutils</span></span>(CentOS 5)中包含了命令<span class="docutils literal"><span class="pre">audit2allow,</span> <span class="pre">audit2why</span></span>用来分析<span class="docutils literal"><span class="pre">/var/log/audit/audit.log</span></span>
 以生成新的SELinux规则，解决被SELinux拦截的问题</p>
 </div>
 <div class="section" id="id7">
-<h2>参考资料<a class="headerlink" href="#id7" title="Permalink to this headline">UTF-8</a></h2>
+<h2>参考资料<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <table class="docutils footnote" frame="void" id="ref1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">

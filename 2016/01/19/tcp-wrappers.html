@@ -68,9 +68,9 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="tcp-wrapper">
-<h1>简易防火墙TCP-Wrapper<a class="headerlink" href="#tcp-wrapper" title="Permalink to this headline">UTF-8</a></h1>
+<h1>简易防火墙TCP-Wrapper<a class="headerlink" href="#tcp-wrapper" title="Permalink to this headline">¶</a></h1>
 <div id="more"> </div><div id="more"> </div><div class="section" id="id1">
-<h2>控制文件的结构<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h2>
+<h2>控制文件的结构<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>Each access control file consists of zero or more lines of text. These lines
 are processed in order of appearance. The search terminates when a match is
 found.</p>
@@ -117,7 +117,7 @@ case insensitive.</li>
 </ul>
 </div>
 <div class="section" id="id2">
-<h2>存取控制语法<a class="headerlink" href="#id2" title="Permalink to this headline">UTF-8</a></h2>
+<h2>存取控制语法<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>The access control language implements the following patterns:</p>
 <p>存取控制语法有以下规则：</p>
 <ul class="simple">
@@ -164,7 +164,7 @@ ending with &#8220;<strong>.</strong>&#8221;.</li>
 <li>通配符”<strong>*</strong>”和”<strong>?</strong>”可以被用于匹配主机名或IP地址。不能与其它语法组合使用，即不能用于以&#8221;.&#8221;开头或结尾的字符串，不能用”网络/子网掩码“中。</li>
 </ul>
 <div class="section" id="id3">
-<h3>通配符<a class="headerlink" href="#id3" title="Permalink to this headline">UTF-8</a></h3>
+<h3>通配符<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>WILDCARDS
 The access control language supports explicit wildcards:</p>
 <p>存取控制语法（语言）支持显式的通配符：</p>
@@ -216,7 +216,7 @@ Matches any host whose name does not match its address. When tcpd is built with 
 </div></blockquote>
 </div>
 <div class="section" id="id4">
-<h3>操作<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h3>
+<h3>操作<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>OPERATORS
 * <strong>EXCEPT</strong> Intended use is of the form: <em>list_1 EXCEPT list_2</em>; this construct  matches anything that matches <em>list_1</em> unless it matches <em>list_2</em>. The <strong>EXCEPT</strong> operator can be used in <em>daemon_lists</em> and in <em>client_lists</em>. The <strong>EXCEPT</strong> operator can be nested: if the control language would permit the use of parentheses, <em>a EXCEPT b EXCEPT c</em> would parse as <em>(a EXCEPT (b EXCEPT c))</em>.</p>
 <ul class="simple">
@@ -225,7 +225,7 @@ c))</em>。</li>
 </ul>
 </div>
 <div class="section" id="shell">
-<h3>Shell命令<a class="headerlink" href="#shell" title="Permalink to this headline">UTF-8</a></h3>
+<h3>Shell命令<a class="headerlink" href="#shell" title="Permalink to this headline">¶</a></h3>
 <p>SHELL COMMANDS
 If the first-matched access control rule contains a shell command, that command is subjected to %&lt;letter&gt; substitutions (see next section). The result is executed by a /bin/sh child process with standard input, output and error connected to /dev/null. Specify an <strong>&amp;</strong> at the end of the command if you do not want to wait until it has completed.</p>
 <p>Shell commands should not rely on the PATH setting of the inetd. Instead, they should use absolute path names, or they should begin with an explicit PATH=whatever statement.</p>
@@ -235,7 +235,7 @@ If the first-matched access control rule contains a shell command, that command 
 <p>Shell命令不依赖于inetd中的PATH设定。应该直接使用绝对路径或者用PATH=显式的设定路径。</p>
 </div></blockquote>
 <div class="section" id="id5">
-<h4><strong>%</strong>扩展表达式<a class="headerlink" href="#id5" title="Permalink to this headline">UTF-8</a></h4>
+<h4><strong>%</strong>扩展表达式<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
 <p>Shell命令中可以使用下面的扩展表达：</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -287,7 +287,7 @@ If the first-matched access control rule contains a shell command, that command 
 </div>
 </div>
 <div class="section" id="id6">
-<h3>服务器端匹配<a class="headerlink" href="#id6" title="Permalink to this headline">UTF-8</a></h3>
+<h3>服务器端匹配<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p>In order to distinguish clients by the network address that they connect to, use
 patterns of the form:</p>
 <p>为了区分来自不同网段的客户，可以使用下面的匹配模式：</p>
@@ -308,7 +308,7 @@ address space.</p>
 with connection-oriented services.</p>
 <p><strong>host_pattern</strong>使用主机名，IP地址的规则与<strong>client_list</strong>中相同。只有是面向连接的服务才可以获得服务器端信息。</p>
 <div class="section" id="id7">
-<h4>客户用户名查找<a class="headerlink" href="#id7" title="Permalink to this headline">UTF-8</a></h4>
+<h4>客户用户名查找<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
 <p>CLIENT USERNAME LOOKUP</p>
 <p>When the client host supports the RFC 931 protocol or one of its descendants
 (TAP, IDENT, RFC 1413) the wrapper programs can retrieve additional information
@@ -344,7 +344,7 @@ like:</p>
 <p>would match members of the pc netgroup without doing username lookups, but would perform username lookups with all other systems.</p>
 </div>
 <div class="section" id="id8">
-<h4>检测地址欺骗攻击<a class="headerlink" href="#id8" title="Permalink to this headline">UTF-8</a></h4>
+<h4>检测地址欺骗攻击<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
 <p>DETECTING ADDRESS SPOOFING ATTACKS</p>
 <p>A flaw in the sequence number generator of many TCP/IP implementations allows intruders to easily impersonate trusted hosts and to break in via, for example, the remote shell service. The IDENT (RFC931 etc.) service can be used to detect such and other host address spoofing attacks.</p>
 <p>由于很多TCP/IP服务中的序号生成器存在缺陷，所以很容易被人伪装成可信主机通过远程shell等服务侵入系统。IDENT（RFC931等）服务可以用于检测这类和其它一些主机IP欺骗攻击。</p>
@@ -357,7 +357,7 @@ like:</p>
 <li>注意：IDENT查找不适用于UDP服务。</li>
 </ul>
 <div class="section" id="id9">
-<h5>示例<a class="headerlink" href="#id9" title="Permalink to this headline">UTF-8</a></h5>
+<h5>示例<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h5>
 <p>EXAMPLES
 The language is flexible enough that different types of access control policy can be expressed with a minimum of fuss. Although the language uses two access control tables, the most common policies can be implemented with one of the tables being trivial or even empty.</p>
 <p>When reading the examples below it is important to realize that the allow table is scanned before the deny table, that the search terminates when a match is found, and that access is granted when no match is found at all.</p>
@@ -373,7 +373,7 @@ The language is flexible enough that different types of access control policy ca
 </div>
 </div>
 <div class="section" id="id10">
-<h3>默认阻止模式<a class="headerlink" href="#id10" title="Permalink to this headline">UTF-8</a></h3>
+<h3>默认阻止模式<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <p>MOSTLY CLOSED</p>
 <p>In this case, access is denied by default. Only explicitly authorized hosts are permitted access.</p>
 <p>在此情况下，访问是被默认拒绝的，只有被显式授权的主机才被允许访问。</p>
@@ -400,7 +400,7 @@ ALL: .foobar.edu EXCEPT terminalserver.foobar.edu
 </ul>
 </div>
 <div class="section" id="id11">
-<h3>默认允许模式<a class="headerlink" href="#id11" title="Permalink to this headline">UTF-8</a></h3>
+<h3>默认允许模式<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <p>MOSTLY OPEN</p>
 <p>Here, access is granted by default; only explicitly specified hosts are refused service.
 这种情况下，允许访问是默认的，只有被显式声明的才会被拒绝。</p>
@@ -415,7 +415,7 @@ ALL EXCEPT in.fingerd: other.host.name, .other.domain
 <p>第一条来自主机some.host.name和域.some.domain的所有访问。第二条允许来自other.host.name和.other.domain进行finger请求。</p>
 </div>
 <div class="section" id="id12">
-<h3>设置陷井<a class="headerlink" href="#id12" title="Permalink to this headline">UTF-8</a></h3>
+<h3>设置陷井<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p>BOOBY TRAPS</p>
 <p>The next example permits tftp requests from hosts in the local domain (notice the leading dot). Requests from any other hosts are denied. Instead of the requested file, a finger probe is sent to the offending host. The result is mailed to the superuser.</p>
 <p>接下来的例子中允许来自本地域的主机访问tftp服务，任何来自其它主机的请求都将被拒绝。Instead of the requested file, a finger probe is sent to the offending host. The result is mailed to the superuser.</p>

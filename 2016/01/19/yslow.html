@@ -68,10 +68,10 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="best-practices-for-speeding-up-your-web-site">
-<h1>Best Practices for Speeding Up Your Web Site<a class="headerlink" href="#best-practices-for-speeding-up-your-web-site" title="Permalink to this headline">UTF-8</a></h1>
+<h1>Best Practices for Speeding Up Your Web Site<a class="headerlink" href="#best-practices-for-speeding-up-your-web-site" title="Permalink to this headline">¶</a></h1>
 <div id="more"> </div><p>本文翻译自Yahoo<a class="footnote-reference" href="#ref" id="id1">[1]</a></p>
 <div class="section" id="http">
-<h2>最小化HTTP请求数<a class="headerlink" href="#http" title="Permalink to this headline">UTF-8</a></h2>
+<h2>最小化HTTP请求数<a class="headerlink" href="#http" title="Permalink to this headline">¶</a></h2>
 <p>终端用户80%的响应时间花费在前端。其中花费最多的是下载页面中的各种组件：图片，样式表，JavaScript，Flash等。减少页面包含在页面中的组件可以减少客户端在渲染被请求页面时的HTTP的请求数。</p>
 <p>减少页面组件数的一种方法是简化页面的设计。但是有没有一种方法可以建立包含大量组件的页面同时保持更快的响应时间呢？实际上在设计富页面时，有一些方法可以减少HTTP的请求次数：</p>
 <ol class="arabic simple">
@@ -84,7 +84,7 @@
 <p>减少页面的HTTP请求数是提高性能的第一步，对于改善首次访问的用户的体验是最为重要的准则。如Tenni Theurer博文<a class="reference external" href="http://yuiblog.com/blog/2007/01/04/performance-research-part-2/">Browser Cache Usage - Exposed!</a>中描述的：网站每天的访问中有40%-60%用户是没有缓存任何数据的，首次访问时更快是更好的用户体验的关键。</p>
 </div>
 <div class="section" id="cdn">
-<h2>使用CDN（内容分发网络）<a class="headerlink" href="#cdn" title="Permalink to this headline">UTF-8</a></h2>
+<h2>使用CDN（内容分发网络）<a class="headerlink" href="#cdn" title="Permalink to this headline">¶</a></h2>
 <p>用户距服务器的距离对<span class="docutils literal"><span class="pre">响应时间</span></span>有一定影响，因此将内容部署到多个分散的服务器
 上将使得用户加载速度更快，但是该从什么地方开始呢？</p>
 <p>作为第一步，将内容分散到不同地方的服务器，不必重新设计Web应用让其工作在分布式架构下。对于不同的应用，调整架构需要不同的工作量，甚至令人望而生畏。如同步会话状态，在不同位置的服务器间复制数据库等。这些都可能让你尝试减少用户与服务器间响应时间的努力功亏一篑，永远还要走到调整应用架构这一步。</p>
@@ -94,7 +94,7 @@
 Technologies, EdgeCast, level3。对于初创公司和个人站点，CDN的价格可能难以承受，但是如果你的受众量不断增大，变得更加全球化，为了达到更快的响应，使用CDN是必须的。在Yahoo，将静态内容从各自的应用中剥离并使用CDN（前面提到的第三方CDN服务商和Yahoo自己的CDN），使用用户的响应时间提高了20%以上。切换到CDN只需要相对简单的修改，但是可以极大的提高网站访问速度。</p>
 </div>
 <div class="section" id="expirescache-controlhttp">
-<span id="section-expires"></span><h2>添加<span class="docutils literal"><span class="pre">Expires</span></span>或<span class="docutils literal"><span class="pre">Cache-Control</span></span>HTTP头<a class="headerlink" href="#expirescache-controlhttp" title="Permalink to this headline">UTF-8</a></h2>
+<span id="section-expires"></span><h2>添加<span class="docutils literal"><span class="pre">Expires</span></span>或<span class="docutils literal"><span class="pre">Cache-Control</span></span>HTTP头<a class="headerlink" href="#expirescache-controlhttp" title="Permalink to this headline">¶</a></h2>
 <p>此规则包含两个方面：</p>
 <ol class="arabic simple">
 <li>对于静态内容，通过将HTTP头<span class="docutils literal"><span class="pre">Expires</span></span>设定为遥远的将来使其“永不过期”；</li>
@@ -114,7 +114,7 @@ Technologies, EdgeCast, level3。对于初创公司和个人站点，CDN的价�
 <p>只有用户已经访问过你的站点，使用包含一个“永不过期”的<span class="docutils literal"><span class="pre">Expires</span></span>HTTP头才能影响页面访问量（PV, page views）。对于初次访问以及注意器缓存为空时，它不会影响（减少）HTTP请求数。<strong>因此这种性能改进的影响有赖于用户有多大几率是在有缓存情形下访问站点。</strong>我们测量了Yahoo站点的这方面数据，发现大约有75%-85%有页面访问量是在有缓存情况下进行的。<strong>通过使用“永不过期”的Expires头，可以增加被缓存的内容，当其它页面被访问时可以重复利用它们而不是向服务器再次请求</strong></p>
 </div>
 <div class="section" id="gzip-components">
-<span id="section-gzip"></span><h2>压缩页面内容(Gzip Components)<a class="headerlink" href="#gzip-components" title="Permalink to this headline">UTF-8</a></h2>
+<span id="section-gzip"></span><h2>压缩页面内容(Gzip Components)<a class="headerlink" href="#gzip-components" title="Permalink to this headline">¶</a></h2>
 <p>通过前端工程师的调优，可以显著的减少HTTP请求和响应在网络上的传输时间。另一方面，用户的访问带宽速度，ISP，proximity to peering exchange points等都超出了开发团队的控制范围。但是这些都会影响到响应时间，压缩可以减小HTTP响应内容的大小进而减少响应时间。</p>
 <p>从HTTP/1.1开始，WEB客户端在发起HTTP请求时，在请求头中添加字段<span class="docutils literal"><span class="pre">Accept-Encoding</span></span>来说明客户端支持压缩：</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Accept</span><span class="o">-</span><span class="n">Encoding</span><span class="p">:</span> <span class="n">gzip</span><span class="p">,</span><span class="n">deflate</span>
@@ -133,7 +133,7 @@ Technologies, EdgeCast, level3。对于初创公司和个人站点，CDN的价�
 <p>使用gzip压缩多种文件类型，是一种减小页面大小和提高用户体验的一种简单方法。</p>
 </div>
 <div class="section" id="id2">
-<h2>将样式表放在页面顶部<a class="headerlink" href="#id2" title="Permalink to this headline">UTF-8</a></h2>
+<h2>将样式表放在页面顶部<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>通过在Yahoo的(WEB)性能研究，我们发现将样式表放置在HTML文件的<span class="docutils literal"><span class="pre">HEAD</span></span>位置时，页面加载的更快。这是因为将样式表放在<span class="docutils literal"><span class="pre">HEAD</span></span>中允许页面逐步进行渲染。</p>
 <p>关注性能的前端工程师想要页面是逐步加载，也就是说希望浏览器只要它获取到内容就可以进行渲染显示。这对于包含大量内容页面和网络较慢的用户特别重要。一些研究和<a class="reference external" href="http://www.useit.com/papers/responsetime.html">资料</a>显示，（在加载时）给用户以视觉的反馈提示（如进度条）是非常重要的。在我们的研究例子中，页面是逐步加载的，浏览器中页面内的头部，导航栏，顶部Logo等被逐步加载显示。所以为正在等待加载页面用户提供的视觉反馈，都可以改善所有用户的体验。</p>
 <p>将样式表放在页面底部引起的问题是：大多数浏览器（包括IE）会禁止页面逐步渲染显示。
@@ -143,13 +143,13 @@ Technologies, EdgeCast, level3。对于初创公司和个人站点，CDN的价�
 放在页面的<span class="docutils literal"><span class="pre">HEAD</span></span>中进行加载。</p>
 </div>
 <div class="section" id="id4">
-<h2>将脚本放在页面的底部<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h2>
+<h2>将脚本放在页面的底部<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p>（加载）脚本会阻止浏览器的并行下载。<a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec8.html#sec8.1.4">HTTP/1.1规范</a>中建议浏览器下载内容时每个域名并行下载最多为2个。如果你使用多个域名提供图片服务，可以实现超过两个的并行下载。当正在下载一个脚本时，即使资料在不同的服务器上，浏览器也不会进行任何其它下载。</p>
 <p>在某些情形下，脚本不便于放置在页面的底部。例如，如果脚本中使用<em>document.write</em>向页面中插入内容时就不能将它移动到页面底部。可能还有作用域的问题，在许多情况下，也有方法来解决这些问题。</p>
 <p>另外一个常见的建议是使用延迟脚本（deferred scripts）。<span class="docutils literal"><span class="pre">DEFER</span></span>属性表示该脚本没有包含<em>document.write</em>内容，暗示浏览器可以继续进行渲染。不幸的是，Firefox不支持<span class="docutils literal"><span class="pre">DEFER</span></span>属性。对于IE浏览器，脚本可能被延迟，但是并不像期望的那样（工作）。如果一个脚本可以被延迟，它就可以被移到页面的底部，这样就可以加快网页的加载速度了。</p>
 </div>
 <div class="section" id="css">
-<h2>不要使用CSS表达式<a class="headerlink" href="#css" title="Permalink to this headline">UTF-8</a></h2>
+<h2>不要使用CSS表达式<a class="headerlink" href="#css" title="Permalink to this headline">¶</a></h2>
 <p>CSS表达式是动态设定CSS属性的一种有力方法，同时也一种危险的方法。它们从IE 5开始被支持，但是从IE8开始被废弃。下面的例子中，通过使用CSS表达式，将每个小时改变背景颜色一次。</p>
 <div class="highlight-css"><div class="highlight"><pre><span></span><span class="nt">background-color</span><span class="o">:</span> <span class="nt">expression</span><span class="o">(</span> <span class="o">(</span><span class="nt">new</span> <span class="nt">Date</span><span class="o">())</span><span class="p">.</span><span class="nc">getHours</span><span class="o">()%</span><span class="nt">2</span> <span class="o">?</span> <span class="s2">&quot;#B8D4FF&quot;</span> <span class="o">:</span> <span class="s2">&quot;#F08A00&quot;</span> <span class="o">);</span>
 </pre></div>
@@ -159,7 +159,7 @@ Technologies, EdgeCast, level3。对于初创公司和个人站点，CDN的价�
 <p>减少CSS表达式计算次数的一种方法就是使用<span class="docutils literal"><span class="pre">一次性（one-time）表达式</span></span>，一次性表达式在第一次被计算式给相应的属性设定一个显式的值，而不是CSS表达式。如果CSS属性必须在页面的生命周期内动态变化，可以<span class="docutils literal"><span class="pre">使用事件处理的方式来代替CSS表达式</span></span>。如果你必须使用CSS表达式，请记住它们可以被重复计算成千上万次，并且会影响页面性能。</p>
 </div>
 <div class="section" id="javascriptcss">
-<h2>将JavaScript和CSS内容存储在外部文件<a class="headerlink" href="#javascriptcss" title="Permalink to this headline">UTF-8</a></h2>
+<h2>将JavaScript和CSS内容存储在外部文件<a class="headerlink" href="#javascriptcss" title="Permalink to this headline">¶</a></h2>
 <p>这里介绍的大多数（改善）性能规则都是在介绍如何管理外部（译者注：HTML页面之外）组
 件，然而在考虑这些之前，你可能会考虑一个更基础的问题：“JavaScript, CSS应该存放在
 外部文件中还是直接写在HTML页面中呢？”</p>
@@ -182,7 +182,7 @@ HTML页面的大小，同时也不会增加HTTP请求数。</p>
 被浏览器缓存的外部文件。</p>
 </div>
 <div class="section" id="dns">
-<span id="section-dns"></span><h2>减小DNS查找<a class="headerlink" href="#dns" title="Permalink to this headline">UTF-8</a></h2>
+<span id="section-dns"></span><h2>减小DNS查找<a class="headerlink" href="#dns" title="Permalink to this headline">¶</a></h2>
 <p>标签：内容</p>
 <p>域名系统（Domain Name System, DNS）将主机名映射到IP地址，就像电话薄将人名与他们
 的电话号码关联起来一样。当你在浏览器地址栏中输入<em>www.yahoo.com</em>（并按回车）
@@ -208,7 +208,7 @@ HTML页面的大小，同时也不会增加HTTP请求数。</p>
 </div>
 </div>
 <div class="section" id="section-minify">
-<span id="id5"></span><h2>减小JavaScript和CSS代码的大小<a class="headerlink" href="#section-minify" title="Permalink to this headline">UTF-8</a></h2>
+<span id="id5"></span><h2>减小JavaScript和CSS代码的大小<a class="headerlink" href="#section-minify" title="Permalink to this headline">¶</a></h2>
 <p>缩小是通过删除代码中非必须字符来减小代码大小，从而提高加载速度的一种实践。当对代
 码进行缩小时，所有的注释，非必须的空白字符（空格，换行符，制表符）都被删除，在这
 种情况下，由于下载的数据减少可以改善JavaScript的响应时间。有两个流行的工具用来缩
@@ -226,7 +226,7 @@ CSS。</p>
 </div>
 </div>
 <div class="section" id="section-redirect">
-<span id="id6"></span><h2>避免重定向<a class="headerlink" href="#section-redirect" title="Permalink to this headline">UTF-8</a></h2>
+<span id="id6"></span><h2>避免重定向<a class="headerlink" href="#section-redirect" title="Permalink to this headline">¶</a></h2>
 <p>标签：内容</p>
 <p>通过返回状态码<em>301, 302</em>可以实现重定向。下面是一个WEB服务器响应<em>301</em>的
 HTTP头：</p>
@@ -260,7 +260,7 @@ Content-Type: text/html
 </div>
 </div>
 <div class="section" id="id7">
-<h2>删除重复的脚本<a class="headerlink" href="#id7" title="Permalink to this headline">UTF-8</a></h2>
+<h2>删除重复的脚本<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <p>标签：javascript</p>
 <p>在一个页面内将同一个JavaScript脚本加载再次会对性能产生影响。这并不像你想像的那样
 不同寻常。一个对美国前十大网站的研究表明，其中有20%的站点包含有重复脚本。有两方
@@ -287,7 +287,7 @@ Content-Type: text/html
 </div>
 </div>
 <div class="section" id="etags">
-<span id="section-etags"></span><h2>配置<span class="docutils literal"><span class="pre">ETag</span></span>s<a class="headerlink" href="#etags" title="Permalink to this headline">UTF-8</a></h2>
+<span id="section-etags"></span><h2>配置<span class="docutils literal"><span class="pre">ETag</span></span>s<a class="headerlink" href="#etags" title="Permalink to this headline">¶</a></h2>
 <p>标签：javascript</p>
 <p><span class="docutils literal"><span class="pre">实体标签(Entity</span> <span class="pre">tags,</span> <span class="pre">ETags)</span></span>是WEB服务器与浏览器间用来判断浏览器缓存项是否
 与原服务器上的数据一致的一种机制。（An &#8220;entity&#8221; is another word a &#8220;component&#8221;:
@@ -340,7 +340,7 @@ Apache或IIS的默认ETag配置，你的用户访问页面将比较慢，而且�
 </div>
 </div>
 <div class="section" id="ajax">
-<h2>使得Ajax可缓存<a class="headerlink" href="#ajax" title="Permalink to this headline">UTF-8</a></h2>
+<h2>使得Ajax可缓存<a class="headerlink" href="#ajax" title="Permalink to this headline">¶</a></h2>
 <p>标签：内容</p>
 <p>由于使用Ajax可以异步地向后台WEB服务器请求数据，使用Ajax的一个优势是可以向用户即时的提供反馈。然而使用Ajax并不能保证用户会等待JavaScript异步请求和返回XML数据。在大多数应用中，用户是否等待取决于如何使用Ajax。例如，在基于WEB的EMail客户端应用中，用户通常会等待Ajax返回所有符合他们搜索条件的结果。请铭记：<span class="docutils literal"><span class="pre">“异步“并不\</span>
 <span class="pre">意味着“瞬间”</span></span>。</p>
@@ -361,7 +361,7 @@ Apache或IIS的默认ETag配置，你的用户访问页面将比较慢，而且�
 </div>
 </div>
 <div class="section" id="id8">
-<h2>及早冲刷缓存<a class="headerlink" href="#id8" title="Permalink to this headline">UTF-8</a></h2>
+<h2>及早冲刷缓存<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <p>标签：服务器</p>
 <p>当用户请求一个页面时， it can take anywhere from 200 to 500ms for the backend
 server to stitch together the HTML page. 在此期间，浏览器一直空闲着等待服务器返回数据。在PHP中，你可以使用函数<span class="docutils literal"><span class="pre">flush()</span></span>输出已加载的缓存。这样可以将已经读入的部分HTML数据发送给客户端，这样在后端服务器忙于加载HTML页面的其它部分时，浏览器就可以开始下载页面内容。The benefit is mainly seen on busy backends or
@@ -381,7 +381,7 @@ is still processing.</p>
 <p>Yahoo搜索先锋研究和真实用户测试证明了使用这些技术是有好处的。</p>
 </div>
 <div class="section" id="ajaxget">
-<h2>Ajax使用GET方法请求<a class="headerlink" href="#ajaxget" title="Permalink to this headline">UTF-8</a></h2>
+<h2>Ajax使用GET方法请求<a class="headerlink" href="#ajaxget" title="Permalink to this headline">¶</a></h2>
 <p>标签：服务器</p>
 <p>Yahoo邮箱团队发现但使用XMLHttpRequest，浏览器内部通过两步来实现POST方法：先发送请求头，再发送数据。因此最好使用GET方法，因为GET方法只发送一个TCP包（除非你有大量的cookies）。IE中URL的最大长度为2K，因此如果你发送超过2K的数据时，就不能使用GET方法了。</p>
 <p>有趣的是，POST方法没有像GET方法一样发送任何数据，基于<a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">HTTP规范</a>，GET方法是用于获取信息的，当你只是请求数据，而没有发送数据存放在服务端时，你应该使用GET方法。</p>
@@ -392,7 +392,7 @@ is still processing.</p>
 </div>
 </div>
 <div class="section" id="post-load-components">
-<h2>Post-load Components<a class="headerlink" href="#post-load-components" title="Permalink to this headline">UTF-8</a></h2>
+<h2>Post-load Components<a class="headerlink" href="#post-load-components" title="Permalink to this headline">¶</a></h2>
 <p>标签：内容</p>
 <p>仔细审视一下你的页面，问问自己”为了初始渲染页面，哪些东西是绝对必需的？”其它内容
 和组件可以等一等。</p>
@@ -414,7 +414,7 @@ Net面板，再加载Yahoo主页看看。</p>
 </div>
 </div>
 <div class="section" id="id10">
-<h2>预加载内容<a class="headerlink" href="#id10" title="Permalink to this headline">UTF-8</a></h2>
+<h2>预加载内容<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <p>标签：内容</p>
 <p>预加载(preload)看上去与延迟加载(post-load)是相对立的，但事实上它们有着不同的目标
 ，通过预加载你能够利用浏览器空闲时间来请求那些你将需要页面组件（如图片，样式表和
@@ -441,7 +441,7 @@ Net面板，再加载Yahoo主页看看。</p>
 </div>
 </div>
 <div class="section" id="dom">
-<h2>减少DOM元素数量<a class="headerlink" href="#dom" title="Permalink to this headline">UTF-8</a></h2>
+<h2>减少DOM元素数量<a class="headerlink" href="#dom" title="Permalink to this headline">¶</a></h2>
 <p>标签：内容</p>
 <p>一个复杂的网页意味着需要下载更多的数据，另外JavaScript读取DOM时更慢。例如，当你想增加一个事件处理时需要遍历500和5000个DOM时，两者非常的不同。</p>
 <p>存在大量的DOM元素意味着可以通过删除页面中非必需元素加以改进。为了页面布局你是否使用过嵌套表格呢？你是否使用更多的<span class="docutils literal"><span class="pre">div</span></span>标签来改善这个问题呢？这可能是一种更好、（语义上）更加正确的方法改进你的HTML文件。</p>
@@ -450,13 +450,13 @@ Net面板，再加载Yahoo主页看看。</p>
 <p>那么多少DOM元素算太多呢？检查对比其它标记（设计）良好页面。例如Yahoo主页，一个非常繁忙的页面，页面元素（HTML标签）数目一直少于700。</p>
 </div>
 <div class="section" id="id11">
-<h2>将页面内容拆分到不同域<a class="headerlink" href="#id11" title="Permalink to this headline">UTF-8</a></h2>
+<h2>将页面内容拆分到不同域<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
 <p>标签：内容</p>
 <p>通过拆分内容组件，你可以最大化并行下载。确保你使用的域名数没有超过4个，因为DNS查找也是有代价的。例如你可以将HTML文件和动态内容存放在域www.example.com中，将静态内容拆分到static1.example.com和static2.example.com下。</p>
 <p>更多的信息请查看由Tenni Theurer和Patty Chi撰写的<a class="reference external" href="http://yuiblog.com/blog/2007/04/11/performance-research-part-4/">通过拼车道最大化并行下载</a>。</p>
 </div>
 <div class="section" id="iframe">
-<h2>最小化iframe数量<a class="headerlink" href="#iframe" title="Permalink to this headline">UTF-8</a></h2>
+<h2>最小化iframe数量<a class="headerlink" href="#iframe" title="Permalink to this headline">¶</a></h2>
 <p>标签：内容</p>
 <p>框架（Iframes）允许HTML文档插入到其父文档中。只有理解了框架是如何工作的，才能更加有效的利用它。</p>
 <p>&lt;iframe&gt; pros:</p>
@@ -473,7 +473,7 @@ Net面板，再加载Yahoo主页看看。</p>
 </ul>
 </div>
 <div class="section" id="no-404s">
-<h2>No 404s<a class="headerlink" href="#no-404s" title="Permalink to this headline">UTF-8</a></h2>
+<h2>No 404s<a class="headerlink" href="#no-404s" title="Permalink to this headline">¶</a></h2>
 <p>标签：内容</p>
 <p>HTTP请求要消耗相当的资源，因为发起一个HTTP请求最终得到一个无意义的响应是完全没有必要的，它不会给用户带来任何好处，且降低用户体验。</p>
 <p>有些站点提供在404s提供一个提示信息”你的意思是X？“，这对用户有很大的帮助，但是会浪费服务端资源（如数据库等）。特别糟糕的是当链接一个外部JavaScript文件失败，返回404，这首先会阻塞并行下载，接下来浏览器可能尝试解析404响应返回的内容，试图从其中找到有用的东西。</p>
@@ -483,7 +483,7 @@ Net面板，再加载Yahoo主页看看。</p>
 </div>
 </div>
 <div class="section" id="cookie">
-<h2>减少Cookie大小<a class="headerlink" href="#cookie" title="Permalink to this headline">UTF-8</a></h2>
+<h2>减少Cookie大小<a class="headerlink" href="#cookie" title="Permalink to this headline">¶</a></h2>
 <p>标签：cookie</p>
 <p>HTTP cookies有着各种用途，如用户的认证和定制。cookies的内容通过HTTP的头部在WEB服务器和浏览器之间进行交换。重要的是尽可能的减小cookies的大小，以降低它对用户响应时间的影响。</p>
 <p>更多的信息请查看Tenni Theurer和Patty Chi撰写的“<a class="reference external" href="http://yuiblog.com/blog/2007/03/01/performance-research-part-3/">When the Cookie Crumbles</a>”，其主要观点为：</p>
@@ -499,7 +499,7 @@ Net面板，再加载Yahoo主页看看。</p>
 </div>
 </div>
 <div class="section" id="use-cookie-free-domains-for-components">
-<h2>Use Cookie-free Domains for Components<a class="headerlink" href="#use-cookie-free-domains-for-components" title="Permalink to this headline">UTF-8</a></h2>
+<h2>Use Cookie-free Domains for Components<a class="headerlink" href="#use-cookie-free-domains-for-components" title="Permalink to this headline">¶</a></h2>
 <p>标签：cookie</p>
 <p>当浏览器请求一个静态文件（如图片）时附加上cookie信息，服务器并不会使用这些cookie。因此它们（cookie）只是浪费网络流量而毫无意义。<strong>你应该确保在请求静态组件内容时不会携带cookie</strong>。可以创建一个子域用来存放静态内容。</p>
 <p>假设你的域名为<em>www.example.org</em>你可以将静态内容置于<em>static.example.org</em>下。然而，如果你将cookie设定在顶级域<em>example.org</em>而不是<em>www.example.org</em>将导致在请求<em>static.example.org</em>下的内容时也会携带cookie。在这种情况下，你可能需要使用一个全新的域名来存放静态内容，以保持此域<em>cookie-free</em>。例如：Yahoo使用yimg.com，YouTube使用<em>ytimg.com</em>，Amazon使用<em>images-amazon.com</em>来存放静态内容。</p>
@@ -510,7 +510,7 @@ Net面板，再加载Yahoo主页看看。</p>
 </div>
 </div>
 <div class="section" id="minimize-dom-access">
-<h2>Minimize DOM Access<a class="headerlink" href="#minimize-dom-access" title="Permalink to this headline">UTF-8</a></h2>
+<h2>Minimize DOM Access<a class="headerlink" href="#minimize-dom-access" title="Permalink to this headline">¶</a></h2>
 <p>标签：javascript</p>
 <p>JavaScript存取DOM元素通常慢，为了得到更多响应内容，你可以：</p>
 <ul class="simple">
@@ -522,7 +522,7 @@ Net面板，再加载Yahoo主页看看。</p>
 &lt;http://yuiblog.com/blog/2007/04/11/performance-research-part-4/&gt;</cite>”。</p>
 </div>
 <div class="section" id="develop-smart-event-handlers">
-<h2>Develop Smart Event Handlers<a class="headerlink" href="#develop-smart-event-handlers" title="Permalink to this headline">UTF-8</a></h2>
+<h2>Develop Smart Event Handlers<a class="headerlink" href="#develop-smart-event-handlers" title="Permalink to this headline">¶</a></h2>
 <p>标签：javascript</p>
 <p>有时页面响应较慢是因为DOM树中的不同元素被附加了太多的事件，而且这些事件被频繁的执行。如果你在div中有10个按钮，只添加一个事件处理程序在div上以代替为每个按钮添加一个事件处理程序，事件发生时，你可以捕捉到事件并知道是那个按钮产生的事件。这就是为什么使用<em>事件代理(event delegations)</em>是一个好方法。</p>
 <p>You also don&#8217;t need to wait for the onload event in order to start doing
@@ -534,19 +534,19 @@ utility, which has an onAvailable method</p>
 <p>更多信息请查看Julien Lecomte所写的<a class="reference external" href="http://yuiblog.com/blog/2007/12/20/video-lecomte/">高性能Ajax应用</a>。</p>
 </div>
 <div class="section" id="link-import">
-<h2>使用&lt;link&gt;代替&#64;import<a class="headerlink" href="#link-import" title="Permalink to this headline">UTF-8</a></h2>
+<h2>使用&lt;link&gt;代替&#64;import<a class="headerlink" href="#link-import" title="Permalink to this headline">¶</a></h2>
 <p>标签：CSS</p>
 <p>前面的规则已经建议将CSS放置在页面的顶部以允许浏览器进行逐步渲染。</p>
 <p>对于IE, <span class="docutils literal"><span class="pre">&#64;import</span></span>的作用与将<span class="docutils literal"><span class="pre">&lt;link&gt;</span></span>放置在页面底部等效，因此最好不要使用<span class="docutils literal"><span class="pre">&#64;import</span></span>。</p>
 </div>
 <div class="section" id="avoid-filters">
-<h2>Avoid Filters<a class="headerlink" href="#avoid-filters" title="Permalink to this headline">UTF-8</a></h2>
+<h2>Avoid Filters<a class="headerlink" href="#avoid-filters" title="Permalink to this headline">¶</a></h2>
 <p>标签：CSS</p>
 <p>IE特有的过滤器<span class="docutils literal"><span class="pre">AlphaImageLoader</span></span>主要是为了修正低版本IE（&lt;7）中真彩色PNG图片的半透明问题。这个过滤器会的问题在于：在图片在下载时，阻止浏览器进行渲染并会冻结浏览器；另外应该这一特性的元素会消耗更多的内存，不仅是图片，因此会引起更大的问题。</p>
 <p>最好的做法是完全避免使用<span class="docutils literal"><span class="pre">AlphaImageLoader</span></span>，使用在IE中工作的很好的PNG8来代替，如果你不得不使用它，请使用<span class="docutils literal"><span class="pre">_filter</span></span>来避免影响到使用IE7+的用户。</p>
 </div>
 <div class="section" id="id14">
-<h2>优化图片大小<a class="headerlink" href="#id14" title="Permalink to this headline">UTF-8</a></h2>
+<h2>优化图片大小<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
 <p>标签：图片</p>
 <p>当设计师为你的网页制作好图片，在将图片上传至WEB服务器之前，你还可以对图片进行一些处理：</p>
 <ul>
@@ -573,7 +573,7 @@ utility, which has an onAvailable method</p>
 </ul>
 </div>
 <div class="section" id="id15">
-<h2>优化CSS Sprites<a class="headerlink" href="#id15" title="Permalink to this headline">UTF-8</a></h2>
+<h2>优化CSS Sprites<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
 <p>标签：图片</p>
 <ul class="simple">
 <li>从水平方向布置图片通常比在垂直方向布置得到的图片更小；</li>
@@ -582,13 +582,13 @@ utility, which has an onAvailable method</p>
 </ul>
 </div>
 <div class="section" id="id16">
-<h2>不要在HTML中缩放图片<a class="headerlink" href="#id16" title="Permalink to this headline">UTF-8</a></h2>
+<h2>不要在HTML中缩放图片<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
 <p>标签：图片</p>
 <p>不要因为可以通过HTML标签中的<span class="docutils literal"><span class="pre">width</span></span>和<span class="docutils literal"><span class="pre">height</span></span>属性来调整图片大小而使用超过你需要的图片。如果你需要<span class="docutils literal"><span class="pre">&lt;img</span> <span class="pre">width=&quot;100&quot;</span> <span class="pre">height=&quot;100&quot;</span> <span class="pre">src=&quot;mycat.jpg&quot;</span>
 <span class="pre">alt=&quot;My</span> <span class="pre">Cat&quot;</span> <span class="pre">/&gt;</span></span>,那么你的图片尺寸应该是100x100px，而不是使用规格为500x500px进行缩放。</p>
 </div>
 <div class="section" id="favicon-ico">
-<h2>使用favicon.ico尽可能小且可缓存<a class="headerlink" href="#favicon-ico" title="Permalink to this headline">UTF-8</a></h2>
+<h2>使用favicon.ico尽可能小且可缓存<a class="headerlink" href="#favicon-ico" title="Permalink to this headline">¶</a></h2>
 <p>标签：图片</p>
 <p><em>favicon.ico</em>是存放在你的站点顶级路径下的一张图片。它是一个无法避免的evil，因为即使你不关心，浏览器还是会一直请求它，因此最好不要返回一个<em>404 Not Found</em>的响应。由于（与其它内容）在同一服务器上，所以每次请求<em>favicon.ico</em>都会附带上cookie。这个图片也会影响到下载顺序。例如在IE中，当请求加载某一个组件时，<em>favicon.ico</em>会在被请求内容之前下载。</p>
 <p>因此为了减轻<em>favicon.ico</em>带来的不良影响，请确保：</p>
@@ -603,18 +603,18 @@ utility, which has an onAvailable method</p>
 <p><a class="reference external" href="http://www.imagemagick.org/">Imagemagick</a>可以帮助你创建更小的favicon图标。</p>
 </div>
 <div class="section" id="k">
-<h2>使页面组件小于25K<a class="headerlink" href="#k" title="Permalink to this headline">UTF-8</a></h2>
+<h2>使页面组件小于25K<a class="headerlink" href="#k" title="Permalink to this headline">¶</a></h2>
 <p>标签：移动</p>
 <p>这个限制主要是因为iPhone不缓存大于25K的文件内容。需要注意的是这个大小是指未压缩时的大小。This is where minification is important because gzip alone may not be
 sufficient.</p>
 </div>
 <div class="section" id="pack-components-into-a-multipart-document">
-<h2>Pack Components into a Multipart Document<a class="headerlink" href="#pack-components-into-a-multipart-document" title="Permalink to this headline">UTF-8</a></h2>
+<h2>Pack Components into a Multipart Document<a class="headerlink" href="#pack-components-into-a-multipart-document" title="Permalink to this headline">¶</a></h2>
 <p>标签：移动</p>
 <p>将组件合并到一个multipart document就像一封附带附件的电子邮件，它可以帮助你使用一个HTTP请求来获取多个组件内容（请记住：HTTP请求是非常昂贵的）。当你使用这项技术时，首先需要检查用户浏览器是否支持此技术。</p>
 </div>
 <div class="section" id="avoid-empty-image-src">
-<h2>Avoid Empty Image src<a class="headerlink" href="#avoid-empty-image-src" title="Permalink to this headline">UTF-8</a></h2>
+<h2>Avoid Empty Image src<a class="headerlink" href="#avoid-empty-image-src" title="Permalink to this headline">¶</a></h2>
 <p>标签：服务端</p>
 <p>下面两种情况可能导致一个<em>img</em>标签的<em>src</em>属性为空:</p>
 <ul>
@@ -652,7 +652,7 @@ href=&#8217;&#8216;</em>。也许还有时间进行调整确保浏览器不会�
 <p>这条规则是Yahoo的JavaScript专家Nicolas C. Zakas所发现。更详细的信息请查看他的文章“<a class="reference external" href="http://www.nczonline.net/blog/2009/11/30/empty-image-src-can-destroy-your-site/">空的img的src值可以摧毁你的站点</a>”。</p>
 </div>
 <div class="section" id="id19">
-<h2>参考资料<a class="headerlink" href="#id19" title="Permalink to this headline">UTF-8</a></h2>
+<h2>参考资料<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
 <table class="docutils footnote" frame="void" id="ref" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">

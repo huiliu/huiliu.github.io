@@ -68,11 +68,11 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="net-snmp">
-<h1>Net-SNMP使用心得<a class="headerlink" href="#net-snmp" title="Permalink to this headline">UTF-8</a></h1>
+<h1>Net-SNMP使用心得<a class="headerlink" href="#net-snmp" title="Permalink to this headline">¶</a></h1>
 <div id="more"> </div><div class="section" id="id1">
-<h2>权限控制<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h2>
+<h2>权限控制<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id2">
-<h3>传统的访问控制<a class="headerlink" href="#id2" title="Permalink to this headline">UTF-8</a></h3>
+<h3>传统的访问控制<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>rouser [-s SECMODEL]  USER [noauth|auth|priv [OID | -V VIEW [CONTEXT]]]
 rwuser [-s SECMODEL]  USER [noauth|auth|priv [OID | -V VIEW [CONTEXT]]]</li>
@@ -81,7 +81,7 @@ rwcommunity COMMUNITY [SOURCE [OID | -V VIEW [CONTEXT]]]</li>
 </ul>
 </div>
 <div class="section" id="id3">
-<h3>基于视图的访问控制<a class="headerlink" href="#id3" title="Permalink to this headline">UTF-8</a></h3>
+<h3>基于视图的访问控制<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>com2sec  [-Cn CONTEXT] SECNAME SOURCE COMMUNITY
 com2sec6  [-Cn CONTEXT] SECNAME SOURCE COMMUNITY</li>
@@ -92,13 +92,13 @@ com2sec6  [-Cn CONTEXT] SECNAME SOURCE COMMUNITY</li>
 </ul>
 </div>
 <div class="section" id="id4">
-<h3>类型视图访问控制<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h3>
+<h3>类型视图访问控制<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 <div class="section" id="tips">
-<h2>Tips<a class="headerlink" href="#tips" title="Permalink to this headline">UTF-8</a></h2>
+<h2>Tips<a class="headerlink" href="#tips" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id5">
-<h3>删除不必要的项<a class="headerlink" href="#id5" title="Permalink to this headline">UTF-8</a></h3>
+<h3>删除不必要的项<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>使用SNMP获取磁盘IO数据时，会读取到大量ram, loop, fd等分区的数据，会增加网络传输量，也会使后面的处理稍微复杂一点。如果能够直接这些多余的信息去除最好。好在已经有人放出了补丁可以完成此任务<a class="footnote-reference" href="#ref1" id="id6">[1]</a>。在最新的5.7.2中已经加入了此功能，CentOS 6.4的Net-SNMP 5.5中还没有此功能。</p>
 <p>Net-SNMP 5.7.2中引入了新的参数：<span class="docutils literal"><span class="pre">diskio_exclude_loop,</span> <span class="pre">diskio_exclude_ram,\</span>
 <span class="pre">diskio_exclude_fd</span></span>将它们设定为&#8221;yes&#8221;，就可以去除磁盘IO表<span class="docutils literal"><span class="pre">.1.3.6.1.4.1.2021\</span>
@@ -117,7 +117,7 @@ diskio_exclude_loop  yes
 </div>
 </div>
 <div class="section" id="id7">
-<h2>问题集锦<a class="headerlink" href="#id7" title="Permalink to this headline">UTF-8</a></h2>
+<h2>问题集锦<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic">
 <li><p class="first">查询某些项目时提示“<span class="docutils literal"><span class="pre">No</span> <span class="pre">more</span> <span class="pre">variables</span> <span class="pre">left</span> <span class="pre">in</span> <span class="pre">this</span> <span class="pre">MIB</span> <span class="pre">View</span> <span class="pre">(It</span> <span class="pre">is</span> <span class="pre">past\</span>
 <span class="pre">the</span> <span class="pre">end</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">MIB</span> <span class="pre">tree)</span></span>”</p>

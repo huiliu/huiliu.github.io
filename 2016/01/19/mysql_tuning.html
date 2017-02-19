@@ -68,11 +68,11 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="mysql">
-<h1>MySQL通用调优原则<a class="headerlink" href="#mysql" title="Permalink to this headline">UTF-8</a></h1>
+<h1>MySQL通用调优原则<a class="headerlink" href="#mysql" title="Permalink to this headline">¶</a></h1>
 <div id="more"> </div><p>如果服务器使用单一存储引擎，调优相对容易的多。如，只使用MyISAM表，就可以完全禁止
 InnoDB；反之类似。</p>
 <div class="section" id="id1">
-<h2>查询缓存<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h2>
+<h2>查询缓存<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>MySQL可以缓存将查询结果，当客户再次查询时会直接将结果返回给用户。当服务端收到一
 个请求后，在解析请求之前会先检查<em>查询缓存</em>是否有相应结果，如果有，则直接将结
 果返回给用户，并增加<span class="docutils literal"><span class="pre">Qcache_hits</span></span>的计数（而不增加<span class="docutils literal"><span class="pre">Com_select</span></span>计算）
@@ -102,7 +102,7 @@ InnoDB；反之类似。</p>
 </li>
 </ul>
 <div class="section" id="id3">
-<h3>相关服务器变量和状态值<a class="headerlink" href="#id3" title="Permalink to this headline">UTF-8</a></h3>
+<h3>相关服务器变量和状态值<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>与查询缓存相关的MySQL变量有：(不同版本可能有所不同，下面为MariaDB 5.5.36）</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -179,7 +179,7 @@ InnoDB；反之类似。</p>
 </table>
 </div>
 <div class="section" id="tips">
-<h3>Tips 关注点<a class="headerlink" href="#tips" title="Permalink to this headline">UTF-8</a></h3>
+<h3>Tips 关注点<a class="headerlink" href="#tips" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">查询命中率</p>
 <div class="math">
@@ -189,7 +189,7 @@ InnoDB；反之类似。</p>
 </div>
 </div>
 <div class="section" id="myisam">
-<h2>MyISAM的键缓存<a class="headerlink" href="#myisam" title="Permalink to this headline">UTF-8</a></h2>
+<h2>MyISAM的键缓存<a class="headerlink" href="#myisam" title="Permalink to this headline">¶</a></h2>
 <p>MyISAM自身只缓存了索引，没有数据（数据由操作系统缓存）。最重要的选项是<span class="docutils literal"><span class="pre">key_buffer_size</span></span>。默认情况下，MyISAM将所有索引缓存在默认的键缓存中，但是可
 以创建多个命名键缓存区。例如在配置文件中添加下面两行，就会创建名为<em>key_buffer_1</em>和<em>key_buffer_2</em>的两个键缓存区，大小都为1G。此时MySQL就有三
 个键缓存区了。</p>
@@ -204,14 +204,14 @@ InnoDB；反之类似。</p>
 <p>通过<span class="docutils literal"><span class="pre">SHOW</span> <span class="pre">STATUS</span></span>和<span class="docutils literal"><span class="pre">SHOW</span> <span class="pre">VARIABLES</span></span>监视键缓冲区的使用情况和性能。主
 要指标有：<span class="docutils literal"><span class="pre">缓存命中率</span></span>和<span class="docutils literal"><span class="pre">缓存使用率</span></span></p>
 <div class="section" id="id4">
-<h3>缓存命中率<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h3>
+<h3>缓存命中率<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <div class="math">
 \[\begin{equation}
     \% = \frac{key_read}{key_read_requests}\times 100
 \end{equation}\]</div>
 </div>
 <div class="section" id="id5">
-<h3>缓存使用率<a class="headerlink" href="#id5" title="Permalink to this headline">UTF-8</a></h3>
+<h3>缓存使用率<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <div class="math">
 \[\begin{equation}
     \% = \frac{key_blocks_unused * key_cache_block_size}{key_buffer_size}\times 100
@@ -223,7 +223,7 @@ InnoDB；反之类似。</p>
 </div>
 </div>
 <div class="section" id="id6">
-<h3>MyISAM数据块的大小<a class="headerlink" href="#id6" title="Permalink to this headline">UTF-8</a></h3>
+<h3>MyISAM数据块的大小<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p>键数据块的大小非常重要，因为它会影响MyISAM、操作系统和文件系统间的交互。如果键数
 据块太小，就会导致写入排队的情况。如果键数据块大小与操作系统相匹配，可以避免写入
 等待。</p>
@@ -231,10 +231,10 @@ InnoDB；反之类似。</p>
 </div>
 </div>
 <div class="section" id="innodb">
-<h2>InnoDB缓冲池<a class="headerlink" href="#innodb" title="Permalink to this headline">UTF-8</a></h2>
+<h2>InnoDB缓冲池<a class="headerlink" href="#innodb" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="id7">
-<h2>线程缓存<a class="headerlink" href="#id7" title="Permalink to this headline">UTF-8</a></h2>
+<h2>线程缓存<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <p><span class="docutils literal"><span class="pre">thread_cache_size</span></span>定义了MySQL能在缓存中保存的线程数量。如果一个新的连接被创
 建且缓存中有线程，MySQL就会从缓存中取出一个并赋给它连接；当连接关闭时，MySQL会回
 收线程存放到缓存中，如果（线程）缓存中已经存满，则会将其销毁。</p>
@@ -244,7 +244,7 @@ InnoDB；反之类似。</p>
 256KB内存。</p>
 </div>
 <div class="section" id="id8">
-<h2>表缓存<a class="headerlink" href="#id8" title="Permalink to this headline">UTF-8</a></h2>
+<h2>表缓存<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <p>表缓存有助于复用资源。如：当查询要求访问MyISAM表时，MySQL就可以从缓存中取出一个
 文件描述符，而不是打开一个文件。</p>
 <p>表缓存被分为两个部分：一部分为打开表）；另一部分为表的定义。分别由变量<span class="docutils literal"><span class="pre">table_open_cache</span></span>和<span class="docutils literal"><span class="pre">table_definition_cache</span></span>定义。表的定义（解析过的
@@ -258,10 +258,10 @@ InnoDB；反之类似。</p>
 <p>如果收到MySQL不能打开更多文件的提示，需要在配置文件中使用<span class="docutils literal"><span class="pre">open_files_limit</span></span>来增加可打开文件数。</p>
 </div>
 <div class="section" id="id9">
-<h2>InnoDB数据字典<a class="headerlink" href="#id9" title="Permalink to this headline">UTF-8</a></h2>
+<h2>InnoDB数据字典<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="myisam-i-o">
-<h2>MyISAM I/O调优<a class="headerlink" href="#myisam-i-o" title="Permalink to this headline">UTF-8</a></h2>
+<h2>MyISAM I/O调优<a class="headerlink" href="#myisam-i-o" title="Permalink to this headline">¶</a></h2>
 <p>此处I/O主要指的是数据写入磁盘，由于写缓存的存在，MySQL的性能会大大提高，但是也会
 引起一些风险，如突然断电，系统崩溃，缓存中的数据没有写入到磁盘，就可能导致数据丢
 失，即使是恢复，也可能需要相当长的时间。</p>
@@ -285,7 +285,7 @@ InnoDB；反之类似。</p>
 <p>选项<span class="docutils literal"><span class="pre">myisam_use_mmap</span></span>可以开启使用内存映射打开数据文件。</p>
 </div>
 <div class="section" id="innodb-i-o">
-<h2>InnoDB I/O调优<a class="headerlink" href="#innodb-i-o" title="Permalink to this headline">UTF-8</a></h2>
+<h2>InnoDB I/O调优<a class="headerlink" href="#innodb-i-o" title="Permalink to this headline">¶</a></h2>
 <p>InnoDB使用事务日志来减少提交事务的开销。每次事务提交时，并不会将缓存池写入到磁盘
 ，而是记录到事务日志中。InnoDB最终还是要将数据变化写入到数据文件，它是通过后台线
 程智能的将数据变化写入文件（因为每次事务，不同事务的写入操作可能会进行随机I/O，
@@ -313,7 +313,7 @@ InnoDB；反之类似。</p>
 <p>另外变量<span class="docutils literal"><span class="pre">innodb_flush_log_at_atx_commit</span></span>也对I/O有着非常大的影响。</p>
 <p>变量<span class="docutils literal"><span class="pre">innodb_flush_method</span></span>控制InnoDB如何与文件系统进行交互。</p>
 <div class="section" id="id10">
-<h3>InnoDB表空间<a class="headerlink" href="#id10" title="Permalink to this headline">UTF-8</a></h3>
+<h3>InnoDB表空间<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <p>InnoDB将数据保存在表空间中。使用变量<span class="docutils literal"><span class="pre">innodb_data_file_path</span></span>定义表空间文件
 ，<span class="docutils literal"><span class="pre">innodb_data_home_dir</span></span>定义表空间文件所在的目录。如：</p>
 <div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">innodb_data_home_dir</span> <span class="o">=</span> <span class="s">/var/lib/mysql</span>
@@ -330,7 +330,7 @@ InnoDB；反之类似。</p>
 <p>双写缓存。变量<span class="docutils literal"><span class="pre">innodb_doublewrite</span></span>控制。</p>
 </div>
 <div class="section" id="binlog">
-<h3>Binlog的写入<a class="headerlink" href="#binlog" title="Permalink to this headline">UTF-8</a></h3>
+<h3>Binlog的写入<a class="headerlink" href="#binlog" title="Permalink to this headline">¶</a></h3>
 <p><span class="docutils literal"><span class="pre">sync_binlog</span></span>控制MySQL如何将binlog写入到磁盘。默认为<span class="docutils literal"><span class="pre">0</span></span>，即MySQL不会进
 行任何刷写操作，何时把日志持久化至存储设备由操作系统来控制。</p>
 <p>变量<span class="docutils literal"><span class="pre">expire_logs_days</span></span>用来设置日志的有效期。不要使用<em>rm</em>删除binlog，因
@@ -339,7 +339,7 @@ binlog。</p>
 </div>
 </div>
 <div class="section" id="id11">
-<h2>参考资源<a class="headerlink" href="#id11" title="Permalink to this headline">UTF-8</a></h2>
+<h2>参考资源<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
 <li>《高性能MySQL》</li>
 </ol>

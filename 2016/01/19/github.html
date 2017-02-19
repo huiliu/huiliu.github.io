@@ -68,16 +68,16 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="github">
-<h1>使用GitHub<a class="headerlink" href="#github" title="Permalink to this headline">UTF-8</a></h1>
+<h1>使用GitHub<a class="headerlink" href="#github" title="Permalink to this headline">¶</a></h1>
 <p>记录使用<a class="reference external" href="https://github.com">github</a>的一些经历。</p>
 <div id="more"> </div><div class="section" id="github-pages">
-<h2>GitHub Pages<a class="headerlink" href="#github-pages" title="Permalink to this headline">UTF-8</a></h2>
+<h2>GitHub Pages<a class="headerlink" href="#github-pages" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="http://pages.github.com/">github pages</a>可以方便的用来建立一个BLOG，默认，也是最常用的是<a class="reference external" href="http://jekyllbootstrap.com/">jekyll</a>引擎，<strong>jekyll</strong>的文件使用<a class="reference external" href="http://daringfireball.net/projects/markdown/syntax">Markdown</a>方法，<strong>Markdown</strong>是一种非常简方便的文本撰写格式，不过Python文档使用<a class="reference external" href="http://sphinx-doc.org">sphinx</a>工具对我更有吸引力，因此转用<strong>sphinx</strong>来写文档，生成HTML文件然后上传至GitHub Pages就可以了。</p>
 <p>由于<em>github pages</em>默认使用<em>jekyll</em>引擎，使用<em>sphinx</em>生成的HTML文件会显示不正常，主要是因为无法找到CSS和javascript文件，此时需要告诉<em>github
 pages</em>：“<em>我不使用jekyll</em>”，只需要在repo中加入一个文件<span class="docutils literal"><span class="pre">.nojekyll</span></span>就可以了<a class="footnote-reference" href="#ref1" id="id1">[1]</a>。</p>
 </div>
 <div class="section" id="gitignore">
-<h2>.gitignore<a class="headerlink" href="#gitignore" title="Permalink to this headline">UTF-8</a></h2>
+<h2>.gitignore<a class="headerlink" href="#gitignore" title="Permalink to this headline">¶</a></h2>
 <p>在repo的根目录下添加文件<strong>.gitignore</strong>，然后将当前目录下你不希望加入仓库的文件名，目录名加入其中，这样能减少不必要的烦恼。<em>.gitignore</em>的内容如：</p>
 <div class="highlight-text"><div class="highlight"><pre><span></span>_site/*
 _theme_packages/*
@@ -93,7 +93,7 @@ Thumbs.db
 </div>
 </div>
 <div class="section" id="id4">
-<h2>参考资料<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h2>
+<h2>参考资料<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <table class="docutils footnote" frame="void" id="ref1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">

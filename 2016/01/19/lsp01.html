@@ -68,16 +68,16 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="linux-io">
-<h1>Linux系统编程（一） IO基础<a class="headerlink" href="#linux-io" title="Permalink to this headline">UTF-8</a></h1>
+<h1>Linux系统编程（一） IO基础<a class="headerlink" href="#linux-io" title="Permalink to this headline">¶</a></h1>
 <div id="more"> </div><div class="section" id="id1">
-<h2>术语<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h2>
+<h2>术语<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><strong>API</strong>应该程序编译接口。源代码接口</li>
 <li><strong>ABI</strong>应该程序二进制接口。不同架构接口</li>
 </ul>
 </div>
 <div class="section" id="id2">
-<h2>错误处理<a class="headerlink" href="#id2" title="Permalink to this headline">UTF-8</a></h2>
+<h2>错误处理<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>定义于<span class="docutils literal"><span class="pre">&lt;errno.h&gt;</span></span>中的变量<span class="docutils literal"><span class="pre">errno</span></span>可用于定位错误原因。需要注意的是，<span class="docutils literal"><span class="pre">errno</span></span>仅在短时间内有效，任何后续成功执行的函数都会改写其值。</p>
 <p>C库提供了一些函数对<span class="docutils literal"><span class="pre">errno</span></span>进行包装，可以方便的显示错误文本：
 1.  <span class="docutils literal"><span class="pre">perror()</span></span>函数原型为：</p>
@@ -104,7 +104,7 @@
 </li>
 </ol>
 <div class="section" id="tips">
-<h3>Tips<a class="headerlink" href="#tips" title="Permalink to this headline">UTF-8</a></h3>
+<h3>Tips<a class="headerlink" href="#tips" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic">
 <li><p class="first">对于一些函数，在返回类型的范围内的值都是合法的返回值，在这种情况下使用<span class="docutils literal"><span class="pre">errno</span></span>时，在使用前应该清零，在调用后进行检测。如：</p>
 <div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">errno</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
@@ -138,16 +138,16 @@
 </div>
 </div>
 <div class="section" id="i-o">
-<h2>文件I/O<a class="headerlink" href="#i-o" title="Permalink to this headline">UTF-8</a></h2>
+<h2>文件I/O<a class="headerlink" href="#i-o" title="Permalink to this headline">¶</a></h2>
 <p>I/O的基本操作不外乎<span class="docutils literal"><span class="pre">读、写、关闭、光标移动</span></span>和<span class="docutils literal"><span class="pre">截断</span></span>等操作，更进一步<span class="docutils literal"><span class="pre">I/O多路复用</span></span>等。内核关键：<span class="docutils literal"><span class="pre">虚拟文件系统</span></span>，<span class="docutils literal"><span class="pre">页缓存</span></span>和<span class="docutils literal"><span class="pre">页回写</span></span></p>
 </div>
 <div class="section" id="id3">
-<h2>内核内幕<a class="headerlink" href="#id3" title="Permalink to this headline">UTF-8</a></h2>
+<h2>内核内幕<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
 <li>虚拟文件系统（VFS）：对底层文件系统进行抽象，提供了统一一致的访问和操作接口。</li>
 </ol>
 <div class="section" id="id4">
-<h3>页缓存及页回写<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h3>
+<h3>页缓存及页回写<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li><strong>Why?</strong> 物理磁盘访问速度太慢</li>
 <li><strong>How?</strong></li>
@@ -175,7 +175,7 @@
 <p>如何避免拥堵？多线程，回写进（线）程<span class="docutils literal"><span class="pre">pdflush</span> <span class="pre">(page</span> <span class="pre">dirty</span> <span class="pre">flush)</span></span>的数量。拥塞回避策略：主动尝试从没有拥塞的队列回写。</p>
 </div>
 <div class="section" id="id5">
-<h3>I/O调度<a class="headerlink" href="#id5" title="Permalink to this headline">UTF-8</a></h3>
+<h3>I/O调度<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>需要了解磁盘的物理结构：磁盘、主轴、磁头。要确定数据在磁盘上的位置，驱动程序需要知道三个值：柱面、磁头、扇区。所以程序从磁盘上读取数据需要不断旋转磁头来查找前面三个值指定的位置。如果不连续，而且序号反复就要花大量时间来查找（寻道）。</p>
 <p>I/O调度程序维护一个I/O请求队列，对I/O操作进行<span class="docutils literal"><span class="pre">合并</span></span>、<span class="docutils literal"><span class="pre">排序</span></span>，以减少磁盘寻址时间，从而提高全局吞吐量。</p>
 <ul class="simple">
@@ -192,7 +192,7 @@
 </div>
 </div>
 <div class="section" id="id6">
-<h2>参考资料<a class="headerlink" href="#id6" title="Permalink to this headline">UTF-8</a></h2>
+<h2>参考资料<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
 <li>《Linux系统编程》中文版，哈工大</li>
 <li>Robert Love著, 陈莉君，康华译，《Linux内核设计与实现》第三版</li>

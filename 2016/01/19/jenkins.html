@@ -68,10 +68,10 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="jenkins-ci">
-<h1>赤兔项目持续集成系统－Jenkins CI部署<a class="headerlink" href="#jenkins-ci" title="Permalink to this headline">UTF-8</a></h1>
+<h1>赤兔项目持续集成系统－Jenkins CI部署<a class="headerlink" href="#jenkins-ci" title="Permalink to this headline">¶</a></h1>
 <p>当前(2013-10-16)赤兔项目主要针对：<strong>android</strong>, <strong>iOS</strong>和<strong>Web浏览器</strong>三个平台发布客户端。本文主要介绍客户端的持续集成。</p>
 <div id="more"> </div><div class="section" id="id1">
-<h2>项目文件结构说明<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h2>
+<h2>项目文件结构说明<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p><cite>http://devhome/repos/rhsrc/trunk/src/Client2</cite>下的代码目录结构为：</p>
 <div class="highlight-text"><div class="highlight"><pre><span></span>Client2/
         Assets/
@@ -101,7 +101,7 @@
 <li>“<span class="docutils literal"><span class="pre">WebPlayer</span></span>”基本废弃</li>
 </ul>
 <div class="section" id="id2">
-<h3>资源的链接<a class="headerlink" href="#id2" title="Permalink to this headline">UTF-8</a></h3>
+<h3>资源的链接<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>当前项目的设定中，将编译后的资源根据不同的平台分别存放在<span class="docutils literal"><span class="pre">Bundles,</span> <span class="pre">StreamingAssets,</span> <span class="pre">StreamingIOS</span></span>这三个目录。
 而根据<span class="docutils literal"><span class="pre">Unity3D</span></span>的特殊目录要求，资源应该保存在<span class="docutils literal"><span class="pre">Assets/StreamingAssets</span></span>中，所以在编译输出二进制包和<cite>xcode</cite>项目文件时，需要将对应编译后的资源文件连接至此。如：当编译iOS的xcode项目文件时，需要将<span class="docutils literal"><span class="pre">Assets/StreamingIOS</span></span>目录链接到<span class="docutils literal"><span class="pre">Assets/StreamingAssets</span></span>；编译Android客户端时，需要将<span class="docutils literal"><span class="pre">StreamingAssets</span></span>链接到<span class="docutils literal"><span class="pre">Assets/StreamingAssets</span></span>等。</p>
 <p>部分贴图资源仅在目录<span class="docutils literal"><span class="pre">StreamingAssets/Tex</span></span>下维护，所以当编译Web客户端和iOS客户端时需要将此两个目录拷贝到<span class="docutils literal"><span class="pre">Bundles</span></span>或<span class="docutils literal"><span class="pre">StreamingIOS</span></span></p>
@@ -109,7 +109,7 @@
 </div>
 </div>
 <div class="section" id="id3">
-<h2>软件需求<a class="headerlink" href="#id3" title="Permalink to this headline">UTF-8</a></h2>
+<h2>软件需求<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>开发及编译工具:</p>
 <ol class="arabic simple">
 <li>服务端使用<span class="docutils literal"><span class="pre">gcc</span></span>和<span class="docutils literal"><span class="pre">automake</span></span>进行编译</li>
@@ -128,13 +128,13 @@
 <p>上述开发工具和软件在内网服务器上均有保存。（<span class="docutils literal"><span class="pre">\\server\SOFTHOME\开发相关\CI</span></span>）所有运行<strong>jenkins</strong>的系统（包括slave）都必需安装java运行时环境(jre)，其它软件根据不同平台角色需要安装即可。注意<cite>jenkins</cite>和相应插件必要时应进行升级更新（出现莫名其妙的问题，请检查<cite>jenkins</cite>官方网站的更新升级日志）</p>
 </div>
 <div class="section" id="master-slave">
-<h2>配置Master-Slave<a class="headerlink" href="#master-slave" title="Permalink to this headline">UTF-8</a></h2>
+<h2>配置Master-Slave<a class="headerlink" href="#master-slave" title="Permalink to this headline">¶</a></h2>
 <p>由于不同的版本需要在不同平台上编译，所以<strong>jenkins</strong>需要采用<strong>Master-Slave</strong>形式将编译工作分配到不同的平台执行。当前使用Windows平台作为Master，Mac OS和Linux作为Slave。（当前使用过程中发现，使用<span class="docutils literal"><span class="pre">JNLP</span></span>方法连接slave时，随着时间的推进，java会战胜大量内存，而且经常断开。可能原因是编译是产生了大量日志&gt;100M）</p>
 <p>Master和Slave都需要有足够的磁盘空间存放赤兔客户端源代码，编译中间文件和输出文件。<a class="footnote-reference" href="#id20" id="id4">[1]</a></p>
 <div class="section" id="master">
-<h3>安装及配置Master<a class="headerlink" href="#master" title="Permalink to this headline">UTF-8</a></h3>
+<h3>安装及配置Master<a class="headerlink" href="#master" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="jenkins-master">
-<h4>安装jenkins Master<a class="headerlink" href="#jenkins-master" title="Permalink to this headline">UTF-8</a></h4>
+<h4>安装jenkins Master<a class="headerlink" href="#jenkins-master" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic">
 <li><p class="first">在作为Master的主机上安装<span class="docutils literal"><span class="pre">jre</span></span></p>
 </li>
@@ -163,7 +163,7 @@ java -jar Your_Path/jenkins.war --daemon --httpPort<span class="o">=</span><span
 </ol>
 </div>
 <div class="section" id="id7">
-<h4>安装插件<a class="headerlink" href="#id7" title="Permalink to this headline">UTF-8</a></h4>
+<h4>安装插件<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
 <p>安装一些jenkins插件，可以更好的进行持续集成：</p>
 <ol class="arabic simple">
 <li><strong>Environment Injector Plugin</strong> 可以输出预定义变量以供构建时使用，可以大大方便对job参数的修改。如当前Unity3D项目，Unity3D命令行编译时需要ProjectPath,将编译资源和输出二进制包分开，就需要输入两次，当需要进行修改时，极易出现遗漏，导致构建失败。</li>
@@ -173,7 +173,7 @@ java -jar Your_Path/jenkins.war --daemon --httpPort<span class="o">=</span><span
 </div>
 </div>
 <div class="section" id="slave">
-<h3>配置Slave<a class="headerlink" href="#slave" title="Permalink to this headline">UTF-8</a></h3>
+<h3>配置Slave<a class="headerlink" href="#slave" title="Permalink to this headline">¶</a></h3>
 <p>根据不同平台和版本的需求，需要将不同的工作分发给Slave来执行。如：iPhone/iPad
 版客户端只能在MacOS上进行编译。</p>
 <p>以配置MacOS Slave为例:</p>
@@ -212,12 +212,12 @@ java -jar Your_Path/jenkins.war --daemon --httpPort<span class="o">=</span><span
 </div>
 </div>
 <div class="section" id="id10">
-<h2>创建工作任务<a class="headerlink" href="#id10" title="Permalink to this headline">UTF-8</a></h2>
+<h2>创建工作任务<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <p>当Master配置好后，如果满足编译环境要求即可进行编译；当连接上Slave后，即可将的工作分发给slave执行，对于不同的任务，可以通过标签来加以限定。
 手动确认<cite>slave</cite>上的编译工作可以正常完成后，可以打开<span class="docutils literal"><span class="pre">jenkins</span></span>的界面创建新的工作。
 为了便于进行持续集成，所以通常使用Unity3D的命令行编译来完成编译。<a class="footnote-reference" href="#id25" id="id11">[6]</a></p>
 <div class="section" id="android">
-<h3>Android<a class="headerlink" href="#android" title="Permalink to this headline">UTF-8</a></h3>
+<h3>Android<a class="headerlink" href="#android" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic">
 <li><p class="first">确认作为slave的主机是否已经连上master。</p>
 </li>
@@ -274,7 +274,7 @@ java -jar Your_Path/jenkins.war --daemon --httpPort<span class="o">=</span><span
 </ol>
 </div>
 <div class="section" id="ios-iphone-ipad">
-<h3>iOS/iPhone/iPad<a class="headerlink" href="#ios-iphone-ipad" title="Permalink to this headline">UTF-8</a></h3>
+<h3>iOS/iPhone/iPad<a class="headerlink" href="#ios-iphone-ipad" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic">
 <li><p class="first">确认MacOS Slave已经连接上Master，确认<span class="docutils literal"><span class="pre">jenkins</span></span>已经安装了插件<span class="docutils literal"><span class="pre">Jenkins</span> <span class="pre">Unity3d</span> <span class="pre">plugin,</span> <span class="pre">Xcode</span> <span class="pre">integration</span></span></p>
 </li>
@@ -316,7 +316,7 @@ svn up --force --accept theirs-full Assets ProjectSettings StreamingAssets<span 
 </ol>
 </div>
 <div class="section" id="nightly-build">
-<h3>Nightly Build<a class="headerlink" href="#nightly-build" title="Permalink to this headline">UTF-8</a></h3>
+<h3>Nightly Build<a class="headerlink" href="#nightly-build" title="Permalink to this headline">¶</a></h3>
 <p>针对每一个平台（客户端）建立一个<cite>每日构建</cite>的任务，以保证每天提交的代码是可以通过编译，<cite>每日构建</cite>任务与上面任务的建立方法几乎完全一样，唯一的差别在于源码控制。<cite>每日构建</cite>任务需要每次使用完全干净的代码（与SVN服务器上的代码一致）。所以建议使用<cite>jenkins</cite>内置的版本控制工具来管理源码，每次执行构建之前都从SVN服务器上<cite>checkout</cite>一份新的源码，或者更新源码之前对当前代码进行<cite>svn revert</cite>。基本步骤：</p>
 <ol class="arabic simple">
 <li>按照通用方法建立任务。</li>
@@ -327,7 +327,7 @@ svn up --force --accept theirs-full Assets ProjectSettings StreamingAssets<span 
 <p><cite>每日构建</cite>的关键是：<strong>每次执行构建时使用一份全新，干净的源码</strong>。然后自动部署到测试环境中，由测试人员进行测试。而日常由于各种情况需要不定期进行编译，此时执行其它非<cite>每日构建</cite>的任务完成构建。</p>
 </div>
 <div class="section" id="id12">
-<h3>建议步骤<a class="headerlink" href="#id12" title="Permalink to this headline">UTF-8</a></h3>
+<h3>建议步骤<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p>由于目录结构的原因，当前编译生成的资源目录也在SVN的管理下，所以可能存在最终资源的混乱，建议在正式自动集成前执行下面操作：</p>
 <ol class="arabic">
 <li><p class="first">此步骤为必需步骤：将“<strong>Bundles, StreamingAssets, StreamingIOS</strong>”根据不同平台需求，建立一个符号链接至“<strong>Assets/StreamingAssets</strong>”。（可使用脚本<cite>SetupAPK.bat</cite>和<cite>SetupIOS.sh</cite>完成此操作）</p>
@@ -347,10 +347,10 @@ svn up --force --accept theirs-full Assets ProjectSettings Tools StreamingAssets
 </div>
 </div>
 <div class="section" id="id13">
-<h2>构建步骤<a class="headerlink" href="#id13" title="Permalink to this headline">UTF-8</a></h2>
+<h2>构建步骤<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
 <p><span class="docutils literal"><span class="pre">Unity3D</span></span>的编译过程可以通过代码自定制，相当比较灵活。当前编译程序位于<span class="docutils literal"><span class="pre">Assets/Editor</span></span>目录下，<span class="docutils literal"><span class="pre">BuildBundle.cs</span></span>是用于GUI界面编译的菜单选项；<span class="docutils literal"><span class="pre">CommandCompiler.cs</span></span>是命令编译代码。资源和程序的编译功能由程序维护。<span class="docutils literal"><span class="pre">CommandCompiler.cs</span></span>中需要根据不同平台，不同渠道分别进行一些设定。对于<span class="docutils literal"><span class="pre">iPhone/iPad</span></span>可能来需要向生成的xcode项目添加一些额外的SDK文件，此时需要利用Unity3D提供的<cite>Post Process BuildPlayer</cite>功能。<a class="footnote-reference" href="#id26" id="id14">[7]</a></p>
 <div class="section" id="unity3d">
-<h3>Unity3D的命令行编译<a class="headerlink" href="#unity3d" title="Permalink to this headline">UTF-8</a></h3>
+<h3>Unity3D的命令行编译<a class="headerlink" href="#unity3d" title="Permalink to this headline">¶</a></h3>
 <p>Unity3D支持命令行编译，常用命令行参数选项有：<a class="footnote-reference" href="#cmd-param" id="id15">[9]</a></p>
 <ul class="simple">
 <li>-batchmode      启用命令模式</li>
@@ -365,7 +365,7 @@ svn up --force --accept theirs-full Assets ProjectSettings Tools StreamingAssets
 </div>
 </div>
 <div class="section" id="postprocessbuildplayer">
-<h3>PostprocessBuildPlayer<a class="headerlink" href="#postprocessbuildplayer" title="Permalink to this headline">UTF-8</a></h3>
+<h3>PostprocessBuildPlayer<a class="headerlink" href="#postprocessbuildplayer" title="Permalink to this headline">¶</a></h3>
 <p><cite>Unity3D</cite>程序编译Player完成后会执行<cite>Editor</cite>目录下<span class="docutils literal"><span class="pre">PostprocessBuildPlayer</span></span>程序（任意可执行代码）进行相关操作。<a class="footnote-reference" href="#id27" id="id16">[8]</a>在当前项目中由于不同渠道提供的SDK千奇百怪，有时需要使用此功能向xcode项目中添加文件。当前项目中的<span class="docutils literal"><span class="pre">PostprocessBuildPlayer</span></span>是使用python所写，用于向xcode项目添加91的SDK。</p>
 <p><span class="docutils literal"><span class="pre">Unity</span></span>调用<span class="docutils literal"><span class="pre">PostprocessBuildPlayer</span></span>时会向其传递7个参数：</p>
 <div class="highlight-perl"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/perl</span>
@@ -459,7 +459,7 @@ svn up --force --accept theirs-full Assets ProjectSettings Tools StreamingAssets
 </div>
 </div>
 <div class="section" id="id17">
-<h3>基本构建步骤<a class="headerlink" href="#id17" title="Permalink to this headline">UTF-8</a></h3>
+<h3>基本构建步骤<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <p>当前由于需要在资源编译完成后生成<cite>gameconfig.cfg</cite>和资源的版本信息文件<cite>version.cfg</cite>，所以当前将整个编译过程分为四部分</p>
 <ol class="arabic simple">
 <li>从SVN上更新完代码后，清理上次编译生成的资源</li>
@@ -472,7 +472,7 @@ svn up --force --accept theirs-full Assets ProjectSettings Tools StreamingAssets
 </div>
 </div>
 <div class="section" id="id18">
-<h2>常见问题<a class="headerlink" href="#id18" title="Permalink to this headline">UTF-8</a></h2>
+<h2>常见问题<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic">
 <li><p class="first">资源，特效，贴图丢失</p>
 <p>导致这些问题的原因大多是因为资源的meta文件丢失或混乱所造成的。</p>
@@ -491,7 +491,7 @@ svn up --force --accept theirs-full Assets ProjectSettings Tools StreamingAssets
 </ol>
 </div>
 <div class="section" id="id19">
-<h2>说明<a class="headerlink" href="#id19" title="Permalink to this headline">UTF-8</a></h2>
+<h2>说明<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
 <table class="docutils footnote" frame="void" id="id20" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">

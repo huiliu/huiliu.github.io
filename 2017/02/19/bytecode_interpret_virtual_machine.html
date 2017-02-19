@@ -68,13 +68,13 @@
             <span>February 19, 2017</span>
         </div>
     <div class="section" id="id1">
-<h1>字节码解释器，虚拟机简单原型<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h1>
+<h1>字节码解释器，虚拟机简单原型<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <p>制件自己的编程语言之基础，字节码解释器，也是一个mini虚拟机。</p>
 <div id="more"> </div><p>《游戏编程模式》一书中有一章讲字节码（模式），自定义一些指令集，对应于游戏中的某些操作，由用户（不是指游戏玩家）来自由组合使用它们灵活实现一些功能。这种功能等同于提供接口给脚本使用，方式上类似于实现一个小型的虚拟机。</p>
 <p>在这里重制一个超简单的虚拟机。</p>
 </div>
 <div class="section" id="opcode">
-<h1>操作码(opcode)<a class="headerlink" href="#opcode" title="Permalink to this headline">UTF-8</a></h1>
+<h1>操作码(opcode)<a class="headerlink" href="#opcode" title="Permalink to this headline">¶</a></h1>
 <p>首先确定虚拟机有哪些操作，需要的指令集（有点类似于汇编指令）。
 通常都会有：
 *   运算操作（加减乘除等）
@@ -97,11 +97,11 @@
 </div>
 </div>
 <div class="section" id="id2">
-<h1>操作数<a class="headerlink" href="#id2" title="Permalink to this headline">UTF-8</a></h1>
+<h1>操作数<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h1>
 <p>有了上面的操作，总得有操作对象吧，这就是操作数了，也算是函数的参数吧。这些操作数是如何保存的呢？栈。</p>
 </div>
 <div class="section" id="id3">
-<h1>字节码解释器<a class="headerlink" href="#id3" title="Permalink to this headline">UTF-8</a></h1>
+<h1>字节码解释器<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h1>
 <p>字节码解释器，即不断读取字节码，并解释执行之。</p>
 <div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">class</span> <span class="n">VM</span>
 <span class="p">{</span>
@@ -182,7 +182,7 @@
 <p>上面使用字节码的方式实现了一个解释器，具有加减乘除计算器的功能。</p>
 </div>
 <div class="section" id="id4">
-<h1>小结<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h1>
+<h1>小结<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h1>
 <p>上面的实现类似实现一套自定义的汇编指令，只要输入合法的opcode，解释器就会给出结果，是一个虚拟机的简单原型。模拟汇编语言实现一套操作，包含操作码部分的所有操作。</p>
 <p>源码：<a class="reference external" href="https://github.com/huiliu/Learn/tree/master/VM">https://github.com/huiliu/Learn/tree/master/VM</a></p>
 <p>参考资料

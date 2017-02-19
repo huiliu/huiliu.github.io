@@ -68,7 +68,7 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="python-mysql">
-<h1>Python-MySQL使用心得<a class="headerlink" href="#python-mysql" title="Permalink to this headline">UTF-8</a></h1>
+<h1>Python-MySQL使用心得<a class="headerlink" href="#python-mysql" title="Permalink to this headline">¶</a></h1>
 <div id="more"> </div><p>用<strong>Python-MySQLdb</strong>写一个小程序对数据库进行一些更新。输入的数据有下面格式要求：</p>
 <ol class="arabic simple">
 <li>每一行为一条数据，由五列组成，列与列之间由英文逗号间隔</li>
@@ -76,7 +76,7 @@
 </ol>
 <p>读入数据后，执行一行相关的SQL语句操作数据库。</p>
 <div class="section" id="id1">
-<h2>如何读入数据<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h2>
+<h2>如何读入数据<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>最简单的方法是直接读入每行数据，然后分割为列表。代码如下：</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">GetData</span><span class="p">(</span><span class="n">FileName</span><span class="p">):</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">FileName</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
@@ -93,7 +93,7 @@
 </div>
 </div>
 <div class="section" id="id3">
-<h2>如何连接数据库<a class="headerlink" href="#id3" title="Permalink to this headline">UTF-8</a></h2>
+<h2>如何连接数据库<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>按照Python数据库API规范（PEP 249）规定<span class="docutils literal"><span class="pre">MySQLdb</span></span>包含一个标准的方法<span class="docutils literal"><span class="pre">connect</span></span>用来连接数据库。如：</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">MySQLdb</span>
 
@@ -101,7 +101,7 @@
 </pre></div>
 </div>
 <div class="section" id="id4">
-<h3>字符编码的问题<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h3>
+<h3>字符编码的问题<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p><span class="docutils literal"><span class="pre">MySQLdb</span></span>建立与数据库的连接时可以通过额外的参数来指定字符集：</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">MySQLdb</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="o">......</span><span class="p">,</span> <span class="n">charset</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">,</span> <span class="n">useunicode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -110,9 +110,9 @@
 </div>
 </div>
 <div class="section" id="sql">
-<h2>如何构造SQL语句<a class="headerlink" href="#sql" title="Permalink to this headline">UTF-8</a></h2>
+<h2>如何构造SQL语句<a class="headerlink" href="#sql" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id5">
-<h3>如何防止SQL注入<a class="headerlink" href="#id5" title="Permalink to this headline">UTF-8</a></h3>
+<h3>如何防止SQL注入<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p><span class="docutils literal"><span class="pre">MySQLdb.escape_string()</span></span>可以将用户的输入进行转义，防止SQL注入。</p>
 <p>如果字段中有中文，<span class="docutils literal"><span class="pre">MySQLdb.escape_string()</span></span>可能会出错：</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
@@ -133,19 +133,19 @@
 </div>
 </div>
 <div class="section" id="id6">
-<h2>如何提供用户接口<a class="headerlink" href="#id6" title="Permalink to this headline">UTF-8</a></h2>
+<h2>如何提供用户接口<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id7">
-<h3>命令方式<a class="headerlink" href="#id7" title="Permalink to this headline">UTF-8</a></h3>
+<h3>命令方式<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="id8">
-<h3>配置文件的形式<a class="headerlink" href="#id8" title="Permalink to this headline">UTF-8</a></h3>
+<h3>配置文件的形式<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 <div class="section" id="id9">
-<h2>总结<a class="headerlink" href="#id9" title="Permalink to this headline">UTF-8</a></h2>
+<h2>总结<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="id10">
-<h2>参考资料<a class="headerlink" href="#id10" title="Permalink to this headline">UTF-8</a></h2>
+<h2>参考资料<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <table class="docutils footnote" frame="void" id="id11" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">

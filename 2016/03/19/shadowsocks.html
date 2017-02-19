@@ -68,10 +68,10 @@
             <span>March 19, 2016</span>
         </div>
     <div class="section" id="shadowsocks-ssserver">
-<h1>shadowsocks源码分析：ssserver<a class="headerlink" href="#shadowsocks-ssserver" title="Permalink to this headline">UTF-8</a></h1>
+<h1>shadowsocks源码分析：ssserver<a class="headerlink" href="#shadowsocks-ssserver" title="Permalink to this headline">¶</a></h1>
 <p><span class="docutils literal"><span class="pre">shadowsocks</span></span>服务端源分析。</p>
 <div id="more"> </div><div class="section" id="shadowsocks">
-<h2>shadowsocks的原理<a class="headerlink" href="#shadowsocks" title="Permalink to this headline">UTF-8</a></h2>
+<h2>shadowsocks的原理<a class="headerlink" href="#shadowsocks" title="Permalink to this headline">¶</a></h2>
 <p>关于shadowsocks<a class="footnote-reference" href="#id10" id="id1">[1]</a>的原理，这张图解释的清清楚楚。</p>
 <img alt="../../../_images/whats-shadowsocks-041.png" src="../../../_images/whats-shadowsocks-041.png" />
 <p>其中:</p>
@@ -100,7 +100,7 @@ server</cite></li>
 </ul>
 </div>
 <div class="section" id="id3">
-<h2>源码结构<a class="headerlink" href="#id3" title="Permalink to this headline">UTF-8</a></h2>
+<h2>源码结构<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>这里以<strong>shadowsocks-2.8.2</strong>的python源代码为例来<strong>分析ssserver的设计</strong>。
 解开源码可以看到shadowsocks目录结构如下（crypto略去）</p>
 <div class="highlight-none"><div class="highlight"><pre><span></span>|...
@@ -136,9 +136,9 @@ UDP相关由udprelay.py提供</li>
 </ul>
 </div>
 <div class="section" id="id4">
-<h2>服务端数据处理流程<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h2>
+<h2>服务端数据处理流程<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id5">
-<h3>shadowsocks服务端的启动<a class="headerlink" href="#id5" title="Permalink to this headline">UTF-8</a></h3>
+<h3>shadowsocks服务端的启动<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>首先看一下<span class="docutils literal"><span class="pre">server.py</span></span>中的入口函数main中的代码段：</p>
 <ol class="arabic simple">
 <li>创建<span class="docutils literal"><span class="pre">TCPRelay</span></span>侦听相应的端口，等待shadowsocks客户端连接。从这里可以看
@@ -476,7 +476,7 @@ EventLoop对象，并将打开的socket注册到EventLoop</li>
 </ul>
 </div>
 <div class="section" id="id6">
-<h3>shadowsocks客户端连接服务端<a class="headerlink" href="#id6" title="Permalink to this headline">UTF-8</a></h3>
+<h3>shadowsocks客户端连接服务端<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p>当shadowsocks客户端连接到服务端时，EventLoop中就会产生相关的事件，并调用对应的
 <span class="docutils literal"><span class="pre">TCPRelay.handle_event</span></span>方法来处理事件。</p>
 <ol class="arabic simple">
@@ -617,7 +617,7 @@ shodowsocks服务端接受连接，并创建一个<span class="docutils literal"
 <p>这样，<em>ss client</em>就与<em>ss server</em>建立了连接，EventLoop开始侦听与<cite>ss client</cite>连接的socket。</p>
 </div>
 <div class="section" id="id7">
-<h3>shadowsocks客户端向服务端发送数据<a class="headerlink" href="#id7" title="Permalink to this headline">UTF-8</a></h3>
+<h3>shadowsocks客户端向服务端发送数据<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p>当<cite>ss local</cite>与<cite>ss server</cite>建立好连接之后，socket即处理EvetLoop的监听下。
 <cite>ss local</cite>开始向<cite>ss server</cite>发送数据。EventLoop会调用<span class="docutils literal"><span class="pre">TCPRelay.handle_event</span></span>并通过查找<span class="docutils literal"><span class="pre">TCPRelay._fd_to_handles</span></span>，最终调用
 <span class="docutils literal"><span class="pre">TCPRelayHandler.handle_event</span></span>方法来处理。</p>
@@ -1036,7 +1036,7 @@ shodowsocks服务端接受连接，并创建一个<span class="docutils literal"
 </div>
 </div>
 <div class="section" id="id8">
-<h2>不解<a class="headerlink" href="#id8" title="Permalink to this headline">UTF-8</a></h2>
+<h2>不解<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
 <li>侦听与<cite>ss local</cite>连接socket事件时，为什么在侦听读和侦听写之间切换？同时侦
 听两个事件有什么问题？</li>
@@ -1047,7 +1047,7 @@ shodowsocks服务端接受连接，并创建一个<span class="docutils literal"
 </ol>
 </div>
 <div class="section" id="id9">
-<h2>参数资料<a class="headerlink" href="#id9" title="Permalink to this headline">UTF-8</a></h2>
+<h2>参数资料<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <table class="docutils footnote" frame="void" id="id10" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">

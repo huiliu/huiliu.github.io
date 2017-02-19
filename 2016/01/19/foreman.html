@@ -68,9 +68,9 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="nginx-foreman-passenger">
-<h1>Nginx+Foreman+Passenger<a class="headerlink" href="#nginx-foreman-passenger" title="Permalink to this headline">UTF-8</a></h1>
+<h1>Nginx+Foreman+Passenger<a class="headerlink" href="#nginx-foreman-passenger" title="Permalink to this headline">¶</a></h1>
 <div id="more"> </div><div class="section" id="id1">
-<h2>准备工作<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h2>
+<h2>准备工作<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>系统为<strong>CentOS 6.4(x64) mininal Installation</strong>。需要下载的软件包：</p>
 <ul class="simple">
 <li><a class="reference external" href="http://nginx.org/download/nginx-1.4.2.tar.gz&gt;">Nginx</a></li>
@@ -93,10 +93,10 @@ yum install libxml-devel libxslt-devel libvirt-devel mysql-devel postgresql-deve
 </div>
 </div>
 <div class="section" id="id2">
-<h2>安装<a class="headerlink" href="#id2" title="Permalink to this headline">UTF-8</a></h2>
+<h2>安装<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>解压下载的源代码：<cite>tar xf source.tar.gz</cite></p>
 <div class="section" id="nginxpassenger">
-<h3>安装Nginx和Passenger<a class="headerlink" href="#nginxpassenger" title="Permalink to this headline">UTF-8</a></h3>
+<h3>安装Nginx和Passenger<a class="headerlink" href="#nginxpassenger" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">使用的Nginx编译选项为:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># 需要建立用户nginx</span>
@@ -160,7 +160,7 @@ def application<span class="o">(</span>environ, start_response<span class="o">)<
 </ul>
 </div>
 <div class="section" id="id4">
-<h3>安装Foreman<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h3>
+<h3>安装Foreman<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>上一步Nginx和Foreman成功安装以后，Foreman的安装相对简单，按照文档说明就可以完成
 <a class="footnote-reference" href="#ref2" id="id5">[2]</a> 。只需要注意将依赖的软件包安装好，如果出错仔细出错说明，再解决。</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> foreman-1.2-stable
@@ -183,7 +183,7 @@ google到此问题的解决方法：<a class="footnote-reference" href="#ref3" i
 </div>
 </div>
 <div class="section" id="nginx-passenger-foreman">
-<h2>Nginx+Passenger+Foreman<a class="headerlink" href="#nginx-passenger-foreman" title="Permalink to this headline">UTF-8</a></h2>
+<h2>Nginx+Passenger+Foreman<a class="headerlink" href="#nginx-passenger-foreman" title="Permalink to this headline">¶</a></h2>
 <p>Nginx, Passenger和Foreman成功安装运行后，只需在给Nginx添加一小段配置就可以通过Nginx来访问Foreman了。</p>
 <div class="highlight-nginx"><div class="highlight"><pre><span></span><span class="c1"># 已经设定好passenger_root和passenger_ruby等</span>
 <span class="k">server</span> <span class="p">{</span>
@@ -232,7 +232,7 @@ google到此问题的解决方法：<a class="footnote-reference" href="#ref3" i
 <p>关于Nginx，Passenger和Foreman 各自详细的配置请查看各自文档。<a class="footnote-reference" href="#ref6" id="id9">[6]</a></p>
 </div>
 <div class="section" id="id10">
-<h2>参考资料<a class="headerlink" href="#id10" title="Permalink to this headline">UTF-8</a></h2>
+<h2>参考资料<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <table class="docutils footnote" frame="void" id="ref1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">

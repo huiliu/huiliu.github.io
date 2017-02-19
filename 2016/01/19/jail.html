@@ -68,10 +68,10 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="sshchroot">
-<h1>如何让特定用户通过SSH登陆后自动chroot？<a class="headerlink" href="#sshchroot" title="Permalink to this headline">UTF-8</a></h1>
+<h1>如何让特定用户通过SSH登陆后自动chroot？<a class="headerlink" href="#sshchroot" title="Permalink to this headline">¶</a></h1>
 <div id="more"> </div><p>原文链接：<a class="reference external" href="http://how-to.linuxcareer.com/how-to-automatically-chroot-jail-selected-ssh-user-logins">http://how-to.linuxcareer.com/how-to-automatically-chroot-jail-selected-ssh-user-logins</a></p>
 <div class="section" id="id1">
-<h2>简介<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h2>
+<h2>简介<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>本文将介绍如何使某个工作组中的用户通过SSH登陆系统后自动chroot。如果你想为系统中的用户提供一个受限的系统环境，并且与主系统相隔离，那么这个方法非常有用。你也可以用这个方法建立一个简单的SSH蜜罐；通过本文你将学到：</p>
 <ol class="arabic simple">
 <li>如何建立一个基本的<span class="docutils literal"><span class="pre">chroot</span></span>环境</li>
@@ -79,7 +79,7 @@
 </ol>
 </div>
 <div class="section" id="chroot">
-<h2>建立基本的chroot环境<a class="headerlink" href="#chroot" title="Permalink to this headline">UTF-8</a></h2>
+<h2>建立基本的chroot环境<a class="headerlink" href="#chroot" title="Permalink to this headline">¶</a></h2>
 <p>首先我们建立一个简单的<span class="docutils literal"><span class="pre">chroot</span></span>环境，其中只包含<span class="docutils literal"><span class="pre">bash</span></span>一个可执行程序。为了达到这一目标，先创建一个chroot目录：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>mkdir   /home/jail
 </pre></div>
@@ -155,7 +155,7 @@ VIM - Vi IMproved <span class="m">7</span>.3 <span class="o">(</span><span class
 </div>
 </div>
 <div class="section" id="id2">
-<h2>创建一个chroot用户组<a class="headerlink" href="#id2" title="Permalink to this headline">UTF-8</a></h2>
+<h2>创建一个chroot用户组<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>建立一个用户组<span class="docutils literal"><span class="pre">chrootjail</span></span>，属于该组的用户通过ssh登陆系统时将被自动chroot。</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">groupadd</span> <span class="n">chrootjail</span>
 </pre></div>
@@ -169,7 +169,7 @@ Done.
 </div>
 </div>
 <div class="section" id="sshd">
-<h2>配置sshd<a class="headerlink" href="#sshd" title="Permalink to this headline">UTF-8</a></h2>
+<h2>配置sshd<a class="headerlink" href="#sshd" title="Permalink to this headline">¶</a></h2>
 <p>为了让<span class="docutils literal"><span class="pre">chrootjail</span></span>用户组中的用户通过ssh登陆时自动chroot到目录<span class="docutils literal"><span class="pre">/home/jail</span></span>中，需要在sshd的配置文件<span class="docutils literal"><span class="pre">/etc/ssh/sshd_config</span></span>中添加配置：</p>
 <div class="highlight-text"><div class="highlight"><pre><span></span>Match group chrootjail
     ChrootDirectory /var/chroot/
@@ -181,7 +181,7 @@ Done.
 </div>
 </div>
 <div class="section" id="ssh">
-<h2>通过ssh登陆测试<a class="headerlink" href="#ssh" title="Permalink to this headline">UTF-8</a></h2>
+<h2>通过ssh登陆测试<a class="headerlink" href="#ssh" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>ssh tester@localhost
 <span class="c1"># tester@localhost&#39;s password:</span>
 ls
@@ -190,7 +190,7 @@ ls
 </div>
 </div>
 <div class="section" id="id3">
-<h2>结束语<a class="headerlink" href="#id3" title="Permalink to this headline">UTF-8</a></h2>
+<h2>结束语<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>通过上面的说明你可以发现建立一个ssh的chroot环境是非常简单的。当用户登陆到chroot环境中，其home目录不存在时，它的当前工作目录为“<span class="docutils literal"><span class="pre">/</span></span>”。你可以根据需要对chroot环境进行更多的定制，如建立用户HOME目录，定义bash环境变量等。</p>
 </div>
 </div>

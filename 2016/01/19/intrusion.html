@@ -68,15 +68,15 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="id1">
-<h1>入侵检测与响应<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h1>
+<h1>入侵检测与响应<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <div id="more"> </div><p>入侵分析员的真正价值体现在其估定现象和情况的能力<a class="footnote-reference" href="#ref1" id="id2">[1]</a>。</p>
 <p>入侵检测工具只是用来辅助的，关键还是要靠人来驱动。</p>
 <div class="section" id="id3">
-<h2>可能遭到入侵的症状<a class="headerlink" href="#id3" title="Permalink to this headline">UTF-8</a></h2>
+<h2>可能遭到入侵的症状<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p><span class="target" id="index-0"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc2196.html"><strong>RFC 2196</strong></a> &#8220;Site Security Handbook&#8221;和<a class="reference external" href="http://www.cert.org/tech_tips/win-UNIX-system_compromise.html">CERT</a>的“Steps for Recovering from a
 UNIX or NT System Compromise”提供了一些检查异常状态列表。</p>
 <div class="section" id="id4">
-<h3>日志中的异常<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h3>
+<h3>日志中的异常<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><strong>系统日志文件</strong>t 系统日志中原因不明的条目、日志文件缩减、日志文件丢失等</li>
 <li><strong>系统守护进程报告</strong></li>
@@ -85,7 +85,7 @@ UNIX or NT System Compromise”提供了一些检查异常状态列表。</p>
 </ul>
 </div>
 <div class="section" id="id5">
-<h3>系统配置异常<a class="headerlink" href="#id5" title="Permalink to this headline">UTF-8</a></h3>
+<h3>系统配置异常<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>配置文件和系统脚本被修改，未调用的进程在运行、非预期端口的使用、网络设备状态改变等。</p>
 <ul class="simple">
 <li><strong>cron任务</strong>检查cron配置和可执行程序是否正常</li>
@@ -96,7 +96,7 @@ UNIX or NT System Compromise”提供了一些检查异常状态列表。</p>
 </ul>
 </div>
 <div class="section" id="id6">
-<h3>文件系统中的异常<a class="headerlink" href="#id6" title="Permalink to this headline">UTF-8</a></h3>
+<h3>文件系统中的异常<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><strong>出现新的文件和目录</strong></li>
 <li><strong>setuid程序</strong></li>
@@ -107,7 +107,7 @@ UNIX or NT System Compromise”提供了一些检查异常状态列表。</p>
 </ul>
 </div>
 <div class="section" id="id7">
-<h3>帐号异常<a class="headerlink" href="#id7" title="Permalink to this headline">UTF-8</a></h3>
+<h3>帐号异常<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><strong>出现新的帐号或原帐号被修改</strong>t  <em>/etc/passwd</em>中出现新帐号，非预期的UID进程；突然无法登陆等</li>
 <li><strong>用户登陆记录</strong>t    <span class="docutils literal"><span class="pre">last</span></span>显示非预期的登陆，登陆相关日志被编辑过(/var/log/lastlog,  /var/log/pacct等)</li>
@@ -115,7 +115,7 @@ UNIX or NT System Compromise”提供了一些检查异常状态列表。</p>
 </ul>
 </div>
 <div class="section" id="id8">
-<h3>系统性能方面<a class="headerlink" href="#id8" title="Permalink to this headline">UTF-8</a></h3>
+<h3>系统性能方面<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><strong>异常的高负载</strong></li>
 <li><strong>频繁的磁盘访问</strong></li>
@@ -123,7 +123,7 @@ UNIX or NT System Compromise”提供了一些检查异常状态列表。</p>
 </div>
 </div>
 <div class="section" id="id9">
-<h2>入侵后采取的措施<a class="headerlink" href="#id9" title="Permalink to this headline">UTF-8</a></h2>
+<h2>入侵后采取的措施<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><strong>断开网络</strong></li>
 <li>检查系统日志，配置文件，suid程序，与备份进行对比</li>
@@ -143,10 +143,10 @@ UNIX or NT System Compromise”提供了一些检查异常状态列表。</p>
 </ul>
 </div>
 <div class="section" id="id10">
-<h2>事件报告<a class="headerlink" href="#id10" title="Permalink to this headline">UTF-8</a></h2>
+<h2>事件报告<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="id11">
-<h2>参考资料<a class="headerlink" href="#id11" title="Permalink to this headline">UTF-8</a></h2>
+<h2>参考资料<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
 <table class="docutils footnote" frame="void" id="ref1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">

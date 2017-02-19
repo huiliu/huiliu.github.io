@@ -68,7 +68,7 @@
             <span>March 24, 2016</span>
         </div>
     <div class="section" id="operator-newplacement-new">
-<h1>operator new与placement new<a class="headerlink" href="#operator-newplacement-new" title="Permalink to this headline">UTF-8</a></h1>
+<h1>operator new与placement new<a class="headerlink" href="#operator-newplacement-new" title="Permalink to this headline">¶</a></h1>
 <p><span class="docutils literal"><span class="pre">new</span></span> expression 实际上完成了两项工作：</p>
 <ol class="arabic simple">
 <li>分配内存</li>
@@ -76,7 +76,7 @@
 </ol>
 <p>可以通过订制<span class="docutils literal"><span class="pre">operator</span> <span class="pre">new</span></span>和<span class="docutils literal"><span class="pre">placement</span> <span class="pre">new</span></span>来控制内存分配。</p>
 <div id="more"> </div><div class="section" id="new-operator">
-<h2><span class="docutils literal"><span class="pre">new</span> <span class="pre">operator</span></span><a class="headerlink" href="#new-operator" title="Permalink to this headline">UTF-8</a></h2>
+<h2><span class="docutils literal"><span class="pre">new</span> <span class="pre">operator</span></span><a class="headerlink" href="#new-operator" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -87,7 +87,7 @@
 </ol>
 </div>
 <div class="section" id="id1">
-<h2><span class="docutils literal"><span class="pre">operator</span> <span class="pre">new</span></span>和<span class="docutils literal"><span class="pre">placement</span> <span class="pre">new</span></span><a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h2>
+<h2><span class="docutils literal"><span class="pre">operator</span> <span class="pre">new</span></span>和<span class="docutils literal"><span class="pre">placement</span> <span class="pre">new</span></span><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p><span class="docutils literal"><span class="pre">operator</span> <span class="pre">new</span></span>用于分配一块原始内存。其功能等同于<span class="docutils literal"><span class="pre">malloc</span></span>，其形式为：</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="o">*</span> <span class="k">operator</span> <span class="nf">new</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">sz</span><span class="p">);</span>
 </pre></div>
@@ -141,12 +141,12 @@
 <p>但是通过<span class="docutils literal"><span class="pre">operator</span> <span class="pre">new</span></span>,<span class="docutils literal"><span class="pre">palcement</span> <span class="pre">new</span></span>来“手动”管理内存，需要程序员非常小心，而且，一旦出现问题，可能无法通过第三方工具检测内存泄漏等问题。比较安全的一种做法是，一块内存中只保存一种对象类型，而且严禁进行类型转换。</p>
 </div>
 <div class="section" id="id2">
-<h2>内存释放<a class="headerlink" href="#id2" title="Permalink to this headline">UTF-8</a></h2>
+<h2>内存释放<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>对于使用<span class="docutils literal"><span class="pre">placement</span> <span class="pre">new</span></span>产生的对象，应该谨慎使用<span class="docutils literal"><span class="pre">delete</span></span>来销毁之。因为无法确定内存的来源，如果内存是stack上的，使用<span class="docutils literal"><span class="pre">delete</span></span>会引发<span class="docutils literal"><span class="pre">segment</span>
 <span class="pre">fault</span></span>(如上面的例子)；如果是在heap上，不会出错。不过为了一致性和安全性，对于<span class="docutils literal"><span class="pre">palcement</span> <span class="pre">new</span></span>产生的对象，应该直接调用对象的析构函数，另外销毁原始内存。</p>
 </div>
 <div class="section" id="id3">
-<h2>总结<a class="headerlink" href="#id3" title="Permalink to this headline">UTF-8</a></h2>
+<h2>总结<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="31%" />
@@ -167,10 +167,10 @@
 <p>关于<span class="docutils literal"><span class="pre">new/delete</span></span>更详细的讨论，请参阅参数资料。</p>
 </div>
 <div class="section" id="acknowlegment">
-<h2>ACKNOWLEGMENT<a class="headerlink" href="#acknowlegment" title="Permalink to this headline">UTF-8</a></h2>
+<h2>ACKNOWLEGMENT<a class="headerlink" href="#acknowlegment" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="id4">
-<h2>参数资料<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h2>
+<h2>参数资料<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <table class="docutils footnote" frame="void" id="id5" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
