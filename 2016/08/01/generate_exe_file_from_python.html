@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="在应用程序中嵌入Python" href="../../06/27/extending_embedded_python.html" /><link rel="prev" title="DLL与LIB的创建与使用" href="../../11/06/dll与lib的创建与使用.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="在应用程序中嵌入Python" href="../../06/27/extending_embedded_python.html" /><link rel="prev" title="VS 2015创建动态库和静态库" href="../../11/06/dll与lib的创建与使用.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.5',
@@ -68,18 +68,18 @@
             <span>August 01, 2016</span>
         </div>
     <div class="section" id="generate-exe-file-from-python">
-<h1>Generate exe file from python</h1>
+<h1>Generate exe file from python<a class="headerlink" href="#generate-exe-file-from-python" title="Permalink to this headline">UTF-8</a></h1>
 <p>如何使用py2exe将python脚本转换为Windows下的exe文件。</p>
 <div id="more"> </div><p>根据<a class="reference external" href="http://www.py2exe.org">py2exe</a>官网介绍，<cite>py2exe</cite>是将python库<span class="docutils literal"><span class="pre">distutils</span></span>进行了扩展，使得python脚本可以转换为可直接运行于Windows上的exe文件。</p>
 <p>使用py2exe将一个python脚本转换为exe文件的关键是&#8221;<strong>setup.py</strong>&#8220;文件的书写。</p>
 </div>
 <div class="section" id="id1">
-<h1>安装py2exe</h1>
+<h1>安装py2exe<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h1>
 <p>到<a class="reference external" href="http://www.py2exe.org">py2exe</a>官网<a class="reference external" href="https://sourceforge.net/projects/py2exe/files/py2exe/">下载</a>与Python版本匹配的安装包安装即可。</p>
 <p>然后打开python的shell，执行<span class="docutils literal"><span class="pre">import</span> <span class="pre">py2exe</span></span>，没有出错即说明安装成功。</p>
 </div>
 <div class="section" id="id4">
-<h1>一个简单的例子</h1>
+<h1>一个简单的例子<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h1>
 <p>先看一下例子的目录结构：</p>
 <div class="highlight-text"><div class="highlight"><pre><span></span>.
 ├── abc.xml
@@ -143,7 +143,7 @@
 <span class="sd">    结节略去</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<span class="k">if</span> <span class="s1">&#39;__main__&#39;</span><span class="o">==</span> <span class="n">__name__</span><span class="p">:</span>
+<span class="k">if</span> <span class="s1">&#39;__main__&#39;</span><span class="o">==</span> <span class="vm">__name__</span><span class="p">:</span>
 
     <span class="n">cfg</span> <span class="o">=</span> <span class="n">load_config</span><span class="p">()</span>
 
@@ -182,7 +182,7 @@
 </div>
 </div>
 <div class="section" id="setup-py">
-<h1>配置文件&#8221;<strong>setup.py</strong></h1>
+<h1>配置文件&#8221;<strong>setup.py</strong><a class="headerlink" href="#setup-py" title="Permalink to this headline">UTF-8</a></h1>
 <p>首先，<cite>py2exe</cite>是对<cite>distutils</cite>的扩展，所以<cite>distutils</cite>的&#8221;<strong>setup</strong>&#8220;选项，在这里仍然可以使用。再看看上面的&#8221;<strong>setup.py</strong>&#8220;文件的含义，</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">distutils.core</span> <span class="kn">import</span> <span class="n">setup</span>
 <span class="kn">import</span> <span class="nn">py2exe</span>
@@ -293,7 +293,7 @@ archive, put them directly in the file system</td>
 </ol>
 </div>
 <div class="section" id="id7">
-<h1>参考资料</h1>
+<h1>参考资料<a class="headerlink" href="#id7" title="Permalink to this headline">UTF-8</a></h1>
 <table class="docutils footnote" frame="void" id="data-files" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -317,7 +317,7 @@ archive, put them directly in the file system</td>
                 <a href="../../../tags/python.html">python</a></span>
         </div>
         </div><ul class="related clearfix">
-            <li class="left"> &laquo; <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a></li>
+            <li class="left"> &laquo; <a href="../../11/06/dll与lib的创建与使用.html">VS 2015创建动态库和静态库</a></li>
             <li class="right"><a href="../../06/27/extending_embedded_python.html">在应用程序中嵌入Python</a> &raquo; </li>
         </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2016/08/01/generate_exe_file_from_python";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section>
 <div class='widget'>
@@ -333,7 +333,9 @@ archive, put them directly in the file system</td>
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
-            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+            <a href="../../../2017/02/19/bytecode_interpret_virtual_machine.html">字节码解释器，虚拟机简单原型</a>
+        </li><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">VS 2015创建动态库和静态库</a>
         </li><li>
             <a href="#">Generate exe file from python</a>
         </li><li>
@@ -350,8 +352,6 @@ archive, put them directly in the file system</td>
             <a href="../../02/04/function_program_in_python.html">function program in python</a>
         </li><li>
             <a href="../../01/19/bash.html">Learning Bash</a>
-        </li><li>
-            <a href="../../01/19/code_evolution.html">Code Evolution</a>
         </li></ul>
 </div>
 </section><section><div class="widget">

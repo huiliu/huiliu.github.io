@@ -68,10 +68,10 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="mysqlmaster-slave">
-<h1>MySQL配置Master-Slave</h1>
+<h1>MySQL配置Master-Slave<a class="headerlink" href="#mysqlmaster-slave" title="Permalink to this headline">UTF-8</a></h1>
 <p>简单的MySQL主从架构的建立和维护。</p>
 <div id="more"> </div><div class="section" id="master-slave">
-<h2>三步实现Master-Slave</h2>
+<h2>三步实现Master-Slave<a class="headerlink" href="#master-slave" title="Permalink to this headline">UTF-8</a></h2>
 <p>最简单的Master-Slave只需要三步（前提是Master和Slave上的数据完全一样）。</p>
 <ol class="arabic">
 <li><p class="first">配置一个Master服务器</p>
@@ -120,11 +120,11 @@
 </ol>
 </div>
 <div class="section" id="data-snapshot">
-<h2>Data snapshot</h2>
+<h2>Data snapshot<a class="headerlink" href="#data-snapshot" title="Permalink to this headline">UTF-8</a></h2>
 <p>如果Master库中已经有数据，建立一个Slave库则需要一份Master库数据的snapshot。对
 master库进行snapshot有多种方法：</p>
 <div class="section" id="mysqldump">
-<h3>方法一 <strong>mysqldump</strong></h3>
+<h3>方法一 <strong>mysqldump</strong><a class="headerlink" href="#mysqldump" title="Permalink to this headline">UTF-8</a></h3>
 <p>使用<cite>mysqldump</cite>可以将Master中的数据完整的导出，并在Slave上恢复，操作简单。但是此方法存在严重的问题，因为<cite>mysqldump</cite>操作需要锁定数据的写操作，会导致数据库一定时间内无法写入数据，相关服务可能会受到影响。</p>
 <ol class="arabic">
 <li><p class="first">刷新并锁定数据库写操作，防止再导出数据时数据库发生变化</p>
@@ -161,7 +161,7 @@ master库进行snapshot有多种方法：</p>
 </ol>
 </div>
 <div class="section" id="id1">
-<h3>方法二: 更简单的<span class="docutils literal"><span class="pre">mysqldump</span></span></h3>
+<h3>方法二: 更简单的<span class="docutils literal"><span class="pre">mysqldump</span></span><a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h3>
 <p>在slave库的服务器上运行：</p>
 <div class="highlight-shell"><div class="highlight"><pre><span></span>mysqlpdump --all-databases --master-data <span class="p">|</span> mysql
 </pre></div>
@@ -175,7 +175,7 @@ master库进行snapshot有多种方法：</p>
 </div>
 </div>
 <div class="section" id="slave">
-<h3>方法三：从Slave上克隆数据</h3>
+<h3>方法三：从Slave上克隆数据<a class="headerlink" href="#slave" title="Permalink to this headline">UTF-8</a></h3>
 <p>如果本来就存在着一个Master-Slave关系，就可以方便的在不影响任何服务的情况下建立一个新的Slave——从Slave上复制数据至新的Slave。操作类似于从Master复制数据。</p>
 <ol class="arabic">
 <li><p class="first">停止Slave并刷新锁定数据库</p>
@@ -222,7 +222,7 @@ master库进行snapshot有多种方法：</p>
 </ol>
 </div>
 <div class="section" id="raw">
-<h3>方法四：使用Raw数据文件</h3>
+<h3>方法四：使用Raw数据文件<a class="headerlink" href="#raw" title="Permalink to this headline">UTF-8</a></h3>
 <p>如果数据库比较大，拷贝raw数据文件的方法比<span class="docutils literal"><span class="pre">mysqldump</span></span>更加有效。同时拷贝raw数据的方法与表所使用的引擎、缓存和日志方案都有关系。</p>
 <p>如果master和slave的配置选项<span class="docutils literal"><span class="pre">ft_stopword_file,</span> <span class="pre">ft_min_word_len,</span>
 <span class="pre">ft_max_word_len</span></span>值不相同，或者需要拷贝的表使用全文索引，不能使用这种方法。</p>
@@ -247,7 +247,7 @@ master库进行snapshot有多种方法：</p>
 </div>
 </div>
 <div class="section" id="id2">
-<h2>故障说明</h2>
+<h2>故障说明<a class="headerlink" href="#id2" title="Permalink to this headline">UTF-8</a></h2>
 <ol class="arabic">
 <li><p class="first">运行主从同步时，出现如下情况：</p>
 <div class="highlight-text"><div class="highlight"><pre><span></span>Slave_IO_Running: Connecting
@@ -269,7 +269,7 @@ Slave_SQL_Running: Yes
 </ol>
 </div>
 <div class="section" id="id3">
-<h2>参考资料</h2>
+<h2>参考资料<a class="headerlink" href="#id3" title="Permalink to this headline">UTF-8</a></h2>
 <ol class="arabic simple">
 <li>高可用的MySQL——构建健壮的数据中心</li>
 </ol>
@@ -315,7 +315,9 @@ Slave_SQL_Running: Yes
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
-            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+            <a href="../../../2017/02/19/bytecode_interpret_virtual_machine.html">字节码解释器，虚拟机简单原型</a>
+        </li><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">VS 2015创建动态库和静态库</a>
         </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
@@ -332,8 +334,6 @@ Slave_SQL_Running: Yes
             <a href="../../02/04/function_program_in_python.html">function program in python</a>
         </li><li>
             <a href="bash.html">Learning Bash</a>
-        </li><li>
-            <a href="code_evolution.html">Code Evolution</a>
         </li></ul>
 </div>
 </section><section><div class="widget">

@@ -68,7 +68,7 @@
             <span>June 27, 2016</span>
         </div>
     <div class="section" id="python">
-<h1>在应用程序中嵌入Python</h1>
+<h1>在应用程序中嵌入Python<a class="headerlink" href="#python" title="Permalink to this headline">UTF-8</a></h1>
 <p>在应用程序中嵌入Python或其它什么，关键就是如何让应用程序与Python脚本交互，即在
 应用程序中解释执行Python代码。回想一下你是如何调用Python标准模块的？应用程序采
 取相同的方式与Python交互：</p>
@@ -87,7 +87,7 @@
 </ol>
 </div>
 <div class="section" id="id1">
-<h1>一个简单的例子</h1>
+<h1>一个简单的例子<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h1>
 <p>C程序：</p>
 <div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// file: main.c</span>
 <span class="cp">#include</span> <span class="cpf">&lt;Python.h&gt;</span><span class="cp"></span>
@@ -144,7 +144,7 @@
 <p>上面C程序中的基本流程就是按照前面提到的步骤进行的。</p>
 </div>
 <div class="section" id="id2">
-<h1>Python库搜索路径</h1>
+<h1>Python库搜索路径<a class="headerlink" href="#id2" title="Permalink to this headline">UTF-8</a></h1>
 <p>应用程序加载python脚本模块，有一个模块的搜索路径问题，<cite>python</cite>库的默认搜索路径与Python的安装路径有关，可以通过下面的代码查看：</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 
@@ -159,7 +159,7 @@
 过为：<cite>prefox/lib/pythonversion</cite>，且它通常应该添加到变量<cite>PYTHONPATH</cite>中。</li>
 </ul>
 <div class="section" id="id3">
-<h2>调整库搜索路径</h2>
+<h2>调整库搜索路径<a class="headerlink" href="#id3" title="Permalink to this headline">UTF-8</a></h2>
 <p>调整python解释器的搜索路径，其实就是修改<cite>PYTHONHOME</cite>和<cite>PYTHONPATH</cite>两个环境变量。方法有：</p>
 <ol class="arabic">
 <li><p class="first">使用<cite>setenv</cite>来修改<cite>PYTHONHOME</cite>和<cite>PYTHONPATH</cite>。如上面的代码</p>
@@ -182,7 +182,7 @@
 </div>
 </div>
 <div class="section" id="id4">
-<h1>加载Python模块</h1>
+<h1>加载Python模块<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h1>
 <p>加载Python模块（脚本文件）</p>
 <ol class="arabic">
 <li><p class="first">PyObject* <cite>PyImport_ImportModule</cite> (const char *name)
@@ -198,7 +198,7 @@
 </ol>
 </div>
 <div class="section" id="id5">
-<h1>取得函数的引用</h1>
+<h1>取得函数的引用<a class="headerlink" href="#id5" title="Permalink to this headline">UTF-8</a></h1>
 <p>如果要执行脚本中的某个特定的函数，首先要取得这个函数：</p>
 <ol class="arabic">
 <li><p class="first">int PyObject_HasAttrString(PyObject* o, const char* attr_name);
@@ -211,10 +211,10 @@ int PyObject_DelAttrString(PyObject* o, const char* attr_name);</p>
 </ol>
 </div>
 <div class="section" id="id6">
-<h1>构造参数调用函数</h1>
+<h1>构造参数调用函数<a class="headerlink" href="#id6" title="Permalink to this headline">UTF-8</a></h1>
 <p>C调用Python函数，向Python函数传递参数，则需要将C的数据类型转换为Python的数据类型，然后再调用Python函数。</p>
 <div class="section" id="cpython">
-<h2>将C类型转换为Python类型</h2>
+<h2>将C类型转换为Python类型<a class="headerlink" href="#cpython" title="Permalink to this headline">UTF-8</a></h2>
 <ol class="arabic">
 <li><p class="first">PyObject* Py_BuildValue(const char* format, ...);    可以将各种C数据类型，转换为python数据类型。</p>
 <p>如：</p>
@@ -234,7 +234,7 @@ Py_BuildValue(&quot;{s:i,s:i}&quot;, &quot;x&quot;, 3, &quot;y&quot;, 2)      {&
 </ol>
 </div>
 <div class="section" id="id7">
-<h2>调用python中的函数</h2>
+<h2>调用python中的函数<a class="headerlink" href="#id7" title="Permalink to this headline">UTF-8</a></h2>
 <ol class="arabic simple">
 <li>PyCallable_Check(PyObject*)     检查对象是否可以被调用执行</li>
 <li>PyObject_CallObject(PyObject* callable_obj, PyObject* arg)  传递参数<em>arg</em>调用对象<em>callable_obj</em>。等同于python中：
@@ -251,7 +251,7 @@ Py_BuildValue(&quot;{s:i,s:i}&quot;, &quot;x&quot;, 3, &quot;y&quot;, 2)      {&
 </div>
 </div>
 <div class="section" id="id8">
-<h1>处理返回值</h1>
+<h1>处理返回值<a class="headerlink" href="#id8" title="Permalink to this headline">UTF-8</a></h1>
 <p>处理返回值，即将Python的数据类型转换为C的类型</p>
 <ol class="arabic simple">
 <li>long PyInt_AsLong(PyObject*);</li>
@@ -261,7 +261,7 @@ Py_BuildValue(&quot;{s:i,s:i}&quot;, &quot;x&quot;, 3, &quot;y&quot;, 2)      {&
 </ol>
 </div>
 <div class="section" id="id9">
-<h1>扩展嵌入的Python解释器</h1>
+<h1>扩展嵌入的Python解释器<a class="headerlink" href="#id9" title="Permalink to this headline">UTF-8</a></h1>
 <p>通过Python C API可以将标准的Python解释器嵌入到应用程序中，但是如何扩展这个解释
 器呢？即在解释器中内置一些模块。</p>
 <p>首先看一下，Python文档中的例子：</p>
@@ -315,7 +315,7 @@ Py_BuildValue(&quot;{s:i,s:i}&quot;, &quot;x&quot;, 3, &quot;y&quot;, 2)      {&
 <p>再看看上面的代码，相当复杂麻烦，开发人员要专门写每一个API，并规划导出，而用C/C++来扩展Python有很多更方便的工具，如<cite>swig, Boost.Python</cite>等。</p>
 <p>如果将用这些工具导出的API扩展到嵌入在程序内的解释器呢？</p>
 <div class="section" id="swigpython">
-<h2>swig与扩展嵌入的python解释器</h2>
+<h2>swig与扩展嵌入的python解释器<a class="headerlink" href="#swigpython" title="Permalink to this headline">UTF-8</a></h2>
 <p>我们建立一个小工程：</p>
 <ol class="arabic">
 <li><p class="first">foo.h</p>
@@ -432,7 +432,7 @@ Py_BuildValue(&quot;{s:i,s:i}&quot;, &quot;x&quot;, 3, &quot;y&quot;, 2)      {&
 </div>
 </div>
 <div class="section" id="id10">
-<h1>参数资料</h1>
+<h1>参数资料<a class="headerlink" href="#id10" title="Permalink to this headline">UTF-8</a></h1>
 <ol class="arabic simple">
 <li>Python Essential Reference(4th)</li>
 <li><a class="reference external" href="http://docs.python.org">Python Document</a></li>
@@ -484,7 +484,9 @@ Py_BuildValue(&quot;{s:i,s:i}&quot;, &quot;x&quot;, 3, &quot;y&quot;, 2)      {&
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
-            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+            <a href="../../../2017/02/19/bytecode_interpret_virtual_machine.html">字节码解释器，虚拟机简单原型</a>
+        </li><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">VS 2015创建动态库和静态库</a>
         </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
@@ -501,8 +503,6 @@ Py_BuildValue(&quot;{s:i,s:i}&quot;, &quot;x&quot;, 3, &quot;y&quot;, 2)      {&
             <a href="../../02/04/function_program_in_python.html">function program in python</a>
         </li><li>
             <a href="../../01/19/bash.html">Learning Bash</a>
-        </li><li>
-            <a href="../../01/19/code_evolution.html">Code Evolution</a>
         </li></ul>
 </div>
 </section><section><div class="widget">

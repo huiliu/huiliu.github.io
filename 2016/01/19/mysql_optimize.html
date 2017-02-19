@@ -68,27 +68,27 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="mysql-mysql">
-<h1>MySQL优化-《高性能MySQL》笔记</h1>
+<h1>MySQL优化-《高性能MySQL》笔记<a class="headerlink" href="#mysql-mysql" title="Permalink to this headline">UTF-8</a></h1>
 <div id="more"> </div><div class="section" id="id1">
-<h2>数据类型</h2>
+<h2>数据类型<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h2>
 <p>数据库就是用来存放数据的，对数据的存储，操作是要消耗各种资源的（磁盘，内存，CPU），所以在选择存储数据类型是应该遵循<span class="docutils literal"><span class="pre">在满足需要的条件下更小，更简单的数据类</span>
 <span class="pre">型，尽可能不要使用NULL</span></span>。</p>
 <p>对于数值通常要考虑取值范围、精度问题，对于字符通常需要了解要存储字符的长度，还有时间，二进制数据等</p>
 <div class="section" id="id2">
-<h3>整型</h3>
+<h3>整型<a class="headerlink" href="#id2" title="Permalink to this headline">UTF-8</a></h3>
 <p>整数类型通常有：<span class="docutils literal"><span class="pre">TINYINT,</span> <span class="pre">SMALLINT,</span> <span class="pre">MEDIUMINT,</span> <span class="pre">INT,</span> <span class="pre">BIGINT</span></span>，分别需要1, 23, 4, 8个字节的空间存储。还可以使用有符号和无符号，它们占用的存储空间大小一样，性能也是一样的。MySQL内部计算整型时通常使用8字节大小的<span class="docutils literal"><span class="pre">BIGINT</span></span>。</p>
 </div>
 <div class="section" id="id3">
-<h3>实型</h3>
+<h3>实型<a class="headerlink" href="#id3" title="Permalink to this headline">UTF-8</a></h3>
 <p><span class="docutils literal"><span class="pre">FLOAT,</span> <span class="pre">DOUBLE</span></span>支持标准的浮点运算进行<span class="docutils literal"><span class="pre">近似</span></span>计算，它们分别占用4个和8个字节。MySQL内部对浮点类型使用<span class="docutils literal"><span class="pre">DOUBLE</span></span>进行计算。</p>
 <p><span class="docutils literal"><span class="pre">DECIMAL</span></span>类型可以保存精确的小数，支持精确的数据运算。<span class="docutils literal"><span class="pre">DECIMAL</span></span>类型可以定义小数点前、后的最大位数，最多65个数字（不同版本可能有差异）。<span class="docutils literal"><span class="pre">DECIMAL</span></span>被存储为一个二进制字符串（第4个字节保存9个数字）。如：<span class="docutils literal"><span class="pre">DECIMAL(18,</span> <span class="pre">9)</span></span>小数点前后均保存9位数字，总共需要使用9个字节（WHY?）。在计算时，<span class="docutils literal"><span class="pre">DECIMAL</span></span>类型被转换为<span class="docutils literal"><span class="pre">DOUBLE</span></span>。</p>
 </div>
 <div class="section" id="id4">
-<h3>字符串类型</h3>
+<h3>字符串类型<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h3>
 <p>字符串类型涉及到<em>字符集</em>和<em>排序规则</em>方面的的问题。</p>
 <p>字符串的存储方式与存储引擎有极大的关系。</p>
 <div class="section" id="varcharchar">
-<h4><span class="docutils literal"><span class="pre">VARCHAR</span></span>和<span class="docutils literal"><span class="pre">CHAR</span></span></h4>
+<h4><span class="docutils literal"><span class="pre">VARCHAR</span></span>和<span class="docutils literal"><span class="pre">CHAR</span></span><a class="headerlink" href="#varcharchar" title="Permalink to this headline">UTF-8</a></h4>
 <p><span class="docutils literal"><span class="pre">VARCHAR</span></span>类型存储时只占用字符串实际大小空间，比固定大小的类型占用更少的存储空间。<span class="docutils literal"><span class="pre">VARCHAR</span></span>类型需要1到2个额外的字节来存储字符串的长度。<span class="docutils literal"><span class="pre">VARCHAR</span></span>类型适合存储很少进行更新的字符串，因为如果更新时字符串长度发生变化，会引起数据碎片（不同存储引擎行为不同），进而影响性能。</p>
 <p>另外，对于<span class="docutils literal"><span class="pre">VARCHAR</span></span>类型，如果使用属性<span class="docutils literal"><span class="pre">ROW_FORMAT=FIXED</span></span>创建的<span class="docutils literal"><span class="pre">MyISAM</span></span>表，每行将会使用固定长度空间，造成空间浪费。</p>
 <p>对于<span class="docutils literal"><span class="pre">VARCHAR</span></span>类型的列，被存储的字符串末尾如果有空格，可能会被存储引擎删除。</p>
@@ -96,12 +96,12 @@
 </div>
 </div>
 <div class="section" id="blobtext">
-<h3>BLOB和TEXT</h3>
+<h3>BLOB和TEXT<a class="headerlink" href="#blobtext" title="Permalink to this headline">UTF-8</a></h3>
 <p><span class="docutils literal"><span class="pre">BLOB</span></span>是以二进制形式保存大量数据的；<span class="docutils literal"><span class="pre">TEXT</span></span>是以文本形式来保存大量数据的。对于二进制数据<span class="docutils literal"><span class="pre">BLOB</span></span>没有字符集和排序规则的问题。对于长文本<span class="docutils literal"><span class="pre">TEXT</span></span>只会按照<span class="docutils literal"><span class="pre">max_sort_length=N</span></span>规定的前N个字符进行排序；也可以使用<span class="docutils literal"><span class="pre">ORDER</span> <span class="pre">BY</span> <span class="pre">SUBSTRING(col,</span> <span class="pre">len)</span></span>来排序。</p>
 <p>由于<span class="docutils literal"><span class="pre">Memory</span></span>存储引擎不支持这两种数据类型，所以使用了<span class="docutils literal"><span class="pre">BLOB,</span> <span class="pre">TEXT</span></span>列的临时表查询将不得在磁盘上建立临时表，会导致非常高的性能开销。非必要时应避免使用这两种数据类型。另外临时表的大小受到<span class="docutils literal"><span class="pre">max_heap_size=N</span></span>和<span class="docutils literal"><span class="pre">tmp_table_size=N</span></span>的限制，如果超过将会在磁盘上建立临时表。</p>
 </div>
 <div class="section" id="enum">
-<h3><span class="docutils literal"><span class="pre">ENUM</span></span></h3>
+<h3><span class="docutils literal"><span class="pre">ENUM</span></span><a class="headerlink" href="#enum" title="Permalink to this headline">UTF-8</a></h3>
 <p>以<span class="docutils literal"><span class="pre">ENUM</span></span>类型来代替字符串类型，可以大大节省存储空间。<span class="docutils literal"><span class="pre">ENUM</span></span>类型以整型存储，以表示值在列表中的位置，并且还保留了一份“查找表”来表示整数和字符串的对映关系。可以把它们按数值形式取出；</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="n">use</span> <span class="n">test</span>
 
@@ -149,7 +149,7 @@ MySQL内部权限表中使用<span class="docutils literal"><span class="pre">EN
 </ol>
 </div>
 <div class="section" id="id5">
-<h3>日期、时间类型</h3>
+<h3>日期、时间类型<a class="headerlink" href="#id5" title="Permalink to this headline">UTF-8</a></h3>
 <p>MySQL可保存的最细时间粒度是秒。</p>
 <p><span class="docutils literal"><span class="pre">DATETIME</span></span> 时间范围从1001年到9999年，与时区无关，占用8个字节。</p>
 <p><span class="docutils literal"><span class="pre">TIMESTAMP</span></span>保存了从Unix元年（1970年1月1日）以来的秒数，与Unix时间戳相同，占用4个存储空间。时间范围从1970年至2038年。<span class="docutils literal"><span class="pre">TIMESTAMP</span></span>的显示依赖于时区。
@@ -162,7 +162,7 @@ MySQL服务器，操作系统，客户端都有时区的设置。</p>
 </ol>
 </div>
 <div class="section" id="id6">
-<h3>特殊类型</h3>
+<h3>特殊类型<a class="headerlink" href="#id6" title="Permalink to this headline">UTF-8</a></h3>
 <p>如IP地址，实际上是一个无符号32位的整数，所以最小使用无符号整数来保存IP地址，MySQL提供了<span class="docutils literal"><span class="pre">INET_ATON()</span></span>和<span class="docutils literal"><span class="pre">INET_NTOA()</span></span>两个函数来完成IP地址与整数之前的转换。</p>
 <div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="n">INET_ATON</span><span class="p">(</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">);</span>
 <span class="c1">-- +------------------------+</span>
@@ -175,17 +175,17 @@ MySQL服务器，操作系统，客户端都有时区的设置。</p>
 </div>
 </div>
 <div class="section" id="id7">
-<h2>表的正则化和非正则化</h2>
+<h2>表的正则化和非正则化<a class="headerlink" href="#id7" title="Permalink to this headline">UTF-8</a></h2>
 <p>正则化的设计使得重复数据少，数据更新更快；同时对于一些查询可能需要使用到联接，会降低查询性能。</p>
 <p>非正则化与正则化刚好相反，不用联接，查询性能较好，但数据冗余大。</p>
 <div class="section" id="id8">
-<h3>缓存与汇总表</h3>
+<h3>缓存与汇总表<a class="headerlink" href="#id8" title="Permalink to this headline">UTF-8</a></h3>
 </div>
 </div>
 <div class="section" id="id9">
-<h2>存储引擎的特点</h2>
+<h2>存储引擎的特点<a class="headerlink" href="#id9" title="Permalink to this headline">UTF-8</a></h2>
 <div class="section" id="myisam">
-<h3>MyISAM存储引擎</h3>
+<h3>MyISAM存储引擎<a class="headerlink" href="#myisam" title="Permalink to this headline">UTF-8</a></h3>
 <ol class="arabic simple">
 <li>表级锁</li>
 <li>不支持自动恢复</li>
@@ -195,7 +195,7 @@ MySQL服务器，操作系统，客户端都有时区的设置。</p>
 </ol>
 </div>
 <div class="section" id="memory">
-<h3>Memory存储引擎</h3>
+<h3>Memory存储引擎<a class="headerlink" href="#memory" title="Permalink to this headline">UTF-8</a></h3>
 <ol class="arabic simple">
 <li>表级锁</li>
 <li>不支持动态行（即长度可变行）</li>
@@ -205,7 +205,7 @@ MySQL服务器，操作系统，客户端都有时区的设置。</p>
 </ol>
 </div>
 <div class="section" id="innodb">
-<h3>InnoDB存储引擎</h3>
+<h3>InnoDB存储引擎<a class="headerlink" href="#innodb" title="Permalink to this headline">UTF-8</a></h3>
 <ol class="arabic simple">
 <li>支持事务和四种事务隔离级别</li>
 <li>支持外键</li>
@@ -222,7 +222,7 @@ MySQL服务器，操作系统，客户端都有时区的设置。</p>
 </div>
 </div>
 <div class="section" id="id10">
-<h2>参考资料</h2>
+<h2>参考资料<a class="headerlink" href="#id10" title="Permalink to this headline">UTF-8</a></h2>
 <ol class="arabic simple">
 <li>高性能MySQL（第二版）</li>
 </ol>
@@ -282,7 +282,9 @@ MySQL服务器，操作系统，客户端都有时区的设置。</p>
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
-            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+            <a href="../../../2017/02/19/bytecode_interpret_virtual_machine.html">字节码解释器，虚拟机简单原型</a>
+        </li><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">VS 2015创建动态库和静态库</a>
         </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
@@ -299,8 +301,6 @@ MySQL服务器，操作系统，客户端都有时区的设置。</p>
             <a href="../../02/04/function_program_in_python.html">function program in python</a>
         </li><li>
             <a href="bash.html">Learning Bash</a>
-        </li><li>
-            <a href="code_evolution.html">Code Evolution</a>
         </li></ul>
 </div>
 </section><section><div class="widget">

@@ -1,0 +1,312 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="This is an awesome blog">
+        <meta name="viewport" content="width=device-width">
+        <title>字节码解释器，虚拟机简单原型 &mdash; Life</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/flat.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/font-awesome.min.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="VS 2015创建动态库和静态库" href="../../../2016/11/06/dll与lib的创建与使用.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body role="document">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header role="banner">
+            <hgroup>
+              <h1><a href="../../../index.html">Life</a></h1><h2>Learning, Promotion</h2></hgroup>
+          </header>
+      <nav role="navigation">
+            <ul><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              </ul>
+          </nav><div class="main-container" role="main"><div class="main wrapper body clearfix"><article><div class="timestamp postmeta">
+            <span>February 19, 2017</span>
+        </div>
+    <div class="section" id="id1">
+<h1>字节码解释器，虚拟机简单原型<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h1>
+<p>制件自己的编程语言之基础，字节码解释器，也是一个mini虚拟机。</p>
+<div id="more"> </div><p>《游戏编程模式》一书中有一章讲字节码（模式），自定义一些指令集，对应于游戏中的某些操作，由用户（不是指游戏玩家）来自由组合使用它们灵活实现一些功能。这种功能等同于提供接口给脚本使用，方式上类似于实现一个小型的虚拟机。</p>
+<p>在这里重制一个超简单的虚拟机。</p>
+</div>
+<div class="section" id="opcode">
+<h1>操作码(opcode)<a class="headerlink" href="#opcode" title="Permalink to this headline">UTF-8</a></h1>
+<p>首先确定虚拟机有哪些操作，需要的指令集（有点类似于汇编指令）。
+通常都会有：
+*   运算操作（加减乘除等）
+*   比较运算
+*   逻辑运算
+*   条件语句
+*   循环语句
+*   switch语句
+*   函数调用</p>
+<p>在这里只定义加减乘除操作</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">enum</span> <span class="n">Instruction</span>
+<span class="p">{</span>
+    <span class="n">OPCODE_NUM</span><span class="p">,</span>     <span class="c1">// 数值(操作数)</span>
+    <span class="n">OPCODE_ADD</span><span class="p">,</span>     <span class="c1">// add op</span>
+    <span class="n">OPCODE_SUB</span><span class="p">,</span>     <span class="c1">// sub op</span>
+    <span class="n">OPCODE_DIV</span><span class="p">,</span>     <span class="c1">// div op</span>
+    <span class="n">OPCODE_MUL</span><span class="p">,</span>     <span class="c1">// mul op</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h1>操作数<a class="headerlink" href="#id2" title="Permalink to this headline">UTF-8</a></h1>
+<p>有了上面的操作，总得有操作对象吧，这就是操作数了，也算是函数的参数吧。这些操作数是如何保存的呢？栈。</p>
+</div>
+<div class="section" id="id3">
+<h1>字节码解释器<a class="headerlink" href="#id3" title="Permalink to this headline">UTF-8</a></h1>
+<p>字节码解释器，即不断读取字节码，并解释执行之。</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">class</span> <span class="n">VM</span>
+<span class="p">{</span>
+<span class="nl">public</span><span class="p">:</span>
+    <span class="n">VM</span><span class="p">()</span> <span class="o">:</span> <span class="n">StackIndex_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{}</span>
+<span class="nl">public</span><span class="p">:</span>
+    <span class="kt">char</span> <span class="n">interpret</span><span class="p">(</span><span class="kt">char</span> <span class="n">bytecode</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">);</span>
+
+<span class="nl">private</span><span class="p">:</span>
+    <span class="kt">int</span> <span class="n">add</span><span class="p">(</span><span class="kt">int</span> <span class="n">left</span><span class="p">,</span> <span class="kt">int</span> <span class="n">right</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="nf">sub</span><span class="p">(</span><span class="kt">int</span> <span class="n">left</span><span class="p">,</span> <span class="kt">int</span> <span class="n">right</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="nf">div</span><span class="p">(</span><span class="kt">int</span> <span class="n">left</span><span class="p">,</span> <span class="kt">int</span> <span class="n">right</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="nf">mul</span><span class="p">(</span><span class="kt">int</span> <span class="n">left</span><span class="p">,</span> <span class="kt">int</span> <span class="n">right</span><span class="p">);</span>
+
+<span class="nl">private</span><span class="p">:</span>
+    <span class="kt">char</span>    <span class="n">pop</span><span class="p">();</span>          <span class="c1">// 出栈</span>
+    <span class="kt">void</span>    <span class="nf">push</span><span class="p">(</span><span class="kt">char</span> <span class="n">c</span><span class="p">);</span>   <span class="c1">// 入栈</span>
+<span class="nl">private</span><span class="p">:</span>
+    <span class="k">static</span> <span class="k">const</span> <span class="kt">char</span> <span class="n">MAX_STACK</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">StackIndex_</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">Stack_</span><span class="p">[</span><span class="n">MAX_STACK</span><span class="p">];</span>             <span class="c1">// 存入操作数的栈</span>
+<span class="p">};</span>
+
+
+<span class="kt">char</span> <span class="n">VM</span><span class="o">::</span><span class="n">interpret</span><span class="p">(</span><span class="kt">char</span> <span class="n">bytecode</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// 提取操作码</span>
+        <span class="n">Instruction</span> <span class="n">opcode</span> <span class="o">=</span> <span class="n">static_cast</span><span class="o">&lt;</span><span class="n">Instruction</span><span class="o">&gt;</span><span class="p">(</span><span class="n">bytecode</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="k">switch</span> <span class="p">(</span><span class="n">opcode</span><span class="p">)</span>
+        <span class="p">{</span>
+        <span class="k">case</span> <span class="nl">OPCODE_NUM</span><span class="p">:</span>
+            <span class="n">push</span><span class="p">(</span><span class="n">bytecode</span><span class="p">[</span><span class="o">++</span><span class="n">i</span><span class="p">]);</span>    <span class="c1">// 将操作数压入栈</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="nl">OPCODE_ADD</span><span class="p">:</span>
+        <span class="p">{</span>
+            <span class="kt">char</span> <span class="n">a</span> <span class="o">=</span> <span class="n">pop</span><span class="p">();</span>     <span class="c1">// 从栈中取值（操作数）</span>
+            <span class="kt">char</span> <span class="n">b</span> <span class="o">=</span> <span class="n">pop</span><span class="p">();</span>
+            <span class="kt">char</span> <span class="n">value</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">;</span>
+            <span class="n">push</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>        <span class="c1">// 将运算结果压入栈</span>
+        <span class="p">}</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="nl">OPCODE_SUB</span><span class="p">:</span>
+        <span class="p">{</span>
+            <span class="kt">char</span> <span class="n">a</span> <span class="o">=</span> <span class="n">pop</span><span class="p">();</span>
+            <span class="kt">char</span> <span class="n">b</span> <span class="o">=</span> <span class="n">pop</span><span class="p">();</span>
+            <span class="kt">char</span> <span class="n">value</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">;</span>
+            <span class="n">push</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+        <span class="p">}</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="nl">OPCODE_DIV</span><span class="p">:</span>
+        <span class="p">{</span>
+            <span class="kt">char</span> <span class="n">a</span> <span class="o">=</span> <span class="n">pop</span><span class="p">();</span>
+            <span class="kt">char</span> <span class="n">b</span> <span class="o">=</span> <span class="n">pop</span><span class="p">();</span>
+            <span class="kt">char</span> <span class="n">value</span> <span class="o">=</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span><span class="p">;</span>
+            <span class="n">push</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+        <span class="p">}</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="nl">OPCODE_MUL</span><span class="p">:</span>
+        <span class="p">{</span>
+            <span class="kt">char</span> <span class="n">a</span> <span class="o">=</span> <span class="n">pop</span><span class="p">();</span>
+            <span class="kt">char</span> <span class="n">b</span> <span class="o">=</span> <span class="n">pop</span><span class="p">();</span>
+            <span class="kt">char</span> <span class="n">value</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">;</span>
+            <span class="n">push</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+        <span class="p">}</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">default</span><span class="o">:</span>
+            <span class="n">assert</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">pop</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>上面使用字节码的方式实现了一个解释器，具有加减乘除计算器的功能。</p>
+</div>
+<div class="section" id="id4">
+<h1>小结<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h1>
+<p>上面的实现类似实现一套自定义的汇编指令，只要输入合法的opcode，解释器就会给出结果，是一个虚拟机的简单原型。模拟汇编语言实现一套操作，包含操作码部分的所有操作。</p>
+<p>源码：<a class="reference external" href="https://github.com/huiliu/Learn/tree/master/VM">https://github.com/huiliu/Learn/tree/master/VM</a></p>
+<p>参考资料
+1.  <a class="reference external" href="http://gameprogrammingpatterns.com/bytecode.html">《游戏编程模式》</a></p>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by LiuHui</span>
+        </div>
+        
+        
+        </div><ul class="related clearfix">
+            <li class="left"></li>
+            <li class="right"><a href="../../../2016/11/06/dll与lib的创建与使用.html">VS 2015创建动态库和静态库</a> &raquo; </li>
+        </ul><div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "huiliu";    var disqus_identifier = "2017/02/19/bytecode_interpret_virtual_machine";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section>
+<div class='widget'>
+  <h3>Table Of Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">字节码解释器，虚拟机简单原型</a></li>
+<li><a class="reference internal" href="#opcode">操作码(opcode)</a></li>
+<li><a class="reference internal" href="#id2">操作数</a></li>
+<li><a class="reference internal" href="#id3">字节码解释器</a></li>
+<li><a class="reference internal" href="#id4">小结</a></li>
+</ul>
+
+</div></section><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="#">字节码解释器，虚拟机简单原型</a>
+        </li><li>
+            <a href="../../../2016/11/06/dll与lib的创建与使用.html">VS 2015创建动态库和静态库</a>
+        </li><li>
+            <a href="../../../2016/08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
+        </li><li>
+            <a href="../../../2016/06/27/extending_embedded_python.html">在应用程序中嵌入Python</a>
+        </li><li>
+            <a href="../../../2016/03/24/new_operator.html">operator new与placement new</a>
+        </li><li>
+            <a href="../../../2016/03/19/shadowsocks.html">shadowsocks源码分析：ssserver</a>
+        </li><li>
+            <a href="../../../2016/03/19/const_and_this.html">this指针与const</a>
+        </li><li>
+            <a href="../../../2016/02/15/const_modifier.html">const修饰符</a>
+        </li><li>
+            <a href="../../../2016/02/04/function_program_in_python.html">function program in python</a>
+        </li><li>
+            <a href="../../../2016/01/19/bash.html">Learning Bash</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/c_c.html">c/c++</a> (12)</li><li><a href="../../../categories/database.html">database</a> (12)</li><li><a href="../../../categories/devops.html">devops</a> (24)</li><li><a href="../../../categories/disk.html">disk</a> (1)</li><li><a href="../../../categories/docker.html">docker</a> (1)</li><li><a href="../../../categories/kernel.html">kernel</a> (2)</li><li><a href="../../../categories/learn.html">learn</a> (8)</li><li><a href="../../../categories/life.html">life</a> (7)</li><li><a href="../../../categories/math.html">math</a> (1)</li><li><a href="../../../categories/mysql.html">mysql</a> (11)</li><li><a href="../../../categories/program.html">program</a> (17)</li><li><a href="../../../categories/python.html">python</a> (7)</li><li><a href="../../../categories/security.html">security</a> (5)</li><li><a href="../../../categories/shell.html">shell</a> (1)</li><li><a href="../../../categories/think.html">think</a> (1)</li><li><a href="../../../categories/tips.html">tips</a> (6)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Tags Cloud</h1>
+      <a href="../../../tags/big_data.html" style="font-size: 8pt">big data</a>&nbsp;&nbsp;
+      <a href="../../../tags/bsd.html" style="font-size: 8pt">bsd</a>&nbsp;&nbsp;
+      <a href="../../../tags/c.html" style="font-size: 8pt">c</a>&nbsp;&nbsp;
+      <a href="../../../tags/c_c.html" style="font-size: 12pt">c/c++</a>&nbsp;&nbsp;
+      <a href="../../../tags/ci.html" style="font-size: 8pt">ci</a>&nbsp;&nbsp;
+      <a href="../../../tags/cloud.html" style="font-size: 8pt">cloud</a>&nbsp;&nbsp;
+      <a href="../../../tags/database.html" style="font-size: 12pt">database</a>&nbsp;&nbsp;
+      <a href="../../../tags/dba.html" style="font-size: 12pt">dba</a>&nbsp;&nbsp;
+      <a href="../../../tags/debug.html" style="font-size: 8pt">debug</a>&nbsp;&nbsp;
+      <a href="../../../tags/deploy.html" style="font-size: 15pt">deploy</a>&nbsp;&nbsp;
+      <a href="../../../tags/devops.html" style="font-size: 20pt">devops</a>&nbsp;&nbsp;
+      <a href="../../../tags/disk.html" style="font-size: 8pt">disk</a>&nbsp;&nbsp;
+      <a href="../../../tags/docker.html" style="font-size: 8pt">docker</a>&nbsp;&nbsp;
+      <a href="../../../tags/firefox.html" style="font-size: 8pt">firefox</a>&nbsp;&nbsp;
+      <a href="../../../tags/forman.html" style="font-size: 8pt">forman</a>&nbsp;&nbsp;
+      <a href="../../../tags/function_program.html" style="font-size: 8pt">function program</a>&nbsp;&nbsp;
+      <a href="../../../tags/gentoo.html" style="font-size: 8pt">gentoo</a>&nbsp;&nbsp;
+      <a href="../../../tags/github.html" style="font-size: 8pt">github</a>&nbsp;&nbsp;
+      <a href="../../../tags/gnuplot.html" style="font-size: 8pt">gnuplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/http.html" style="font-size: 8pt">http</a>&nbsp;&nbsp;
+      <a href="../../../tags/jenkins.html" style="font-size: 8pt">jenkins</a>&nbsp;&nbsp;
+      <a href="../../../tags/kernel.html" style="font-size: 8pt">kernel</a>&nbsp;&nbsp;
+      <a href="../../../tags/learn.html" style="font-size: 11pt">learn</a>&nbsp;&nbsp;
+      <a href="../../../tags/life.html" style="font-size: 9pt">life</a>&nbsp;&nbsp;
+      <a href="../../../tags/linux.html" style="font-size: 8pt">linux</a>&nbsp;&nbsp;
+      <a href="../../../tags/mail.html" style="font-size: 8pt">mail</a>&nbsp;&nbsp;
+      <a href="../../../tags/math.html" style="font-size: 8pt">math</a>&nbsp;&nbsp;
+      <a href="../../../tags/matplot.html" style="font-size: 8pt">matplot</a>&nbsp;&nbsp;
+      <a href="../../../tags/mongodb.html" style="font-size: 8pt">mongodb</a>&nbsp;&nbsp;
+      <a href="../../../tags/mysql.html" style="font-size: 12pt">mysql</a>&nbsp;&nbsp;
+      <a href="../../../tags/network.html" style="font-size: 12pt">network</a>&nbsp;&nbsp;
+      <a href="../../../tags/php.html" style="font-size: 8pt">php</a>&nbsp;&nbsp;
+      <a href="../../../tags/proc.html" style="font-size: 8pt">proc</a>&nbsp;&nbsp;
+      <a href="../../../tags/program.html" style="font-size: 14pt">program</a>&nbsp;&nbsp;
+      <a href="../../../tags/python.html" style="font-size: 13pt">python</a>&nbsp;&nbsp;
+      <a href="../../../tags/qa.html" style="font-size: 8pt">QA</a>&nbsp;&nbsp;
+      <a href="../../../tags/reading.html" style="font-size: 8pt">reading</a>&nbsp;&nbsp;
+      <a href="../../../tags/security.html" style="font-size: 11pt">security</a>&nbsp;&nbsp;
+      <a href="../../../tags/selinux.html" style="font-size: 8pt">selinux</a>&nbsp;&nbsp;
+      <a href="../../../tags/shell.html" style="font-size: 8pt">shell</a>&nbsp;&nbsp;
+      <a href="../../../tags/software.html" style="font-size: 10pt">software</a>&nbsp;&nbsp;
+      <a href="../../../tags/spider.html" style="font-size: 8pt">spider</a>&nbsp;&nbsp;
+      <a href="../../../tags/think.html" style="font-size: 8pt">think</a>&nbsp;&nbsp;
+      <a href="../../../tags/tips.html" style="font-size: 11pt">tips</a>&nbsp;&nbsp;
+      <a href="../../../tags/tmux.html" style="font-size: 8pt">tmux</a>&nbsp;&nbsp;
+      <a href="../../../tags/urllib.html" style="font-size: 8pt">urllib</a>&nbsp;&nbsp;
+      <a href="../../../tags/utf8.html" style="font-size: 8pt">utf8</a>&nbsp;&nbsp;
+      <a href="../../../tags/vim.html" style="font-size: 8pt">vim</a>&nbsp;&nbsp;
+      <a href="../../../tags/vpn.html" style="font-size: 8pt">vpn</a>&nbsp;&nbsp;
+      <a href="../../../tags/web.html" style="font-size: 8pt">web</a>&nbsp;&nbsp;
+      <a href="../../../tags/优化.html" style="font-size: 8pt">优化</a>&nbsp;&nbsp;
+      <a href="../../../tags/潮流.html" style="font-size: 8pt">潮流</a>&nbsp;&nbsp;
+      <a href="../../../tags/监控.html" style="font-size: 8pt">监控</a>&nbsp;&nbsp;
+      <a href="../../../tags/瞎想.html" style="font-size: 8pt">瞎想</a>&nbsp;&nbsp;
+      <a href="../../../tags/系统编程.html" style="font-size: 8pt">系统编程</a>&nbsp;&nbsp;
+      <a href="../../../tags/翻译.html" style="font-size: 8pt">翻译</a>
+</div></section><section><div class="widget" id="searchbox" role="search">
+    <h1><a href="#searchbox">Search</a></h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="fa fa-search"></span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container" role="contentinfo"><footer class="wrapper">&copy; Copyright 2016, LiuHui. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

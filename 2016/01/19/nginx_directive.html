@@ -68,12 +68,12 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="nginx">
-<h1>Nginx指令介绍</h1>
+<h1>Nginx指令介绍<a class="headerlink" href="#nginx" title="Permalink to this headline">UTF-8</a></h1>
 <p>详细信息请查看<a class="reference external" href="http://nginx.org/">Nginx</a> 原文档(English[#ref1]_, 淘宝中文版<a class="footnote-reference" href="#ref2" id="id1">[2]</a>)</p>
 <div class="section" id="proxy-cache">
-<h2>Proxy_cache相关指令</h2>
+<h2>Proxy_cache相关指令<a class="headerlink" href="#proxy-cache" title="Permalink to this headline">UTF-8</a></h2>
 <div class="section" id="id3">
-<h3>proxy_cache</h3>
+<h3>proxy_cache<a class="headerlink" href="#id3" title="Permalink to this headline">UTF-8</a></h3>
 <div class="highlight-nginx"><div class="highlight"><pre><span></span><span class="k">prox_cache</span> <span class="s">zone_name</span> <span class="s">|</span> <span class="no">off</span><span class="p">;</span>
 </pre></div>
 </div>
@@ -81,7 +81,7 @@
 <p>共享存储区域&#8221;<em>zone_name</em>&#8220;是由指令<span class="docutils literal"><span class="pre">proxy_cache_path</span></span>定义的。</p>
 </div>
 <div class="section" id="proxy-cache-path">
-<h3>proxy_cache_path</h3>
+<h3>proxy_cache_path<a class="headerlink" href="#proxy-cache-path" title="Permalink to this headline">UTF-8</a></h3>
 <div class="highlight-nginx"><div class="highlight"><pre><span></span><span class="k">proxy_cache_path</span>  <span class="s">path</span> <span class="s">[levels=levels]</span> <span class="s">keys_zone=name:size</span>
                     <span class="s">[inactive=time]</span> <span class="s">[max_size=size]</span> <span class="s">[loader_files=number]</span>
                     <span class="s">[loader_sleep=time]</span> <span class="s">[loader_threshold=time]</span><span class="p">;</span>
@@ -101,7 +101,7 @@
 <p>A minute after the start the special process “cache loader” is activated that loads information about previously cached data stored on file system into a cache zone. A load is done in iterations. During one iteration no more than loader_files items are loaded (by default, 100). Besides, the duration of one iteration is limited by the loader_threshold parameter (by default, 200 milliseconds). A pause is made between iterations, configured by the loader_sleep parameter (by default, 50 milliseconds).</p>
 </div>
 <div class="section" id="proxy-cache-bypass">
-<h3>proxy_cache_bypass</h3>
+<h3>proxy_cache_bypass<a class="headerlink" href="#proxy-cache-bypass" title="Permalink to this headline">UTF-8</a></h3>
 <div class="highlight-nginx"><div class="highlight"><pre><span></span><span class="k">proxy_cache_bypass</span> <span class="s">string</span> <span class="s">...</span><span class="p">;</span>
 </pre></div>
 </div>
@@ -109,20 +109,20 @@
 <p><span class="docutils literal"><span class="pre">proxy_cache_bypass</span></span>的功能与下面的<span class="docutils literal"><span class="pre">proxy_no_cache</span></span>相同。</p>
 </div>
 <div class="section" id="proxy-no-cache">
-<h3>proxy_no_cache</h3>
+<h3>proxy_no_cache<a class="headerlink" href="#proxy-no-cache" title="Permalink to this headline">UTF-8</a></h3>
 <div class="highlight-nginx"><div class="highlight"><pre><span></span><span class="k">proxy_no_cache</span> <span class="s">string</span> <span class="s">...</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>与<span class="docutils literal"><span class="pre">proxy_cache_bypass</span></span>相同。</p>
 </div>
 <div class="section" id="proxy-cache-key">
-<h3>proxy_cache_key</h3>
+<h3>proxy_cache_key<a class="headerlink" href="#proxy-cache-key" title="Permalink to this headline">UTF-8</a></h3>
 <div class="highlight-nginx"><div class="highlight"><pre><span></span><span class="k">proxy_cacke_key</span> <span class="nv">$scheme$proxy_host$request_uri</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="proxy-cache-valid">
-<h3>proxy_cache_valid</h3>
+<h3>proxy_cache_valid<a class="headerlink" href="#proxy-cache-valid" title="Permalink to this headline">UTF-8</a></h3>
 <div class="highlight-nginx"><div class="highlight"><pre><span></span><span class="k">proxy_cache_valid</span> <span class="mi">200</span> <span class="mi">302</span> <span class="mi">10m</span><span class="p">;</span>
 <span class="k">proxy_cache_valid</span> <span class="mi">404</span> <span class="mi">1m</span><span class="p">;</span>
 <span class="k">proxy_cache_valid</span> <span class="s">any</span> <span class="mi">1m</span><span class="p">;</span>
@@ -130,46 +130,46 @@
 </div>
 </div>
 <div class="section" id="proxy-cache-lock">
-<h3>proxy_cache_lock</h3>
+<h3>proxy_cache_lock<a class="headerlink" href="#proxy-cache-lock" title="Permalink to this headline">UTF-8</a></h3>
 <div class="highlight-nginx"><div class="highlight"><pre><span></span><span class="k">proxy_cache_lock</span> <span class="no">on</span> <span class="s">|</span> <span class="no">off</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="proxy-cache-lock-timeout">
-<h3>proxy_cache_lock_timeout</h3>
+<h3>proxy_cache_lock_timeout<a class="headerlink" href="#proxy-cache-lock-timeout" title="Permalink to this headline">UTF-8</a></h3>
 <div class="highlight-nginx"><div class="highlight"><pre><span></span><span class="k">proxy_cache_lock_timeout</span> <span class="s">5s</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="proxy-cache-min-uses">
-<h3>proxy_cache_min_uses</h3>
+<h3>proxy_cache_min_uses<a class="headerlink" href="#proxy-cache-min-uses" title="Permalink to this headline">UTF-8</a></h3>
 <div class="highlight-nginx"><div class="highlight"><pre><span></span><span class="k">proxy_cache_min_uses</span> <span class="mi">1</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="proxy-cache-use-stale">
-<h3>proxy_cache_use_stale</h3>
+<h3>proxy_cache_use_stale<a class="headerlink" href="#proxy-cache-use-stale" title="Permalink to this headline">UTF-8</a></h3>
 <div class="highlight-nginx"><div class="highlight"><pre><span></span><span class="k">proxy_cache_use_stale</span> <span class="s">error</span> <span class="s">|</span> <span class="s">timeout</span> <span class="s">|</span> <span class="s">invalid_header</span> <span class="s">|</span> <span class="s">updating</span> <span class="s">|</span> <span class="s">http_500</span>
                         <span class="s">|</span> <span class="s">http_502</span> <span class="s">|</span> <span class="s">http_503</span> <span class="s">|</span> <span class="s">http_504</span> <span class="s">|</span> <span class="s">http_404</span> <span class="s">|</span> <span class="no">off</span> <span class="s">...</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="proxy-cache-methods">
-<h3>proxy_cache_methods</h3>
+<h3>proxy_cache_methods<a class="headerlink" href="#proxy-cache-methods" title="Permalink to this headline">UTF-8</a></h3>
 <div class="highlight-nginx"><div class="highlight"><pre><span></span><span class="k">proxy_cache_methods</span> <span class="s">GET</span> <span class="s">|</span> <span class="s">HEAD</span> <span class="s">|</span> <span class="s">POST</span> <span class="s">...</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="id4">
-<h2>问题</h2>
+<h2>问题<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h2>
 <ul class="simple">
 <li><strong>proxy cache</strong>的流程是什么样的？</li>
 <li><span class="docutils literal"><span class="pre">proxy_cache</span></span>, <span class="docutils literal"><span class="pre">proxy_temp_path</span></span>, <span class="docutils literal"><span class="pre">proxy_store</span></span>三种存储有什么差别？</li>
 </ul>
 </div>
 <div class="section" id="id5">
-<h2>参考资料</h2>
+<h2>参考资料<a class="headerlink" href="#id5" title="Permalink to this headline">UTF-8</a></h2>
 <table class="docutils footnote" frame="void" id="ref1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -220,7 +220,9 @@
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
-            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+            <a href="../../../2017/02/19/bytecode_interpret_virtual_machine.html">字节码解释器，虚拟机简单原型</a>
+        </li><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">VS 2015创建动态库和静态库</a>
         </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
@@ -237,8 +239,6 @@
             <a href="../../02/04/function_program_in_python.html">function program in python</a>
         </li><li>
             <a href="bash.html">Learning Bash</a>
-        </li><li>
-            <a href="code_evolution.html">Code Evolution</a>
         </li></ul>
 </div>
 </section><section><div class="widget">

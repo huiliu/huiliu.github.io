@@ -68,11 +68,11 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="id1">
-<h1>学习内核相关知识</h1>
+<h1>学习内核相关知识<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h1>
 <div id="more"> </div><div class="section" id="tcp-socketunix-socket">
-<h2>使用TCP Socket还是Unix Socket</h2>
+<h2>使用TCP Socket还是Unix Socket<a class="headerlink" href="#tcp-socketunix-socket" title="Permalink to this headline">UTF-8</a></h2>
 <div class="section" id="id2">
-<h3>引</h3>
+<h3>引<a class="headerlink" href="#id2" title="Permalink to this headline">UTF-8</a></h3>
 <p>我在想，负载均衡器，前端要与用户连接，后端要与Web Server连接，如果用户超多，系统的端口会够用么？</p>
 <p>So，今天重新配置Nginx反向代理时，想将主机上的php-fpm设置为uninx socket形式，结果还给整错了，整了好一会才搞定的：</p>
 <ul class="simple">
@@ -93,7 +93,7 @@
 <p>完成上面的设置就可以让Nginx通过Uninx Socket与PHP-FPM通信。</p>
 </div>
 <div class="section" id="id3">
-<h3>网上的一些讨论</h3>
+<h3>网上的一些讨论<a class="headerlink" href="#id3" title="Permalink to this headline">UTF-8</a></h3>
 <p>然而在网上看到了一些这方面的讨论：</p>
 <ul class="simple">
 <li>淘宝运维发生过，流量升高<strong>TIME_WAIT</strong>增加，最后在error.log中出现N多(3W+) 的连接MySQL失败。经他们分析认为是因为流量增大，服务器端口不够用引起的。<a class="footnote-reference" href="#id7" id="id4">[1]</a></li>
@@ -160,7 +160,7 @@ Apache、Nginx等服务器，上几行
 </table>
 </div>
 <div class="section" id="time-wait">
-<h3><span class="docutils literal"><span class="pre">TIME_WAIT</span></span>引发的日志提示</h3>
+<h3><span class="docutils literal"><span class="pre">TIME_WAIT</span></span>引发的日志提示<a class="headerlink" href="#time-wait" title="Permalink to this headline">UTF-8</a></h3>
 <p>当系统中处于<span class="docutils literal"><span class="pre">TIME_WAIT</span></span>状态的连接数超过<span class="docutils literal"><span class="pre">net.ipv4.tcp_max_tw_buckets</span></span>的设定值，系统日志中将出现如下消息：</p>
 <div class="highlight-text"><div class="highlight"><pre><span></span>printk: 130 messages suppressed.
 TCP: time wait bucket table overflow
@@ -176,12 +176,12 @@ printk: 123 messages suppressed.
 </div>
 </div>
 <div class="section" id="i-o">
-<h2>调试I/O - 查看是哪个进程在读写硬盘</h2>
+<h2>调试I/O - 查看是哪个进程在读写硬盘<a class="headerlink" href="#i-o" title="Permalink to this headline">UTF-8</a></h2>
 <p>将&#8221;<strong>/proc/sys/vm/block_dump</strong>&#8220;的值修改为非零值，将进入I/O调试模式，系统中所有的I/O操作都将在内核日志中输出，使用<cite>dmesg | tail</cite>就可以看到。</p>
 <p>内核文档&#8221;<em>Dowcument/sysctl/vm.txt</em>&#8220;和&#8221;<em>Document/laptop/laptop-mode.txt</em>&#8220;中对文件<em>block_dump</em>的功能有介绍。</p>
 </div>
 <div class="section" id="id6">
-<h2>参考资料</h2>
+<h2>参考资料<a class="headerlink" href="#id6" title="Permalink to this headline">UTF-8</a></h2>
 <table class="docutils footnote" frame="void" id="id7" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -234,7 +234,9 @@ printk: 123 messages suppressed.
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
-            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+            <a href="../../../2017/02/19/bytecode_interpret_virtual_machine.html">字节码解释器，虚拟机简单原型</a>
+        </li><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">VS 2015创建动态库和静态库</a>
         </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
@@ -251,8 +253,6 @@ printk: 123 messages suppressed.
             <a href="../../02/04/function_program_in_python.html">function program in python</a>
         </li><li>
             <a href="bash.html">Learning Bash</a>
-        </li><li>
-            <a href="code_evolution.html">Code Evolution</a>
         </li></ul>
 </div>
 </section><section><div class="widget">

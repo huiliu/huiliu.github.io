@@ -68,9 +68,9 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="svn">
-<h1>SVN仓库安全之镜像备份</h1>
+<h1>SVN仓库安全之镜像备份<a class="headerlink" href="#svn" title="Permalink to this headline">UTF-8</a></h1>
 <div id="more"> </div><div class="section" id="id1">
-<h2>软件需求</h2>
+<h2>软件需求<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h2>
 <p>本文经过在CentOS 5.5_X86上实验操作通过，所需相关软件有：</p>
 <ul class="simple">
 <li>操作系统：CentOS 5.5 X86</li>
@@ -81,7 +81,7 @@
 </ul>
 </div>
 <div class="section" id="id2">
-<h2>建立SVN仓库（主）</h2>
+<h2>建立SVN仓库（主）<a class="headerlink" href="#id2" title="Permalink to this headline">UTF-8</a></h2>
 <p>使用命令<span class="docutils literal"><span class="pre">svnadmin</span> <span class="pre">create</span></span>可以方便建立SVN仓库，然后在Apache的配置文件中设定好URL访问路径，客户端就可以通过HTTP访问SVN服务器。</p>
 <ul>
 <li><p class="first">建立仓库</p>
@@ -117,7 +117,7 @@ chcon -R -t httpd_sys_content_t repos
 <p>如果SVN仓库非常庞大，数据达到十几G，几十G，<span class="docutils literal"><span class="pre">svnsync</span></span>的效率将非常低，同步完仓库可能要十几个小时甚至更长。所以可能通过伪造欺骗的方式来建立镜像仓库。</p>
 </div>
 <div class="section" id="svn-mirror">
-<h2>建立主SVN仓库的镜像(Mirror)</h2>
+<h2>建立主SVN仓库的镜像(Mirror)<a class="headerlink" href="#svn-mirror" title="Permalink to this headline">UTF-8</a></h2>
 <p>建议镜像仓库的前期步骤与主仓库一致，当建立好镜像仓库后需要使用命令<span class="docutils literal"><span class="pre">svnsync</span></span>将镜像仓库与主仓库同步、建立连接。假定镜像仓库的路径为：<em>/backup/hello</em>，访问URL为：<a class="reference external" href="http://devhome/backup/hello">http://devhome/backup/hello</a>。镜像仓库必须是一个全新的SVN仓库，没有进行任何提交。</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>svnsync init http://devhome/backup/hello http://devhome/repos/hello
 svnsync sync http://devhome/backup/hello
@@ -144,7 +144,7 @@ Changing revision properties other than svn:log is prohibited
 </div>
 </div>
 <div class="section" id="hooks">
-<h2>安装hooks－实时镜像</h2>
+<h2>安装hooks－实时镜像<a class="headerlink" href="#hooks" title="Permalink to this headline">UTF-8</a></h2>
 <p>完成上面两步后，就可以手动通过<span class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span></span>来同步主库我镜像仓库的数据，使其保持一致。更为方便的是在主仓库中安装一个post-commit的hook，（关于钩子hook的使用请查看其它资料）当客户端向主仓库完成一次提交后，自动将数据同步到镜像仓库。</p>
 <ul>
 <li><p class="first">在“<em>/repos/hello/hooks</em>”目录下建立一个文件“<strong>post-commit</strong>”并将其设为可执行。这个文件可以是任何形式的可执行文件，在此处使用Shell，最简单的文件内容为：</p>
@@ -158,11 +158,11 @@ svnsync sync http://devhome/backup/hello --non-interactive --no-auth-cache --use
 <p>安装好上面的hook后，当用户向<em>http://devhome/repos/hello</em>提交数据，当前提交会自动同步到<em>http://devhome/backup/hello</em>。如果SVN的访问需要授权，则必须提供用户名和密码，且保证正确（小心有些系统设置了密码的有效期）</p>
 </div>
 <div class="section" id="id3">
-<h2>案例</h2>
+<h2>案例<a class="headerlink" href="#id3" title="Permalink to this headline">UTF-8</a></h2>
 <p>主仓库所在硬盘故障，将SVN服务由镜像仓库顶上，SVN的提交将直接被写入镜像。主仓库硬盘修复后（数据无损失），将提交至镜像仓库的数据导入主仓库，恢复主－镜像架构。</p>
 </div>
 <div class="section" id="id4">
-<h2>切换至镜像仓库</h2>
+<h2>切换至镜像仓库<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h2>
 <p>尽量不要向镜像仓库提交数据，不得不使用镜像仓库时，先对镜像仓库进行一个完整备份，
 以备再次建立镜像备份。因为镜像仓库本来就是设计为只读仓库的，从镜像恢复主仓库可能会出现各种意外，后续将介绍一些实际经验。</p>
 <p>将镜像仓库作为主仓库接收用户提交数据时，还需要将镜像仓库的<span class="docutils literal"><span class="pre">UUID</span></span>修改为主仓库的<span class="docutils literal"><span class="pre">UUID</span></span>。</p>
@@ -177,7 +177,7 @@ svnsync sync http://devhome/backup/hello --non-interactive --no-auth-cache --use
 </div>
 </div>
 <div class="section" id="id5">
-<h2>从镜像仓库恢复主仓库</h2>
+<h2>从镜像仓库恢复主仓库<a class="headerlink" href="#id5" title="Permalink to this headline">UTF-8</a></h2>
 <p>由于故障时将镜像仓库用作主仓库接受客户端的数据提交，所以当修复的主仓库重新上线时，镜像仓库的数据比主仓库的更新一些，所以必须将提交到镜像仓库的数据重新导回主仓库才能重新恢复主－镜像备份功能。</p>
 <p>首先我们尝试使用<span class="docutils literal"><span class="pre">svnsync</span></span>命令来同步：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>svnsync sync http://devhome/repos/hello
@@ -195,7 +195,7 @@ committed to the destination without using svnsync
 <p>运行上面的命令导出导入数据时，可能会出错中断操作。<a class="footnote-reference" href="#id11" id="id6">[1]</a></p>
 </div>
 <div class="section" id="id7">
-<h2>重新恢复主－镜像功能</h2>
+<h2>重新恢复主－镜像功能<a class="headerlink" href="#id7" title="Permalink to this headline">UTF-8</a></h2>
 <p>镜像仓库数据导入回主仓库后，主仓库和镜像仓库的数据就完全一致（请确认）。此时运行命令<span class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span> <span class="pre">http://devhome/backup/hello</span></span>会收到错误：</p>
 <div class="highlight-text"><div class="highlight"><pre><span></span>svnsync: Destination HEAD (11295) is not the last merged revision (11297);
 have you committed to the destination without using svnsync?
@@ -242,7 +242,7 @@ END
 </ul>
 </div>
 <div class="section" id="id8">
-<h2>问题说明</h2>
+<h2>问题说明<a class="headerlink" href="#id8" title="Permalink to this headline">UTF-8</a></h2>
 <p>在实际运行过程中会出现各种奇怪的问题，集结如下：</p>
 <ol class="arabic">
 <li><p class="first">运行命令<span class="docutils literal"><span class="pre">svnsync</span> <span class="pre">sync</span> <span class="pre">http://xxx.xxx.xxx/backup/xxxx</span></span>提示错误：</p>
@@ -284,7 +284,7 @@ svnsync: Couldn&#39;t get lock on destination repos after 10 attempts
 </ol>
 </div>
 <div class="section" id="id10">
-<h2>参考说明</h2>
+<h2>参考说明<a class="headerlink" href="#id10" title="Permalink to this headline">UTF-8</a></h2>
 <table class="docutils footnote" frame="void" id="id11" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -353,7 +353,9 @@ svnadmin lslock /repos/hello &gt; helloLocks
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
-            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+            <a href="../../../2017/02/19/bytecode_interpret_virtual_machine.html">字节码解释器，虚拟机简单原型</a>
+        </li><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">VS 2015创建动态库和静态库</a>
         </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
@@ -370,8 +372,6 @@ svnadmin lslock /repos/hello &gt; helloLocks
             <a href="../../02/04/function_program_in_python.html">function program in python</a>
         </li><li>
             <a href="bash.html">Learning Bash</a>
-        </li><li>
-            <a href="code_evolution.html">Code Evolution</a>
         </li></ul>
 </div>
 </section><section><div class="widget">

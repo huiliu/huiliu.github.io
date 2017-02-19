@@ -68,10 +68,10 @@
             <span>March 19, 2016</span>
         </div>
     <div class="section" id="thisconst">
-<h1>this指针与const</h1>
+<h1>this指针与const<a class="headerlink" href="#thisconst" title="Permalink to this headline">UTF-8</a></h1>
 <p><span class="docutils literal"><span class="pre">this</span></span>指针与<span class="docutils literal"><span class="pre">const</span></span>修饰符的关系。</p>
 <div id="more"> </div><div class="section" id="const">
-<h2><span class="docutils literal"><span class="pre">const</span></span>与指针结合</h2>
+<h2><span class="docutils literal"><span class="pre">const</span></span>与指针结合<a class="headerlink" href="#const" title="Permalink to this headline">UTF-8</a></h2>
 <p>先看一下<span class="docutils literal"><span class="pre">const</span></span>指针：</p>
 <ul class="simple">
 <li><em>T* const val;</em>        不能改变指针的值，可以改变指针指向对象的值</li>
@@ -108,7 +108,7 @@
 </div>
 </div>
 <div class="section" id="this">
-<h2><span class="docutils literal"><span class="pre">this</span></span>指针</h2>
+<h2><span class="docutils literal"><span class="pre">this</span></span>指针<a class="headerlink" href="#this" title="Permalink to this headline">UTF-8</a></h2>
 <p>当调用一个类的非静态成员函数时，底层实现会隐式的添加一个指向类实例的指针作为参
 数，即<span class="docutils literal"><span class="pre">this</span></span>指针，<span class="docutils literal"><span class="pre">this</span></span>指针是一个指针常量（指针的值不可变，其指向的对象可变）。</p>
 <p>在类（非静态）成员函数中对类的成员变量的访问就是通过<span class="docutils literal"><span class="pre">this</span></span>指针来完成的，
@@ -149,7 +149,7 @@
 </div>
 </div>
 <div class="section" id="constconst">
-<h2><span class="docutils literal"><span class="pre">const</span></span>对象和非<span class="docutils literal"><span class="pre">const</span></span>对象</h2>
+<h2><span class="docutils literal"><span class="pre">const</span></span>对象和非<span class="docutils literal"><span class="pre">const</span></span>对象<a class="headerlink" href="#constconst" title="Permalink to this headline">UTF-8</a></h2>
 <p>下面两个对象的<span class="docutils literal"><span class="pre">this</span></span>指针类型是？</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="n">CConst</span><span class="o">*</span> <span class="n">pObj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CConst</span><span class="p">();</span>    <span class="c1">// 非const对象</span>
 <span class="k">const</span> <span class="n">CConst</span><span class="o">*</span> <span class="n">pConstObj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CConst</span><span class="p">();</span>    <span class="c1">// 非const对象</span>
@@ -170,7 +170,7 @@
 <p><strong>const成员函数是一种重载；const对象只能调用const成员函数。</strong></p>
 </div>
 <div class="section" id="id1">
-<h2><span class="docutils literal"><span class="pre">this</span></span>指针的验证</h2>
+<h2><span class="docutils literal"><span class="pre">this</span></span>指针的验证<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h2>
 <p>定义下面一个类：</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">T</span>
 <span class="p">{</span>
@@ -201,11 +201,11 @@
 如果不将指针删除后的指针设为<span class="docutils literal"><span class="pre">nullptr</span></span>会发现什么呢？（我用gcc/vc试了好几次，都没有出错，多么恐怖的事啊，一个删除的对象还可以被使用，执行结果是未知的啊，出现segment fault是你走大运了，如果正常执行了才麻烦）</p>
 </div>
 <div class="section" id="c">
-<h2>C++的对象模型</h2>
+<h2>C++的对象模型<a class="headerlink" href="#c" title="Permalink to this headline">UTF-8</a></h2>
 <p><strong>为什么需要this指针呢？</strong></p>
 </div>
 <div class="section" id="acknowledgment">
-<h2>ACKNOWLEDGMENT</h2>
+<h2>ACKNOWLEDGMENT<a class="headerlink" href="#acknowledgment" title="Permalink to this headline">UTF-8</a></h2>
 <p>感谢强哥的指导！</p>
 </div>
 </div>
@@ -245,7 +245,9 @@
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
-            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+            <a href="../../../2017/02/19/bytecode_interpret_virtual_machine.html">字节码解释器，虚拟机简单原型</a>
+        </li><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">VS 2015创建动态库和静态库</a>
         </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
@@ -262,8 +264,6 @@
             <a href="../../02/04/function_program_in_python.html">function program in python</a>
         </li><li>
             <a href="../../01/19/bash.html">Learning Bash</a>
-        </li><li>
-            <a href="../../01/19/code_evolution.html">Code Evolution</a>
         </li></ul>
 </div>
 </section><section><div class="widget">

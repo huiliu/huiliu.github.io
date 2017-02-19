@@ -68,14 +68,14 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="zabbix">
-<h1>配置Zabbix</h1>
+<h1>配置Zabbix<a class="headerlink" href="#zabbix" title="Permalink to this headline">UTF-8</a></h1>
 <div id="more"> </div><div class="section" id="id1">
-<h2>安装</h2>
+<h2>安装<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h2>
 <div class="section" id="id2">
-<h3>建立数据库</h3>
+<h3>建立数据库<a class="headerlink" href="#id2" title="Permalink to this headline">UTF-8</a></h3>
 </div>
 <div class="section" id="php">
-<h3>配置PHP</h3>
+<h3>配置PHP<a class="headerlink" href="#php" title="Permalink to this headline">UTF-8</a></h3>
 <p>需要修改PHP的默认参数</p>
 <div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">max_execution_time</span> <span class="o">=</span> <span class="s">300</span>
 <span class="na">memory_limit</span> <span class="o">=</span> <span class="s">128M</span>
@@ -87,12 +87,12 @@
 </div>
 </div>
 <div class="section" id="zabbix-server">
-<h3>配置Zabbix Server</h3>
+<h3>配置Zabbix Server<a class="headerlink" href="#zabbix-server" title="Permalink to this headline">UTF-8</a></h3>
 </div>
 <div class="section" id="zabbix-agent">
-<h3>配置Zabbix Agent</h3>
+<h3>配置Zabbix Agent<a class="headerlink" href="#zabbix-agent" title="Permalink to this headline">UTF-8</a></h3>
 <div class="section" id="windows-agent">
-<h4>安装Windows Agent</h4>
+<h4>安装Windows Agent<a class="headerlink" href="#windows-agent" title="Permalink to this headline">UTF-8</a></h4>
 <p>从官方网站上下载Windows的软件包，32位和64位打包在一起。然后按照文档中执行就可以了：</p>
 <ol class="arabic">
 <li><p class="first">将<span class="docutils literal"><span class="pre">agent</span></span>安装为Windows服务。</p>
@@ -114,7 +114,7 @@
 </div>
 </div>
 <div class="section" id="snmp-discovery">
-<h2>SNMP Discovery</h2>
+<h2>SNMP Discovery<a class="headerlink" href="#snmp-discovery" title="Permalink to this headline">UTF-8</a></h2>
 <p><strong>Zabbix</strong>自身带有不少请求SNMP数据的模板可以使用，不过通过自定义的可以获取更多的数据。例如：磁盘的IO，CPU的负载，TCP的连接情况等等。</p>
 <p>在<strong>Zabbix</strong>的<a class="reference external" href="https://www.zabbix.com/documentation/2.0/manual/discovery/low_level_discovery">手册</a>中对如何自定义SNMP discovery 策略有介绍，在此，结合自己的的经历详细说明如何添加自定义 <em>discovery, item prototypes</em>等。</p>
 <p>首先需要对Net-SNMP的MIB有一点点了解，在此以添加对Disk IO的监控为例，相关OID其OID为：”<strong>.1.3.6.1.4.1.2021.13.15.1.1.</strong>“。树形结构为：</p>
@@ -170,7 +170,7 @@
 <p>MIB的信息可以通过<a class="reference external" href="http://oid-info.com/index.htm">oid-info</a>查看。接下假定你有一个正常运行的<strong>snmpd</strong>服务。命令：<span class="docutils literal"><span class="pre">snmpwalk</span> <span class="pre">-v</span> <span class="pre">2c</span> <span class="pre">-c</span> <span class="pre">public</span> <span class="pre">localhost</span> <span class="pre">.1.3.6.1.4.1.2021.13.15.1.1.3</span></span>
 可查询到本机各磁盘从开机到当前读取了多少字节。</p>
 <div class="section" id="discovery">
-<h3>新建<strong>discovery</strong>条目</h3>
+<h3>新建<strong>discovery</strong>条目<a class="headerlink" href="#discovery" title="Permalink to this headline">UTF-8</a></h3>
 <ul class="simple">
 <li>打开Zabbix监控页面后，进入&#8221;<span class="docutils literal"><span class="pre">configuration</span></span>&#8221; &#8211;&gt; &#8220;<span class="docutils literal"><span class="pre">Templates</span></span>&#8220;，在此将磁盘IO监控项放入到模板&#8221;<span class="docutils literal"><span class="pre">Template</span> <span class="pre">SNMP</span> <span class="pre">Disks</span></span>&#8220;（仅为方便归类，可任意）。</li>
 <li>进入&#8221;<span class="docutils literal"><span class="pre">Template</span> <span class="pre">SNMP</span> <span class="pre">Disks</span></span>&#8220;的&#8221;<span class="docutils literal"><span class="pre">discovery</span></span>&#8220;，点击右上方的&#8221;<span class="docutils literal"><span class="pre">Create</span> <span class="pre">discovery</span>
@@ -199,16 +199,16 @@
 </div>
 </div>
 <div class="section" id="export-and-import">
-<h2>Export and Import</h2>
+<h2>Export and Import<a class="headerlink" href="#export-and-import" title="Permalink to this headline">UTF-8</a></h2>
 </div>
 <div class="section" id="id4">
-<h2>报警通知</h2>
+<h2>报警通知<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h2>
 <p>请确认当前已开启了报警通知功能：<span class="docutils literal"><span class="pre">Configuration</span></span> -&gt; <span class="docutils literal"><span class="pre">Actions</span></span> -&gt;<span class="docutils literal"><span class="pre">Event</span> <span class="pre">source</span></span>（右上角）-&gt; 选择<span class="docutils literal"><span class="pre">Triggers</span></span> -&gt; 确认下面的“<em>Report problems to Zabbix administrators</em>”的状态为：<span class="docutils literal"><span class="pre">Enabled</span></span>。否则系统将不发送报警。</p>
 <div class="section" id="id5">
-<h3>邮件报警</h3>
+<h3>邮件报警<a class="headerlink" href="#id5" title="Permalink to this headline">UTF-8</a></h3>
 </div>
 <div class="section" id="id6">
-<h3>自定义报警</h3>
+<h3>自定义报警<a class="headerlink" href="#id6" title="Permalink to this headline">UTF-8</a></h3>
 <p><span class="docutils literal"><span class="pre">zabbix</span></span>提供了多种报警方式，但是还是满足不了要求怎么办？使用脚本自定义报警。
 <a class="footnote-reference" href="#alert" id="id7">[4]</a>首先需要在<span class="docutils literal"><span class="pre">zabbix</span> <span class="pre">server</span></span>的配置文件<span class="docutils literal"><span class="pre">/etc/zabbix/zabbix_server.conf</span></span>中通过<span class="docutils literal"><span class="pre">AlertScriptsPath</span></span>指定自定义命令所在的文件夹，其默认值为：<span class="docutils literal"><span class="pre">/usr/local/share/zabbix/alertscripts</span></span>（依赖于编译时的<span class="docutils literal"><span class="pre">datadir</span></span>设定值）。添加自定义报警步骤如下：</p>
 <p><span class="docutils literal"><span class="pre">zabbix</span></span>调用自定义报警脚本时会向其传递三个参数：
@@ -246,7 +246,7 @@ cat <span class="s">&lt;&lt;EOF | mail -s &quot;$subject&quot; &quot;$to&quot;</
         <span class="n">msg</span> <span class="o">=</span> <span class="n">header</span> <span class="o">+</span> <span class="n">msg</span>
         <span class="n">s</span><span class="o">.</span><span class="n">sendto</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;gbk&#39;</span><span class="p">),</span> <span class="p">(</span><span class="n">ip</span><span class="p">,</span> <span class="mi">2425</span><span class="p">))</span>
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;usage:</span><span class="se">\n\t</span><span class="si">%s</span><span class="s2"> &lt;ip&gt; &lt;subject&gt; &lt;msg&gt;&quot;</span> <span class="o">%</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">to</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
@@ -262,7 +262,7 @@ cat <span class="s">&lt;&lt;EOF | mail -s &quot;$subject&quot; &quot;$to&quot;</
 <li>为用户添加报警设置。对于当前用户，点击右上角<span class="docutils literal"><span class="pre">profile</span></span>设置<span class="docutils literal"><span class="pre">Media</span></span>添加新的报警。<span class="docutils literal"><span class="pre">Send</span> <span class="pre">to</span></span>设定为接收者的IP。</li>
 </ol>
 <div class="section" id="id8">
-<h4>没有接收到报警消息</h4>
+<h4>没有接收到报警消息<a class="headerlink" href="#id8" title="Permalink to this headline">UTF-8</a></h4>
 <p>如果没有收到报警消息，如下图所示，最右侧的一个红色数字<span class="docutils literal"><span class="pre">1</span></span>即说明有一个报警没有送达目的地。</p>
 <img alt="../../../_images/zabbix_alert.png" src="../../../_images/zabbix_alert.png" />
 <p>点击查看报警的详细信息，会看到详细的信息，如：</p>
@@ -272,9 +272,9 @@ cat <span class="s">&lt;&lt;EOF | mail -s &quot;$subject&quot; &quot;$to&quot;</
 </div>
 </div>
 <div class="section" id="id9">
-<h2>安装中可能的问题</h2>
+<h2>安装中可能的问题<a class="headerlink" href="#id9" title="Permalink to this headline">UTF-8</a></h2>
 <div class="section" id="log-file-monitoringzbx-notsupport">
-<h3>Log File Monitoring时ZBX_NOTSUPPORT错误</h3>
+<h3>Log File Monitoring时ZBX_NOTSUPPORT错误<a class="headerlink" href="#log-file-monitoringzbx-notsupport" title="Permalink to this headline">UTF-8</a></h3>
 <p>配置日志文件监控时一直出错，经过在Zabbix Forums上的提醒<a class="footnote-reference" href="#r1" id="id10">[1]</a>，仔细查看了agent的调试日志，在其中发现：</p>
 <div class="highlight-text"><div class="highlight"><pre><span></span># ACTIVE CHECK 主机上没有查询时，返回的data为空。
 
@@ -381,7 +381,7 @@ bbix 2.0.5 (revision 33558).&#39;
 <p>通过上面的日志分析，可以发现，server监视agent上的日志文件，需要agent进程可以读取相应的文件，否则会出错。关于监控日志的详细文档见Zabbix Manual <a class="footnote-reference" href="#r2" id="id11">[2]</a><a class="footnote-reference" href="#r3" id="id12">[3]</a></p>
 </div>
 <div class="section" id="zabbix-server-is-not-running">
-<h3><span class="docutils literal"><span class="pre">Zabbix</span> <span class="pre">Server</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">running</span></span></h3>
+<h3><span class="docutils literal"><span class="pre">Zabbix</span> <span class="pre">Server</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">running</span></span><a class="headerlink" href="#zabbix-server-is-not-running" title="Permalink to this headline">UTF-8</a></h3>
 <p>请确认数据库的配置是否正确，特别是调整过相关配置时：<a class="footnote-reference" href="#notrun" id="id13">[5]</a></p>
 <ol class="arabic simple">
 <li>Zabbix Server的配置文件<span class="docutils literal"><span class="pre">/etc/zabbix/zabbix_server.conf</span></span></li>
@@ -395,7 +395,7 @@ SELinux status:                 enabled     <span class="c1"># enabled说明开�
 SELinuxfs mount:                /selinux
 Current mode:                   enforcing
 Mode from config file:          enforcing
-Policy version:                 24
+Policy version:                 <span class="m">24</span>
 Policy from config file:        targeted
 </pre></div>
 </div>
@@ -433,7 +433,7 @@ httpd_can_network_connect_db --&gt; off
 </div>
 </div>
 <div class="section" id="id14">
-<h2>参考资料</h2>
+<h2>参考资料<a class="headerlink" href="#id14" title="Permalink to this headline">UTF-8</a></h2>
 <table class="docutils footnote" frame="void" id="r1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -525,7 +525,9 @@ httpd_can_network_connect_db --&gt; off
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
-            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+            <a href="../../../2017/02/19/bytecode_interpret_virtual_machine.html">字节码解释器，虚拟机简单原型</a>
+        </li><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">VS 2015创建动态库和静态库</a>
         </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
@@ -542,8 +544,6 @@ httpd_can_network_connect_db --&gt; off
             <a href="../../02/04/function_program_in_python.html">function program in python</a>
         </li><li>
             <a href="bash.html">Learning Bash</a>
-        </li><li>
-            <a href="code_evolution.html">Code Evolution</a>
         </li></ul>
 </div>
 </section><section><div class="widget">

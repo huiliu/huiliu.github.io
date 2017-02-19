@@ -68,9 +68,9 @@
             <span>January 19, 2016</span>
         </div>
     <div class="section" id="lvm">
-<h1>LVM基础知识</h1>
+<h1>LVM基础知识<a class="headerlink" href="#lvm" title="Permalink to this headline">UTF-8</a></h1>
 <div id="more"> </div><div class="section" id="id1">
-<h2>基本概念</h2>
+<h2>基本概念<a class="headerlink" href="#id1" title="Permalink to this headline">UTF-8</a></h2>
 <p>如果我们单块磁盘最大容量为1TB，但是有一个数据库文件有5个TB怎么办？在<strong>分区</strong>这个概念下是无法做到的，我们无法将小的分区（文件系统）合在一起使用。LVM可以做到，
 前面也介绍过，LVM中的LV（逻辑卷）与物理磁盘的大小是完全无关的，可以将不同大小的物理盘合并到一起最终构建一个大的LV，那要怎么去实现呢，下面我们将介绍。</p>
 <p>使用LVM(Logic Volume Manager)可以灵活方便的管理物理磁盘。你是否遇到某个磁盘分区空间不足，给你的文档存放规范带来不便。使用LVM可以轻松的解决这个问题。逻辑卷实际上是将物理磁盘虚拟化，这样逻辑卷的大小就不受物理卷大小的限制。并且它还有其它优点：</p>
@@ -86,7 +86,7 @@
 <p>使用LVM需要掌握几个新的概念：<span class="docutils literal"><span class="pre">物理卷，卷组，逻辑卷</span></span>。对详细说明请参考参考资料中列出的内容。</p>
 </div>
 <div class="section" id="id2">
-<h2>构建LVM</h2>
+<h2>构建LVM<a class="headerlink" href="#id2" title="Permalink to this headline">UTF-8</a></h2>
 <p>简单流程：</p>
 <ul class="simple">
 <li>使用命令 <span class="docutils literal"><span class="pre">pvcreate</span></span>创建<span class="docutils literal"><span class="pre">PE</span></span></li>
@@ -97,14 +97,14 @@
 <p>一个新的磁盘（存储器）插入到系统后会被识别为一个新的独立的文件系统，这类似于我们将一块大磁盘分割为几个小的文件系统（比如windows下经常分的C, D, E......等等分区）。如果你想将一个小的文件系统加入到LVM中，首先需要在这个小的文件系统上建立PE(physical extend)，命令：<span class="docutils literal"><span class="pre">pvcreate</span></span>。</p>
 </div>
 <div class="section" id="pv">
-<h2>PV管理</h2>
+<h2>PV管理<a class="headerlink" href="#pv" title="Permalink to this headline">UTF-8</a></h2>
 <dl class="docutils">
 <dt>相关命令有：</dt>
 <dd>pvchange   pvcreate   pvmove     pvresize   pvscan
 pvck       pvdisplay  pvremove   pvs</dd>
 </dl>
 <div class="section" id="id3">
-<h3>创建</h3>
+<h3>创建<a class="headerlink" href="#id3" title="Permalink to this headline">UTF-8</a></h3>
 <p>使用命令<span class="docutils literal"><span class="pre">pvcreate</span></span>创建PE，<span class="docutils literal"><span class="pre">pvcreate</span></span>的操作会破坏原分区（文件系统）中的数据。</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>pvcreate /dev/sda1 /dev/sda2 /dev/sda3
 <span class="c1"># pvcreate后接分区，即可在分区上创建PE</span>
@@ -112,7 +112,7 @@ pvck       pvdisplay  pvremove   pvs</dd>
 </div>
 </div>
 <div class="section" id="pv-pe">
-<h3>查看PV/PE</h3>
+<h3>查看PV/PE<a class="headerlink" href="#pv-pe" title="Permalink to this headline">UTF-8</a></h3>
 <p>命令<span class="docutils literal"><span class="pre">pvdisplay</span></span>可以用来查看已创建PE的PV（物理卷）的属性，如，大小，PE大小，所属VG等等。例如：</p>
 <ol class="arabic simple">
 <li>默认使用选项-v，显示详细信息</li>
@@ -171,18 +171,18 @@ pvck       pvdisplay  pvremove   pvs</dd>
 </div>
 </div>
 <div class="section" id="id4">
-<h3>增加物理卷</h3>
+<h3>增加物理卷<a class="headerlink" href="#id4" title="Permalink to this headline">UTF-8</a></h3>
 <p>如果你存放数据的文件系统，随着数据增加，空间不够，需要增加磁盘，怎么把新的磁盘空间增加到原来的文件系统中呢？</p>
 <p>确认*/dev*目录下可以发现新加磁盘，然后使用<span class="docutils literal"><span class="pre">fdisk</span></span>命令将新磁盘分区（亦可不分）。</p>
 <p>最后用<span class="docutils literal"><span class="pre">pvcreate</span> <span class="pre">*PhysicalVolume*</span></span>在新磁盘上建立PV。</p>
 </div>
 <div class="section" id="id5">
-<h3>移除物理卷</h3>
+<h3>移除物理卷<a class="headerlink" href="#id5" title="Permalink to this headline">UTF-8</a></h3>
 <p>如果需要更换某个磁盘，那怎么办呢？</p>
 </div>
 </div>
 <div class="section" id="vg">
-<h2>卷组(VG)管理</h2>
+<h2>卷组(VG)管理<a class="headerlink" href="#vg" title="Permalink to this headline">UTF-8</a></h2>
 <dl class="docutils">
 <dt>相关命令有:</dt>
 <dd>vgcreate, vgs, vgdisplay
@@ -190,7 +190,7 @@ vgreduce, vgextend, vgremove, vgexport, vgimport
 vgmerge, vgsplit等等</dd>
 </dl>
 <div class="section" id="id6">
-<h3>创建VG</h3>
+<h3>创建VG<a class="headerlink" href="#id6" title="Permalink to this headline">UTF-8</a></h3>
 <p>当完成创建PE之后就可以在相应的分区上建立VG了。使用命令<span class="docutils literal"><span class="pre">vgcreate</span></span>来创建VG，如：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># 创建一个VG，其名字为vgName。</span>
 vgcreate vg-test /dev/sda9
@@ -205,7 +205,7 @@ vgcreate vg-test /dev/sda9
 </div>
 </div>
 <div class="section" id="id7">
-<h3>查看VG信息</h3>
+<h3>查看VG信息<a class="headerlink" href="#id7" title="Permalink to this headline">UTF-8</a></h3>
 <p>与查看PV/PE信息一样，使用命令<span class="docutils literal"><span class="pre">vgdisplay</span></span>来查看VG的信息。例如：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>vgdisplay
 <span class="c1">#  --- Volume group ---</span>
@@ -234,18 +234,18 @@ vgcreate vg-test /dev/sda9
 <p>其实查看PE, VG的信息还有其它命令<span class="docutils literal"><span class="pre">pvs,</span> <span class="pre">vgs</span></span>，这两个命令主要用于生成报告信息，便于SA了解所需的信息。</p>
 </div>
 <div class="section" id="id8">
-<h3>分割合并卷组</h3>
+<h3>分割合并卷组<a class="headerlink" href="#id8" title="Permalink to this headline">UTF-8</a></h3>
 </div>
 </div>
 <div class="section" id="lv">
-<h2>逻辑卷(LV)管理</h2>
+<h2>逻辑卷(LV)管理<a class="headerlink" href="#lv" title="Permalink to this headline">UTF-8</a></h2>
 <dl class="docutils">
 <dt>相关命令:</dt>
 <dd>lvcreate, lvresize, lvextend, lvreduce, lvremove等等</dd>
 </dl>
 <p>逻辑卷类似于系统中的分区/dev/sda1, /dev/sda2等等，是用来存储数据的。</p>
 <div class="section" id="id9">
-<h3>创建LV</h3>
+<h3>创建LV<a class="headerlink" href="#id9" title="Permalink to this headline">UTF-8</a></h3>
 <p>与创建PE，VG类似，创建LV使用命令<span class="docutils literal"><span class="pre">lvcreate</span></span>来创建LV。创建一个分区当然要指明这个分区的大小了，还要给一个名字便于查找使用。</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>lvcreate -L +200M -n lv-test vg-test
 </pre></div>
@@ -253,7 +253,7 @@ vgcreate vg-test /dev/sda9
 <p>上面的命令将在卷组vg-test中创建一个名为lv-test，200M大小的LV。选项*-L*后接LV的大小，单位可以是K(b), M(b), T(b), P(b), E(b)；选项*-n*后接LV的名称，最后为已存在的 VG名称（即要在哪个VG上建立LV）。</p>
 </div>
 <div class="section" id="id10">
-<h3>查看LV属性</h3>
+<h3>查看LV属性<a class="headerlink" href="#id10" title="Permalink to this headline">UTF-8</a></h3>
 <p>使用命令<span class="docutils literal"><span class="pre">lvdisplay</span></span>来查看LV的相关信息。用法与<span class="docutils literal"><span class="pre">pvdisplay,</span> <span class="pre">vgdisplay</span></span>类似。如：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>lvdisplay /dev/vg/vg-test
 <span class="c1">#  --- Logical volume ---</span>
@@ -274,25 +274,25 @@ vgcreate vg-test /dev/sda9
 </div>
 </div>
 <div class="section" id="id11">
-<h3>线性逻辑卷</h3>
+<h3>线性逻辑卷<a class="headerlink" href="#id11" title="Permalink to this headline">UTF-8</a></h3>
 </div>
 <div class="section" id="id12">
-<h3>条状逻辑卷</h3>
+<h3>条状逻辑卷<a class="headerlink" href="#id12" title="Permalink to this headline">UTF-8</a></h3>
 </div>
 <div class="section" id="id13">
-<h3>镜像逻辑卷</h3>
+<h3>镜像逻辑卷<a class="headerlink" href="#id13" title="Permalink to this headline">UTF-8</a></h3>
 </div>
 <div class="section" id="id14">
-<h3>快照卷</h3>
+<h3>快照卷<a class="headerlink" href="#id14" title="Permalink to this headline">UTF-8</a></h3>
 </div>
 </div>
 <div class="section" id="id15">
-<h2>LVM重要操作</h2>
+<h2>LVM重要操作<a class="headerlink" href="#id15" title="Permalink to this headline">UTF-8</a></h2>
 <div class="section" id="id16">
-<h3>使用LVM来构建系统</h3>
+<h3>使用LVM来构建系统<a class="headerlink" href="#id16" title="Permalink to this headline">UTF-8</a></h3>
 </div>
 <div class="section" id="id17">
-<h3>调整LV（逻辑分区）大小</h3>
+<h3>调整LV（逻辑分区）大小<a class="headerlink" href="#id17" title="Permalink to this headline">UTF-8</a></h3>
 <p><strong>情 境</strong>：挂载于/usr下的分区LV（逻辑分区）lv_usr空间快被消耗殆尽，怎么办？</p>
 <p><strong>解决步骤</strong>：</p>
 <ul>
@@ -320,7 +320,7 @@ resize2fs /dev/VolGroup/lv_usr
 </div>
 </div>
 <div class="section" id="id18">
-<h3>增加或更换磁盘</h3>
+<h3>增加或更换磁盘<a class="headerlink" href="#id18" title="Permalink to this headline">UTF-8</a></h3>
 <p>情境：由于某个块磁盘年代比较久远，性能较差，需要更换新的磁盘，利用LVM如何在系统
 不停机的情形下更换硬盘？</p>
 <p>现在情况为：系统中有一块磁盘/dev/sda，在其上有一个分区/dev/sda1，/dev/sda1为VG（
@@ -359,14 +359,14 @@ resize2fs /dev/VolGroup/lv_usr
 </ul>
 </div>
 <div class="section" id="id19">
-<h3>利用快照卷进行在线备份</h3>
+<h3>利用快照卷进行在线备份<a class="headerlink" href="#id19" title="Permalink to this headline">UTF-8</a></h3>
 </div>
 <div class="section" id="id20">
-<h3>性能问题</h3>
+<h3>性能问题<a class="headerlink" href="#id20" title="Permalink to this headline">UTF-8</a></h3>
 </div>
 </div>
 <div class="section" id="id21">
-<h2>参考资料</h2>
+<h2>参考资料<a class="headerlink" href="#id21" title="Permalink to this headline">UTF-8</a></h2>
 </div>
 </div>
 
@@ -432,7 +432,9 @@ resize2fs /dev/VolGroup/lv_usr
 </div></section><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
-            <a href="../../11/06/dll与lib的创建与使用.html">DLL与LIB的创建与使用</a>
+            <a href="../../../2017/02/19/bytecode_interpret_virtual_machine.html">字节码解释器，虚拟机简单原型</a>
+        </li><li>
+            <a href="../../11/06/dll与lib的创建与使用.html">VS 2015创建动态库和静态库</a>
         </li><li>
             <a href="../../08/01/generate_exe_file_from_python.html">Generate exe file from python</a>
         </li><li>
@@ -449,8 +451,6 @@ resize2fs /dev/VolGroup/lv_usr
             <a href="../../02/04/function_program_in_python.html">function program in python</a>
         </li><li>
             <a href="bash.html">Learning Bash</a>
-        </li><li>
-            <a href="code_evolution.html">Code Evolution</a>
         </li></ul>
 </div>
 </section><section><div class="widget">
